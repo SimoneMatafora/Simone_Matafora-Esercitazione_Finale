@@ -1,0 +1,176 @@
+package it.tcgroup.vilear.dummy.controller;
+
+import io.swagger.annotations.*;
+import it.tcgroup.vilear.dummy.controller.payload.request.LearnerRequestV1;
+import it.tcgroup.vilear.dummy.controller.payload.response.LearnerResponseV1;
+import it.tcgroup.vilear.dummy.controller.payload.response.IdResponseV1;
+import it.tcgroup.vilear.dummy.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.dummy.service.LearnerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@RestController
+@CrossOrigin
+@RequestMapping(value = "/api/v1/dummy")
+@Api("Dummy")
+public class LearnerController {
+
+    @Autowired
+    private LearnerService learnerService;
+
+    /*INSERIMENTO LEARNER*/
+    @PostMapping(value = "/learner",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Learner", notes = "Insert Learner using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = IdResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<IdResponseV1> postInsertLearner(
+            @ApiParam(value = "Body of the Learner to be created", required = true)
+            @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
+
+        return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
+    }
+
+    /*MODIFICA LEARNER*/
+    @PutMapping(value = "/learner/{UUID_LEARNER}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Upload Learner", notes = "Upload Learner using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = LearnerResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<LearnerResponseV1> putModifyLearner(
+            @ApiParam(value = "UUID that identifies the Learner to be modified", required = true)
+            @PathVariable(name = "UUID_LEARNER") String idDocente,
+            @ApiParam(value = "Updated body of the learner", required = true)
+            @RequestBody LearnerRequestV1 learnerUpdateRequest) {
+
+        return new ResponseEntity<>(learnerService.updateLearner(learnerUpdateRequest, UUID.fromString(idDocente)) ,HttpStatus.OK);
+    }
+
+    /*RECUPERO LEARNER TRAMITE ID*/
+    @GetMapping(value = "/learner/{UUID_LEARNER}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Recover Learner", notes = "Returns a Learner using the UUID passed in the path")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = LearnerResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<LearnerResponseV1> getLearnerById(
+            @ApiParam(value = "UUID of the Learner to be founfd", required = true)
+            @PathVariable(name = "UUID_LEARNER") String idLearner) {
+
+        return new ResponseEntity<>(learnerService.getLearner(UUID.fromString(idLearner)), HttpStatus.OK);
+    }
+
+    /*MODIFICA PARZIALE LEARNER*/
+    @PatchMapping(value = "/learner/{UUID_LEARNER}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Upload a part of the Learner", notes = "Update a part of the Learner using the info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = LearnerResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<LearnerResponseV1> patchLearner(
+            @ApiParam(value = "UUID of the Learner", required = true)
+            @PathVariable(name = "UUID_LEARNER") String idDocente,
+            @ApiParam(value = "Some attributes of the body of the Learner to be modified", required = true)
+            @RequestBody LearnerRequestV1 learnerPatchRequestV1) throws Exception {
+
+        return new ResponseEntity<>(learnerService.patchLearner(learnerPatchRequestV1, UUID.fromString(idDocente)), HttpStatus.OK);
+    }
+
+    /*CANCELLAZIONE LEARNER*/
+    @DeleteMapping( value = "/learner/{UUID_LEARNER}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity deleteLearner(
+            @ApiParam(value = "UUID of the Learner", required = true)
+            @PathVariable(name = "UUID_LEARNER") String idLearner) {
+
+        learnerService.deleteLearner(UUID.fromString(idLearner));
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /*PAGINAZIONE LEARNERS*/
+    @GetMapping(value = "/learner",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Get all learners", notes = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = PaginationResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<PaginationResponseV1<LearnerResponseV1>> getLearnersPagination(
+            @ApiParam(value = "Defines how many Learners can contain the single page", required = false)
+            @RequestParam(value = "page_size", defaultValue = "20") Integer pageSize,
+            @ApiParam(value = "Defines the page number to be displayed", required = false)
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "username", required = false) String username,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "name", required = false) String name,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "surname", required = false) String surname,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "phone", required = false) String phone,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "fiscal_code", required = false) String fiscalCode,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "date_of_birth", required = false) String dateOfBirth,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "birth_place", required = false) String birthPlace,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "email", required = false) String email,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "degree_of_studies", required = false) String degreeOfStudies,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "course_of_study", required = false) String courseOfStudy,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "city", required = false) String city,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "region", required = false) String region,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "province", required = false) String province ) {
+
+        return new ResponseEntity<>(learnerService.getLearnersPagination(page, pageSize, username, name, surname, phone, fiscalCode, dateOfBirth,
+                birthPlace, email, degreeOfStudies, courseOfStudy, city, region, province),HttpStatus.OK);
+    }
+}
