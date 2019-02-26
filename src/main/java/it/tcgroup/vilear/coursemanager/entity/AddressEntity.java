@@ -1,11 +1,14 @@
 package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.tcgroup.vilear.coursemanager.entity.enumerated.AddressPartnerEntity;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -47,11 +50,19 @@ public class AddressEntity implements Serializable {
     @Column(name = "formatted_address")
     private String formattedAddress;
 
+    @OneToMany(
+            mappedBy = "addressEntity",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<AddressPartnerEntity> addressPartnerList = new LinkedList<>();
+
 
     public AddressEntity() {
     }
 
-    public AddressEntity(UUID id, String nation, String region, String province, String city, String street, String number, String zipCode, String formattedAddress) {
+    public AddressEntity(UUID id, String nation, String region, String province, String city, String street, String number, String zipCode, String formattedAddress, List<AddressPartnerEntity> addressPartnerList) {
         this.id = id;
         this.nation = nation;
         this.region = region;
@@ -61,6 +72,7 @@ public class AddressEntity implements Serializable {
         this.number = number;
         this.zipCode = zipCode;
         this.formattedAddress = formattedAddress;
+        this.addressPartnerList = addressPartnerList;
     }
 
     public UUID getId() {
@@ -133,6 +145,14 @@ public class AddressEntity implements Serializable {
 
     public void setFormattedAddress(String formattedAddress) {
         this.formattedAddress = formattedAddress;
+    }
+
+    public List<AddressPartnerEntity> getAddressPartnerList() {
+        return addressPartnerList;
+    }
+
+    public void setAddressPartnerList(List<AddressPartnerEntity> addressPartnerList) {
+        this.addressPartnerList = addressPartnerList;
     }
 
     @Override

@@ -70,38 +70,39 @@ CREATE TABLE IF NOT EXISTS branch (
 	FOREIGN KEY (address_id) REFERENCES address (id)
 );
 
-CREATE TABLE IF NOT EXISTS corso (
+CREATE TABLE IF NOT EXISTS course (
+
 	id UUID PRIMARY KEY,
-	codice_corso varchar(255) NOT NULL,
-	titolo_corso varchar(255) NOT NULL,
-	tipologia_corso varchar(255) NOT NULL,
-	area_tematica varchar(255) NOT NULL,
-	tipologia_discenti varchar(255) NOT NULL,
-	modalita_di_erogazione varchar(255) NOT NULL,
-	modalita_di_pagamento varchar(255) NOT NULL,
-	costo numeric NOT NULL,
-	tipologia_fondi varchar(255) NOT NULL,
-	descrizione_obiettivi_formativi varchar(255) NOT NULL,
-	descrizoine_del_corso varchar(255) NOT NULL,
-	data_inizio_corso DATE NOT NULL,
-	data_fine_corso DATE NOT NULL,
-	ore_teoria numeric NOT NULL,
-	ore_pratica numeric NOT NULL,
-	ore_di_affiancamento numeric NOT NULL,
-	ore_di_visita numeric NOT NULL,
-	ore_bilancio_competenze numeric NOT NULL,
-	monte_ore_totali numeric NOT NULL,
-	ore_totali_di_formazione numeric NOT NULL,
-	ore_giornaliere numeric NOT NULL,
-	tipologia_attestato varchar(255) NOT NULL,
-	numero_minimo_di_partecipanti numeric NOT NULL,
-	disabili BOOLEAN NOT NULL,
-	logo_del_corso varchar(255) NOT NULL,
+	course_code varchar(255) NOT NULL,
+	course_title varchar(255) NOT NULL,
+	course_type varchar(255) NOT NULL,
+	contents_area varchar(255) NOT NULL,
+	learner_type varchar(255) NOT NULL,
+	supply_modality varchar(255) NOT NULL,
+	payment_modality varchar(255) NOT NULL,
+	cost numeric NOT NULL,
+	founds_type varchar(255) NOT NULL,
+	educational_target_description varchar(255) NOT NULL,
+	course_description varchar(255) NOT NULL,
+	course_start_date DATE NOT NULL,
+	course_end_date DATE NOT NULL,
+	theory_hours numeric NOT NULL,
+	practice_hours numeric NOT NULL,
+	coaching_hours numeric NOT NULL,
+	visit_hours numeric NOT NULL,
+	skils_analysis_hours numeric NOT NULL,
+	total_hours numeric NOT NULL,
+	total_hours_training numeric NOT NULL,
+	daily_hours numeric NOT NULL,
+	certificate_type varchar(255) NOT NULL,
+	minimum_number_of_participants numeric NOT NULL,
+	disabled BOOLEAN NOT NULL,
+	course_logo varchar(255) NOT NULL,
 	part_full_time varchar(255) NOT NULL,
-	ora_inizio_mattina TIME NOT NULL,
-	ora_fine_mattina TIME NOT NULL,
-	ora_inizio_pomeriggio TIME NOT NULL,
-	ora_fine_pomeriggio TIME NOT NULL,
+	morning_start_hour TIME NOT NULL,
+	morning_end_hour TIME NOT NULL,
+	afternoon_statr_hour TIME NOT NULL,
+	afternoon_end_hour TIME NOT NULL,
 	note varchar(500) NOT NULL,
 
 	id_indirizzo UUID NOT NULL,
@@ -125,7 +126,39 @@ CREATE TABLE IF NOT EXISTS discenti_corso(
 	FOREIGN KEY (id_corso) REFERENCES corso (id),
 	FOREIGN KEY (id_discente) REFERENCES learner (id)
 
+);
 
+
+CREATE TABLE IF NOT EXISTS partner (
+
+	id UUID NOT NULL,
+	business_name varchar(500) NOT NULL,
+	vat_number varchar(500) NOT NULL,
+	company BOOLEAN  NOT NULL,
+	email varchar (255) NULL,
+	phone varchar (255) NULL,
+	fax varchar (255) NULL,
+	manager_name varchar (255) NOT NULL,
+	manager_number varchar (255) NOT NULL,
+	accredited_ft bool NOT NULL,
+	accredited_ft_code varchar(255) NOT NULL,
+	cost_element numeric NOT NULL,
+	note VARCHAR (500) NULL
+
+);
+
+CREATE TABLE IF NOT EXISTS teacher_partner(
+
+	partner_id UUID NOT NULL,
+	teacher_id UUID NOT NULL,
+	"status" varchar (255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS address_partner(
+
+	partner_id UUID NOT NULL,
+	address_id UUID NOT NULL,
+	address_type varchar (255) NOT NULL
 );
 
 

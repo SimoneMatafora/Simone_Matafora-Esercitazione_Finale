@@ -88,10 +88,18 @@ public class TeacherEntity implements Serializable {
     @JoinColumn(name = "address_id",referencedColumnName = "id")
     private AddressEntity address;
 
+    @OneToMany(
+            mappedBy = "teacherEntity",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TeacherPartnerEntity> techerPartnerList = new LinkedList<>();
+
     public TeacherEntity() {
     }
 
-    public TeacherEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, AddressEntity address) {
+    public TeacherEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, AddressEntity address, List<TeacherPartnerEntity> techerPartnerList) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -114,6 +122,7 @@ public class TeacherEntity implements Serializable {
         this.note = note;
         this.curriculumVitae = curriculumVitae;
         this.address = address;
+        this.techerPartnerList = techerPartnerList;
     }
 
     public UUID getId() {
@@ -290,6 +299,14 @@ public class TeacherEntity implements Serializable {
 
     public void setAddress(AddressEntity address) {
         this.address = address;
+    }
+
+    public List<TeacherPartnerEntity> getTecherPartnerList() {
+        return techerPartnerList;
+    }
+
+    public void setTecherPartnerList(List<TeacherPartnerEntity> techerPartnerList) {
+        this.techerPartnerList = techerPartnerList;
     }
 
     @Override
