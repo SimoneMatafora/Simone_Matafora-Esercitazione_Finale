@@ -2,11 +2,16 @@ package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.AddressPartnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.StatusTeacherPartnerEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddressPartnerType;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataTeacherPartnerType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import java.util.*;
@@ -14,6 +19,10 @@ import java.util.*;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "partner")
+@TypeDefs({
+        @TypeDef(name = "JsonDataTeacherPartnerType", typeClass = JsonDataTeacherPartnerType.class),
+        @TypeDef(name = "JsonDataAddressPartnerType", typeClass = JsonDataAddressPartnerType.class),
+})
 public class PartnerEntity {
 
     @Id
@@ -61,27 +70,18 @@ public class PartnerEntity {
     @Column(name = "note")
     private String note;
 
-    @OneToMany(
-            mappedBy = "partnentEntityTeacher",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<TeacherPartnerEntity> teacherPartnerList = new LinkedList<>();
+    @Type(type = "JsonDataTeacherPartnerType")
+    @Column(name = "teacher_list")
+    private List<TeacherPartner> teacherList = new LinkedList<>();
 
-
-    @OneToMany(
-            mappedBy = "partnentEntityAddress",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<AddressPartnerEntity> addressPartnerList = new LinkedList<>();
+    @Type(type = "JsonDataAddressPartnerType")
+    @Column(name = "address")
+    private List<AddressPartner> addressList = new LinkedList<>();
 
     public PartnerEntity() {
     }
 
-    public PartnerEntity(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, String accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerEntity> teacherPartnerList, List<AddressPartnerEntity> addressPartnerList) {
+    public PartnerEntity(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, String accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
         this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
@@ -95,8 +95,8 @@ public class PartnerEntity {
         this.accreditedFtCode = accreditedFtCode;
         this.costElement = costElement;
         this.note = note;
-        this.teacherPartnerList = teacherPartnerList;
-        this.addressPartnerList = addressPartnerList;
+        this.teacherList = teacherList;
+        this.addressList = addressList;
     }
 
     public UUID getId() {
@@ -203,76 +203,20 @@ public class PartnerEntity {
         this.note = note;
     }
 
-    @JsonIgnore
-    public List<TeacherPartnerEntity> getTeacherPartnerList() {
-        return teacherPartnerList;
+    public List<TeacherPartner> getTeacherList() {
+        return teacherList;
     }
 
-    public void setTeacherPartnerList(List<TeacherPartnerEntity> teacherPartnerList) {
-        this.teacherPartnerList = teacherPartnerList;
+    public void setTeacherList(List<TeacherPartner> teacherList) {
+        this.teacherList = teacherList;
     }
 
-    @JsonIgnore
-    public List<AddressPartnerEntity> getAddressPartnerList() {
-        return addressPartnerList;
+    public List<AddressPartner> getAddressList() {
+        return addressList;
     }
 
-    public void setAddressPartnerList(List<AddressPartnerEntity> addressPartnerList) {
-        this.addressPartnerList = addressPartnerList;
-    }
-
-    public void addAddressOnPartner(AddressEntity address, TypeAddressPartnerEnum typeAddress){
-        AddressPartnerEntity addressPartner = new AddressPartnerEntity(this,address);
-        this.addressPartnerList.add(addressPartner);
-        address.getAddressPartnerList().add(addressPartner);
-    }
-
-    public void deleteAddressOnPartner(AddressEntity address){
-
-        Iterator<AddressPartnerEntity> iterator = this.addressPartnerList.iterator();
-        while(iterator.hasNext()){
-
-            AddressPartnerEntity addressPartner = iterator.next();
-            if((addressPartner.getPartnerEntity().equals(this)) &&
-                    addressPartner.getAddressEntity().equals(address) ){
-
-                iterator.remove();
-                addressPartner.getAddressEntity().getAddressPartnerList().remove(addressPartner);
-                addressPartner.setPartnerEntity(null);
-                addressPartner.setAddressEntity(null);
-
-                break;
-            }
-
-        }
-
-    }
-
-    public void addTheacherOnPrtner(TeacherEntity teacher, StatusTeacherPartnerEnum status){
-        TeacherPartnerEntity teacherPartner = new TeacherPartnerEntity(this, teacher);
-        this.teacherPartnerList.add(teacherPartner);
-        teacher.getTecherPartnerList().add(teacherPartner);
-    }
-
-    public void deleteTeacherOnPartner(TeacherEntity teacher){
-
-        Iterator<TeacherPartnerEntity> iterator = this.teacherPartnerList.iterator();
-        while(iterator.hasNext()){
-
-            TeacherPartnerEntity teacherPartner = iterator.next();
-            if((teacherPartner.getPartnerEntity().equals(this)) &&
-                teacherPartner.getTeacherEntity().equals(teacher) ){
-
-                iterator.remove();
-                teacherPartner.getTeacherEntity().getTecherPartnerList().remove(teacherPartner);
-                teacherPartner.setPartnerEntity(null);
-                teacherPartner.setTeacherEntity(null);
-
-                break;
-            }
-
-        }
-
+    public void setAddressList(List<AddressPartner> addressList) {
+        this.addressList = addressList;
     }
 
     @Override
@@ -291,10 +235,11 @@ public class PartnerEntity {
                 ", accreditedFtCode='" + accreditedFtCode + '\'' +
                 ", costElement='" + costElement + '\'' +
                 ", note='" + note + '\'' +
-                ", teacherPartnerList=" + teacherPartnerList +
-                ", addressPartnerList=" + addressPartnerList +
+                ", teacherList=" + teacherList +
+                ", addressList=" + addressList +
                 '}';
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -314,12 +259,12 @@ public class PartnerEntity {
                 Objects.equals(accreditedFtCode, that.accreditedFtCode) &&
                 Objects.equals(costElement, that.costElement) &&
                 Objects.equals(note, that.note) &&
-                Objects.equals(teacherPartnerList, that.teacherPartnerList) &&
-                Objects.equals(addressPartnerList, that.addressPartnerList);
+                Objects.equals(teacherList, that.teacherList) &&
+                Objects.equals(addressList, that.addressList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, businessName, vatNumber, company, email, phone, fax, managerName, managerNumber, accreditedFt, accreditedFtCode, costElement, note, teacherPartnerList, addressPartnerList);
+        return Objects.hash(id, businessName, vatNumber, company, email, phone, fax, managerName, managerNumber, accreditedFt, accreditedFtCode, costElement, note, teacherList, addressList);
     }
 }

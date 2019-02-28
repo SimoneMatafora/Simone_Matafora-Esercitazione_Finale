@@ -143,22 +143,11 @@ CREATE TABLE IF NOT EXISTS partner (
 	accredited_ft bool NOT NULL,
 	accredited_ft_code varchar(255) NOT NULL,
 	cost_element numeric NOT NULL,
-	note VARCHAR (500) NULL
+	note VARCHAR (500) NULL,
+	teacher_list jsonb NULL,
+	address jsonb NULL
 
 );
 
-CREATE TABLE IF NOT EXISTS teacher_partner(
-
-	partner_id UUID NOT NULL,
-	teacher_id UUID NOT NULL,
-	"status" varchar (255) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS address_partner(
-
-	partner_id UUID NOT NULL,
-	address_id UUID NOT NULL,
-	address_type varchar (255) NOT NULL
-);
 
 
