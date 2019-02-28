@@ -125,39 +125,21 @@ public class PartnerController {
             @ApiParam(value = "Defines the page number to be displayed", required = false)
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "businessName", required = false) String businessName,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "company", required = false) String company,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "surname", required = false) String surname,
+            @RequestParam(value = "manager_name", required = false) String managerName,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "accredited_ft", required = false) String accreditedFt,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "fiscal_code", required = false) String fiscalCode,
+            @RequestParam(value = "teacher_name", required = false) String teacherName,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "date_of_birth", required = false) String dateOfBirth,
+            @RequestParam(value = "teacher_surname", required = false) String teacherSurname,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "birth_place", required = false) String birthPlace,
+            @RequestParam(value = "teacher_professional_area", required = false) String teacherProfessionalArea,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "email", required = false) String email,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "professional_area", required = false) String professionalArea,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "public_employee", required = false) Boolean publicEmployee,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "accredited_ft", required = false) Boolean accreditedFt,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "accredited_ft_code", required = false) String accreditedFtCode,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "authorized", required = false) Boolean authorized,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "professional_order_registration", required = false) Boolean professionalOrderRegistration,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "register", required = false) String register,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "vat_holder", required = false) Boolean vatHolder,
-            @ApiParam(value = "", required = false)
-            @RequestParam(value = "sector", required = false) String sector,
+            @RequestParam(value = "teacher_public_employee", required = false) String teacherPublicEmployee,
             @ApiParam(value = "", required = false)
             @RequestParam(value = "city", required = false) String city,
             @ApiParam(value = "", required = false)
@@ -165,9 +147,8 @@ public class PartnerController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
 
-        return new ResponseEntity<>(partnerService.getPartnersPagination(page, pageSize, username, name, surname, phone, fiscalCode, dateOfBirth,
-                birthPlace, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized,
-                professionalOrderRegistration, register, vatHolder, sector, city, region, province),HttpStatus.OK);
+        return new ResponseEntity<>(partnerService.getPartnersPagination(page, pageSize, businessName, company, managerName, accreditedFt, teacherName, teacherSurname,
+                teacherProfessionalArea, teacherPublicEmployee, city, region, province),HttpStatus.OK);
     }
 
     /*CANCELLAZIONE PARTNER*/

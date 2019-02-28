@@ -37,11 +37,6 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public PartnerResponseV1 updatePartner(PartnerRequestV1 partnerInsertRequest, UUID idPartner) {
-        return null;
-    }
-
-    @Override
     public PartnerResponseV1 getPartner(UUID idPartner) {
 
         Optional<PartnerEntity> partner = partnerRepository.findById(idPartner);
@@ -53,17 +48,92 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public PartnerResponseV1 patchPartner(PartnerRequestV1 partnerInsertRequest, UUID idPartner) {
-        return null;
+    public PartnerResponseV1 updatePartner(PartnerRequestV1 partnerUpdateRequest, UUID idPartner) {
+
+        Optional<PartnerEntity> optPartner = partnerRepository.findById(idPartner);
+        if(!optPartner .isPresent()){
+            throw new NotFoundException("Partner with id " + idPartner + " not found");
+        }
+
+        PartnerEntity partner = optPartner.get();
+
+        PartnerEntity partnerUpdate = partnerAdapter.adptPartnerRequestToPartner(partnerUpdateRequest);
+
+        partner.setAccreditedFt(partnerUpdate.getAccreditedFt());
+        partner.setAccreditedFtCode(partnerUpdate.getAccreditedFtCode());
+        partner.setBusinessName(partnerUpdate.getBusinessName());
+        partner.setCompany(partnerUpdate.getCompany());
+        partner.setCostElement(partnerUpdate.getCostElement());
+        partner.setEmail(partnerUpdate.getEmail());
+        partner.setFax(partnerUpdate.getFax());
+        partner.setManagerName(partnerUpdate.getManagerName());
+        partner.setManagerNumber(partnerUpdate.getManagerNumber());
+        partner.setNote(partnerUpdate.getNote());
+        partner.setPhone(partnerUpdate.getPhone());
+        partner.setVatNumber(partnerUpdate.getVatNumber());
+        partner.setTeacherList(partnerUpdate.getTeacherList());
+        partner.setAddressList(partnerUpdate.getAddressList());
+
+        partnerRepository.save(partner);
+
+        return partnerAdapter.adptPartnerToPartnerResponse(partner);
     }
 
     @Override
-    public PaginationResponseV1<PartnerResponseV1> getPartnersPagination(int page, int pageSize, String username, String nome, String cognome, String telefono, String codiceFiscale, String dataDiNascita, String luogoDiNascita, String email, String areaProfessionale, Boolean dipendentePubblico, Boolean accreditatoFt, String codiceAccredidatoFt, Boolean autorizzato, Boolean iscrizioneOrdineProfessionale, String albo, Boolean titolarePiva, String settore, String citta, String comune, String cap) {
+    public PartnerResponseV1 patchPartner(PartnerRequestV1 partnerPatchRequest, UUID idPartner) {
+
+        Optional<PartnerEntity> optPartner = partnerRepository.findById(idPartner);
+        if(!optPartner .isPresent()){
+            throw new NotFoundException("Partner with id " + idPartner + " not found");
+        }
+
+        PartnerEntity partner = optPartner.get();
+
+        PartnerEntity partnerUpdate = partnerAdapter.adptPartnerRequestToPartner(partnerPatchRequest);
+
+        if(partnerUpdate.getAccreditedFt() != null)
+            partner.setAccreditedFt(partnerUpdate.getAccreditedFt());
+        if(partnerUpdate.getAccreditedFtCode() != null)
+            partner.setAccreditedFtCode(partnerUpdate.getAccreditedFtCode());
+        if(partnerUpdate.getAddressList() != null)
+            partner.setAddressList(partnerUpdate.getAddressList());
+        if(partnerUpdate.getBusinessName() != null)
+            partner.setBusinessName(partnerUpdate.getBusinessName());
+        if(partnerUpdate.getCompany() != null)
+            partner.setCompany(partnerUpdate.getCompany());
+        if(partnerUpdate.getCostElement() != null)
+            partner.setCostElement(partnerUpdate.getCostElement());
+        if(partnerUpdate.getEmail() != null)
+            partner.setEmail(partnerUpdate.getEmail());
+        if(partnerUpdate.getFax() != null)
+            partner.setFax(partnerUpdate.getFax());
+        if(partnerUpdate.getManagerName() != null)
+            partner.setManagerName(partnerUpdate.getManagerName());
+        if(partnerUpdate.getManagerNumber() != null)
+            partner.setManagerNumber(partnerUpdate.getManagerNumber());
+        if(partnerUpdate.getNote() != null)
+            partner.setNote(partnerUpdate.getNote());
+        if(partnerUpdate.getPhone() != null)
+            partner.setPhone(partnerUpdate.getPhone());
+        if(partnerUpdate.getTeacherList() != null)
+            partner.setTeacherList(partnerUpdate.getTeacherList());
+        if(partnerUpdate.getVatNumber() != null)
+            partner.setVatNumber(partnerUpdate.getVatNumber());
+
+        partnerRepository.save(partner);
+
+        return partnerAdapter.adptPartnerToPartnerResponse(partner);
+
+    }
+
+    @Override
+    public PaginationResponseV1<PartnerResponseV1> getPartnersPagination(int page, int pageSize, String businessName, String company, String managerName, String accreditedFt, String teacherName, String teacherSurname,
+                                                                         String teacherProfessionalArea, String teacherPublicEmployee, String citta, String comune, String cap) {
         return null;
     }
 
     @Override
     public void deletePartner(UUID idPartner) {
-
+        partnerRepository.deleteById(idPartner);
     }
 }

@@ -75,6 +75,7 @@ public class TeacherServiceImpl implements TeacherService {
         if(!optTeacher.isPresent()){
             throw new NotFoundException("Teacher with id " + idTeacher+ " not found");
         }
+
         TeacherEntity teacher = optTeacher.get();
 
         TeacherEntity teacherUpdate = teacherAdapter.adptTeacherRequestToTeacher(teacherUpdateRequest);
