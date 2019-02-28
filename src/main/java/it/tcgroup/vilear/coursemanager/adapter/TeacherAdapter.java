@@ -21,6 +21,9 @@ public class TeacherAdapter {
 
     public TeacherEntity adptTeacherRequestToTeacher(TeacherRequestV1 teacherInsertRequest){
 
+        if(teacherInsertRequest == null)
+            return null;
+
         TeacherEntity teacher = new TeacherEntity();
 
         AddressEntity address = null;
@@ -54,6 +57,9 @@ public class TeacherAdapter {
 
     public IdResponseV1 adptTeacherIdToTeacherIdResponse(TeacherEntity teacher){
 
+        if(teacher == null)
+            return null;
+
         IdResponseV1 teacherIdResponse = new IdResponseV1();
         teacherIdResponse.setId(teacher.getId());
 
@@ -61,6 +67,9 @@ public class TeacherAdapter {
     }
 
     public TeacherResponseV1 adptTeacherToTeacherResponse(TeacherEntity teacher){
+
+        if(teacher == null)
+            return null;
 
         TeacherResponseV1 teacherResponse = new TeacherResponseV1();
 
@@ -90,13 +99,16 @@ public class TeacherAdapter {
         return  teacherResponse;
     }
 
-    public List<TeacherResponseV1> adptTeacherToTeacherResponse(List<TeacherEntity> docentiList){
+    public List<TeacherResponseV1> adptTeacherToTeacherResponse(List<TeacherEntity> teacherList){
 
-        List<TeacherResponseV1> docentiResponseList= new LinkedList<>();
-        for (TeacherEntity att : docentiList){
-            docentiResponseList.add(this.adptTeacherToTeacherResponse(att));
+        if(teacherList == null)
+            return null;
+
+        List<TeacherResponseV1> teacherResponseList= new LinkedList<>();
+        for (TeacherEntity att : teacherList){
+            teacherResponseList.add(this.adptTeacherToTeacherResponse(att));
         }
-        return docentiResponseList;
+        return teacherResponseList;
     }
 
     public PaginationResponseV1<TeacherResponseV1> adpTeacherPaginationToTeacherPaginationResposne(Pagination teacherPagination){

@@ -12,7 +12,7 @@ import java.util.Objects;
 public class AddressPartner  implements Serializable {
 
     @JsonProperty("address")
-    private AddressEntity addressEntity;
+    private AddressEntity address;
 
     @JsonProperty("type")
     private TypeAddressPartnerEnum type;
@@ -20,17 +20,17 @@ public class AddressPartner  implements Serializable {
     public AddressPartner() {
     }
 
-    public AddressPartner(AddressEntity addressEntity, TypeAddressPartnerEnum type) {
-        this.addressEntity = addressEntity;
+    public AddressPartner(AddressEntity address, TypeAddressPartnerEnum type) {
+        this.address = address;
         this.type = type;
     }
 
-    public AddressEntity getAddressEntity() {
-        return addressEntity;
+    public AddressEntity getAddress() {
+        return address;
     }
 
-    public void setAddressEntity(AddressEntity addressEntity) {
-        this.addressEntity = addressEntity;
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 
     public TypeAddressPartnerEnum getType() {
@@ -44,7 +44,7 @@ public class AddressPartner  implements Serializable {
     @Override
     public String toString() {
         return "AddressPartner{" +
-                "addressEntity=" + addressEntity +
+                "address=" + address +
                 ", type=" + type +
                 '}';
     }
@@ -54,12 +54,12 @@ public class AddressPartner  implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressPartner that = (AddressPartner) o;
-        return Objects.equals(addressEntity, that.addressEntity) &&
+        return Objects.equals(address, that.address) &&
                 type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(addressEntity, type);
+        return Objects.hash(address, type);
     }
 }
