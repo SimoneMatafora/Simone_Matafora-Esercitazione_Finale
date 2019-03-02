@@ -1,9 +1,7 @@
 package it.tcgroup.vilear.coursemanager.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.StatusTeacherPartnerEnum;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddressPartnerType;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
@@ -34,54 +32,68 @@ public class PartnerEntity {
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
+    @JsonProperty("business_name")
     @Column(name = "business_name")
     private String businessName;
 
+    @JsonProperty("vat_number")
     @Column(name = "vat_number")
     private String vatNumber;
 
+    @JsonProperty( "company")
     @Column(name = "company")
     private String company;
 
+    @JsonProperty( "email")
     @Column(name = "email")
     private String email;
 
+    @JsonProperty( "phone")
     @Column(name = "phone")
     private String phone;
 
+    @JsonProperty( "fax")
     @Column(name = "fax")
     private String fax;
 
+    @JsonProperty( "manager_name")
     @Column(name = "manager_name")
     private String managerName;
 
+    @JsonProperty( "manager_number")
     @Column(name = "manager_number")
     private String managerNumber;
 
+    @JsonProperty( "accredited_ft")
     @Column(name = "accredited_ft")
-    private String accreditedFt;
+    private Boolean accreditedFt;
 
+    @JsonProperty( "accredited_ft_code")
     @Column(name = "accredited_ft_code")
     private String accreditedFtCode;
 
+    @JsonProperty( "cost_element")
     @Column(name = "cost_element")
     private String costElement;
 
+    @JsonProperty( "note")
     @Column(name = "note")
     private String note;
 
     @Type(type = "JsonDataTeacherPartnerType")
+    @JsonProperty( "teacher_list")
     @Column(name = "teacher_list")
     private List<TeacherPartner> teacherList = new LinkedList<>();
 
     @Type(type = "JsonDataAddressPartnerType")
+    @JsonProperty( "address")
     @Column(name = "address")
     private List<AddressPartner> addressList = new LinkedList<>();
 
     public PartnerEntity() {
     }
 
-    public PartnerEntity(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, String accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
+    public PartnerEntity(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
         this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
@@ -171,11 +183,11 @@ public class PartnerEntity {
         this.managerNumber = managerNumber;
     }
 
-    public String getAccreditedFt() {
+    public Boolean getAccreditedFt() {
         return accreditedFt;
     }
 
-    public void setAccreditedFt(String accreditedFt) {
+    public void setAccreditedFt(Boolean accreditedFt) {
         this.accreditedFt = accreditedFt;
     }
 

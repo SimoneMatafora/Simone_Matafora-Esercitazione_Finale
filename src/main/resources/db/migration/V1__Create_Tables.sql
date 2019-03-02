@@ -70,17 +70,34 @@ CREATE TABLE IF NOT EXISTS branch (
 	FOREIGN KEY (address_id) REFERENCES address (id)
 );
 
+CREATE TABLE IF NOT EXISTS partner (
+
+	id UUID NOT NULL,
+	business_name varchar(500) NOT NULL,
+	vat_number varchar(500) NOT NULL,
+	company BOOLEAN NOT NULL,
+	email varchar(255) NULL,
+	phone varchar(255) NULL,
+	fax varchar(255) NULL,
+	manager_name varchar(255) NOT NULL,
+	manager_number varchar(255) NOT NULL,
+	accredited_ft BOOLEAN NOT NULL,
+	accredited_ft_code varchar(255) NOT NULL,
+	cost_element numeric NOT NULL,
+	note VARCHAR(500) NULL,
+	teacher_list jsonb NULL,
+	address jsonb NULL
+);
+
 CREATE TABLE IF NOT EXISTS course (
 
 	id UUID PRIMARY KEY,
-	course_code varchar(255) NOT NULL,
 	course_title varchar(255) NOT NULL,
-	course_type varchar(255) NOT NULL,
 	contents_area varchar(255) NOT NULL,
 	learner_type varchar(255) NOT NULL,
 	supply_modality varchar(255) NOT NULL,
 	payment_modality varchar(255) NOT NULL,
-	cost numeric NOT NULL,
+	costs numeric NOT NULL,
 	founds_type varchar(255) NOT NULL,
 	educational_target_description varchar(255) NOT NULL,
 	course_description varchar(255) NOT NULL,
@@ -95,59 +112,55 @@ CREATE TABLE IF NOT EXISTS course (
 	total_hours_training numeric NOT NULL,
 	daily_hours numeric NOT NULL,
 	certificate_type varchar(255) NOT NULL,
-	minimum_number_of_participants numeric NOT NULL,
-	disabled BOOLEAN NOT NULL,
+	minimum_numeric_of_participants numeric NOT NULL,
+	disabled bool NOT NULL,
 	course_logo varchar(255) NOT NULL,
 	part_full_time varchar(255) NOT NULL,
 	morning_start_hour TIME NOT NULL,
 	morning_end_hour TIME NOT NULL,
 	afternoon_statr_hour TIME NOT NULL,
 	afternoon_end_hour TIME NOT NULL,
-	note varchar(500) NOT NULL,
-
-	id_indirizzo UUID NOT NULL,
-	id_docente UUID NOT NULL,
-
-	FOREIGN KEY (id_indirizzo) REFERENCES address (id),
-	FOREIGN KEY (id_docente) REFERENCES teacher (id)
+	actuator_subject jsonb NOT NULL,
+	course_code varchar(255) NOT NULL,
+	business_name varchar(255) NOT NULL,
+	business_email varchar(255) NOT NULL,
+	external_reference_code varchar(255) NOT NULL,
+	course_type varchar(255) NOT NULL,
+	sended_project_date DATE NOT NULL,
+	receipt_FT_confirmation_date DATE NOT NULL,
+	sended_canceled_project_date DATE NOT NULL,
+	aut_progetct_FT_realized_date DATE NOT NULL,
+	sended_learners_FT_date DATE NOT NULL,
+	entourage_hours numeric NOT NULL,
+	orenatation_hours numeric NOT NULL,
+	special_initiatives varchar (255) NOT NULL,
+	trade_union_teaching_request BOOLEAN NOT NULL,
+	note varchar(500) NULL,
+	recipient varchar(255) NOT NULL,
+	issue_ticket bool NOT NULL,
+	ticket_amount numeric NOT NULL,
+	attendance_benefits bool NOT NULL,
+	amount_attendance_benefits numeric NOT NULL,
+	amount_report_FT numeric NULL,
+	amount_fin_security_capital numeric NULL,
+	amount_autorized_FT_date DATE NULL,
+	amount_autorized_FT numeric NULL,
+	total_partner_cost numeric NULL,
+	total_partner_cost_on_percent numeric NULL,
+	total_amount_without_FS numeric NULL,
+	sended_paper_reporting_date DATE NULL,
+	sended_eletronic_reporting_date DATE NULL,
+	expired_reporting_date DATE NULL,
+	invoice_authorization_date DATE NULL,
+	delivery_date_in_administration DATE NULL,
+	commercial_taxable_communication_date DATE NULL,
+	report_note varchar(500) NULL,
+	daily_register varchar(200) NULL,
+	headquaters_course jsonb NOT NULL,
+	recipient_managment jsonb NULL,
+	partners jsonb NOT NULL,
+	teachers jsonb NOT NULL,
+	placement jsonb NULL,
+	document_attachment varchar(255) NULL
 );
-
-CREATE TABLE IF NOT EXISTS discenti_corso(
-
-	id_corso UUID NOT NULL,
-	id_discente UUID NOT NULL,
-	accettato BOOLEAN NOT NULL,
-	rifiutato BOOLEAN NOT NULL,
-	ritirato BOOLEAN NOT NULL,
-	ritirato_con_motivo varchar(255) NULL,
-	data_ritiro DATE NULL,
-	modulo_ritiro varchar(255) NULL,
-
-	FOREIGN KEY (id_corso) REFERENCES corso (id),
-	FOREIGN KEY (id_discente) REFERENCES learner (id)
-
-);
-
-
-CREATE TABLE IF NOT EXISTS partner (
-
-	id UUID NOT NULL,
-	business_name varchar(500) NOT NULL,
-	vat_number varchar(500) NOT NULL,
-	company BOOLEAN  NOT NULL,
-	email varchar (255) NULL,
-	phone varchar (255) NULL,
-	fax varchar (255) NULL,
-	manager_name varchar (255) NOT NULL,
-	manager_number varchar (255) NOT NULL,
-	accredited_ft bool NOT NULL,
-	accredited_ft_code varchar(255) NOT NULL,
-	cost_element numeric NOT NULL,
-	note VARCHAR (500) NULL,
-	teacher_list jsonb NULL,
-	address jsonb NULL
-
-);
-
-
 

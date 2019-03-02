@@ -117,7 +117,8 @@ public class PartnerAdapter {
         return partnerList;
     }
 
-    public static class TeacherPartnerAdapter{
+    @Component
+    public class TeacherPartnerAdapter{
 
         @Autowired
         private TeacherAdapter teacherAdapter;
@@ -178,7 +179,8 @@ public class PartnerAdapter {
 
     }
 
-    public static class AddressPartnerAdapter{
+    @Component
+    public class AddressPartnerAdapter{
 
         @Autowired
         private AddressAdapter addressAdapter;

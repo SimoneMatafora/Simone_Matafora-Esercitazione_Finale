@@ -38,7 +38,7 @@ public class PartnerResponseV1 {
     private String managerNumber;
 
     @JsonProperty( "accredited_ft")
-    private String accreditedFt;
+    private Boolean accreditedFt;
 
     @JsonProperty( "accredited_ft_code")
     private String accreditedFtCode;
@@ -140,7 +140,7 @@ public class PartnerResponseV1 {
     public PartnerResponseV1() {
     }
 
-    public PartnerResponseV1(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, String accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerResponseV1> teacherList, List<AddressPartnerResponseV1> addressList) {
+    public PartnerResponseV1(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerResponseV1> teacherList, List<AddressPartnerResponseV1> addressList) {
         this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
@@ -230,11 +230,11 @@ public class PartnerResponseV1 {
         this.managerNumber = managerNumber;
     }
 
-    public String getAccreditedFt() {
+    public Boolean getAccreditedFt() {
         return accreditedFt;
     }
 
-    public void setAccreditedFt(String accreditedFt) {
+    public void setAccreditedFt(Boolean accreditedFt) {
         this.accreditedFt = accreditedFt;
     }
 
