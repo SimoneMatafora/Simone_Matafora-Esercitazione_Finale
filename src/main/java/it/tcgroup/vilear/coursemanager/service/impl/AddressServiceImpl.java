@@ -4,6 +4,7 @@ import it.tcgroup.vilear.coursemanager.adapter.AddressAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1.*;
 import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import it.tcgroup.vilear.coursemanager.repository.AddressRepository;
 import it.tcgroup.vilear.coursemanager.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,21 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public String formatAddress(AddressEntity address){
+
+        String formattedAddress = "";
+        if(address.getStreet() != null){ formattedAddress += address.getStreet(); }
+        if(address.getNumber() != null){ formattedAddress += " " + address.getNumber(); }
+        if(address.getCity() != null){ formattedAddress += ", " + address.getCity(); }
+        if(address.getProvince() != null){ formattedAddress += ", " + address.getProvince(); }
+        if(address.getZipCode() != null){ formattedAddress += " " + address.getZipCode(); }
+        if(address.getRegion() != null){ formattedAddress += ", " + address.getRegion(); }
+        if(address.getNation() != null){ formattedAddress += ", " + address.getNation(); }
+
+        return formattedAddress;
+    }
+
+    @Override
+    public String formatAddress(AddressDto address){
 
         String formattedAddress = "";
         if(address.getStreet() != null){ formattedAddress += address.getStreet(); }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.ReasonWithdrawnLearnerCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.RecipientTypeLearnerCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.SecurityExonerateLearnerCourseEnum;
@@ -18,7 +19,7 @@ import java.util.Date;
 public class RecipientManagmentCourse implements Serializable {
 
     @JsonProperty("learner")
-    private LearnerEntity learner;
+    private LearnerDto learner;
 
     @JsonProperty("recipient_code")
     private RecipientTypeLearnerCourseEnum recipientType;
@@ -47,6 +48,7 @@ public class RecipientManagmentCourse implements Serializable {
     @JsonProperty("withdrawn_with_reason")
     private ReasonWithdrawnLearnerCourseEnum withdrawnReason;
 
+    @JsonProperty("withdrawn_date")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
     private Date withdrawnDate;
 
@@ -56,7 +58,7 @@ public class RecipientManagmentCourse implements Serializable {
     public RecipientManagmentCourse() {
     }
 
-    public RecipientManagmentCourse(LearnerEntity learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
         this.learner = learner;
         this.recipientType = recipientType;
         this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -71,11 +73,11 @@ public class RecipientManagmentCourse implements Serializable {
         this.withdrawnForm = withdrawnForm;
     }
 
-    public LearnerEntity getLearner() {
+    public LearnerDto getLearner() {
         return learner;
     }
 
-    public void setLearner(LearnerEntity learner) {
+    public void setLearner(LearnerDto learner) {
         this.learner = learner;
     }
 

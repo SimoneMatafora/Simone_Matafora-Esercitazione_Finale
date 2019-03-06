@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.entity.jsonb.partner;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.StatusTeacherPartnerEnum;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.Objects;
 public class TeacherPartner implements Serializable {
 
     @JsonProperty("teacher")
-    private TeacherEntity teacher;
+    private TeacherDto teacher;
 
     @JsonProperty("status")
     private StatusTeacherPartnerEnum status;
@@ -20,16 +21,16 @@ public class TeacherPartner implements Serializable {
     public TeacherPartner() {
     }
 
-    public TeacherPartner(TeacherEntity teacher, StatusTeacherPartnerEnum status) {
+    public TeacherPartner(TeacherDto teacher, StatusTeacherPartnerEnum status) {
         this.teacher = teacher;
         this.status = status;
     }
 
-    public TeacherEntity getTeacher() {
+    public TeacherDto getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(TeacherEntity teacher) {
+    public void setTeacher(TeacherDto teacher) {
         this.teacher = teacher;
     }
 

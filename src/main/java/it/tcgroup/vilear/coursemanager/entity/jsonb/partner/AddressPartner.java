@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.entity.jsonb.partner;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.Objects;
 public class AddressPartner  implements Serializable {
 
     @JsonProperty("address")
-    private AddressEntity address;
+    private AddressDto address;
 
     @JsonProperty("type")
     private TypeAddressPartnerEnum type;
@@ -20,16 +21,16 @@ public class AddressPartner  implements Serializable {
     public AddressPartner() {
     }
 
-    public AddressPartner(AddressEntity address, TypeAddressPartnerEnum type) {
+    public AddressPartner(AddressDto address, TypeAddressPartnerEnum type) {
         this.address = address;
         this.type = type;
     }
 
-    public AddressEntity getAddress() {
+    public AddressDto getAddress() {
         return address;
     }
 
-    public void setAddress(AddressEntity address) {
+    public void setAddress(AddressDto address) {
         this.address = address;
     }
 

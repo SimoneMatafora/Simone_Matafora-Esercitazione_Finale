@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.entity.jsonb.course;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.PartnerEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.SupplyServicePartnerCourseEnum;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.*;
 public class PartnerCourse implements Serializable {
 
     @JsonProperty("supplier")
-    private PartnerEntity supplier;
+    private PartnerDto supplier;
 
     @JsonProperty("suplly_service")
     private List<SupplyServicePartnerCourseEnum> supplierService;
@@ -47,7 +48,7 @@ public class PartnerCourse implements Serializable {
     public PartnerCourse() {
     }
 
-    public PartnerCourse(PartnerEntity supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplier> subSupplierList) {
+    public PartnerCourse(PartnerDto supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplier> subSupplierList) {
         this.supplier = supplier;
         this.supplierService = supplierService;
         this.servicesCosts = servicesCosts;
@@ -60,11 +61,11 @@ public class PartnerCourse implements Serializable {
         this.subSupplierList = subSupplierList;
     }
 
-    public PartnerEntity getSupplier() {
+    public PartnerDto getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(PartnerEntity supplier) {
+    public void setSupplier(PartnerDto supplier) {
         this.supplier = supplier;
     }
 
@@ -182,7 +183,7 @@ public class PartnerCourse implements Serializable {
     public static class SubSupplier implements Serializable {
 
         @JsonProperty("sub_supplier")
-        private PartnerEntity subSupplier;
+        private PartnerDto subSupplier;
 
         @JsonProperty("sub_suplly_service")
         private List<SupplyServicePartnerCourseEnum> subSupplierService;
@@ -190,16 +191,16 @@ public class PartnerCourse implements Serializable {
         public SubSupplier() {
         }
 
-        public SubSupplier(PartnerEntity subSupplier, List<SupplyServicePartnerCourseEnum> subSupplierService) {
+        public SubSupplier(PartnerDto subSupplier, List<SupplyServicePartnerCourseEnum> subSupplierService) {
             this.subSupplier = subSupplier;
             this.subSupplierService = subSupplierService;
         }
 
-        public PartnerEntity getSubSupplier() {
+        public PartnerDto getSubSupplier() {
             return subSupplier;
         }
 
-        public void setSubSupplier(PartnerEntity subSupplier) {
+        public void setSubSupplier(PartnerDto subSupplier) {
             this.subSupplier = subSupplier;
         }
 

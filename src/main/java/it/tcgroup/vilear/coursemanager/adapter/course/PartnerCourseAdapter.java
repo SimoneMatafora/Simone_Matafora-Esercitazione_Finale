@@ -35,7 +35,7 @@ public class PartnerCourseAdapter {
         partnerCourse.setThirdPaymentDate(partnerCourseRequest.getThirdPaymentDate());
         partnerCourse.setServicesCosts(partnerCourseRequest.getServicesCosts());
         partnerCourse.setSubSupplierList(subSupplierAdapter.adptSubSupplierRequestToSubSupplier(partnerCourseRequest.getSubSupplierList()));
-        partnerCourse.setSupplier(partnerAdapter.adptPartnerRequestToPartner(partnerCourseRequest.getSupplier()));
+        partnerCourse.setSupplier(partnerAdapter.adptPartnerRequestToPartnerDto(partnerCourseRequest.getSupplier()));
         partnerCourse.setSupplierService(partnerCourseRequest.getSupplierService());
 
         return  partnerCourse;
@@ -68,7 +68,7 @@ public class PartnerCourseAdapter {
 
             SubSupplier subSupplier = new SubSupplier();
 
-            subSupplier.setSubSupplier(partnerAdapter.adptPartnerRequestToPartner(subSupplierRequest.getSubSupplier()));
+            subSupplier.setSubSupplier(partnerAdapter.adptPartnerRequestToPartnerDto(subSupplierRequest.getSubSupplier()));
             subSupplier.setSubSupplierService(subSupplierRequest.getSubSupplierService());
 
             return subSupplier;

@@ -102,10 +102,10 @@ public class CourseRequestV1 {
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonProperty( "afternoon_end_hour")
     private Date afternoonEndHour;
-
+/*
     @JsonProperty( "actuator_subject")
     private ActuatorSubjectCourseRequestV1 actuatorSubject;
-
+*/
     @JsonProperty( "course_code")
     private String courseCode;
 
@@ -222,7 +222,7 @@ public class CourseRequestV1 {
 
     @JsonProperty( "daily_register")
     private String dailyRegister;
-
+/*
     @JsonProperty( "headquaters_course")
     private List<AddressCourseRequestV1> headquatersCourse;
 
@@ -240,7 +240,7 @@ public class CourseRequestV1 {
 
     @JsonProperty( "document_attachment")
     private String documentAttachment;
-
+*/
     public static class ActuatorSubjectCourseRequestV1{
 
         @JsonProperty("business_name")
@@ -1170,7 +1170,7 @@ public class CourseRequestV1 {
         this.morningEndHour = morningEndHour;
         this.afternoonStatrHour = afternoonStatrHour;
         this.afternoonEndHour = afternoonEndHour;
-        this.actuatorSubject = actuatorSubject;
+        //this.actuatorSubject = actuatorSubject;
         this.courseCode = courseCode;
         this.businessName = businessName;
         this.businessEmail = businessEmail;
@@ -1206,12 +1206,12 @@ public class CourseRequestV1 {
         this.commercialTaxableCommunicationDate = commercialTaxableCommunicationDate;
         this.reportNote = reportNote;
         this.dailyRegister = dailyRegister;
-        this.headquatersCourse = headquatersCourse;
+        /*this.headquatersCourse = headquatersCourse;
         this.recipientManagment = recipientManagment;
         this.partnerList = partnerList;
         this.teacherList = teacherList;
         this.placementList = placementList;
-        this.documentAttachment = documentAttachment;
+        this.documentAttachment = documentAttachment;*/
     }
 
     public String getCourseTitle() {
@@ -1437,14 +1437,14 @@ public class CourseRequestV1 {
     public void setAfternoonEndHour(Date afternoonEndHour) {
         this.afternoonEndHour = afternoonEndHour;
     }
-
+/*
     public ActuatorSubjectCourseRequestV1 getActuatorSubject() {
         return actuatorSubject;
     }
 
     public void setActuatorSubject(ActuatorSubjectCourseRequestV1 actuatorSubject) {
         this.actuatorSubject = actuatorSubject;
-    }
+    }*/
 
     public String getCourseCode() {
         return courseCode;
@@ -1725,7 +1725,7 @@ public class CourseRequestV1 {
     public void setDailyRegister(String dailyRegister) {
         this.dailyRegister = dailyRegister;
     }
-
+/*
     public List<AddressCourseRequestV1> getHeadquatersCourse() {
         return headquatersCourse;
     }
@@ -1772,7 +1772,7 @@ public class CourseRequestV1 {
 
     public void setDocumentAttachment(String documentAttachment) {
         this.documentAttachment = documentAttachment;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -1805,7 +1805,7 @@ public class CourseRequestV1 {
                 ", morningEndHour=" + morningEndHour +
                 ", afternoonStatrHour=" + afternoonStatrHour +
                 ", afternoonEndHour=" + afternoonEndHour +
-                ", actuatorSubject=" + actuatorSubject +
+                //", actuatorSubject=" + actuatorSubject +
                 ", courseCode='" + courseCode + '\'' +
                 ", businessName='" + businessName + '\'' +
                 ", businessEmail='" + businessEmail + '\'' +
@@ -1841,12 +1841,12 @@ public class CourseRequestV1 {
                 ", commercialTaxableCommunicationDate=" + commercialTaxableCommunicationDate +
                 ", reportNote='" + reportNote + '\'' +
                 ", dailyRegister='" + dailyRegister + '\'' +
-                ", headquatersCourse=" + headquatersCourse +
+                /*", headquatersCourse=" + headquatersCourse +
                 ", recipientManagment=" + recipientManagment +
                 ", partnerList=" + partnerList +
                 ", teacherList=" + teacherList +
                 ", placementList=" + placementList +
-                ", documentAttachment='" + documentAttachment + '\'' +
+                ", documentAttachment='" + documentAttachment + '\'' */+
                 '}';
     }
 }

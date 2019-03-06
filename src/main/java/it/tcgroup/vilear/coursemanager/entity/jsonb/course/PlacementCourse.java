@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,9 +15,10 @@ import java.util.*;
 public class PlacementCourse implements Serializable {
 
     @JsonProperty("learner")
-    private LearnerEntity learner;
+    private LearnerDto learner;
 
     @JsonProperty("hiring_date")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
     private Date hiringDate;
 
     @JsonProperty("mission_hours")
@@ -42,7 +44,7 @@ public class PlacementCourse implements Serializable {
     public PlacementCourse() {
     }
 
-    public PlacementCourse(LearnerEntity learner, Date hiringDate, Double missionHours, Double bonusAmount, Date expiredPlacementDate, Date sendedEletronicPlacementDate, Boolean coherence, String note) {
+    public PlacementCourse(LearnerDto learner, Date hiringDate, Double missionHours, Double bonusAmount, Date expiredPlacementDate, Date sendedEletronicPlacementDate, Boolean coherence, String note) {
         this.learner = learner;
         this.hiringDate = hiringDate;
         this.missionHours = missionHours;
@@ -53,11 +55,11 @@ public class PlacementCourse implements Serializable {
         this.note = note;
     }
 
-    public LearnerEntity getLearner() {
+    public LearnerDto getLearner() {
         return learner;
     }
 
-    public void setLearner(LearnerEntity learner) {
+    public void setLearner(LearnerDto learner) {
         this.learner = learner;
     }
 

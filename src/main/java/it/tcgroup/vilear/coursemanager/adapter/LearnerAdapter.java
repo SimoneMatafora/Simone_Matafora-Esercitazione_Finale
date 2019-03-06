@@ -7,6 +7,8 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationRes
 import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
+import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +28,31 @@ public class LearnerAdapter {
         AddressEntity address = null;
         if (learnerInsertRequest.getAddress() != null)
             address = addressAdapter.adptAddressRequestToAddress(learnerInsertRequest.getAddress());
+
+        learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
+        learner.setSurname(learnerInsertRequest.getSurname());
+        learner.setCurriculumVitae(learnerInsertRequest.getCurriculumVitae());
+        learner.setDateOfBirth(learnerInsertRequest.getDateOfBirth());
+        learner.setEmail(learnerInsertRequest.getEmail());
+        learner.setBirthPlace(learnerInsertRequest.getBirthPlace());
+        learner.setName(learnerInsertRequest.getName());
+        learner.setDegreeOfStudies(learnerInsertRequest.getDegreeOfStudies());
+        learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
+        learner.setNote(learnerInsertRequest.getNote());
+        learner.setPhone(learnerInsertRequest.getPhone());
+        learner.setUsername(learnerInsertRequest.getUsername());
+        learner.setAddress(address);
+
+        return learner;
+    }
+
+    public LearnerDto adptLearnerRequestToLearnerDto(LearnerRequestV1 learnerInsertRequest){
+
+        LearnerDto learner = new LearnerDto();
+
+        AddressDto address = null;
+        if (learnerInsertRequest.getAddress() != null)
+            address = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getAddress());
 
         learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
         learner.setSurname(learnerInsertRequest.getSurname());

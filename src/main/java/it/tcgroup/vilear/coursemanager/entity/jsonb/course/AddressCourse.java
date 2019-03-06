@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.entity.jsonb.course;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
 public class AddressCourse implements Serializable {
 
     @JsonProperty("address")
-    private AddressEntity address;
+    private AddressDto address;
 
     @JsonProperty("main")
     private Boolean main;
@@ -18,16 +19,16 @@ public class AddressCourse implements Serializable {
     public AddressCourse() {
     }
 
-    public AddressCourse(AddressEntity address, Boolean main) {
+    public AddressCourse(AddressDto address, Boolean main) {
         this.address = address;
         this.main = main;
     }
 
-    public AddressEntity getAddress() {
+    public AddressDto getAddress() {
         return address;
     }
 
-    public void setAddress(AddressEntity address) {
+    public void setAddress(AddressDto address) {
         this.address = address;
     }
 

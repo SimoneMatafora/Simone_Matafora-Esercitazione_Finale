@@ -1,5 +1,4 @@
 
-
 CREATE TABLE IF NOT EXISTS address (
 	id UUID PRIMARY KEY,
 	nation varchar(255) NULL,
@@ -71,7 +70,6 @@ CREATE TABLE IF NOT EXISTS branch (
 );
 
 CREATE TABLE IF NOT EXISTS course (
-
 	id UUID PRIMARY KEY,
 	course_title varchar(255) NULL,
 	contents_area varchar(255) NULL,
@@ -101,7 +99,6 @@ CREATE TABLE IF NOT EXISTS course (
 	morning_end_hour TIME NULL,
 	afternoon_statr_hour TIME NULL,
 	afternoon_end_hour TIME NULL,
-	actuator_subject jsonb NULL,
 	course_code varchar(255) NULL,
 	business_name varchar(255) NULL,
 	business_email varchar(255) NULL,
@@ -136,18 +133,11 @@ CREATE TABLE IF NOT EXISTS course (
 	delivery_date_in_administration DATE NULL,
 	commercial_taxable_communication_date DATE NULL,
 	report_note varchar(500) NULL,
-	daily_register varchar(200) NULL,
-	headquaters_course jsonb NULL,
-	recipient_managment jsonb NULL,
-	partners jsonb NULL,
-	teachers jsonb NULL,
-	placement jsonb NULL,
-	document_attachment varchar(255) NULL
+	daily_register varchar(200) NULL
 );
 
 CREATE TABLE IF NOT EXISTS partner (
-
-	id UUID NOT NULL,
+	id UUID PRIMARY KEY,
 	business_name varchar(500) NOT NULL,
 	vat_number varchar(500) NOT NULL,
 	company BOOLEAN NOT NULL,

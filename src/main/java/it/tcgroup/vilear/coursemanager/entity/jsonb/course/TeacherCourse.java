@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.entity.jsonb.course;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.AcronymTradeUninoEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.PaymentModalityEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.PaymentModalityTradeUnionEnum;
@@ -15,7 +16,7 @@ import java.util.Objects;
 public class TeacherCourse implements Serializable {
 
     @JsonProperty("teacher")
-    private TeacherEntity teacher;
+    private TeacherDto teacher;
 
     @JsonProperty("role")
     private RoleTeacherCourseEnum role;
@@ -53,7 +54,7 @@ public class TeacherCourse implements Serializable {
     public TeacherCourse() {
     }
 
-    public TeacherCourse(TeacherEntity teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+    public TeacherCourse(TeacherDto teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
         this.teacher = teacher;
         this.role = role;
         this.grossHourlyCost = grossHourlyCost;
@@ -68,11 +69,11 @@ public class TeacherCourse implements Serializable {
         this.paymentModalityTradeUnion = paymentModalityTradeUnion;
     }
 
-    public TeacherEntity getTeacher() {
+    public TeacherDto getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(TeacherEntity teacher) {
+    public void setTeacher(TeacherDto teacher) {
         this.teacher = teacher;
     }
 

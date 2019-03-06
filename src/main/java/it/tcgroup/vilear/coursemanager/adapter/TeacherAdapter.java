@@ -7,6 +7,8 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherRespon
 import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
+import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +31,42 @@ public class TeacherAdapter {
         AddressEntity address = null;
         if (teacherInsertRequest.getAddress() != null)
             address = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getAddress());
+
+        teacher.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
+        teacher.setRegister(teacherInsertRequest.getRegister());
+        teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
+        teacher.setAuthorized(teacherInsertRequest.getAuthorized());
+        teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
+        teacher.setFiscalCode(teacherInsertRequest.getFiscalCode());
+        teacher.setSurname(teacherInsertRequest.getSurname());
+        teacher.setCurriculumVitae(teacherInsertRequest.getCurriculumVitae());
+        teacher.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
+        teacher.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
+        teacher.setEmail(teacherInsertRequest.getEmail());
+        teacher.setProfessionalOrderRegistration(teacherInsertRequest.getProfessionalOrderRegistration());
+        teacher.setBirthPlace(teacherInsertRequest.getBirthPlace());
+        teacher.setName(teacherInsertRequest.getName());
+        teacher.setNote(teacherInsertRequest.getNote());
+        teacher.setVatNumber(teacherInsertRequest.getVatNumber());
+        teacher.setSector(teacherInsertRequest.getSector());
+        teacher.setPhone(teacherInsertRequest.getPhone());
+        teacher.setVatHolder(teacherInsertRequest.getVatHolder());
+        teacher.setUsername(teacherInsertRequest.getUsername());
+        teacher.setAddress(address);
+
+        return teacher;
+    }
+
+    public TeacherDto adptTeacherRequestToTeacherDto(TeacherRequestV1 teacherInsertRequest){
+
+        if(teacherInsertRequest == null)
+            return null;
+
+        TeacherDto teacher = new TeacherDto();
+
+        AddressDto address = null;
+        if (teacherInsertRequest.getAddress() != null)
+            address = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getAddress());
 
         teacher.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
         teacher.setRegister(teacherInsertRequest.getRegister());
@@ -95,6 +133,39 @@ public class TeacherAdapter {
         teacherResponse.setUsername(teacher.getUsername());
 
         teacherResponse.setAddress(addressAdapter.adptAddressToAddressResponse(teacher.getAddress()));
+
+        return  teacherResponse;
+    }
+
+    public TeacherResponseV1 adptTeacherDtoToTeacherResponse(TeacherDto teacher){
+
+        if(teacher == null)
+            return null;
+
+        TeacherResponseV1 teacherResponse = new TeacherResponseV1();
+
+        teacherResponse.setAccreditedFt(teacher.getAccreditedFt());
+        teacherResponse.setRegister(teacher.getRegister());
+        teacherResponse.setProfessionalArea(teacher.getProfessionalArea());
+        teacherResponse.setAuthorized(teacher.getAuthorized());
+        teacherResponse.setAccreditedFtCode(teacher.getAccreditedFtCode());
+        teacherResponse.setFiscalCode(teacher.getFiscalCode());
+        teacherResponse.setSurname(teacher.getSurname());
+        teacherResponse.setCurriculumVitae(teacher.getCurriculumVitae());
+        teacherResponse.setDateOfBirth(teacher.getDateOfBirth());
+        teacherResponse.setPublicEmployee(teacher.getPublicEmployee());
+        teacherResponse.setEmail(teacher.getEmail());
+        teacherResponse.setProfessionalOrderRegistration(teacher.getProfessionalOrderRegistration());
+        teacherResponse.setBirthPlace(teacher.getBirthPlace());
+        teacherResponse.setName(teacher.getName());
+        teacherResponse.setNote(teacher.getNote());
+        teacherResponse.setVatNumber(teacher.getVatNumber());
+        teacherResponse.setSector(teacher.getSector());
+        teacherResponse.setPhone(teacher.getPhone());
+        teacherResponse.setVatHolder(teacher.getVatHolder());
+        teacherResponse.setUsername(teacher.getUsername());
+
+        teacherResponse.setAddress(addressAdapter.adptAddressDtoToAddressResponse(teacher.getAddress()));
 
         return  teacherResponse;
     }

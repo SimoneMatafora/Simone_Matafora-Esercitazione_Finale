@@ -22,7 +22,7 @@ public class AddressCourseAdapter {
 
         AddressCourse addressCourse = new AddressCourse();
 
-        addressCourse.setAddress(addressAdapter.adptAddressRequestToAddress(addressCourseRequest.getAddress()));
+        addressCourse.setAddress(addressAdapter.adptAddressRequestToAddressDto(addressCourseRequest.getAddress()));
         addressCourse.setMain(addressCourseRequest.getMain());
 
         return addressCourse;

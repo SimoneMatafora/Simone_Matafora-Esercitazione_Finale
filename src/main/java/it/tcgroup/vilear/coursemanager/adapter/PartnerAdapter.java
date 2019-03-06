@@ -6,6 +6,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PartnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PartnerResponseV1.*;
 import it.tcgroup.vilear.coursemanager.entity.PartnerEntity;
+import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,47 @@ public class PartnerAdapter {
         return partnerList;
     }
 
+    public PartnerDto adptPartnerRequestToPartnerDto(PartnerRequestV1 partnerRequest){
+
+        if(partnerRequest == null)
+            return null;
+
+        PartnerDto partner = new PartnerDto();
+
+        partner.setAccreditedFt(partnerRequest.getAccreditedFt());
+        partner.setAccreditedFtCode(partnerRequest.getAccreditedFtCode());
+        partner.setBusinessName(partnerRequest.getBusinessName());
+        partner.setCompany(partnerRequest.getCompany());
+        partner.setCostElement(partnerRequest.getCostElement());
+        partner.setEmail(partnerRequest.getEmail());
+        partner.setFax(partnerRequest.getFax());
+        partner.setManagerName(partnerRequest.getManagerName());
+        partner.setManagerNumber(partnerRequest.getManagerNumber());
+        partner.setNote(partnerRequest.getNote());
+        partner.setPhone(partnerRequest.getPhone());
+        partner.setVatNumber(partnerRequest.getVatNumber());
+        partner.setTeacherList(teacherPartnerAdapter.adptTeacherPartnerRequestToTeacherPartner(partnerRequest.getTeacherList()));
+        partner.setAddressList(addressPartnerAdapter.adptAddressPartnerRequestToAddressPartner(partnerRequest.getAddressList()));
+
+        return partner;
+
+    }
+
+    public List<PartnerDto> adptPartnerRequestToPartnerDto(List<PartnerRequestV1> partnerRequestList){
+
+        if(partnerRequestList == null)
+            return null;
+
+        List<PartnerDto> partnerList = new LinkedList<>();
+
+        for (PartnerRequestV1 att : partnerRequestList){
+
+            partnerList.add(this.adptPartnerRequestToPartnerDto(att));
+        }
+
+        return partnerList;
+    }
+
     @Component
     public class TeacherPartnerAdapter{
 
@@ -130,7 +172,7 @@ public class PartnerAdapter {
 
             TeacherPartnerResponseV1 teacherPartnerResponse = new TeacherPartnerResponseV1();
 
-            teacherPartnerResponse.setTeacher(teacherAdapter.adptTeacherToTeacherResponse(teacherPartner.getTeacher()));
+            teacherPartnerResponse.setTeacher(teacherAdapter.adptTeacherDtoToTeacherResponse(teacherPartner.getTeacher()));
             teacherPartnerResponse.setStatus(teacherPartner.getStatus());
 
             return teacherPartnerResponse;
@@ -157,7 +199,7 @@ public class PartnerAdapter {
 
             TeacherPartner teacherPartner = new TeacherPartner();
 
-            teacherPartner.setTeacher(teacherAdapter.adptTeacherRequestToTeacher(teacherPartnerRequest.getTeacher()));
+            teacherPartner.setTeacher(teacherAdapter.adptTeacherRequestToTeacherDto(teacherPartnerRequest.getTeacher()));
             teacherPartner.setStatus(teacherPartnerRequest.getStatus());
 
             return teacherPartner;
@@ -192,7 +234,7 @@ public class PartnerAdapter {
 
             AddressPartnerResponseV1 addressPartnerResponse =  new AddressPartnerResponseV1();
 
-            addressPartnerResponse.setAddress(addressAdapter.adptAddressToAddressResponse(addressPartner.getAddress()));
+            addressPartnerResponse.setAddress(addressAdapter.adptAddressDtoToAddressResponse(addressPartner.getAddress()));
             addressPartnerResponse.setType(addressPartner.getType());
 
             return addressPartnerResponse;
@@ -219,7 +261,7 @@ public class PartnerAdapter {
 
             AddressPartner addressPartner = new AddressPartner();
 
-            addressPartner.setAddress(addressAdapter.adptAddressRequestToAddress(addressPartnerRequest.getAddress()));
+            addressPartner.setAddress(addressAdapter.adptAddressRequestToAddressDto(addressPartnerRequest.getAddress()));
             addressPartner.setType(addressPartnerRequest.getType());
 
             return addressPartner;

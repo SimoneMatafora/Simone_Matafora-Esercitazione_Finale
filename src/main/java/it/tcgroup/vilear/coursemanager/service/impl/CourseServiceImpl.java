@@ -26,6 +26,8 @@ public class CourseServiceImpl implements CourseService {
 
         CourseEntity course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
 
+        System.out.println(course);
+
         courseRepository.save(course);
 
         return courseAdapter.adptCourseIdToCourseIdResponse(course);
