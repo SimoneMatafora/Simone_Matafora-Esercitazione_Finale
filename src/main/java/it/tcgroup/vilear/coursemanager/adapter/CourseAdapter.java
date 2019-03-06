@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.adapter;
 
 import it.tcgroup.vilear.coursemanager.adapter.course.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,11 +28,14 @@ public class CourseAdapter {
     @Autowired
     private TeacherCourseAdapter teacherCourseAdapter;
 
+    @Autowired
+    private ActuatorSubjectCourseAdapter actuatorSubjectCourseAdapter;
+
     public CourseEntity adptCourseRequestToCourse(CourseRequestV1 courseRequest){
 
         CourseEntity course = new CourseEntity();
 
-        course.setActuatorSubject(partnerAdapter.adptPartnerRequestToPartner(courseRequest.getActuatorSubject()));
+        course.setActuatorSubject(actuatorSubjectCourseAdapter.adptActuatorSubjectCourseRequestToActuatorSubjectCourse(courseRequest.getActuatorSubject()));
         course.setAfternoonEndHour(courseRequest.getAfternoonEndHour());
         course.setAfternoonStatrHour(courseRequest.getAfternoonStatrHour());
         course.setAmount_fin_security_capital(courseRequest.getAmount_fin_security_capital());
@@ -105,5 +109,13 @@ public class CourseAdapter {
         return course;
 
 
+    }
+
+    public IdResponseV1 adptCourseIdToCourseIdResponse(CourseEntity course){
+
+        IdResponseV1 courseIdResponse = new IdResponseV1();
+        courseIdResponse.setId(course.getId());
+
+        return courseIdResponse;
     }
 }

@@ -40,6 +40,9 @@ public class RecipientManagmentCourseAdapter {
 
     public List<RecipientManagmentCourse> adptRecipientManagmentCourseRequestToRecipientManagmentCourse(List<RecipientManagmentCourseRequestV1> recipientManagmentCourseRequest){
 
+        if(recipientManagmentCourseRequest == null)
+            return null;
+
         List<RecipientManagmentCourse> recipientManagmentCourseList = new LinkedList<>();
 
         for (RecipientManagmentCourseRequestV1 att : recipientManagmentCourseRequest){

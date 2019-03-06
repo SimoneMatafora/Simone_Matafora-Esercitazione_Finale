@@ -1,17 +1,15 @@
-package it.tcgroup.vilear.coursemanager.controller.payload.request;
+package it.tcgroup.vilear.coursemanager.controller.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CourseRequestV1 {
+public class CourseResponseV1 {
 
     @JsonProperty( "course_title")
     private String courseTitle;
@@ -71,7 +69,7 @@ public class CourseRequestV1 {
 
     @JsonProperty( "daily_hours")
     private Double dailyHours;
-    
+
     @JsonProperty( "certificate_type")
     private CertificateTypeCourseEnum certificateTypeCourse;
 
@@ -83,7 +81,7 @@ public class CourseRequestV1 {
 
     @JsonProperty( "course_logo")
     private String courseLogo;
-    
+
     @JsonProperty( "part_full_time")
     private PartFullTimeCourseEnum partFullTimeCourse;
 
@@ -104,7 +102,7 @@ public class CourseRequestV1 {
     private Date afternoonEndHour;
 
     @JsonProperty( "actuator_subject")
-    private ActuatorSubjectCourseRequestV1 actuatorSubject;
+    private ActuatorSubjectCourseResponseV1 actuatorSubject;
 
     @JsonProperty( "course_code")
     private String courseCode;
@@ -224,24 +222,24 @@ public class CourseRequestV1 {
     private String dailyRegister;
 
     @JsonProperty( "headquaters_course")
-    private List<AddressCourseRequestV1> headquatersCourse;
+    private List<AddressCourseResponseV1> headquatersCourse;
 
     @JsonProperty( "recipient_managment")
-    private List<RecipientManagmentCourseRequestV1> recipientManagment;
+    private List<RecipientManagmentCourseResponseV1> recipientManagment;
 
     @JsonProperty( "partners")
-    private List<PartnerCourseRequestV1> partnerList;
+    private List<PartnerCourseResponseV1> partnerList;
 
     @JsonProperty( "teachers")
-    private List<TeacherCourseRequestV1> teacherList;
+    private List<TeacherCourseResponseV1> teacherList;
 
     @JsonProperty( "placement")
-    private List<PlacementCourseRequestV1> placementList;
+    private List<PlacementCourseResponseV1> placementList;
 
     @JsonProperty( "document_attachment")
     private String documentAttachment;
 
-    public static class ActuatorSubjectCourseRequestV1{
+    public static class ActuatorSubjectCourseResponseV1{
 
         @JsonProperty("business_name")
         private String businessName;
@@ -280,15 +278,15 @@ public class CourseRequestV1 {
         private String note;
 
         @JsonProperty( "teacher_list")
-        private List<PartnerRequestV1.TeacherPartnerRequestV1> teacherList = new LinkedList<>();
+        private List<PartnerResponseV1.TeacherPartnerResponseV1> teacherList = new LinkedList<>();
 
         @JsonProperty( "address")
-        private List<PartnerRequestV1.AddressPartnerRequestV1> addressList = new LinkedList<>();
+        private List<PartnerResponseV1.AddressPartnerResponseV1> addressList = new LinkedList<>();
 
-        public ActuatorSubjectCourseRequestV1() {
+        public ActuatorSubjectCourseResponseV1() {
         }
 
-        public ActuatorSubjectCourseRequestV1(String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<PartnerRequestV1.TeacherPartnerRequestV1> teacherList, List<PartnerRequestV1.AddressPartnerRequestV1> addressList) {
+        public ActuatorSubjectCourseResponseV1(String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<PartnerResponseV1.TeacherPartnerResponseV1> teacherList, List<PartnerResponseV1.AddressPartnerResponseV1> addressList) {
             this.businessName = businessName;
             this.vatNumber = vatNumber;
             this.company = company;
@@ -401,25 +399,25 @@ public class CourseRequestV1 {
             this.note = note;
         }
 
-        public List<PartnerRequestV1.TeacherPartnerRequestV1> getTeacherList() {
+        public List<PartnerResponseV1.TeacherPartnerResponseV1> getTeacherList() {
             return teacherList;
         }
 
-        public void setTeacherList(List<PartnerRequestV1.TeacherPartnerRequestV1> teacherList) {
+        public void setTeacherList(List<PartnerResponseV1.TeacherPartnerResponseV1> teacherList) {
             this.teacherList = teacherList;
         }
 
-        public List<PartnerRequestV1.AddressPartnerRequestV1> getAddressList() {
+        public List<PartnerResponseV1.AddressPartnerResponseV1> getAddressList() {
             return addressList;
         }
 
-        public void setAddressList(List<PartnerRequestV1.AddressPartnerRequestV1> addressList) {
+        public void setAddressList(List<PartnerResponseV1.AddressPartnerResponseV1> addressList) {
             this.addressList = addressList;
         }
 
         @Override
         public String toString() {
-            return "ActuatorSubjectCourseRequestV1{" +
+            return "ActuatorSubjectCourseResponseV1{" +
                     "businessName='" + businessName + '\'' +
                     ", vatNumber='" + vatNumber + '\'' +
                     ", company='" + company + '\'' +
@@ -438,27 +436,27 @@ public class CourseRequestV1 {
         }
     }
 
-    public static class AddressCourseRequestV1{
+    public static class AddressCourseResponseV1{
 
         @JsonProperty("address")
-        private TeacherRequestV1.AddressRequest address;
+        private TeacherResponseV1.AddressResponse address;
 
         @JsonProperty("main")
         private Boolean main;
 
-        public AddressCourseRequestV1() {
+        public AddressCourseResponseV1() {
         }
 
-        public AddressCourseRequestV1(TeacherRequestV1.AddressRequest address, Boolean main) {
+        public AddressCourseResponseV1(TeacherResponseV1.AddressResponse address, Boolean main) {
             this.address = address;
             this.main = main;
         }
 
-        public TeacherRequestV1.AddressRequest getAddress() {
+        public TeacherResponseV1.AddressResponse getAddress() {
             return address;
         }
 
-        public void setAddress(TeacherRequestV1.AddressRequest address) {
+        public void setAddress(TeacherResponseV1.AddressResponse address) {
             this.address = address;
         }
 
@@ -480,10 +478,10 @@ public class CourseRequestV1 {
 
     }
 
-    public static class RecipientManagmentCourseRequestV1{
+    public class RecipientManagmentCourseResponseV1{
 
         @JsonProperty("learner")
-        private LearnerRequestV1 learner;
+        private LearnerResponseV1 learner;
 
         @JsonProperty("recipient_code")
         private RecipientTypeLearnerCourseEnum recipientType;
@@ -512,17 +510,16 @@ public class CourseRequestV1 {
         @JsonProperty("withdrawn_with_reason")
         private ReasonWithdrawnLearnerCourseEnum withdrawnReason;
 
-        @JsonFormat(pattern = "yyyy-MM-dd")
-        @JsonProperty("withdrawn_date")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         private Date withdrawnDate;
 
         @JsonProperty("withdrawn_form")
         private String withdrawnForm;
 
-        public RecipientManagmentCourseRequestV1() {
+        public RecipientManagmentCourseResponseV1() {
         }
 
-        public RecipientManagmentCourseRequestV1(LearnerRequestV1 learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -537,11 +534,11 @@ public class CourseRequestV1 {
             this.withdrawnForm = withdrawnForm;
         }
 
-        public LearnerRequestV1 getLearner() {
+        public LearnerResponseV1 getLearner() {
             return learner;
         }
 
-        public void setLearner(LearnerRequestV1 learner) {
+        public void setLearner(LearnerResponseV1 learner) {
             this.learner = learner;
         }
 
@@ -652,10 +649,10 @@ public class CourseRequestV1 {
         }
     }
 
-    public static class PartnerCourseRequestV1{
+    public class PartnerCourseResponseV1{
 
         @JsonProperty("supplier")
-        private PartnerRequestV1 supplier;
+        private PartnerResponseV1 supplier;
 
         @JsonProperty("suplly_service")
         private List<SupplyServicePartnerCourseEnum> supplierService;
@@ -687,10 +684,10 @@ public class CourseRequestV1 {
         @JsonProperty("sub_suppliers_list")
         private List<SubSupplierRequestV1> subSupplierList;
 
-        public static class SubSupplierRequestV1{
+        public class SubSupplierRequestV1 implements Serializable {
 
             @JsonProperty("sub_supplier")
-            private PartnerRequestV1 subSupplier;
+            private PartnerResponseV1 subSupplier;
 
             @JsonProperty("sub_suplly_service")
             private List<SupplyServicePartnerCourseEnum> subSupplierService;
@@ -698,16 +695,16 @@ public class CourseRequestV1 {
             public SubSupplierRequestV1() {
             }
 
-            public SubSupplierRequestV1(PartnerRequestV1 subSupplier, List<SupplyServicePartnerCourseEnum> subSupplierService) {
+            public SubSupplierRequestV1(PartnerResponseV1 subSupplier, List<SupplyServicePartnerCourseEnum> subSupplierService) {
                 this.subSupplier = subSupplier;
                 this.subSupplierService = subSupplierService;
             }
 
-            public PartnerRequestV1 getSubSupplier() {
+            public PartnerResponseV1 getSubSupplier() {
                 return subSupplier;
             }
 
-            public void setSubSupplier(PartnerRequestV1 subSupplier) {
+            public void setSubSupplier(PartnerResponseV1 subSupplier) {
                 this.subSupplier = subSupplier;
             }
 
@@ -729,10 +726,10 @@ public class CourseRequestV1 {
 
         }
 
-        public PartnerCourseRequestV1() {
+        public PartnerCourseResponseV1() {
         }
 
-        public PartnerCourseRequestV1(PartnerRequestV1 supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierRequestV1> subSupplierList) {
+        public PartnerCourseResponseV1(PartnerResponseV1 supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierRequestV1> subSupplierList) {
             this.supplier = supplier;
             this.supplierService = supplierService;
             this.servicesCosts = servicesCosts;
@@ -745,11 +742,11 @@ public class CourseRequestV1 {
             this.subSupplierList = subSupplierList;
         }
 
-        public PartnerRequestV1 getSupplier() {
+        public PartnerResponseV1 getSupplier() {
             return supplier;
         }
 
-        public void setSupplier(PartnerRequestV1 supplier) {
+        public void setSupplier(PartnerResponseV1 supplier) {
             this.supplier = supplier;
         }
 
@@ -842,10 +839,10 @@ public class CourseRequestV1 {
         }
     }
 
-    public static class TeacherCourseRequestV1{
+    public class TeacherCourseResponseV1{
 
         @JsonProperty("teacher")
-        private TeacherRequestV1 teacher;
+        private TeacherResponseV1 teacher;
 
         @JsonProperty("role")
         private RoleTeacherCourseEnum role;
@@ -874,17 +871,17 @@ public class CourseRequestV1 {
         @JsonProperty("learner_judgement_form")
         private String learnerJudgementForm;
 
-        @JsonProperty("acronym_trade_union")
-        private AcronymTradeUninoEnum acronymTradeUnion;
+        @JsonProperty("acronym_trade_unino")
+        private AcronymTradeUninoEnum acronymTradeUnino;
 
         @JsonProperty("payment_modality_trade_union_teaching")
         private PaymentModalityTradeUnionEnum paymentModalityTradeUnion;
 
 
-        public TeacherCourseRequestV1() {
+        public TeacherCourseResponseV1() {
         }
 
-        public TeacherCourseRequestV1(TeacherRequestV1 teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnion, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+        public TeacherCourseResponseV1(TeacherResponseV1 teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
             this.teacher = teacher;
             this.role = role;
             this.grossHourlyCost = grossHourlyCost;
@@ -895,15 +892,15 @@ public class CourseRequestV1 {
             this.totalHoursPerformed = totalHoursPerformed;
             this.tradeUninoTeachingLetter = tradeUninoTeachingLetter;
             this.learnerJudgementForm = learnerJudgementForm;
-            this.acronymTradeUnion = acronymTradeUnion;
+            this.acronymTradeUnino = acronymTradeUnino;
             this.paymentModalityTradeUnion = paymentModalityTradeUnion;
         }
 
-        public TeacherRequestV1 getTeacher() {
+        public TeacherResponseV1 getTeacher() {
             return teacher;
         }
 
-        public void setTeacher(TeacherRequestV1 teacher) {
+        public void setTeacher(TeacherResponseV1 teacher) {
             this.teacher = teacher;
         }
 
@@ -980,11 +977,11 @@ public class CourseRequestV1 {
         }
 
         public AcronymTradeUninoEnum getAcronymTradeUnino() {
-            return acronymTradeUnion;
+            return acronymTradeUnino;
         }
 
-        public void setAcronymTradeUnino(AcronymTradeUninoEnum acronymTradeUnion) {
-            this.acronymTradeUnion = acronymTradeUnion;
+        public void setAcronymTradeUnino(AcronymTradeUninoEnum acronymTradeUnino) {
+            this.acronymTradeUnino = acronymTradeUnino;
         }
 
         public PaymentModalityTradeUnionEnum getPaymentModalityTradeUnion() {
@@ -1008,18 +1005,17 @@ public class CourseRequestV1 {
                     ", totalHoursPerformed=" + totalHoursPerformed +
                     ", tradeUninoTeachingLetter='" + tradeUninoTeachingLetter + '\'' +
                     ", learnerJudgementForm='" + learnerJudgementForm + '\'' +
-                    ", acronymTradeUnion=" + acronymTradeUnion +
+                    ", acronymTradeUnino=" + acronymTradeUnino +
                     ", paymentModalityTradeUnion=" + paymentModalityTradeUnion +
                     '}';
         }
     }
 
-    public static class PlacementCourseRequestV1{
+    public class PlacementCourseResponseV1{
 
         @JsonProperty("learner")
-        private LearnerRequestV1 learner;
+        private LearnerResponseV1 learner;
 
-        @JsonFormat(pattern = "yyyy-MM-dd")
         @JsonProperty("hiring_date")
         private Date hiringDate;
 
@@ -1030,7 +1026,7 @@ public class CourseRequestV1 {
         private Double bonusAmount;
 
         @JsonProperty("expired_placement_date")
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         private Date expiredPlacementDate;
 
         @JsonProperty("sended_eletronic_placement_date")
@@ -1044,10 +1040,10 @@ public class CourseRequestV1 {
         private String note;
 
 
-        public PlacementCourseRequestV1() {
+        public PlacementCourseResponseV1() {
         }
 
-        public PlacementCourseRequestV1(LearnerRequestV1 learner, Date hiringDate, Double missionHours, Double bonusAmount, Date expiredPlacementDate, Date sendedEletronicPlacementDate, Boolean coherence, String note) {
+        public PlacementCourseResponseV1(LearnerResponseV1 learner, Date hiringDate, Double missionHours, Double bonusAmount, Date expiredPlacementDate, Date sendedEletronicPlacementDate, Boolean coherence, String note) {
             this.learner = learner;
             this.hiringDate = hiringDate;
             this.missionHours = missionHours;
@@ -1058,11 +1054,11 @@ public class CourseRequestV1 {
             this.note = note;
         }
 
-        public LearnerRequestV1 getLearner() {
+        public LearnerResponseV1 getLearner() {
             return learner;
         }
 
-        public void setLearner(LearnerRequestV1 learner) {
+        public void setLearner(LearnerResponseV1 learner) {
             this.learner = learner;
         }
 
@@ -1138,10 +1134,10 @@ public class CourseRequestV1 {
     }
 
 
-    public CourseRequestV1() {
+    public CourseResponseV1() {
     }
 
-    public CourseRequestV1(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, ActuatorSubjectCourseRequestV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseRequestV1> headquatersCourse, List<RecipientManagmentCourseRequestV1> recipientManagment, List<PartnerCourseRequestV1> partnerList, List<TeacherCourseRequestV1> teacherList, List<PlacementCourseRequestV1> placementList, String documentAttachment) {
+    public CourseResponseV1(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, ActuatorSubjectCourseResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, String documentAttachment) {
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
         this.learnerType = learnerType;
@@ -1438,11 +1434,11 @@ public class CourseRequestV1 {
         this.afternoonEndHour = afternoonEndHour;
     }
 
-    public ActuatorSubjectCourseRequestV1 getActuatorSubject() {
+    public ActuatorSubjectCourseResponseV1 getActuatorSubject() {
         return actuatorSubject;
     }
 
-    public void setActuatorSubject(ActuatorSubjectCourseRequestV1 actuatorSubject) {
+    public void setActuatorSubject(ActuatorSubjectCourseResponseV1 actuatorSubject) {
         this.actuatorSubject = actuatorSubject;
     }
 
@@ -1726,43 +1722,43 @@ public class CourseRequestV1 {
         this.dailyRegister = dailyRegister;
     }
 
-    public List<AddressCourseRequestV1> getHeadquatersCourse() {
+    public List<AddressCourseResponseV1> getHeadquatersCourse() {
         return headquatersCourse;
     }
 
-    public void setHeadquatersCourse(List<AddressCourseRequestV1> headquatersCourse) {
+    public void setHeadquatersCourse(List<AddressCourseResponseV1> headquatersCourse) {
         this.headquatersCourse = headquatersCourse;
     }
 
-    public List<RecipientManagmentCourseRequestV1> getRecipientManagment() {
+    public List<RecipientManagmentCourseResponseV1> getRecipientManagment() {
         return recipientManagment;
     }
 
-    public void setRecipientManagment(List<RecipientManagmentCourseRequestV1> recipientManagment) {
+    public void setRecipientManagment(List<RecipientManagmentCourseResponseV1> recipientManagment) {
         this.recipientManagment = recipientManagment;
     }
 
-    public List<PartnerCourseRequestV1> getPartnerList() {
+    public List<PartnerCourseResponseV1> getPartnerList() {
         return partnerList;
     }
 
-    public void setPartnerList(List<PartnerCourseRequestV1> partnerList) {
+    public void setPartnerList(List<PartnerCourseResponseV1> partnerList) {
         this.partnerList = partnerList;
     }
 
-    public List<TeacherCourseRequestV1> getTeacherList() {
+    public List<TeacherCourseResponseV1> getTeacherList() {
         return teacherList;
     }
 
-    public void setTeacherList(List<TeacherCourseRequestV1> teacherList) {
+    public void setTeacherList(List<TeacherCourseResponseV1> teacherList) {
         this.teacherList = teacherList;
     }
 
-    public List<PlacementCourseRequestV1> getPlacementList() {
+    public List<PlacementCourseResponseV1> getPlacementList() {
         return placementList;
     }
 
-    public void setPlacementList(List<PlacementCourseRequestV1> placementList) {
+    public void setPlacementList(List<PlacementCourseResponseV1> placementList) {
         this.placementList = placementList;
     }
 
@@ -1849,4 +1845,5 @@ public class CourseRequestV1 {
                 ", documentAttachment='" + documentAttachment + '\'' +
                 '}';
     }
+
 }

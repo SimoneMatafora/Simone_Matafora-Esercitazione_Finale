@@ -26,7 +26,7 @@ import java.util.*;
         @TypeDef(name = "JsonDataPartnerCourseType", typeClass = JsonDataPartnerCourseType.class),
         @TypeDef(name = "JsonDataTeacherCourseType", typeClass = JsonDataTeacherCourseType.class),
         @TypeDef(name = "JsonDataPlacementCourseType", typeClass = JsonDataPlacementCourseType.class),
-        @TypeDef(name = "JavaDataPartnerType", typeClass = JavaDataPartnerType.class),
+        @TypeDef(name = "JavaDataActuatorSubjectCourseType", typeClass = JavaDataActuatorSubjectCourseType.class),
 })
 public class CourseEntity {
 
@@ -137,9 +137,9 @@ public class CourseEntity {
     private Date afternoonEndHour;
 
     //QUI POTREBBE ESSERCI UN PROBLEMA
-    @Type(type = "JavaDataPartnerType")
+    @Type(type = "JavaDataActuatorSubjectCourseType")
     @Column(name = "actuator_subject")
-    private PartnerEntity actuatorSubject;
+    private ActuatorSubjectCourse actuatorSubject;
 
     @Column(name = "course_code")
     private String courseCode;
@@ -287,7 +287,7 @@ public class CourseEntity {
     public CourseEntity() {
     }
 
-    public CourseEntity(UUID id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, PartnerEntity actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourse> headquatersCourse, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, String documentAttachment) {
+    public CourseEntity(UUID id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, ActuatorSubjectCourse actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourse> headquatersCourse, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, String documentAttachment) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
@@ -593,11 +593,11 @@ public class CourseEntity {
         this.afternoonEndHour = afternoonEndHour;
     }
 
-    public PartnerEntity getActuatorSubject() {
+    public ActuatorSubjectCourse getActuatorSubject() {
         return actuatorSubject;
     }
 
-    public void setActuatorSubject(PartnerEntity actuatorSubject) {
+    public void setActuatorSubject(ActuatorSubjectCourse actuatorSubject) {
         this.actuatorSubject = actuatorSubject;
     }
 

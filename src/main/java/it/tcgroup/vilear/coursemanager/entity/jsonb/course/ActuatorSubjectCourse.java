@@ -1,84 +1,67 @@
-package it.tcgroup.vilear.coursemanager.entity;
+package it.tcgroup.vilear.coursemanager.entity.jsonb.course;
 
-import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddressPartnerType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tcgroup.vilear.coursemanager.entity.PartnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataTeacherPartnerType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
-@Entity
-@Table(name = "partner")
-@TypeDefs({
-        @TypeDef(name = "JsonDataTeacherPartnerType", typeClass = JsonDataTeacherPartnerType.class),
-        @TypeDef(name = "JsonDataAddressPartnerType", typeClass = JsonDataAddressPartnerType.class),
-})
-public class PartnerEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Type(type = "org.hibernate.type.PostgresUUIDType")
-    private UUID id;
+@JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
+public class ActuatorSubjectCourse implements Serializable {
 
-    @Column(name = "business_name")
+    private static final long serialVersionUID = -1400425835635903570L;
+
+    @JsonProperty("business_name")
     private String businessName;
 
-    @Column(name = "vat_number")
+    @JsonProperty("vat_number")
     private String vatNumber;
 
-    @Column(name = "company")
+    @JsonProperty( "company")
     private String company;
 
-    @Column(name = "email")
+    @JsonProperty( "email")
     private String email;
 
-    @Column(name = "phone")
+    @JsonProperty( "phone")
     private String phone;
 
-    @Column(name = "fax")
+    @JsonProperty( "fax")
     private String fax;
 
-    @Column(name = "manager_name")
+    @JsonProperty( "manager_name")
     private String managerName;
 
-    @Column(name = "manager_number")
+    @JsonProperty( "manager_number")
     private String managerNumber;
 
-    @Column(name = "accredited_ft")
+    @JsonProperty( "accredited_ft")
     private Boolean accreditedFt;
 
-    @Column(name = "accredited_ft_code")
+    @JsonProperty( "accredited_ft_code")
     private String accreditedFtCode;
 
-    @Column(name = "cost_element")
+    @JsonProperty( "cost_element")
     private String costElement;
 
-    @Column(name = "note")
+    @JsonProperty( "note")
     private String note;
 
-    @Type(type = "JsonDataTeacherPartnerType")
-    @Column(name = "teacher_list")
+    @JsonProperty( "teacher_list")
     private List<TeacherPartner> teacherList = new LinkedList<>();
 
-    @Type(type = "JsonDataAddressPartnerType")
-    @Column(name = "address")
+    @JsonProperty( "address")
     private List<AddressPartner> addressList = new LinkedList<>();
 
-    public PartnerEntity() {
+    public ActuatorSubjectCourse() {
     }
 
-    public PartnerEntity(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
-        this.id = id;
+    public ActuatorSubjectCourse( String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
         this.businessName = businessName;
         this.vatNumber = vatNumber;
         this.company = company;
@@ -93,14 +76,6 @@ public class PartnerEntity implements Serializable {
         this.note = note;
         this.teacherList = teacherList;
         this.addressList = addressList;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getBusinessName() {
@@ -218,7 +193,6 @@ public class PartnerEntity implements Serializable {
     @Override
     public String toString() {
         return "PartnerEntity{" +
-                "id=" + id +
                 ", businessName='" + businessName + '\'' +
                 ", vatNumber='" + vatNumber + '\'' +
                 ", company='" + company + '\'' +
@@ -241,9 +215,8 @@ public class PartnerEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PartnerEntity that = (PartnerEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(businessName, that.businessName) &&
+        ActuatorSubjectCourse that = (ActuatorSubjectCourse) o;
+        return  Objects.equals(businessName, that.businessName) &&
                 Objects.equals(vatNumber, that.vatNumber) &&
                 Objects.equals(company, that.company) &&
                 Objects.equals(email, that.email) &&
@@ -261,6 +234,7 @@ public class PartnerEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, businessName, vatNumber, company, email, phone, fax, managerName, managerNumber, accreditedFt, accreditedFtCode, costElement, note, teacherList, addressList);
+        return Objects.hash( businessName, vatNumber, company, email, phone, fax, managerName, managerNumber, accreditedFt, accreditedFtCode, costElement, note, teacherList, addressList);
     }
+
 }

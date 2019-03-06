@@ -190,7 +190,7 @@ public class PartnerAdapter {
             if(addressPartner == null)
                 return null;
 
-            AddressPartnerResponseV1 addressPartnerResponse = new AddressPartnerResponseV1();
+            AddressPartnerResponseV1 addressPartnerResponse =  new AddressPartnerResponseV1();
 
             addressPartnerResponse.setAddress(addressAdapter.adptAddressToAddressResponse(addressPartner.getAddress()));
             addressPartnerResponse.setType(addressPartner.getType());

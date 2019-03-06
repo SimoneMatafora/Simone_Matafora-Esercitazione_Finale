@@ -47,7 +47,7 @@ public class PartnerRequestV1 {
     @JsonProperty( "teacher_list")
     private List<TeacherPartnerRequestV1> teacherList;
 
-    @JsonProperty( "address")
+    @JsonProperty( "address_list")
     private List<AddressPartnerRequestV1> addressList;
 
 
@@ -137,6 +137,7 @@ public class PartnerRequestV1 {
     }
 
     public PartnerRequestV1(String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerRequestV1> teacherList, List<AddressPartnerRequestV1> addressList) {
+
         this.businessName = businessName;
         this.vatNumber = vatNumber;
         this.company = company;
