@@ -3,6 +3,8 @@ package it.tcgroup.vilear.coursemanager.adapter.course;
 import it.tcgroup.vilear.coursemanager.adapter.PartnerAdapter;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.PartnerCourseRequestV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1.PartnerCourseResponseV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,42 @@ public class PartnerCourseAdapter {
         return partnerCourseList;
     }
 
+    public PartnerCourseResponseV1  adptPartnerCourseToPartnerCourseResponse(PartnerCourse partnerCourse){
+
+        if(partnerCourse == null)
+            return null;
+
+        PartnerCourseResponseV1 partnerCourseResponse = new PartnerCourseResponseV1();
+
+        partnerCourseResponse.setAmountFirstPaymen(partnerCourse.getAmountFirstPaymen());
+        partnerCourseResponse.setAmountSecondPaymen(partnerCourse.getAmountSecondPaymen());
+        partnerCourseResponse.setAmountThirdPaymen(partnerCourse.getAmountThirdPaymen());
+        partnerCourseResponse.setFirstPaymentDate(partnerCourse.getFirstPaymentDate());
+        partnerCourseResponse.setSecondPaymentDate(partnerCourse.getSecondPaymentDate());
+        partnerCourseResponse.setThirdPaymentDate(partnerCourse.getThirdPaymentDate());
+        partnerCourseResponse.setServicesCosts(partnerCourse.getServicesCosts());
+        partnerCourseResponse.setSubSupplierList(subSupplierAdapter.adptSubSupplierToSubSupplierResponse(partnerCourse.getSubSupplierList()));
+        partnerCourseResponse.setSupplier(partnerAdapter.adptPartnerDtoToPartnerResponse(partnerCourse.getSupplier()));
+        partnerCourseResponse.setSupplierService(partnerCourse.getSupplierService());
+
+        return  partnerCourseResponse;
+
+    }
+
+    public List<PartnerCourseResponseV1> adptPartnerCourseToPartnerCourseResponse(List<PartnerCourse> partnerCourseList){
+
+        if(partnerCourseList == null)
+            return  null;
+
+        List<PartnerCourseResponseV1> partnerCourseResponseList = new LinkedList<>();
+
+        for (PartnerCourse att : partnerCourseList){
+            partnerCourseResponseList.add(this.adptPartnerCourseToPartnerCourseResponse(att));
+        }
+
+        return partnerCourseResponseList;
+    }
+
     @Component
     public class SubSupplierAdapter{
 
@@ -87,7 +125,35 @@ public class PartnerCourseAdapter {
 
             return subSupplierList;
         }
+
+        public SubSupplierResponseV1 adptSubSupplierToSubSupplierResponse(SubSupplier subSupplier){
+
+            if(subSupplier == null)
+                return null;
+
+            SubSupplierResponseV1 subSupplierResponse = new SubSupplierResponseV1();
+
+            subSupplierResponse.setSubSupplier(partnerAdapter.adptPartnerDtoToPartnerResponse(subSupplier.getSubSupplier()));
+            subSupplierResponse.setSubSupplierService(subSupplier.getSubSupplierService());
+
+            return subSupplierResponse;
+        }
+
+        public List<SubSupplierResponseV1> adptSubSupplierToSubSupplierResponse(List<SubSupplier> subSupplierRequestList){
+
+            if(subSupplierRequestList == null)
+                return null;
+
+            List<SubSupplierResponseV1> subSupplierResponseList = new LinkedList<>();
+
+            for (SubSupplier att : subSupplierRequestList){
+                subSupplierResponseList.add(this.adptSubSupplierToSubSupplierResponse(att));
+            }
+
+            return subSupplierResponseList;
+        }
     }
+
 
 
 }

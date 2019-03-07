@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.controller.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
@@ -104,7 +105,7 @@ public class CourseRequestV1 {
     private Date afternoonEndHour;
 
     @JsonProperty( "actuator_subject")
-    private ActuatorSubjectCourseRequestV1 actuatorSubject;
+    private PartnerRequestV1 actuatorSubject;
 
     @JsonProperty( "course_code")
     private String courseCode;
@@ -241,7 +242,7 @@ public class CourseRequestV1 {
     @JsonProperty( "document_attachment")
     private String documentAttachment;
 
-    public static class ActuatorSubjectCourseRequestV1{
+    /*public static class ActuatorSubjectCourseRequestV1{
 
         @JsonProperty("business_name")
         private String businessName;
@@ -437,7 +438,7 @@ public class CourseRequestV1 {
                     '}';
         }
     }
-
+*/
     public static class AddressCourseRequestV1{
 
         @JsonProperty("address")
@@ -1141,7 +1142,7 @@ public class CourseRequestV1 {
     public CourseRequestV1() {
     }
 
-    public CourseRequestV1(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, ActuatorSubjectCourseRequestV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseRequestV1> headquatersCourse, List<RecipientManagmentCourseRequestV1> recipientManagment, List<PartnerCourseRequestV1> partnerList, List<TeacherCourseRequestV1> teacherList, List<PlacementCourseRequestV1> placementList, String documentAttachment) {
+    public CourseRequestV1(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, PartnerRequestV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseRequestV1> headquatersCourse, List<RecipientManagmentCourseRequestV1> recipientManagment, List<PartnerCourseRequestV1> partnerList, List<TeacherCourseRequestV1> teacherList, List<PlacementCourseRequestV1> placementList, String documentAttachment) {
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
         this.learnerType = learnerType;
@@ -1438,11 +1439,11 @@ public class CourseRequestV1 {
         this.afternoonEndHour = afternoonEndHour;
     }
 
-    public ActuatorSubjectCourseRequestV1 getActuatorSubject() {
+    public PartnerRequestV1 getActuatorSubject() {
         return actuatorSubject;
     }
 
-    public void setActuatorSubject(ActuatorSubjectCourseRequestV1 actuatorSubject) {
+    public void setActuatorSubject(PartnerRequestV1 actuatorSubject) {
         this.actuatorSubject = actuatorSubject;
     }
 

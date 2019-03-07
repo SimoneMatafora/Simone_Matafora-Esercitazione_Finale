@@ -4,6 +4,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequest
 import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
 import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
@@ -69,6 +70,31 @@ public class LearnerAdapter {
         learner.setAddress(address);
 
         return learner;
+    }
+
+    public LearnerResponseV1 adptLearnerDtoToLearnerResponse(LearnerDto learnerDto){
+
+        LearnerResponseV1 learnerResponse = new LearnerResponseV1();
+
+        AddressResponse addressResponse = null;
+        if (learnerDto.getAddress() != null)
+            addressResponse = addressAdapter.adptAddressDtoToAddressResponse(learnerDto.getAddress());
+
+        learnerResponse.setFiscalCode(learnerDto.getFiscalCode());
+        learnerResponse.setSurname(learnerDto.getSurname());
+        learnerResponse.setCurriculumVitae(learnerDto.getCurriculumVitae());
+        learnerResponse.setDateOfBirth(learnerDto.getDateOfBirth());
+        learnerResponse.setEmail(learnerDto.getEmail());
+        learnerResponse.setBirthPlace(learnerDto.getBirthPlace());
+        learnerResponse.setName(learnerDto.getName());
+        learnerResponse.setDegreeOfStudies(learnerDto.getDegreeOfStudies());
+        learnerResponse.setCourseOfStudy(learnerDto.getCourseOfStudy());
+        learnerResponse.setNote(learnerDto.getNote());
+        learnerResponse.setPhone(learnerDto.getPhone());
+        learnerResponse.setUsername(learnerDto.getUsername());
+        learnerResponse.setAddress(addressResponse);
+
+        return learnerResponse;
     }
 
     public IdResponseV1 adptLearnerIdToLearnerIdResponse(LearnerEntity learner){

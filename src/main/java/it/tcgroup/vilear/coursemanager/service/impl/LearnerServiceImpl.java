@@ -86,7 +86,7 @@ public class LearnerServiceImpl implements LearnerService {
 
         Optional<LearnerEntity> learner = learnerRepository.findById(idLearner);
         if(!learner.isPresent()){
-            throw new NotFoundException("Teacher with id " + idLearner+ " not found");
+            throw new NotFoundException("Learner with id " + idLearner+ " not found");
         }
 
         return learnerAdapter.adptLearnerToLearnerResponse(learner.get());

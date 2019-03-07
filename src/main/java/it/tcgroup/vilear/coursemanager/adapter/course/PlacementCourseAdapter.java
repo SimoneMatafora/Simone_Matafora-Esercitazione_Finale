@@ -2,6 +2,8 @@ package it.tcgroup.vilear.coursemanager.adapter.course;
 
 import it.tcgroup.vilear.coursemanager.adapter.LearnerAdapter;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,5 +48,26 @@ public class PlacementCourseAdapter {
         }
 
         return placementCourseList;
+    }
+
+    public PlacementCourseResponseV1 adptPlacementCourseToPlacementCourseResponse(PlacementCourse placementCourse){
+
+        if (placementCourse == null)
+            return null;
+
+        PlacementCourseResponseV1 placementCourseResponse = new PlacementCourseResponseV1();
+
+        placementCourseResponse.setBonusAmount(placementCourseResponse.getBonusAmount());
+        placementCourseResponse.setCoherence(placementCourseResponse.getCoherence());
+        placementCourseResponse.setExpiredPlacementDate(placementCourseResponse.getExpiredPlacementDate());
+        placementCourseResponse.setHiringDate(placementCourseResponse.getHiringDate());
+        placementCourseResponse.setLearner(learnerAdapter.adptLearnerDtoToLearnerResponse(placementCourse.getLearner()));
+        placementCourseResponse.setMissionHours(placementCourseResponse.getMissionHours());
+        placementCourseResponse.setNote(placementCourseResponse.getNote());
+        placementCourseResponse.setSendedEletronicPlacementDate(placementCourseResponse.getSendedEletronicPlacementDate());
+
+        return placementCourseResponse;
+
+
     }
 }

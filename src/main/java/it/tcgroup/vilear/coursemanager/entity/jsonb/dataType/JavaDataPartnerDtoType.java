@@ -1,17 +1,15 @@
 package it.tcgroup.vilear.coursemanager.entity.jsonb.dataType;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.tcgroup.vilear.coursemanager.common.hibernate.JsonDataType;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.course.ActuatorSubjectCourse;
+import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
-public class JavaDataActuatorSubjectCourseType extends JsonDataType {
+public class JavaDataPartnerDtoType extends JsonDataType {
 
     @Override
     public Object nullSafeGet(final ResultSet rs, final String[] names, final SharedSessionContractImplementor session,
@@ -22,7 +20,7 @@ public class JavaDataActuatorSubjectCourseType extends JsonDataType {
         }
         try {
             final ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(cellContent.getBytes("UTF-8"), ActuatorSubjectCourse.class);
+            return mapper.readValue(cellContent.getBytes("UTF-8"), PartnerDto.class);
         } catch (final Exception ex) {
             throw new RuntimeException("Failed to convert String to Contact: " + ex.getMessage(), ex);
         }

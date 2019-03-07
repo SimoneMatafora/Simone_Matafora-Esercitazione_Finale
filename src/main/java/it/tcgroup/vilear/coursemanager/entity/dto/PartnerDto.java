@@ -186,7 +186,7 @@ public class PartnerDto implements Serializable {
 
     @Override
     public String toString() {
-        return "PartnerDto{" +
+        return "PartnerDtoAdapter{" +
                 "businessName='" + businessName + '\'' +
                 ", vatNumber='" + vatNumber + '\'' +
                 ", company='" + company + '\'' +

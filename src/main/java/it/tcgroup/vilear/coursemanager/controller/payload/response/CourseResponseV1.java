@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.controller.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 
 import java.io.Serializable;
@@ -102,7 +103,7 @@ public class CourseResponseV1 {
     private Date afternoonEndHour;
 
     @JsonProperty( "actuator_subject")
-    private ActuatorSubjectCourseResponseV1 actuatorSubject;
+    private PartnerResponseV1 actuatorSubject;
 
     @JsonProperty( "course_code")
     private String courseCode;
@@ -239,207 +240,10 @@ public class CourseResponseV1 {
     @JsonProperty( "document_attachment")
     private String documentAttachment;
 
-    public static class ActuatorSubjectCourseResponseV1{
-
-        @JsonProperty("business_name")
-        private String businessName;
-
-        @JsonProperty("vat_number")
-        private String vatNumber;
-
-        @JsonProperty( "company")
-        private String company;
-
-        @JsonProperty( "email")
-        private String email;
-
-        @JsonProperty( "phone")
-        private String phone;
-
-        @JsonProperty( "fax")
-        private String fax;
-
-        @JsonProperty( "manager_name")
-        private String managerName;
-
-        @JsonProperty( "manager_number")
-        private String managerNumber;
-
-        @JsonProperty( "accredited_ft")
-        private Boolean accreditedFt;
-
-        @JsonProperty( "accredited_ft_code")
-        private String accreditedFtCode;
-
-        @JsonProperty( "cost_element")
-        private String costElement;
-
-        @JsonProperty( "note")
-        private String note;
-
-        @JsonProperty( "teacher_list")
-        private List<PartnerResponseV1.TeacherPartnerResponseV1> teacherList = new LinkedList<>();
-
-        @JsonProperty( "address")
-        private List<PartnerResponseV1.AddressPartnerResponseV1> addressList = new LinkedList<>();
-
-        public ActuatorSubjectCourseResponseV1() {
-        }
-
-        public ActuatorSubjectCourseResponseV1(String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<PartnerResponseV1.TeacherPartnerResponseV1> teacherList, List<PartnerResponseV1.AddressPartnerResponseV1> addressList) {
-            this.businessName = businessName;
-            this.vatNumber = vatNumber;
-            this.company = company;
-            this.email = email;
-            this.phone = phone;
-            this.fax = fax;
-            this.managerName = managerName;
-            this.managerNumber = managerNumber;
-            this.accreditedFt = accreditedFt;
-            this.accreditedFtCode = accreditedFtCode;
-            this.costElement = costElement;
-            this.note = note;
-            this.teacherList = teacherList;
-            this.addressList = addressList;
-        }
-
-        public String getBusinessName() {
-            return businessName;
-        }
-
-        public void setBusinessName(String businessName) {
-            this.businessName = businessName;
-        }
-
-        public String getVatNumber() {
-            return vatNumber;
-        }
-
-        public void setVatNumber(String vatNumber) {
-            this.vatNumber = vatNumber;
-        }
-
-        public String getCompany() {
-            return company;
-        }
-
-        public void setCompany(String company) {
-            this.company = company;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getFax() {
-            return fax;
-        }
-
-        public void setFax(String fax) {
-            this.fax = fax;
-        }
-
-        public String getManagerName() {
-            return managerName;
-        }
-
-        public void setManagerName(String managerName) {
-            this.managerName = managerName;
-        }
-
-        public String getManagerNumber() {
-            return managerNumber;
-        }
-
-        public void setManagerNumber(String managerNumber) {
-            this.managerNumber = managerNumber;
-        }
-
-        public Boolean getAccreditedFt() {
-            return accreditedFt;
-        }
-
-        public void setAccreditedFt(Boolean accreditedFt) {
-            this.accreditedFt = accreditedFt;
-        }
-
-        public String getAccreditedFtCode() {
-            return accreditedFtCode;
-        }
-
-        public void setAccreditedFtCode(String accreditedFtCode) {
-            this.accreditedFtCode = accreditedFtCode;
-        }
-
-        public String getCostElement() {
-            return costElement;
-        }
-
-        public void setCostElement(String costElement) {
-            this.costElement = costElement;
-        }
-
-        public String getNote() {
-            return note;
-        }
-
-        public void setNote(String note) {
-            this.note = note;
-        }
-
-        public List<PartnerResponseV1.TeacherPartnerResponseV1> getTeacherList() {
-            return teacherList;
-        }
-
-        public void setTeacherList(List<PartnerResponseV1.TeacherPartnerResponseV1> teacherList) {
-            this.teacherList = teacherList;
-        }
-
-        public List<PartnerResponseV1.AddressPartnerResponseV1> getAddressList() {
-            return addressList;
-        }
-
-        public void setAddressList(List<PartnerResponseV1.AddressPartnerResponseV1> addressList) {
-            this.addressList = addressList;
-        }
-
-        @Override
-        public String toString() {
-            return "ActuatorSubjectCourseResponseV1{" +
-                    "businessName='" + businessName + '\'' +
-                    ", vatNumber='" + vatNumber + '\'' +
-                    ", company='" + company + '\'' +
-                    ", email='" + email + '\'' +
-                    ", phone='" + phone + '\'' +
-                    ", fax='" + fax + '\'' +
-                    ", managerName='" + managerName + '\'' +
-                    ", managerNumber='" + managerNumber + '\'' +
-                    ", accreditedFt=" + accreditedFt +
-                    ", accreditedFtCode='" + accreditedFtCode + '\'' +
-                    ", costElement='" + costElement + '\'' +
-                    ", note='" + note + '\'' +
-                    ", teacherList=" + teacherList +
-                    ", addressList=" + addressList +
-                    '}';
-        }
-    }
-
     public static class AddressCourseResponseV1{
 
         @JsonProperty("address")
-        private TeacherResponseV1.AddressResponse address;
+        private AddressDto address;
 
         @JsonProperty("main")
         private Boolean main;
@@ -447,16 +251,16 @@ public class CourseResponseV1 {
         public AddressCourseResponseV1() {
         }
 
-        public AddressCourseResponseV1(TeacherResponseV1.AddressResponse address, Boolean main) {
+        public AddressCourseResponseV1(AddressDto address, Boolean main) {
             this.address = address;
             this.main = main;
         }
 
-        public TeacherResponseV1.AddressResponse getAddress() {
+        public AddressDto getAddress() {
             return address;
         }
 
-        public void setAddress(TeacherResponseV1.AddressResponse address) {
+        public void setAddress(AddressDto address) {
             this.address = address;
         }
 
@@ -478,7 +282,7 @@ public class CourseResponseV1 {
 
     }
 
-    public class RecipientManagmentCourseResponseV1{
+    public static class RecipientManagmentCourseResponseV1{
 
         @JsonProperty("learner")
         private LearnerResponseV1 learner;
@@ -649,7 +453,7 @@ public class CourseResponseV1 {
         }
     }
 
-    public class PartnerCourseResponseV1{
+    public static class PartnerCourseResponseV1{
 
         @JsonProperty("supplier")
         private PartnerResponseV1 supplier;
@@ -682,9 +486,9 @@ public class CourseResponseV1 {
         private Double amountThirdPaymen;
 
         @JsonProperty("sub_suppliers_list")
-        private List<SubSupplierRequestV1> subSupplierList;
+        private List<SubSupplierResponseV1> subSupplierList;
 
-        public class SubSupplierRequestV1 implements Serializable {
+        public static class SubSupplierResponseV1 implements Serializable {
 
             @JsonProperty("sub_supplier")
             private PartnerResponseV1 subSupplier;
@@ -692,10 +496,10 @@ public class CourseResponseV1 {
             @JsonProperty("sub_suplly_service")
             private List<SupplyServicePartnerCourseEnum> subSupplierService;
 
-            public SubSupplierRequestV1() {
+            public SubSupplierResponseV1() {
             }
 
-            public SubSupplierRequestV1(PartnerResponseV1 subSupplier, List<SupplyServicePartnerCourseEnum> subSupplierService) {
+            public SubSupplierResponseV1(PartnerResponseV1 subSupplier, List<SupplyServicePartnerCourseEnum> subSupplierService) {
                 this.subSupplier = subSupplier;
                 this.subSupplierService = subSupplierService;
             }
@@ -729,7 +533,7 @@ public class CourseResponseV1 {
         public PartnerCourseResponseV1() {
         }
 
-        public PartnerCourseResponseV1(PartnerResponseV1 supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierRequestV1> subSupplierList) {
+        public PartnerCourseResponseV1(PartnerResponseV1 supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierResponseV1> subSupplierList) {
             this.supplier = supplier;
             this.supplierService = supplierService;
             this.servicesCosts = servicesCosts;
@@ -814,11 +618,11 @@ public class CourseResponseV1 {
             this.amountThirdPaymen = amountThirdPaymen;
         }
 
-        public List<SubSupplierRequestV1> getSubSupplierList() {
+        public List<SubSupplierResponseV1> getSubSupplierList() {
             return subSupplierList;
         }
 
-        public void setSubSupplierList(List<SubSupplierRequestV1> subSupplierList) {
+        public void setSubSupplierList(List<SubSupplierResponseV1> subSupplierList) {
             this.subSupplierList = subSupplierList;
         }
 
@@ -1011,7 +815,7 @@ public class CourseResponseV1 {
         }
     }
 
-    public class PlacementCourseResponseV1{
+    public static class PlacementCourseResponseV1{
 
         @JsonProperty("learner")
         private LearnerResponseV1 learner;
@@ -1137,7 +941,7 @@ public class CourseResponseV1 {
     public CourseResponseV1() {
     }
 
-    public CourseResponseV1(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, ActuatorSubjectCourseResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, String documentAttachment) {
+    public CourseResponseV1(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, PartnerResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, String documentAttachment) {
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
         this.learnerType = learnerType;
@@ -1434,11 +1238,11 @@ public class CourseResponseV1 {
         this.afternoonEndHour = afternoonEndHour;
     }
 
-    public ActuatorSubjectCourseResponseV1 getActuatorSubject() {
+    public PartnerResponseV1 getActuatorSubject() {
         return actuatorSubject;
     }
 
-    public void setActuatorSubject(ActuatorSubjectCourseResponseV1 actuatorSubject) {
+    public void setActuatorSubject(PartnerResponseV1 actuatorSubject) {
         this.actuatorSubject = actuatorSubject;
     }
 

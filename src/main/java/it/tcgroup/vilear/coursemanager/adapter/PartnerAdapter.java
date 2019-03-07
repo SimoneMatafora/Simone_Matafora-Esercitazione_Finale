@@ -159,6 +159,47 @@ public class PartnerAdapter {
         return partnerList;
     }
 
+    public PartnerResponseV1 adptPartnerDtoToPartnerResponse(PartnerDto partnerDto){
+
+        if(partnerDto == null)
+            return null;
+
+        PartnerResponseV1 partnerResponse = new PartnerResponseV1();
+
+        partnerResponse.setAccreditedFt(partnerDto.getAccreditedFt());
+        partnerResponse.setAccreditedFtCode(partnerDto.getAccreditedFtCode());
+        partnerResponse.setBusinessName(partnerDto.getBusinessName());
+        partnerResponse.setCompany(partnerDto.getCompany());
+        partnerResponse.setCostElement(partnerDto.getCostElement());
+        partnerResponse.setEmail(partnerDto.getEmail());
+        partnerResponse.setFax(partnerDto.getFax());
+        partnerResponse.setManagerName(partnerDto.getManagerName());
+        partnerResponse.setManagerNumber(partnerDto.getManagerNumber());
+        partnerResponse.setNote(partnerDto.getNote());
+        partnerResponse.setPhone(partnerDto.getPhone());
+        partnerResponse.setVatNumber(partnerDto.getVatNumber());
+        partnerResponse.setTeacherList(teacherPartnerAdapter.adptTeacherPartnerToTeacherPartnerResponse(partnerDto.getTeacherList()));
+        partnerResponse.setAddressList(addressPartnerAdapter.adptAddressPartnerToAddressPartnerResponse(partnerDto.getAddressList()));
+
+        return partnerResponse;
+
+    }
+
+    public List<PartnerResponseV1> adptPartnerDtoToPartnerResponse(List<PartnerDto> partnerDtoList){
+
+        if(partnerDtoList == null)
+            return null;
+
+        List<PartnerResponseV1> partnerResponseList = new LinkedList<>();
+
+        for (PartnerDto att : partnerDtoList){
+
+            partnerResponseList.add(this.adptPartnerDtoToPartnerResponse(att));
+        }
+
+        return partnerResponseList;
+    }
+
     @Component
     public class TeacherPartnerAdapter{
 

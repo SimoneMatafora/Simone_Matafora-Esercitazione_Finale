@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.adapter;
 
 import it.tcgroup.vilear.coursemanager.adapter.course.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,11 @@ public class CourseAdapter {
     @Autowired
     private TeacherCourseAdapter teacherCourseAdapter;
 
-    @Autowired
-    private ActuatorSubjectCourseAdapter actuatorSubjectCourseAdapter;
-
     public CourseEntity adptCourseRequestToCourse(CourseRequestV1 courseRequest){
 
         CourseEntity course = new CourseEntity();
 
-        course.setActuatorSubject(actuatorSubjectCourseAdapter.adptActuatorSubjectCourseRequestToActuatorSubjectCourse(courseRequest.getActuatorSubject()));
+        course.setActuatorSubject(partnerAdapter.adptPartnerRequestToPartnerDto(courseRequest.getActuatorSubject()));
         course.setAfternoonEndHour(courseRequest.getAfternoonEndHour());
         course.setAfternoonStatrHour(courseRequest.getAfternoonStatrHour());
         course.setAmount_fin_security_capital(courseRequest.getAmount_fin_security_capital());
@@ -107,8 +105,6 @@ public class CourseAdapter {
         course.setVisitHours(courseRequest.getVisitHours());
 
         return course;
-
-
     }
 
     public IdResponseV1 adptCourseIdToCourseIdResponse(CourseEntity course){
@@ -118,4 +114,83 @@ public class CourseAdapter {
 
         return courseIdResponse;
     }
+
+    public CourseResponseV1 adptCourseToCourseResponse(CourseEntity course){
+
+        CourseResponseV1 courseResponse = new CourseResponseV1();
+
+        courseResponse.setActuatorSubject(partnerAdapter.adptPartnerDtoToPartnerResponse(course.getActuatorSubject()));
+        courseResponse.setAfternoonEndHour(course.getAfternoonEndHour());
+        courseResponse.setAfternoonStatrHour(course.getAfternoonStatrHour());
+        courseResponse.setAmount_fin_security_capital(course.getAmount_fin_security_capital());
+        courseResponse.setAmountAttendanceBenefits(course.getAmountAttendanceBenefits());
+        courseResponse.setAmountAutorizedFT(course.getAmountAutorizedFT());
+        courseResponse.setAmountAutorizedFTDate(course.getAmountAutorizedFTDate());
+        courseResponse.setAmountReportFT(course.getAmountReportFT());
+        courseResponse.setAttendanceBenefits(course.getAttendanceBenefits());
+        courseResponse.setAutProgetctFTRealizedDate(course.getAutProgetctFTRealizedDate());
+        courseResponse.setBusinessEmail(course.getBusinessEmail());
+        courseResponse.setBusinessName(course.getBusinessName());
+        courseResponse.setCertificateTypeCourse(course.getCertificateTypeCourse());
+        courseResponse.setCoachingHours(course.getCoachingHours());
+        courseResponse.setCommercialTaxableCommunicationDate(course.getCommercialTaxableCommunicationDate());
+        courseResponse.setContentsArea(course.getContentsArea());
+        courseResponse.setCosts(course.getCosts());
+        courseResponse.setCourseCode(course.getCourseCode());
+        courseResponse.setCourseDescription(course.getCourseDescription());
+        courseResponse.setCourseEndDate(course.getCourseEndDate());
+        courseResponse.setCourseLogo(course.getCourseLogo());
+        courseResponse.setCourseStartDate(course.getCourseStartDate());
+        courseResponse.setCourseTitle(course.getCourseTitle());
+        courseResponse.setCourseType(course.getCourseType());
+        courseResponse.setDailyHours(course.getDailyHours());
+        courseResponse.setDailyRegister(course.getDailyRegister());
+        courseResponse.setDeliveryDateInAdministration(course.getDeliveryDateInAdministration());
+        courseResponse.setDisabled(course.getDisabled());
+        courseResponse.setDocumentAttachment(course.getDocumentAttachment());
+        courseResponse.setEducationalTargetDescription(course.getEducationalTargetDescription());
+        courseResponse.setEntourageHours(course.getEntourageHours());
+        courseResponse.setExpiredReportingDate(course.getExpiredReportingDate());
+        courseResponse.setExternalReferenceCode(course.getExternalReferenceCode());
+        courseResponse.setFoundsTypeCourse(course.getFoundsTypeCourse());
+        courseResponse.setHeadquatersCourse(addressCourseAdapter.adptAddressCourseToAddressCourseResponse(course.getHeadquatersCourse()));
+        courseResponse.setInvoiceAuthorizationDate(course.getInvoiceAuthorizationDate());
+        courseResponse.setIssueTicket(course.getIssueTicket());
+        courseResponse.setLearnerType(course.getLearnerType());
+        courseResponse.setMinimumNumericOfParticipants(course.getMinimumNumericOfParticipants());
+        courseResponse.setMorningEndHour(course.getMorningEndHour());
+        courseResponse.setMorningStartHour(course.getMorningStartHour());
+        courseResponse.setNote(course.getNote());
+        courseResponse.setOrenatationHours(course.getOrenatationHours());
+        courseResponse.setPartFullTimeCourse(course.getPartFullTimeCourse());
+        courseResponse.setPartnerList(partnerCourseAdapter.adptPartnerCourseToPartnerCourseResponse(course.getPartnerList()));
+        courseResponse.setPaymentModality(course.getPaymentModality());
+        courseResponse.setPlacementList(placementCourseAdapter.adptPlacementCourseToPlacementCourseResponse(course.getPlacementList()));
+        courseResponse.setPracticeHours(course.getPracticeHours());
+        courseResponse.setReceiptFTConfirmationDate(course.getReceiptFTConfirmationDate());
+        courseResponse.setRecipient(course.getRecipient());
+        courseResponse.setRecipientManagment(recipientManagmentCourseAdapter.adptRecipientManagmentCourseToRecipientManagmentCourseResponse(course.getRecipientManagment()));
+        courseResponse.setReportNote(course.getReportNote());
+        courseResponse.setSendedCanceledProjectDate(course.getSendedCanceledProjectDate());
+        courseResponse.setSendedEletronicReportingDate(course.getSendedEletronicReportingDate());
+        courseResponse.setSendedLearnersFTDate(course.getSendedLearnersFTDate());
+        courseResponse.setSendedPaperReportingDate(course.getSendedPaperReportingDate());
+        courseResponse.setSendedProjectDate(course.getSendedProjectDate());
+        courseResponse.setSkilsAnalysisHours(course.getSkilsAnalysisHours());
+        courseResponse.setSpecialInitiatives(course.getSpecialInitiatives());
+        courseResponse.setSupplyModality(course.getSupplyModality());
+        courseResponse.setTeacherList(teacherCourseAdapter.adptTeacherCourseToTeacherCourseResponse(course.getTeacherList()));
+        courseResponse.setTheoryHours(course.getTheoryHours());
+        courseResponse.setTicket_amount(course.getTicket_amount());
+        courseResponse.setTotalAmountWithoutFS(course.getTotalAmountWithoutFS());
+        courseResponse.setTotalHours(course.getTotalHours());
+        courseResponse.setTotalHoursTraining(course.getTotalHoursTraining());
+        courseResponse.setTotalPartnerCost(course.getTotalPartnerCost());
+        courseResponse.setTotalPartnerCostOnPercent(course.getTotalPartnerCostOnPercent());
+        courseResponse.setTradeUnionTeachingRequest(course.getTradeUnionTeachingRequest());
+        courseResponse.setVisitHours(course.getVisitHours());
+
+        return courseResponse;
+    }
+
 }
