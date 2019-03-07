@@ -19,7 +19,7 @@ import java.util.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
-@Table(name = "partner")
+@Table(name = "course")
 @TypeDefs({
         @TypeDef(name = "JsonDataAddressCourseType", typeClass = JsonDataAddressCourseType.class),
         @TypeDef(name = "JsonDataRecipientManagmentCourseType", typeClass = JsonDataRecipientManagmentCourseType.class),
