@@ -35,7 +35,7 @@ public class CourseAdapter {
 
         CourseEntity course = new CourseEntity();
 
-        //course.setActuatorSubject(actuatorSubjectCourseAdapter.adptActuatorSubjectCourseRequestToActuatorSubjectCourse(courseRequest.getActuatorSubject()));
+        course.setActuatorSubject(actuatorSubjectCourseAdapter.adptActuatorSubjectCourseRequestToActuatorSubjectCourse(courseRequest.getActuatorSubject()));
         course.setAfternoonEndHour(courseRequest.getAfternoonEndHour());
         course.setAfternoonStatrHour(courseRequest.getAfternoonStatrHour());
         course.setAmount_fin_security_capital(courseRequest.getAmount_fin_security_capital());
@@ -63,13 +63,13 @@ public class CourseAdapter {
         course.setDailyRegister(courseRequest.getDailyRegister());
         course.setDeliveryDateInAdministration(courseRequest.getDeliveryDateInAdministration());
         course.setDisabled(courseRequest.getDisabled());
-        //course.setDocumentAttachment(courseRequest.getDocumentAttachment());
+        course.setDocumentAttachment(courseRequest.getDocumentAttachment());
         course.setEducationalTargetDescription(courseRequest.getEducationalTargetDescription());
         course.setEntourageHours(courseRequest.getEntourageHours());
         course.setExpiredReportingDate(courseRequest.getExpiredReportingDate());
         course.setExternalReferenceCode(courseRequest.getExternalReferenceCode());
         course.setFoundsTypeCourse(courseRequest.getFoundsTypeCourse());
-        //course.setHeadquatersCourse(addressCourseAdapter.adptAddressCourseRequestToAddressCourse(courseRequest.getHeadquatersCourse()));
+        course.setHeadquatersCourse(addressCourseAdapter.adptAddressCourseRequestToAddressCourse(courseRequest.getHeadquatersCourse()));
         course.setInvoiceAuthorizationDate(courseRequest.getInvoiceAuthorizationDate());
         course.setIssueTicket(courseRequest.getIssueTicket());
         course.setLearnerType(courseRequest.getLearnerType());
@@ -79,13 +79,13 @@ public class CourseAdapter {
         course.setNote(courseRequest.getNote());
         course.setOrenatationHours(courseRequest.getOrenatationHours());
         course.setPartFullTimeCourse(courseRequest.getPartFullTimeCourse());
-        //course.setPartnerList(partnerCourseAdapter.adptPartnerCourseRequestToPartnerCourse(courseRequest.getPartnerList()));
+        course.setPartnerList(partnerCourseAdapter.adptPartnerCourseRequestToPartnerCourse(courseRequest.getPartnerList()));
         course.setPaymentModality(courseRequest.getPaymentModality());
-        //course.setPlacementList(placementCourseAdapter.adptPlacementCourseRequestToPlacementCourse(courseRequest.getPlacementList()));
+        course.setPlacementList(placementCourseAdapter.adptPlacementCourseRequestToPlacementCourse(courseRequest.getPlacementList()));
         course.setPracticeHours(courseRequest.getPracticeHours());
         course.setReceiptFTConfirmationDate(courseRequest.getReceiptFTConfirmationDate());
         course.setRecipient(courseRequest.getRecipient());
-        //course.setRecipientManagment(recipientManagmentCourseAdapter.adptRecipientManagmentCourseRequestToRecipientManagmentCourse(courseRequest.getRecipientManagment()));
+        course.setRecipientManagment(recipientManagmentCourseAdapter.adptRecipientManagmentCourseRequestToRecipientManagmentCourse(courseRequest.getRecipientManagment()));
         course.setReportNote(courseRequest.getReportNote());
         course.setSendedCanceledProjectDate(courseRequest.getSendedCanceledProjectDate());
         course.setSendedEletronicReportingDate(courseRequest.getSendedEletronicReportingDate());
@@ -95,7 +95,7 @@ public class CourseAdapter {
         course.setSkilsAnalysisHours(courseRequest.getSkilsAnalysisHours());
         course.setSpecialInitiatives(courseRequest.getSpecialInitiatives());
         course.setSupplyModality(courseRequest.getSupplyModality());
-       // course.setTeacherList(teacherCourseAdapter.adptTeacherCourseRequestToTeacherCourse(courseRequest.getTeacherList()));
+        course.setTeacherList(teacherCourseAdapter.adptTeacherCourseRequestToTeacherCourse(courseRequest.getTeacherList()));
         course.setTheoryHours(courseRequest.getTheoryHours());
         course.setTicket_amount(courseRequest.getTicket_amount());
         course.setTotalAmountWithoutFS(courseRequest.getTotalAmountWithoutFS());

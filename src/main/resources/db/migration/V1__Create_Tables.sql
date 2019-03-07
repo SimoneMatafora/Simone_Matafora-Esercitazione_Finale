@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS course (
 	morning_end_hour TIME NULL,
 	afternoon_statr_hour TIME NULL,
 	afternoon_end_hour TIME NULL,
+	actuator_subject jsonb NOT NULL,
 	course_code varchar(255) NULL,
 	business_name varchar(255) NULL,
 	business_email varchar(255) NULL,
@@ -133,7 +134,13 @@ CREATE TABLE IF NOT EXISTS course (
 	delivery_date_in_administration DATE NULL,
 	commercial_taxable_communication_date DATE NULL,
 	report_note varchar(500) NULL,
-	daily_register varchar(200) NULL
+	daily_register varchar(200) NULL,
+	headquaters_course jsonb NOT NULL,
+	recipient_managment jsonb NULL,
+	partners jsonb NOT NULL,
+	teachers jsonb NOT NULL,
+	placement jsonb NULL,
+	document_attachment varchar(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS partner (

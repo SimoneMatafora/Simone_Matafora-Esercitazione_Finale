@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.*;
@@ -136,6 +137,10 @@ public class CourseEntity {
     @Column(name = "afternoon_end_hour")
     private Date afternoonEndHour;
 
+    @Type(type = "JavaDataActuatorSubjectCourseType")
+    @Column(name = "actuator_subject")
+    private ActuatorSubjectCourse actuatorSubject;
+
     @Column(name = "course_code")
     private String courseCode;
 
@@ -255,7 +260,7 @@ public class CourseEntity {
 
     @Column(name = "daily_register")
     private String dailyRegister;
-/*
+
     @Type(type = "JsonDataAddressCourseType")
     @Column(name = "headquaters_course")
     private List<AddressCourse> headquatersCourse;
@@ -278,11 +283,11 @@ public class CourseEntity {
 
     @Column(name = "document_attachment")
     private String documentAttachment;
-*/
+
     public CourseEntity() {
     }
 
-    public CourseEntity(UUID id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourse> headquatersCourse, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, String documentAttachment) {
+    public CourseEntity(UUID id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, ActuatorSubjectCourse actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourse> headquatersCourse, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, String documentAttachment) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
@@ -312,6 +317,7 @@ public class CourseEntity {
         this.morningEndHour = morningEndHour;
         this.afternoonStatrHour = afternoonStatrHour;
         this.afternoonEndHour = afternoonEndHour;
+        this.actuatorSubject = actuatorSubject;
         this.courseCode = courseCode;
         this.businessName = businessName;
         this.businessEmail = businessEmail;
@@ -347,12 +353,12 @@ public class CourseEntity {
         this.commercialTaxableCommunicationDate = commercialTaxableCommunicationDate;
         this.reportNote = reportNote;
         this.dailyRegister = dailyRegister;
-       /* this.headquatersCourse = headquatersCourse;
+        this.headquatersCourse = headquatersCourse;
         this.recipientManagment = recipientManagment;
         this.partnerList = partnerList;
         this.teacherList = teacherList;
         this.placementList = placementList;
-        this.documentAttachment = documentAttachment;*/
+        this.documentAttachment = documentAttachment;
     }
 
     public UUID getId() {
@@ -866,7 +872,15 @@ public class CourseEntity {
     public void setDailyRegister(String dailyRegister) {
         this.dailyRegister = dailyRegister;
     }
-/*
+
+    public ActuatorSubjectCourse getActuatorSubject() {
+        return actuatorSubject;
+    }
+
+    public void setActuatorSubject(ActuatorSubjectCourse actuatorSubject) {
+        this.actuatorSubject = actuatorSubject;
+    }
+
     public List<AddressCourse> getHeadquatersCourse() {
         return headquatersCourse;
     }
@@ -914,7 +928,7 @@ public class CourseEntity {
     public void setDocumentAttachment(String documentAttachment) {
         this.documentAttachment = documentAttachment;
     }
-*/
+
     @Override
     public String toString() {
         return "CourseEntity{" +
@@ -947,6 +961,7 @@ public class CourseEntity {
                 ", morningEndHour=" + morningEndHour +
                 ", afternoonStatrHour=" + afternoonStatrHour +
                 ", afternoonEndHour=" + afternoonEndHour +
+                ", actuatorSubject=" + actuatorSubject +
                 ", courseCode='" + courseCode + '\'' +
                 ", businessName='" + businessName + '\'' +
                 ", businessEmail='" + businessEmail + '\'' +
@@ -982,12 +997,12 @@ public class CourseEntity {
                 ", commercialTaxableCommunicationDate=" + commercialTaxableCommunicationDate +
                 ", reportNote='" + reportNote + '\'' +
                 ", dailyRegister='" + dailyRegister + '\'' +
-                /*", headquatersCourse=" + headquatersCourse +
+                ", headquatersCourse=" + headquatersCourse +
                 ", recipientManagment=" + recipientManagment +
                 ", partnerList=" + partnerList +
                 ", teacherList=" + teacherList +
                 ", placementList=" + placementList +
-                ", documentAttachment='" + documentAttachment + '\''*/ +
+                ", documentAttachment='" + documentAttachment + '\'' +
                 '}';
     }
 
@@ -1025,6 +1040,7 @@ public class CourseEntity {
                 Objects.equals(morningEndHour, that.morningEndHour) &&
                 Objects.equals(afternoonStatrHour, that.afternoonStatrHour) &&
                 Objects.equals(afternoonEndHour, that.afternoonEndHour) &&
+                Objects.equals(actuatorSubject, that.actuatorSubject) &&
                 Objects.equals(courseCode, that.courseCode) &&
                 Objects.equals(businessName, that.businessName) &&
                 Objects.equals(businessEmail, that.businessEmail) &&
@@ -1037,7 +1053,7 @@ public class CourseEntity {
                 Objects.equals(sendedLearnersFTDate, that.sendedLearnersFTDate) &&
                 Objects.equals(entourageHours, that.entourageHours) &&
                 Objects.equals(orenatationHours, that.orenatationHours) &&
-                Objects.equals(specialInitiatives, that.specialInitiatives) &&
+                specialInitiatives == that.specialInitiatives &&
                 Objects.equals(tradeUnionTeachingRequest, that.tradeUnionTeachingRequest) &&
                 Objects.equals(note, that.note) &&
                 recipient == that.recipient &&
@@ -1059,17 +1075,17 @@ public class CourseEntity {
                 Objects.equals(deliveryDateInAdministration, that.deliveryDateInAdministration) &&
                 Objects.equals(commercialTaxableCommunicationDate, that.commercialTaxableCommunicationDate) &&
                 Objects.equals(reportNote, that.reportNote) &&
-                Objects.equals(dailyRegister, that.dailyRegister) /*&&
+                Objects.equals(dailyRegister, that.dailyRegister) &&
                 Objects.equals(headquatersCourse, that.headquatersCourse) &&
                 Objects.equals(recipientManagment, that.recipientManagment) &&
                 Objects.equals(partnerList, that.partnerList) &&
                 Objects.equals(teacherList, that.teacherList) &&
                 Objects.equals(placementList, that.placementList) &&
-                Objects.equals(documentAttachment, that.documentAttachment)*/;
+                Objects.equals(documentAttachment, that.documentAttachment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, courseTitle, contentsArea, learnerType, supplyModality, paymentModality, costs, foundsTypeCourse, educationalTargetDescription, courseDescription, courseStartDate, courseEndDate, theoryHours, practiceHours, coachingHours, visitHours, skilsAnalysisHours, totalHours, totalHoursTraining, dailyHours, certificateTypeCourse, minimumNumericOfParticipants, disabled, courseLogo, partFullTimeCourse, morningStartHour, morningEndHour, afternoonStatrHour, afternoonEndHour, courseCode, businessName, businessEmail, externalReferenceCode, courseType, sendedProjectDate, receiptFTConfirmationDate, sendedCanceledProjectDate, autProgetctFTRealizedDate, sendedLearnersFTDate, entourageHours, orenatationHours, specialInitiatives, tradeUnionTeachingRequest, note, recipient, issueTicket, ticket_amount, attendanceBenefits, amountAttendanceBenefits, amountReportFT, amount_fin_security_capital, amountAutorizedFTDate, amountAutorizedFT, totalPartnerCost, totalPartnerCostOnPercent, totalAmountWithoutFS, sendedPaperReportingDate, sendedEletronicReportingDate, expiredReportingDate, invoiceAuthorizationDate, deliveryDateInAdministration, commercialTaxableCommunicationDate, reportNote, dailyRegister/*, headquatersCourse, recipientManagment, partnerList, teacherList, placementList, documentAttachment*/);
+        return Objects.hash(id, courseTitle, contentsArea, learnerType, supplyModality, paymentModality, costs, foundsTypeCourse, educationalTargetDescription, courseDescription, courseStartDate, courseEndDate, theoryHours, practiceHours, coachingHours, visitHours, skilsAnalysisHours, totalHours, totalHoursTraining, dailyHours, certificateTypeCourse, minimumNumericOfParticipants, disabled, courseLogo, partFullTimeCourse, morningStartHour, morningEndHour, afternoonStatrHour, afternoonEndHour, actuatorSubject, courseCode, businessName, businessEmail, externalReferenceCode, courseType, sendedProjectDate, receiptFTConfirmationDate, sendedCanceledProjectDate, autProgetctFTRealizedDate, sendedLearnersFTDate, entourageHours, orenatationHours, specialInitiatives, tradeUnionTeachingRequest, note, recipient, issueTicket, ticket_amount, attendanceBenefits, amountAttendanceBenefits, amountReportFT, amount_fin_security_capital, amountAutorizedFTDate, amountAutorizedFT, totalPartnerCost, totalPartnerCostOnPercent, totalAmountWithoutFS, sendedPaperReportingDate, sendedEletronicReportingDate, expiredReportingDate, invoiceAuthorizationDate, deliveryDateInAdministration, commercialTaxableCommunicationDate, reportNote, dailyRegister, headquatersCourse, recipientManagment, partnerList, teacherList, placementList, documentAttachment);
     }
 }
