@@ -3,8 +3,10 @@ package it.tcgroup.vilear.coursemanager.adapter;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.PartnerRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.PartnerRequestV1.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PartnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PartnerResponseV1.*;
+import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.PartnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
@@ -192,6 +194,16 @@ public class PartnerAdapter {
         }
 
         return partnerResponseList;
+    }
+
+    public PaginationResponseV1<PartnerResponseV1> adpPartnerPaginationToPartnerPaginationResposne(Pagination partnerPagination){
+
+        PaginationResponseV1<PartnerResponseV1> learnerPaginationResponse = new PaginationResponseV1<>();
+
+        learnerPaginationResponse.setItems(this.adptPartnerToPartnerResponse(partnerPagination.getItems()));
+        learnerPaginationResponse.setStats(partnerPagination.getStats());
+
+        return learnerPaginationResponse;
     }
 
     @Component

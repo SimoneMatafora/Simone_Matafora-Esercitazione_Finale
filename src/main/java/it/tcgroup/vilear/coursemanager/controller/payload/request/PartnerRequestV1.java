@@ -18,7 +18,7 @@ public class PartnerRequestV1 {
     private String vatNumber;
 
     @JsonProperty( "company")
-    private String company;
+    private Boolean company;
 
     @JsonProperty( "email")
     private String email;
@@ -42,7 +42,7 @@ public class PartnerRequestV1 {
     private String accreditedFtCode;
 
     @JsonProperty( "cost_element")
-    private String costElement;
+    private Double costElement;
 
     @JsonProperty( "note")
     private String note;
@@ -138,6 +138,24 @@ public class PartnerRequestV1 {
     public PartnerRequestV1() {
     }
 
+    public PartnerRequestV1(String id, String businessName, String vatNumber, Boolean company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, Double costElement, String note, List<TeacherPartnerRequestV1> teacherList, List<AddressPartnerRequestV1> addressList) {
+        this.id = id;
+        this.businessName = businessName;
+        this.vatNumber = vatNumber;
+        this.company = company;
+        this.email = email;
+        this.phone = phone;
+        this.fax = fax;
+        this.managerName = managerName;
+        this.managerNumber = managerNumber;
+        this.accreditedFt = accreditedFt;
+        this.accreditedFtCode = accreditedFtCode;
+        this.costElement = costElement;
+        this.note = note;
+        this.teacherList = teacherList;
+        this.addressList = addressList;
+    }
+
     public String getId() {
         return id;
     }
@@ -162,11 +180,11 @@ public class PartnerRequestV1 {
         this.vatNumber = vatNumber;
     }
 
-    public String getCompany() {
+    public Boolean getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(Boolean company) {
         this.company = company;
     }
 
@@ -226,11 +244,11 @@ public class PartnerRequestV1 {
         this.accreditedFtCode = accreditedFtCode;
     }
 
-    public String getCostElement() {
+    public Double getCostElement() {
         return costElement;
     }
 
-    public void setCostElement(String costElement) {
+    public void setCostElement(Double costElement) {
         this.costElement = costElement;
     }
 

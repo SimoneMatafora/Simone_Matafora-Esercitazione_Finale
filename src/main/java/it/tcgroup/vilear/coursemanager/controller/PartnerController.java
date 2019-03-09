@@ -127,7 +127,7 @@ public class PartnerController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "businessName", required = false) String businessName,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "company", required = false) String company,
+            @RequestParam(value = "company", required = false) Boolean company,
             @ApiParam(value = "", required = false)
             @RequestParam(value = "manager_name", required = false) String managerName,
             @ApiParam(value = "", required = false)

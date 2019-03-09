@@ -1,6 +1,7 @@
 package it.tcgroup.vilear.coursemanager.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
 
@@ -20,7 +21,7 @@ public class PartnerDto implements Serializable {
     private String vatNumber;
 
     @JsonProperty( "company")
-    private String company;
+    private Boolean company;
 
     @JsonProperty( "email")
     private String email;
@@ -44,7 +45,7 @@ public class PartnerDto implements Serializable {
     private String accreditedFtCode;
 
     @JsonProperty( "cost_element")
-    private String costElement;
+    private Double costElement;
 
     @JsonProperty( "note")
     private String note;
@@ -58,7 +59,7 @@ public class PartnerDto implements Serializable {
     public PartnerDto() {
     }
 
-    public PartnerDto(String id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
+    public PartnerDto(String id, String businessName, String vatNumber, Boolean company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, Double costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
         this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
@@ -100,11 +101,11 @@ public class PartnerDto implements Serializable {
         this.vatNumber = vatNumber;
     }
 
-    public String getCompany() {
+    public Boolean getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(Boolean company) {
         this.company = company;
     }
 
@@ -164,11 +165,11 @@ public class PartnerDto implements Serializable {
         this.accreditedFtCode = accreditedFtCode;
     }
 
-    public String getCostElement() {
+    public Double getCostElement() {
         return costElement;
     }
 
-    public void setCostElement(String costElement) {
+    public void setCostElement(Double costElement) {
         this.costElement = costElement;
     }
 

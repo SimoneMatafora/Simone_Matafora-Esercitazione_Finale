@@ -6,13 +6,17 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.PartnerRequest
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PartnerResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.PartnerEntity;
+import it.tcgroup.vilear.coursemanager.repository.PartnerEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.PartnerRepository;
 import it.tcgroup.vilear.coursemanager.service.PartnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +30,9 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Autowired
     private PartnerRepository partnerRepository;
+
+    @Autowired
+    private PartnerEMRepository partnerEMRepository;
 
     @Override
     public IdResponseV1 insertPartner(PartnerRequestV1 partnerInsertRequest) {
@@ -127,9 +134,28 @@ public class PartnerServiceImpl implements PartnerService {
     }
 
     @Override
-    public PaginationResponseV1<PartnerResponseV1> getPartnersPagination(int page, int pageSize, String businessName, String company, String managerName, String accreditedFt, String teacherName, String teacherSurname,
+    public PaginationResponseV1<PartnerResponseV1> getPartnersPagination(int page, int pageSize, String businessName, Boolean company, String managerName, String accreditedFt, String teacherName, String teacherSurname,
                                                                          String teacherProfessionalArea, String teacherPublicEmployee, String citta, String comune, String cap) {
-        return null;
+
+        Pagination<PartnerEntity> partnerPagination = new Pagination<>();
+
+        List<PartnerEntity> partnerList = partnerEMRepository.getPartnersForPagination(businessName, company, managerName, accreditedFt, teacherName, teacherSurname,
+                teacherProfessionalArea, teacherPublicEmployee, citta, comune, cap);
+
+        partnerPagination.setStats(new PaginationResponseV1.InfoPagination(partnerList.size(), page, pageSize));
+
+        int start = partnerPagination.getStats().getStartPage();
+        int count = 0;
+        List<PartnerEntity> learnerForPagination = new LinkedList<>();
+
+        while (count < partnerPagination.getStats().getPageSize() && ((start - 1) + count) < partnerList.size()) {
+            learnerForPagination.add((partnerList.get((start - 1) + count)));
+            count++;
+        }
+
+        partnerPagination.setItems(learnerForPagination);
+
+        return partnerAdapter.adpPartnerPaginationToPartnerPaginationResposne(partnerPagination);
     }
 
     @Override

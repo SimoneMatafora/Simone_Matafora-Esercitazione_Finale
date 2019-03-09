@@ -15,51 +15,53 @@ public class PartnerEMRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<PartnerEntity> getPartnerssForPagination(String businessName, String company, String managerName, String accreditedFt, String teacherName, String teacherSurname,
+    public List<PartnerEntity> getPartnersForPagination(String businessName, Boolean company, String managerName, String accreditedFt, String teacherName, String teacherSurname,
                                                          String teacherProfessionalArea, String teacherPublicEmployee, String citta, String comune, String cap){
 
 
-        //QUI BISOGNA FARE LA QUERY NATIVA PER NAVIGARE ED INTERROGARE ANCHE I FILE JSON!!!!!!!!!!!!!!!
+        String withAddress = "WITH ADDRESS AS (SELECT id, jsonb_array_elements(address) AS jsonAddress FROM partner ), ";
+        String withTeacher = " TEACHER AS (SELECT id, jsonb_array_elements(teacher_list) AS jsonTeacher FROM partner ) ";
+        String sql = "SELECT * FROM partner p WHERE p.id IN ( ";
 
-        String sql = "SELECT p FROM PartnerEntity d INNER JOIN d.address i ";
+        String subQuery = "SELECT DISTINCT p.id FROM partner p INNER JOIN ADDRESS USING(id) INNER JOIN TEACHER USING(id) " ;
 
         List<String> whereCondition = new LinkedList<>();
 
         if( businessName != null){
-            whereCondition.add("p.businessName = '" + businessName + "' ");
+            whereCondition.add("p.business_name = '" + businessName + "' ");
         }
         if( company != null){
             whereCondition.add("d.company = '" + company + "' ");
         }
         if( managerName != null){
-            whereCondition.add("d.managerName = '" + managerName + "' ");
+            whereCondition.add("d.manager_name = '" + managerName + "' ");
         }
         if( accreditedFt != null){
-            whereCondition.add("d.accreditedFt = '" + accreditedFt + "' ");
+            whereCondition.add("d.accredited_ft = '" + accreditedFt + "' ");
+        }
+        if( accreditedFt != null){
+            whereCondition.add("d.accredited_ft = " + accreditedFt +  " ");
         }
         if( teacherName != null){
-            whereCondition.add("d.teacherName = '" + teacherName + "' ");
+            whereCondition.add("((jsonTeacher->>'teacher')\\:\\:jsonb)->>'name' = '" + teacherName + "' ");
         }
         if( teacherSurname != null){
-            whereCondition.add("d.teacherSurname = '" + teacherSurname + "' ");
+            whereCondition.add("((jsonTeacher->>'teacher')\\:\\:jsonb)->>'surname' = '" + teacherSurname + "' ");
         }
         if( teacherProfessionalArea != null){
-            whereCondition.add("d.teacherProfessionalArea = '" + teacherProfessionalArea + "' ");
+            whereCondition.add("((jsonTeacher->>'teacher')\\:\\:jsonb)->>'professional_area' = '" + teacherProfessionalArea + "' ");
         }
         if( teacherPublicEmployee != null){
-            whereCondition.add("d.teacherPublicEmployee = '" + teacherPublicEmployee + "'");
+            whereCondition.add("((jsonTeacher->>'teacher')\\:\\:jsonb)->>)'public_employee' = '" + teacherPublicEmployee + "' ");
         }
         if( citta != null){
-            whereCondition.add("d.citta = '" + citta + "' ");
+            whereCondition.add("((jsonAddress ->> 'address')\\:\\:jsonb)->>'province' = '" + citta + "' ");
         }
         if( comune != null){
-            whereCondition.add("d.comune = " + comune + " ");
-        }
-        if( accreditedFt != null){
-            whereCondition.add("d.accreditedFt = " + accreditedFt +  " ");
+            whereCondition.add("(jsonAddress ->> 'address')\\:\\:jsonb ->> 'city' = " + comune + " ");
         }
         if( cap != null) {
-            whereCondition.add("d.cap = '" + cap + "' ");
+            whereCondition.add("(jsonAddress ->> 'address')//://:jsonb ->> 'zip_code' = '" + cap + "' ");
         }
 
         int i = 1;
@@ -73,8 +75,11 @@ public class PartnerEMRepository {
             i++;
         }
 
-        sql += where;
-        Query query = em.createQuery(sql, PartnerEntity.class);
+        sql = withAddress + withTeacher + sql + subQuery + where + ")";
+
+        System.out.println(sql);
+
+        Query query = em.createNativeQuery(sql, PartnerEntity.class);
 
         return query.getResultList();
 

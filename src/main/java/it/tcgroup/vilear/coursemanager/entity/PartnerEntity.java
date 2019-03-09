@@ -37,7 +37,7 @@ public class PartnerEntity implements Serializable {
     private String vatNumber;
 
     @Column(name = "company")
-    private String company;
+    private Boolean company;
 
     @Column(name = "email")
     private String email;
@@ -61,7 +61,7 @@ public class PartnerEntity implements Serializable {
     private String accreditedFtCode;
 
     @Column(name = "cost_element")
-    private String costElement;
+    private Double costElement;
 
     @Column(name = "note")
     private String note;
@@ -77,7 +77,7 @@ public class PartnerEntity implements Serializable {
     public PartnerEntity() {
     }
 
-    public PartnerEntity(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
+    public PartnerEntity(UUID id, String businessName, String vatNumber, Boolean company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, Double costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
         this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
@@ -119,11 +119,11 @@ public class PartnerEntity implements Serializable {
         this.vatNumber = vatNumber;
     }
 
-    public String getCompany() {
+    public Boolean getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(Boolean company) {
         this.company = company;
     }
 
@@ -183,11 +183,11 @@ public class PartnerEntity implements Serializable {
         this.accreditedFtCode = accreditedFtCode;
     }
 
-    public String getCostElement() {
+    public Double getCostElement() {
         return costElement;
     }
 
-    public void setCostElement(String costElement) {
+    public void setCostElement(Double costElement) {
         this.costElement = costElement;
     }
 

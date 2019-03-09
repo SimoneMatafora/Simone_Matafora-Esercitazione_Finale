@@ -14,7 +14,7 @@ public interface PartnerService {
     PartnerResponseV1 updatePartner(PartnerRequestV1 partnerInsertRequest, UUID idPartner);
     PartnerResponseV1 getPartner(UUID idPartner);
     PartnerResponseV1 patchPartner(PartnerRequestV1 partnerInsertRequest, UUID idPartner);
-    PaginationResponseV1<PartnerResponseV1> getPartnersPagination(int page, int pageSize, String businessName, String company, String managerName, String accreditedFt, String teacherName, String teacherSurname,
-                                                                  String teacherProfessionalArea, String teacherPublicEmployee, String citta, String comune, String cap);
+    PaginationResponseV1<PartnerResponseV1> getPartnersPagination(int page, int pageSize, String businessName, Boolean company, String managerName, String accreditedFt, String teacherName, String teacherSurname,
+                                                                         String teacherProfessionalArea, String teacherPublicEmployee, String citta, String comune, String cap);
     void deletePartner(UUID idPartner);
 }

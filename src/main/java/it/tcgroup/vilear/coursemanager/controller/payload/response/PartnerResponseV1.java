@@ -21,7 +21,7 @@ public class PartnerResponseV1 {
     private String vatNumber;
 
     @JsonProperty( "company")
-    private String company;
+    private Boolean company;
 
     @JsonProperty( "email")
     private String email;
@@ -45,7 +45,7 @@ public class PartnerResponseV1 {
     private String accreditedFtCode;
 
     @JsonProperty( "cost_element")
-    private String costElement;
+    private Double costElement;
 
     @JsonProperty( "note")
     private String note;
@@ -141,7 +141,7 @@ public class PartnerResponseV1 {
     public PartnerResponseV1() {
     }
 
-    public PartnerResponseV1(String id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerResponseV1> teacherList, List<AddressPartnerResponseV1> addressList) {
+    public PartnerResponseV1(String id, String businessName, String vatNumber, Boolean company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, Double costElement, String note, List<TeacherPartnerResponseV1> teacherList, List<AddressPartnerResponseV1> addressList) {
         this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
@@ -183,11 +183,11 @@ public class PartnerResponseV1 {
         this.vatNumber = vatNumber;
     }
 
-    public String getCompany() {
+    public Boolean getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(Boolean company) {
         this.company = company;
     }
 
@@ -247,11 +247,11 @@ public class PartnerResponseV1 {
         this.accreditedFtCode = accreditedFtCode;
     }
 
-    public String getCostElement() {
+    public Double getCostElement() {
         return costElement;
     }
 
-    public void setCostElement(String costElement) {
+    public void setCostElement(Double costElement) {
         this.costElement = costElement;
     }
 
