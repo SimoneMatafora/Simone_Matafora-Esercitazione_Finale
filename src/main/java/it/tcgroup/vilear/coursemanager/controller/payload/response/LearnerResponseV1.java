@@ -9,6 +9,9 @@ import java.util.Date;
 
 public class LearnerResponseV1 {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty("username")
     private String username;
 
@@ -52,7 +55,8 @@ public class LearnerResponseV1 {
     public LearnerResponseV1() {
     }
 
-    public LearnerResponseV1(String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, String curriculumVitae, AddressResponse address) {
+    public LearnerResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, String curriculumVitae, AddressResponse address) {
+        this.id = id;
         this.username = username;
         this.name = name;
         this.surname = surname;
@@ -66,6 +70,14 @@ public class LearnerResponseV1 {
         this.note = note;
         this.curriculumVitae = curriculumVitae;
         this.address = address;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {

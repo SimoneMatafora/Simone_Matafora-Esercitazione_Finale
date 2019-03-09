@@ -42,7 +42,7 @@ public class PartnerAdapter {
 
         PartnerResponseV1 partnerResponse = new PartnerResponseV1();
 
-        partnerResponse.setId(partner.getId());
+        partnerResponse.setId(partner.getId().toString());
         partnerResponse.setAccreditedFt(partner.getAccreditedFt());
         partnerResponse.setAccreditedFtCode(partner.getAccreditedFtCode());
         partnerResponse.setBusinessName(partner.getBusinessName());
@@ -70,10 +70,8 @@ public class PartnerAdapter {
         List<PartnerResponseV1> partnerResponseList = new LinkedList<>();
 
         for (PartnerEntity att : partnerList){
-
             partnerResponseList.add(this.adptPartnerToPartnerResponse(att));
         }
-
         return partnerResponseList;
     }
 
@@ -111,10 +109,8 @@ public class PartnerAdapter {
         List<PartnerEntity> partnerList = new LinkedList<>();
 
         for (PartnerRequestV1 att : partnerRequestList){
-
             partnerList.add(this.adptPartnerRequestToPartner(att));
         }
-
         return partnerList;
     }
 
@@ -125,6 +121,7 @@ public class PartnerAdapter {
 
         PartnerDto partner = new PartnerDto();
 
+        partner.setId(partnerRequest.getId());
         partner.setAccreditedFt(partnerRequest.getAccreditedFt());
         partner.setAccreditedFtCode(partnerRequest.getAccreditedFtCode());
         partner.setBusinessName(partnerRequest.getBusinessName());
@@ -141,7 +138,6 @@ public class PartnerAdapter {
         partner.setAddressList(addressPartnerAdapter.adptAddressPartnerRequestToAddressPartner(partnerRequest.getAddressList()));
 
         return partner;
-
     }
 
     public List<PartnerDto> adptPartnerRequestToPartnerDto(List<PartnerRequestV1> partnerRequestList){
@@ -152,10 +148,8 @@ public class PartnerAdapter {
         List<PartnerDto> partnerList = new LinkedList<>();
 
         for (PartnerRequestV1 att : partnerRequestList){
-
             partnerList.add(this.adptPartnerRequestToPartnerDto(att));
         }
-
         return partnerList;
     }
 
@@ -166,6 +160,7 @@ public class PartnerAdapter {
 
         PartnerResponseV1 partnerResponse = new PartnerResponseV1();
 
+        partnerResponse.setId(partnerDto.getId());
         partnerResponse.setAccreditedFt(partnerDto.getAccreditedFt());
         partnerResponse.setAccreditedFtCode(partnerDto.getAccreditedFtCode());
         partnerResponse.setBusinessName(partnerDto.getBusinessName());
@@ -182,7 +177,6 @@ public class PartnerAdapter {
         partnerResponse.setAddressList(addressPartnerAdapter.adptAddressPartnerToAddressPartnerResponse(partnerDto.getAddressList()));
 
         return partnerResponse;
-
     }
 
     public List<PartnerResponseV1> adptPartnerDtoToPartnerResponse(List<PartnerDto> partnerDtoList){
@@ -256,10 +250,8 @@ public class PartnerAdapter {
             for (TeacherPartnerRequestV1 att : teacherPartnerRequestList){
                 teacherPartnerList.add(this.adptTeacherPartnerRequestToTeacherPartner(att));
             }
-
             return teacherPartnerList;
         }
-
     }
 
     @Component

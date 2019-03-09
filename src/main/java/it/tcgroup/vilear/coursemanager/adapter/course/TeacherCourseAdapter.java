@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.adapter.course;
 
 import it.tcgroup.vilear.coursemanager.adapter.TeacherAdapter;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,4 +52,44 @@ public class TeacherCourseAdapter {
 
         return teacherCourseList;
     }
+
+
+    public TeacherCourseResponseV1 adptTeacherCourseToTeacherCourseResponse(TeacherCourse teacherCourse){
+
+        if(teacherCourse == null)
+            return null;
+
+        TeacherCourseResponseV1 teacherCourseResponse = new TeacherCourseResponseV1();
+
+        teacherCourseResponse.setAcronymTradeUnino(teacherCourse.getAcronymTradeUnino());
+        teacherCourseResponse.setGrossHourlyCost(teacherCourse.getGrossHourlyCost());
+        teacherCourseResponse.setHoursTeachingLetterAssignment(teacherCourse.getHoursTeachingLetterAssignment());
+        teacherCourseResponse.setLearnerJudgementForm(teacherCourse.getLearnerJudgementForm());
+        teacherCourseResponse.setMain(teacherCourse.getMain());
+        teacherCourseResponse.setNetHourlyCost(teacherCourse.getNetHourlyCost());
+        teacherCourseResponse.setPaymentModality(teacherCourse.getPaymentModality());
+        teacherCourseResponse.setPaymentModalityTradeUnion(teacherCourse.getPaymentModalityTradeUnion());
+        teacherCourseResponse.setRole(teacherCourse.getRole());
+        teacherCourseResponse.setTeacher(teacherAdapter.adptTeacherDtoToTeacherResponse(teacherCourse.getTeacher()));
+        teacherCourseResponse.setTotalHoursPerformed(teacherCourse.getTotalHoursPerformed());
+        teacherCourseResponse.setTradeUninoTeachingLetter(teacherCourse.getTradeUninoTeachingLetter());
+
+        return teacherCourseResponse;
+
+    }
+
+    public List<TeacherCourseResponseV1> adptTeacherCourseToTeacherCourseResponse(List<TeacherCourse> teacherCourseList){
+
+        if(teacherCourseList == null)
+            return null;
+
+        List<TeacherCourseResponseV1> teacherCourseResponseList = new LinkedList<>();
+
+        for (TeacherCourse att : teacherCourseList){
+            teacherCourseResponseList.add(this.adptTeacherCourseToTeacherCourseResponse(att));
+        }
+
+        return teacherCourseResponseList;
+    }
+
 }

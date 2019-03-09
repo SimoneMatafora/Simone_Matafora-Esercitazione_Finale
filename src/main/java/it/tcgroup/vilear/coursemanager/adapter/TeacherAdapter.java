@@ -68,6 +68,7 @@ public class TeacherAdapter {
         if (teacherInsertRequest.getAddress() != null)
             address = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getAddress());
 
+        teacher.setId(teacherInsertRequest.getId());
         teacher.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
         teacher.setRegister(teacherInsertRequest.getRegister());
         teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
@@ -111,6 +112,7 @@ public class TeacherAdapter {
 
         TeacherResponseV1 teacherResponse = new TeacherResponseV1();
 
+        teacherResponse.setId(teacher.getId().toString());
         teacherResponse.setAccreditedFt(teacher.getAccreditedFt());
         teacherResponse.setRegister(teacher.getRegister());
         teacherResponse.setProfessionalArea(teacher.getProfessionalArea());
@@ -137,35 +139,36 @@ public class TeacherAdapter {
         return  teacherResponse;
     }
 
-    public TeacherResponseV1 adptTeacherDtoToTeacherResponse(TeacherDto teacher){
+    public TeacherResponseV1 adptTeacherDtoToTeacherResponse(TeacherDto teacherDto){
 
-        if(teacher == null)
+        if(teacherDto == null)
             return null;
 
         TeacherResponseV1 teacherResponse = new TeacherResponseV1();
 
-        teacherResponse.setAccreditedFt(teacher.getAccreditedFt());
-        teacherResponse.setRegister(teacher.getRegister());
-        teacherResponse.setProfessionalArea(teacher.getProfessionalArea());
-        teacherResponse.setAuthorized(teacher.getAuthorized());
-        teacherResponse.setAccreditedFtCode(teacher.getAccreditedFtCode());
-        teacherResponse.setFiscalCode(teacher.getFiscalCode());
-        teacherResponse.setSurname(teacher.getSurname());
-        teacherResponse.setCurriculumVitae(teacher.getCurriculumVitae());
-        teacherResponse.setDateOfBirth(teacher.getDateOfBirth());
-        teacherResponse.setPublicEmployee(teacher.getPublicEmployee());
-        teacherResponse.setEmail(teacher.getEmail());
-        teacherResponse.setProfessionalOrderRegistration(teacher.getProfessionalOrderRegistration());
-        teacherResponse.setBirthPlace(teacher.getBirthPlace());
-        teacherResponse.setName(teacher.getName());
-        teacherResponse.setNote(teacher.getNote());
-        teacherResponse.setVatNumber(teacher.getVatNumber());
-        teacherResponse.setSector(teacher.getSector());
-        teacherResponse.setPhone(teacher.getPhone());
-        teacherResponse.setVatHolder(teacher.getVatHolder());
-        teacherResponse.setUsername(teacher.getUsername());
+        teacherResponse.setId(teacherDto.getId());
+        teacherResponse.setAccreditedFt(teacherDto.getAccreditedFt());
+        teacherResponse.setRegister(teacherDto.getRegister());
+        teacherResponse.setProfessionalArea(teacherDto.getProfessionalArea());
+        teacherResponse.setAuthorized(teacherDto.getAuthorized());
+        teacherResponse.setAccreditedFtCode(teacherDto.getAccreditedFtCode());
+        teacherResponse.setFiscalCode(teacherDto.getFiscalCode());
+        teacherResponse.setSurname(teacherDto.getSurname());
+        teacherResponse.setCurriculumVitae(teacherDto.getCurriculumVitae());
+        teacherResponse.setDateOfBirth(teacherDto.getDateOfBirth());
+        teacherResponse.setPublicEmployee(teacherDto.getPublicEmployee());
+        teacherResponse.setEmail(teacherDto.getEmail());
+        teacherResponse.setProfessionalOrderRegistration(teacherDto.getProfessionalOrderRegistration());
+        teacherResponse.setBirthPlace(teacherDto.getBirthPlace());
+        teacherResponse.setName(teacherDto.getName());
+        teacherResponse.setNote(teacherDto.getNote());
+        teacherResponse.setVatNumber(teacherDto.getVatNumber());
+        teacherResponse.setSector(teacherDto.getSector());
+        teacherResponse.setPhone(teacherDto.getPhone());
+        teacherResponse.setVatHolder(teacherDto.getVatHolder());
+        teacherResponse.setUsername(teacherDto.getUsername());
 
-        teacherResponse.setAddress(addressAdapter.adptAddressDtoToAddressResponse(teacher.getAddress()));
+        teacherResponse.setAddress(addressAdapter.adptAddressDtoToAddressResponse(teacherDto.getAddress()));
 
         return  teacherResponse;
     }

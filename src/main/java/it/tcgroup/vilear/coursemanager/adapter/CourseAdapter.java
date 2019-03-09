@@ -4,9 +4,14 @@ import it.tcgroup.vilear.coursemanager.adapter.course.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
+import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Component
 public class CourseAdapter {
@@ -119,6 +124,7 @@ public class CourseAdapter {
 
         CourseResponseV1 courseResponse = new CourseResponseV1();
 
+        courseResponse.setId(course.getId().toString());
         courseResponse.setActuatorSubject(partnerAdapter.adptPartnerDtoToPartnerResponse(course.getActuatorSubject()));
         courseResponse.setAfternoonEndHour(course.getAfternoonEndHour());
         courseResponse.setAfternoonStatrHour(course.getAfternoonStatrHour());
@@ -191,6 +197,26 @@ public class CourseAdapter {
         courseResponse.setVisitHours(course.getVisitHours());
 
         return courseResponse;
+    }
+
+    public List<CourseResponseV1> adptCourseToCourseResponse(List<CourseEntity> courseList){
+
+        List<CourseResponseV1> courseResponseList = new LinkedList<>();
+
+        for(CourseEntity att : courseList){
+            courseResponseList.add(this.adptCourseToCourseResponse(att));
+        }
+        return courseResponseList;
+    }
+
+    public PaginationResponseV1<CourseResponseV1> adpCoursePaginationTooursePaginationResposne(Pagination<CourseEntity> coursesPagination){
+
+        PaginationResponseV1<CourseResponseV1> coursePaginationResponse = new PaginationResponseV1<>();
+
+        coursePaginationResponse.setItems(this.adptCourseToCourseResponse(coursesPagination.getItems()));
+        coursePaginationResponse.setStats(coursesPagination.getStats());
+
+        return coursePaginationResponse;
     }
 
 }

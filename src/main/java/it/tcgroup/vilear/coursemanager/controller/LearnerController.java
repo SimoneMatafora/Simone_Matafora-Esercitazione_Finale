@@ -99,11 +99,11 @@ public class LearnerController {
     })
     public ResponseEntity<LearnerResponseV1> patchLearner(
             @ApiParam(value = "UUID of the Learner", required = true)
-            @PathVariable(name = "UUID_LEARNER") String idDocente,
+            @PathVariable(name = "UUID_LEARNER") String idLearner,
             @ApiParam(value = "Some attributes of the body of the Learner to be modified", required = true)
             @RequestBody LearnerRequestV1 learnerPatchRequestV1) throws Exception {
 
-        return new ResponseEntity<>(learnerService.patchLearner(learnerPatchRequestV1, UUID.fromString(idDocente)), HttpStatus.OK);
+        return new ResponseEntity<>(learnerService.patchLearner(learnerPatchRequestV1, UUID.fromString(idLearner)), HttpStatus.OK);
     }
 
     /*CANCELLAZIONE LEARNER*/

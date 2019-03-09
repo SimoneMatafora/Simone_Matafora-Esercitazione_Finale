@@ -2,13 +2,18 @@ package it.tcgroup.vilear.coursemanager.controller;
 
 import io.swagger.annotations.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -38,4 +43,144 @@ public class CourseController {
 
         return new ResponseEntity<>( courseService.insertCourse(courseInsertRequestV1), HttpStatus.OK);
     }
+
+    /*RECUPERO COURSE TRAMITE ID*/
+    @GetMapping(value = "/course/{UUID_COURSE}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Recover Course", notes = "Returns a Course using the UUID passed in the path")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = CourseResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<CourseResponseV1> getCourseById(
+            @ApiParam(value = "UUID of the Course to be found", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse) {
+
+        return new ResponseEntity<>(courseService.getCourse(UUID.fromString(idCourse)), HttpStatus.OK);
+    }
+
+    /*MODIFICA COURSE*/
+    @PutMapping(value = "/course/{UUID_COURSE}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Upload Course", notes = "Upload Course using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = CourseResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<CourseResponseV1> putModifyCourse(
+            @ApiParam(value = "UUID that identifies the Course to be modified", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse,
+            @ApiParam(value = "Updated body of the course", required = true)
+            @RequestBody CourseRequestV1 courseUpdateRequest) {
+
+        return new ResponseEntity<>(courseService.updateCourse(courseUpdateRequest, UUID.fromString(idCourse)) ,HttpStatus.OK);
+    }
+
+    /*MODIFICA PARZIALE COURSE*/
+    @PatchMapping(value = "/course/{UUID_COURSE}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Upload a part of the Course", notes = "Update a part of the Course using the info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = CourseResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<CourseResponseV1> patchCourse(
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse,
+            @ApiParam(value = "Some attributes of the body of the Course to be modified", required = true)
+            @RequestBody CourseRequestV1 coursePatchRequestV1) throws Exception {
+
+        return new ResponseEntity<>(courseService.patchCourse(coursePatchRequestV1, UUID.fromString(idCourse)), HttpStatus.OK);
+    }
+
+    /*CANCELLAZIONE COURSE*/
+    @DeleteMapping( value = "/course/{UUID_COURSE}",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity deleteCourse(
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse) {
+
+        courseService.deleteCourse(UUID.fromString(idCourse));
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /*PAGINAZIONE COURSES*/
+    @GetMapping(value = "/course",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Get all courses", notes = "")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = PaginationResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<PaginationResponseV1<CourseResponseV1>> getLearnersPagination(
+            @ApiParam(value = "Defines how many Courses can contain the single page", required = false)
+            @RequestParam(value = "page_size", defaultValue = "20") Integer pageSize,
+            @ApiParam(value = "Defines the page number to be displayed", required = false)
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "course_title", required = false) String courseTitle,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "contents_area", required = false) String contentsArea,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "learner_type", required = false) String learnerType,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "supply_modality", required = false) String supplyModality,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "payment_modality", required = false) String paymentModality,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "founds_type", required = false) String foundsType,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "course_start_date", required = false) String courseStartDate,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "part_full_time", required = false) String partFullTime,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "course_code", required = false) String courseCode,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "business_name", required = false) String businessName,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "course_type", required = false) String courseType,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "special_initiatives", required = false) SpecialInitiativesCourseEnum specialInitiatives) {
+
+        return new ResponseEntity<>(courseService.getCoursePagination(page, pageSize, courseTitle,
+                ContentsAreaCourseEnum.create(contentsArea),
+                LearnerTypeCourseEnum.create(learnerType),
+                SupplyModalityCourseEnum.create(supplyModality),
+                PaymentModalityEnum.create(paymentModality),
+                FoundsTypeCourseEnum.create(foundsType),
+                courseStartDate,
+                PartFullTimeCourseEnum.create(partFullTime),
+                courseCode,
+                businessName,
+                CourseTypeEnum.create(courseType),
+                specialInitiatives),HttpStatus.OK);
+    }
+
 }

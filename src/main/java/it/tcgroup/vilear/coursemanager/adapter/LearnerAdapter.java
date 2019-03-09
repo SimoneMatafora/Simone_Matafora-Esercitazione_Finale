@@ -55,6 +55,7 @@ public class LearnerAdapter {
         if (learnerInsertRequest.getAddress() != null)
             address = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getAddress());
 
+        learner.setId(learnerInsertRequest.getId());
         learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
         learner.setSurname(learnerInsertRequest.getSurname());
         learner.setCurriculumVitae(learnerInsertRequest.getCurriculumVitae());
@@ -80,6 +81,7 @@ public class LearnerAdapter {
         if (learnerDto.getAddress() != null)
             addressResponse = addressAdapter.adptAddressDtoToAddressResponse(learnerDto.getAddress());
 
+        learnerResponse.setId(learnerDto.getId());
         learnerResponse.setFiscalCode(learnerDto.getFiscalCode());
         learnerResponse.setSurname(learnerDto.getSurname());
         learnerResponse.setCurriculumVitae(learnerDto.getCurriculumVitae());
@@ -109,6 +111,7 @@ public class LearnerAdapter {
 
         LearnerResponseV1 learnerResponse = new LearnerResponseV1();
 
+        learnerResponse.setId(learner.getId().toString());
         learnerResponse.setFiscalCode(learner.getFiscalCode());
         learnerResponse.setSurname(learner.getSurname());
         learnerResponse.setCurriculumVitae(learner.getCurriculumVitae());

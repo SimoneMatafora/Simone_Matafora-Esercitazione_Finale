@@ -12,6 +12,9 @@ import java.util.List;
 
 public class CourseResponseV1 {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty( "course_title")
     private String courseTitle;
 
@@ -643,7 +646,7 @@ public class CourseResponseV1 {
         }
     }
 
-    public class TeacherCourseResponseV1{
+    public static class TeacherCourseResponseV1{
 
         @JsonProperty("teacher")
         private TeacherResponseV1 teacher;
@@ -937,11 +940,11 @@ public class CourseResponseV1 {
         }
     }
 
-
     public CourseResponseV1() {
     }
 
-    public CourseResponseV1(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, PartnerResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, String documentAttachment) {
+    public CourseResponseV1(String id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, PartnerResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, String documentAttachment) {
+        this.id = id;
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
         this.learnerType = learnerType;
@@ -1012,6 +1015,14 @@ public class CourseResponseV1 {
         this.teacherList = teacherList;
         this.placementList = placementList;
         this.documentAttachment = documentAttachment;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCourseTitle() {
@@ -1576,8 +1587,9 @@ public class CourseResponseV1 {
 
     @Override
     public String toString() {
-        return "CourseRequestV1{" +
-                "courseTitle='" + courseTitle + '\'' +
+        return "CourseResponseV1{" +
+                "id='" + id + '\'' +
+                ", courseTitle='" + courseTitle + '\'' +
                 ", contentsArea=" + contentsArea +
                 ", learnerType=" + learnerType +
                 ", supplyModality=" + supplyModality +
@@ -1649,5 +1661,4 @@ public class CourseResponseV1 {
                 ", documentAttachment='" + documentAttachment + '\'' +
                 '}';
     }
-
 }

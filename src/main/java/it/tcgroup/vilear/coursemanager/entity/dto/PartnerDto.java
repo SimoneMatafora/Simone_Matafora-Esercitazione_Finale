@@ -10,6 +10,9 @@ import java.util.List;
 
 public class PartnerDto implements Serializable {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty( "business_name")
     private String businessName;
 
@@ -55,7 +58,8 @@ public class PartnerDto implements Serializable {
     public PartnerDto() {
     }
 
-    public PartnerDto(String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
+    public PartnerDto(String id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartner> teacherList, List<AddressPartner> addressList) {
+        this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
         this.company = company;
@@ -70,6 +74,14 @@ public class PartnerDto implements Serializable {
         this.note = note;
         this.teacherList = teacherList;
         this.addressList = addressList;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getBusinessName() {
@@ -186,8 +198,9 @@ public class PartnerDto implements Serializable {
 
     @Override
     public String toString() {
-        return "PartnerDtoAdapter{" +
-                "businessName='" + businessName + '\'' +
+        return "PartnerDto{" +
+                "id='" + id + '\'' +
+                ", businessName='" + businessName + '\'' +
                 ", vatNumber='" + vatNumber + '\'' +
                 ", company='" + company + '\'' +
                 ", email='" + email + '\'' +

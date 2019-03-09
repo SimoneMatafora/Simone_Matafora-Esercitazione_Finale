@@ -163,14 +163,14 @@ public class LearnerServiceImpl implements LearnerService {
 
         int start = learnersPagination.getStats().getStartPage();
         int count = 0;
-        List<LearnerEntity> docentiForPagination = new LinkedList<>();
+        List<LearnerEntity> learnerForPagination = new LinkedList<>();
 
         while (count < learnersPagination.getStats().getPageSize() && ((start - 1) + count) < learnersList.size()) {
-            docentiForPagination.add((learnersList.get((start - 1) + count)));
+            learnerForPagination.add((learnersList.get((start - 1) + count)));
             count++;
         }
 
-        learnersPagination.setItems(docentiForPagination);
+        learnersPagination.setItems(learnerForPagination);
 
         return learnerAdapter.adpLearnerPaginationToLearnerPaginationResposne(learnersPagination);
     }

@@ -67,7 +67,19 @@ public class PlacementCourseAdapter {
         placementCourseResponse.setSendedEletronicPlacementDate(placementCourseResponse.getSendedEletronicPlacementDate());
 
         return placementCourseResponse;
+    }
 
+    public List<PlacementCourseResponseV1> adptPlacementCourseToPlacementCourseResponse(List<PlacementCourse> placementCoursetList){
 
+        if(placementCoursetList == null)
+            return null;
+
+        List<PlacementCourseResponseV1> placementCourseResponseList = new LinkedList<>();
+
+        for (PlacementCourse att : placementCoursetList){
+            placementCourseResponseList.add(this.adptPlacementCourseToPlacementCourseResponse(att));
+        }
+
+        return placementCourseResponseList;
     }
 }

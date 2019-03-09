@@ -11,7 +11,8 @@ import java.util.UUID;
 
 public class PartnerResponseV1 {
 
-    private UUID id;
+    @JsonProperty("id")
+    private String id;
 
     @JsonProperty( "business_name")
     private String businessName;
@@ -52,7 +53,7 @@ public class PartnerResponseV1 {
     @JsonProperty( "teacher_list")
     private List<TeacherPartnerResponseV1> teacherList;
 
-    @JsonProperty( "address")
+    @JsonProperty( "address_list")
     private List<AddressPartnerResponseV1> addressList;
 
     public static class TeacherPartnerResponseV1{
@@ -140,7 +141,7 @@ public class PartnerResponseV1 {
     public PartnerResponseV1() {
     }
 
-    public PartnerResponseV1(UUID id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerResponseV1> teacherList, List<AddressPartnerResponseV1> addressList) {
+    public PartnerResponseV1(String id, String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerResponseV1> teacherList, List<AddressPartnerResponseV1> addressList) {
         this.id = id;
         this.businessName = businessName;
         this.vatNumber = vatNumber;
@@ -158,11 +159,11 @@ public class PartnerResponseV1 {
         this.addressList = addressList;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -281,7 +282,7 @@ public class PartnerResponseV1 {
     @Override
     public String toString() {
         return "PartnerResponseV1{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", businessName='" + businessName + '\'' +
                 ", vatNumber='" + vatNumber + '\'' +
                 ", company='" + company + '\'' +
@@ -290,7 +291,7 @@ public class PartnerResponseV1 {
                 ", fax='" + fax + '\'' +
                 ", managerName='" + managerName + '\'' +
                 ", managerNumber='" + managerNumber + '\'' +
-                ", accreditedFt='" + accreditedFt + '\'' +
+                ", accreditedFt=" + accreditedFt +
                 ", accreditedFtCode='" + accreditedFtCode + '\'' +
                 ", costElement='" + costElement + '\'' +
                 ", note='" + note + '\'' +

@@ -9,6 +9,9 @@ import java.util.Date;
 
 public class LearnerDto implements Serializable {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty( "username")
     private String username;
 
@@ -52,7 +55,8 @@ public class LearnerDto implements Serializable {
     public LearnerDto() {
     }
 
-    public LearnerDto(String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, String curriculumVitae, AddressDto address) {
+    public LearnerDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, String curriculumVitae, AddressDto address) {
+        this.id = id;
         this.username = username;
         this.name = name;
         this.surname = surname;
@@ -66,6 +70,14 @@ public class LearnerDto implements Serializable {
         this.note = note;
         this.curriculumVitae = curriculumVitae;
         this.address = address;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -175,7 +187,8 @@ public class LearnerDto implements Serializable {
     @Override
     public String toString() {
         return "LearnerDto{" +
-                "username='" + username + '\'' +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +

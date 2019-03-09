@@ -2,12 +2,7 @@ package it.tcgroup.vilear.coursemanager.controller.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
-
-import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -242,7 +237,7 @@ public class CourseRequestV1 {
     @JsonProperty( "document_attachment")
     private String documentAttachment;
 
-    /*public static class ActuatorSubjectCourseRequestV1{
+    public static class ActuatorSubjectCourseRequestV1{
 
         @JsonProperty("business_name")
         private String businessName;
@@ -438,7 +433,7 @@ public class CourseRequestV1 {
                     '}';
         }
     }
-*/
+
     public static class AddressCourseRequestV1{
 
         @JsonProperty("address")
@@ -1137,7 +1132,6 @@ public class CourseRequestV1 {
                     '}';
         }
     }
-
 
     public CourseRequestV1() {
     }

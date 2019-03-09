@@ -8,6 +8,9 @@ import java.util.List;
 
 public class PartnerRequestV1 {
 
+    @JsonProperty("id")
+    private String id;
+
     @JsonProperty( "business_name")
     private String businessName;
 
@@ -49,7 +52,6 @@ public class PartnerRequestV1 {
 
     @JsonProperty( "address_list")
     private List<AddressPartnerRequestV1> addressList;
-
 
     public static class TeacherPartnerRequestV1{
 
@@ -136,22 +138,12 @@ public class PartnerRequestV1 {
     public PartnerRequestV1() {
     }
 
-    public PartnerRequestV1(String businessName, String vatNumber, String company, String email, String phone, String fax, String managerName, String managerNumber, Boolean accreditedFt, String accreditedFtCode, String costElement, String note, List<TeacherPartnerRequestV1> teacherList, List<AddressPartnerRequestV1> addressList) {
+    public String getId() {
+        return id;
+    }
 
-        this.businessName = businessName;
-        this.vatNumber = vatNumber;
-        this.company = company;
-        this.email = email;
-        this.phone = phone;
-        this.fax = fax;
-        this.managerName = managerName;
-        this.managerNumber = managerNumber;
-        this.accreditedFt = accreditedFt;
-        this.accreditedFtCode = accreditedFtCode;
-        this.costElement = costElement;
-        this.note = note;
-        this.teacherList = teacherList;
-        this.addressList = addressList;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getBusinessName() {
@@ -269,7 +261,8 @@ public class PartnerRequestV1 {
     @Override
     public String toString() {
         return "PartnerRequestV1{" +
-                "businessName='" + businessName + '\'' +
+                "id='" + id + '\'' +
+                ", businessName='" + businessName + '\'' +
                 ", vatNumber='" + vatNumber + '\'' +
                 ", company='" + company + '\'' +
                 ", email='" + email + '\'' +
@@ -277,7 +270,7 @@ public class PartnerRequestV1 {
                 ", fax='" + fax + '\'' +
                 ", managerName='" + managerName + '\'' +
                 ", managerNumber='" + managerNumber + '\'' +
-                ", accreditedFt='" + accreditedFt + '\'' +
+                ", accreditedFt=" + accreditedFt +
                 ", accreditedFtCode='" + accreditedFtCode + '\'' +
                 ", costElement='" + costElement + '\'' +
                 ", note='" + note + '\'' +
@@ -285,5 +278,4 @@ public class PartnerRequestV1 {
                 ", addressList=" + addressList +
                 '}';
     }
-
 }
