@@ -11,7 +11,6 @@ import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.repository.BranchEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.BranchRepository;
 import it.tcgroup.vilear.coursemanager.service.BranchService;
-import it.tcgroup.vilear.coursemanager.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -31,9 +30,6 @@ public class BranchServiceImpl implements BranchService {
     private BranchAdapter branchAdapter;
 
     @Autowired
-    private AddressService addressService;
-
-    @Autowired
     private BranchRepository branchRepository;
 
     @Autowired
@@ -44,7 +40,6 @@ public class BranchServiceImpl implements BranchService {
 
         BranchEntity branch = branchAdapter.adptBranchRequestToBranch(branchInsertRequest);
 
-        addressService.insertAddress(branch.getAddress());
         branchRepository.save(branch);
 
         return branchAdapter.adptBranchIdToBranchIdResponse(branch);
@@ -80,8 +75,6 @@ public class BranchServiceImpl implements BranchService {
         branch.setSuperBranch(branchUpdate.getSuperBranch());
         branch.setRightOfAccessToTheCourses(branchUpdate.getRightOfAccessToTheCourses());
 
-        branch.setAddress(addressService.updateAddress(branchUpdateRequest.getAddress(), branch.getAddress().getId()));
-
         branchRepository.save(branch);
 
         return  branchAdapter.adptBranchToBranchResponse(branch);
@@ -115,7 +108,7 @@ public class BranchServiceImpl implements BranchService {
             branch.setUsername(branchPatch.getUsername());
 
         if( branchPatch.getAddress() != null)
-            branch.setAddress(addressService.updateAddress(branchUpdateRequest.getAddress(), branch.getAddress().getId()));
+            branch.setAddress(branchPatch.getAddress());
 
         branchRepository.save(branch);
 

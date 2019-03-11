@@ -1,16 +1,3 @@
-
-CREATE TABLE IF NOT EXISTS address (
-	id UUID PRIMARY KEY,
-	nation varchar(255) NULL,
-	region varchar(255) NOT NULL,
-	province varchar(255) NOT NULL,
-	city varchar(255) NOT NULL,
-	street varchar(255) NOT NULL,
-	number varchar(255) NOT NULL,
-	zip_code varchar(255) NOT NULL,
-	formatted_address varchar(255) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS learner (
 	id UUID PRIMARY KEY,
 	username varchar(255) NOT NULL,
@@ -19,15 +6,13 @@ CREATE TABLE IF NOT EXISTS learner (
 	fiscal_code varchar(16) NOT NULL,
 	date_of_birth timestamptz NOT NULL,
 	birth_place varchar(255) NOT NULL,
-	address_id UUID NOT NULL,
+	address jsonb NOT NULL,
 	phone varchar(255) NULL,
 	email varchar(255) NOT NULL,
 	degree_of_studies varchar(255) NOT NULL,
 	course_of_study varchar(255) NULL,
 	curriculum_vitae varchar(255) NOT NULL,
-	note varchar(255) NULL,
-
-	FOREIGN KEY (address_id) REFERENCES address (id)
+	note varchar(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS teacher (
@@ -38,7 +23,7 @@ CREATE TABLE IF NOT EXISTS teacher (
 	fiscal_code varchar(16) NOT NULL,
 	date_of_birth timestamptz NOT NULL,
 	birth_place varchar(255) NOT NULL,
-	address_id UUID NOT NULL,
+	address jsonb NOT NULL,
 	phone varchar(255) NULL,
 	email varchar(255) NOT NULL,
 	professional_area varchar(255) NOT NULL,
@@ -52,9 +37,7 @@ CREATE TABLE IF NOT EXISTS teacher (
 	vat_number varchar(255) NULL,
 	curriculum_vitae varchar(255) NOT NULL,
 	sector varchar(255) NOT NULL,
-	note varchar(255) NULL,
-
-	FOREIGN KEY (address_id) REFERENCES address (id)
+	note varchar(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS branch (
@@ -63,10 +46,8 @@ CREATE TABLE IF NOT EXISTS branch (
 	name varchar(255) NOT NULL,
 	email varchar(255) NOT NULL,
 	super bool NOT NULL,
-	address_id UUID NOT NULL,
-	right_of_access_to_the_courses varchar(255),
-
-	FOREIGN KEY (address_id) REFERENCES address (id)
+	address jsonb NOT NULL,
+	right_of_access_to_the_courses varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS course (

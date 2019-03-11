@@ -2,8 +2,11 @@ package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.DegreeOfStudiesEnum;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddressCourseType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +17,9 @@ import java.util.UUID;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "learner")
+@TypeDefs({
+        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddressCourseType.class)
+})
 public class LearnerEntity implements Serializable {
 
     @Id
@@ -63,8 +69,8 @@ public class LearnerEntity implements Serializable {
     @Column(name = "curriculum_vitae")
     private String curriculumVitae;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id",referencedColumnName = "id")
+    @Type(type = "JsonDataAddressType")
+    @Column(name = "address")
     private AddressEntity address;
 
     public LearnerEntity() {

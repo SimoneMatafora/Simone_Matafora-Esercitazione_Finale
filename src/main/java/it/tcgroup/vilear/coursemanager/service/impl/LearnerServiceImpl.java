@@ -11,7 +11,6 @@ import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.repository.LearnerEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
 import it.tcgroup.vilear.coursemanager.service.LearnerService;
-import it.tcgroup.vilear.coursemanager.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -33,9 +32,6 @@ public class LearnerServiceImpl implements LearnerService {
     private LearnerRepository learnerRepository;
 
     @Autowired
-    private AddressService addressService;
-
-    @Autowired
     private LearnerEMRepository learnerEMRepository;
 
     @Override
@@ -43,7 +39,6 @@ public class LearnerServiceImpl implements LearnerService {
 
         LearnerEntity learner = learnerAdapter.adptLearnerRequestToLearner(learnerInsertRequest);
 
-        addressService.insertAddress(learner.getAddress());
         learnerRepository.save(learner);
 
         return learnerAdapter.adptLearnerIdToLearnerIdResponse(learner);
@@ -73,8 +68,7 @@ public class LearnerServiceImpl implements LearnerService {
         learner.setNote(learnerUpdate.getNote());
         learner.setPhone(learnerUpdate.getPhone());
         learner.setUsername(learnerUpdate.getUsername());
-
-        learner.setAddress(addressService.updateAddress(learnerUpdateRequest.getAddress(), learner.getAddress().getId()));
+        learner.setAddress(learnerUpdate.getAddress());
 
         learnerRepository.save(learner);
 
@@ -142,7 +136,7 @@ public class LearnerServiceImpl implements LearnerService {
             learner.setUsername(learnerPatch.getUsername());
 
         if( learnerPatch.getAddress() != null)
-            learner.setAddress(addressService.updateAddress(learnerUpdateRequest.getAddress(), learner.getAddress().getId()));
+            learner.setAddress(learnerPatch.getAddress());
 
         learnerRepository.save(learner);
 
