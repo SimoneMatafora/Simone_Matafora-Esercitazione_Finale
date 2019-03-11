@@ -1,8 +1,12 @@
 package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddresType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +16,9 @@ import java.util.UUID;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "branch")
+@TypeDefs({
+        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class)
+})
 public class BranchEntity implements Serializable {
 
     @Id
@@ -38,14 +45,14 @@ public class BranchEntity implements Serializable {
     @Column(name = "right_of_access_to_the_courses")
     private String rightOfAccessToTheCourses;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id",referencedColumnName = "id")
-    private AddressEntity address;
+    @Type(type = "JsonDataAddressType")
+    @Column(name = "address")
+    private Address address;
 
     public BranchEntity() {
     }
 
-    public BranchEntity(UUID id, String username, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressEntity address) {
+    public BranchEntity(UUID id, String username, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, Address address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -103,11 +110,11 @@ public class BranchEntity implements Serializable {
         this.rightOfAccessToTheCourses = rightOfAccessToTheCourses;
     }
 
-    public AddressEntity getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(AddressEntity address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

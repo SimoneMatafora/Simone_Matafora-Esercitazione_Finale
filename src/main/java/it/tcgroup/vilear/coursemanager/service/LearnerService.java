@@ -1,9 +1,12 @@
 package it.tcgroup.vilear.coursemanager.service;
 
 import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+
+import java.io.IOException;
 import java.util.UUID;
 
 public interface LearnerService {
@@ -16,4 +19,5 @@ public interface LearnerService {
                                                                   String luogoDiNascita, String email, String tipoDiStudio, String indirizzoDiStudio, String citta, String comune, String cap);
 
     void deleteLearner(UUID idLearner);
+    LearnerResponseV1 addLearnerCurriculum(UploadRequestV1 curriculim, UUID idLearner) throws IOException;
 }

@@ -2,8 +2,14 @@ package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.DegreeOfStudiesEnum;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddresType;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAttachmentType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +20,10 @@ import java.util.UUID;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "learner")
+@TypeDefs({
+        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class),
+        @TypeDef(name = "JsonDataAttachmentType", typeClass = JsonDataAttachmentType.class)
+})
 public class LearnerEntity implements Serializable {
 
     @Id
@@ -60,17 +70,18 @@ public class LearnerEntity implements Serializable {
     @Column(name = "note")
     private String note;
 
+    @Type(type = "JsonDataAttachmentType")
     @Column(name = "curriculum_vitae")
-    private String curriculumVitae;
+    private Attachment curriculumVitae;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id",referencedColumnName = "id")
-    private AddressEntity address;
+    @Type(type = "JsonDataAddressType")
+    @Column(name = "address")
+    private Address address;
 
     public LearnerEntity() {
     }
 
-    public LearnerEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, String curriculumVitae, AddressEntity address) {
+    public LearnerEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, Attachment curriculumVitae, Address address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -183,19 +194,19 @@ public class LearnerEntity implements Serializable {
         this.note = note;
     }
 
-    public String getCurriculumVitae() {
+    public Attachment getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(String curriculumVitae) {
+    public void setCurriculumVitae(Attachment curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 
-    public AddressEntity getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(AddressEntity address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

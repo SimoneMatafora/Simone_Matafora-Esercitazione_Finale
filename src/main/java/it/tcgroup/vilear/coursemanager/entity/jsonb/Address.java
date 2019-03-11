@@ -1,57 +1,39 @@
-package it.tcgroup.vilear.coursemanager.entity;
+package it.tcgroup.vilear.coursemanager.entity.jsonb;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
-@Table(name = "address")
-public class AddressEntity implements Serializable {
-
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Type(type = "org.hibernate.type.PostgresUUIDType")
-    private UUID id;
-
-    @Column(name = "nation")
+public class Address implements Serializable {
+    
+    @JsonProperty("nation")
     private String nation;
 
-    @Column(name = "region")
+    @JsonProperty("region")
     private String region;
 
-    @Column(name = "province")
+    @JsonProperty("province")
     private String province;
 
-    @Column(name = "city")
+    @JsonProperty("city")
     private String city;
 
-    @Column(name = "street")
+    @JsonProperty("street")
     private  String street;
 
-    @Column(name = "number")
+    @JsonProperty("number")
     private String number;
 
-    @Column(name = "zip_code")
+    @JsonProperty("zip_code")
     private String zipCode;
 
-    @Column(name = "formatted_address")
+    @JsonProperty("formatted_address")
     private String formattedAddress;
 
-    public AddressEntity() {
+    public Address() {
     }
 
-    public AddressEntity(UUID id, String nation, String region, String province, String city, String street, String number, String zipCode, String formattedAddress) {
-        this.id = id;
+    public Address(String nation, String region, String province, String city, String street, String number, String zipCode, String formattedAddress) {
         this.nation = nation;
         this.region = region;
         this.province = province;
@@ -60,14 +42,6 @@ public class AddressEntity implements Serializable {
         this.number = number;
         this.zipCode = zipCode;
         this.formattedAddress = formattedAddress;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getNation() {
@@ -137,8 +111,7 @@ public class AddressEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "AddressEntity{" +
-                "id=" + id +
+        return "Address{" +
                 ", nation='" + nation + '\'' +
                 ", region='" + region + '\'' +
                 ", province='" + province + '\'' +
@@ -154,9 +127,8 @@ public class AddressEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressEntity that = (AddressEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(nation, that.nation) &&
+        Address that = (Address) o;
+        return  Objects.equals(nation, that.nation) &&
                 Objects.equals(region, that.region) &&
                 Objects.equals(province, that.province) &&
                 Objects.equals(city, that.city) &&
@@ -168,6 +140,6 @@ public class AddressEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nation, region, province, city, street, number, zipCode, formattedAddress);
+        return Objects.hash(nation, region, province, city, street, number, zipCode, formattedAddress);
     }
 }

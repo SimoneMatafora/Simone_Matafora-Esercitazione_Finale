@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.DegreeOfStudiesEnum;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.util.Date;
 
@@ -47,7 +48,7 @@ public class LearnerResponseV1 {
     private String note;
 
     @JsonProperty("curriculum_vitae")
-    private String curriculumVitae;
+    private Attachment curriculumVitae;
 
     @JsonProperty("address")
     private AddressResponse address;
@@ -55,7 +56,7 @@ public class LearnerResponseV1 {
     public LearnerResponseV1() {
     }
 
-    public LearnerResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, String curriculumVitae, AddressResponse address) {
+    public LearnerResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, Attachment curriculumVitae, AddressResponse address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -168,11 +169,11 @@ public class LearnerResponseV1 {
         this.note = note;
     }
 
-    public String getCurriculumVitae() {
+    public Attachment getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(String curriculumVitae) {
+    public void setCurriculumVitae(Attachment curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 

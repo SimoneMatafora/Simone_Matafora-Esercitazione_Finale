@@ -11,9 +11,7 @@ import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.repository.TeacherEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.TeacherRepository;
-import it.tcgroup.vilear.coursemanager.repository.AddressRepository;
 import it.tcgroup.vilear.coursemanager.service.TeacherService;
-import it.tcgroup.vilear.coursemanager.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -38,18 +36,10 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private TeacherAdapter teacherAdapter;
 
-    @Autowired
-    private AddressService addressService;
-
-    @Autowired
-    private AddressRepository indirizzoRepository;
-
     @Override
     public IdResponseV1 insertTeacher(TeacherRequestV1 teacherInsertRequest){
 
         TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherInsertRequest);
-
-        addressService.insertAddress(teacher.getAddress());
         teacherRepository.save(teacher);
 
         return teacherAdapter.adptTeacherIdToTeacherIdResponse(teacher);
@@ -80,28 +70,27 @@ public class TeacherServiceImpl implements TeacherService {
 
         TeacherEntity teacherUpdate = teacherAdapter.adptTeacherRequestToTeacher(teacherUpdateRequest);
 
-        teacher.setAccreditedFt(teacherUpdateRequest.getAccreditedFt());
-        teacher.setRegister(teacherUpdateRequest.getRegister());
-        teacher.setProfessionalArea(teacherUpdateRequest.getProfessionalArea());
-        teacher.setAuthorized(teacherUpdateRequest.getAuthorized());
-        teacher.setAccreditedFtCode(teacherUpdateRequest.getAccreditedFtCode());
-        teacher.setFiscalCode(teacherUpdateRequest.getFiscalCode());
-        teacher.setSurname(teacherUpdateRequest.getSurname());
-        teacher.setCurriculumVitae(teacherUpdateRequest.getCurriculumVitae());
-        teacher.setDateOfBirth(teacherUpdateRequest.getDateOfBirth());
-        teacher.setPublicEmployee(teacherUpdateRequest.getPublicEmployee());
-        teacher.setEmail(teacherUpdateRequest.getEmail());
-        teacher.setProfessionalOrderRegistration(teacherUpdateRequest.getProfessionalOrderRegistration());
-        teacher.setBirthPlace(teacherUpdateRequest.getBirthPlace());
-        teacher.setName(teacherUpdateRequest.getName());
-        teacher.setNote(teacherUpdateRequest.getNote());
-        teacher.setVatNumber(teacherUpdateRequest.getVatNumber());
-        teacher.setSector(teacherUpdateRequest.getSector());
-        teacher.setPhone(teacherUpdateRequest.getPhone());
-        teacher.setVatHolder(teacherUpdateRequest.getVatHolder());
-        teacher.setUsername(teacherUpdateRequest.getUsername());
-
-        teacher.setAddress(addressService.updateAddress(teacherUpdateRequest.getAddress(), teacher.getAddress().getId()));
+        teacher.setAccreditedFt(teacherUpdate.getAccreditedFt());
+        teacher.setRegister(teacherUpdate.getRegister());
+        teacher.setProfessionalArea(teacherUpdate.getProfessionalArea());
+        teacher.setAuthorized(teacherUpdate.getAuthorized());
+        teacher.setAccreditedFtCode(teacherUpdate.getAccreditedFtCode());
+        teacher.setFiscalCode(teacherUpdate.getFiscalCode());
+        teacher.setSurname(teacherUpdate.getSurname());
+        teacher.setCurriculumVitae(teacherUpdate.getCurriculumVitae());
+        teacher.setDateOfBirth(teacherUpdate.getDateOfBirth());
+        teacher.setPublicEmployee(teacherUpdate.getPublicEmployee());
+        teacher.setEmail(teacherUpdate.getEmail());
+        teacher.setProfessionalOrderRegistration(teacherUpdate.getProfessionalOrderRegistration());
+        teacher.setBirthPlace(teacherUpdate.getBirthPlace());
+        teacher.setName(teacherUpdate.getName());
+        teacher.setNote(teacherUpdate.getNote());
+        teacher.setVatNumber(teacherUpdate.getVatNumber());
+        teacher.setSector(teacherUpdate.getSector());
+        teacher.setPhone(teacherUpdate.getPhone());
+        teacher.setVatHolder(teacherUpdate.getVatHolder());
+        teacher.setUsername(teacherUpdate.getUsername());
+        teacher.setAddress(teacherUpdate.getAddress());
 
         teacherRepository.save(teacher);
 
@@ -180,8 +169,8 @@ public class TeacherServiceImpl implements TeacherService {
         if( teacherPatch.getUsername() != null)
             teacher.setUsername(teacherPatch.getUsername());
 
-        if( teacherUpdateRequest.getAddress() != null)
-            teacher.setAddress(addressService.updateAddress(teacherUpdateRequest.getAddress(), teacher.getAddress().getId()));
+        if( teacherPatch.getAddress() != null)
+            teacher.setAddress(teacherPatch.getAddress());
 
         teacherRepository.save(teacher);
 

@@ -2,7 +2,6 @@ package it.tcgroup.vilear.coursemanager.entity.jsonb.partner;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
 
