@@ -1,7 +1,8 @@
 package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddressCourseType;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddresType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "branch")
 @TypeDefs({
-        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddressCourseType.class)
+        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class)
 })
 public class BranchEntity implements Serializable {
 
@@ -46,12 +47,12 @@ public class BranchEntity implements Serializable {
 
     @Type(type = "JsonDataAddressType")
     @Column(name = "address")
-    private AddressEntity address;
+    private Address address;
 
     public BranchEntity() {
     }
 
-    public BranchEntity(UUID id, String username, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressEntity address) {
+    public BranchEntity(UUID id, String username, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, Address address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -109,11 +110,11 @@ public class BranchEntity implements Serializable {
         this.rightOfAccessToTheCourses = rightOfAccessToTheCourses;
     }
 
-    public AddressEntity getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(AddressEntity address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

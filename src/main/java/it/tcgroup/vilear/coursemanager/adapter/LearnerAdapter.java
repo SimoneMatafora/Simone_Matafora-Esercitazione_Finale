@@ -5,7 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerRespon
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
-import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
@@ -26,7 +26,7 @@ public class LearnerAdapter {
 
         LearnerEntity learner = new LearnerEntity();
 
-        AddressEntity address = null;
+        Address address = null;
         if (learnerInsertRequest.getAddress() != null)
             address = addressAdapter.adptAddressRequestToAddress(learnerInsertRequest.getAddress());
 

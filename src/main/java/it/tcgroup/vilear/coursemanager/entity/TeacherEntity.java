@@ -1,7 +1,8 @@
 package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddressCourseType;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddresType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -15,7 +16,7 @@ import java.util.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "teacher")
 @TypeDefs({
-        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddressCourseType.class)
+        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class)
 })
 public class TeacherEntity implements Serializable {
 
@@ -92,12 +93,12 @@ public class TeacherEntity implements Serializable {
 
     @Type(type = "JsonDataAddressType")
     @Column(name = "address")
-    private AddressEntity address;
+    private Address address;
 
     public TeacherEntity() {
     }
 
-    public TeacherEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, AddressEntity address) {
+    public TeacherEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, Address address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -290,11 +291,11 @@ public class TeacherEntity implements Serializable {
         this.curriculumVitae = curriculumVitae;
     }
 
-    public AddressEntity getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(AddressEntity address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

@@ -2,14 +2,14 @@ package it.tcgroup.vilear.coursemanager.adapter;
 
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
-import it.tcgroup.vilear.coursemanager.entity.AddressEntity;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
 import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AddressAdapter {
 
-    private String formatAddress(AddressEntity address){
+    private String formatAddress(Address address){
 
         String formattedAddress = "";
         if(address.getStreet() != null){ formattedAddress += address.getStreet(); }
@@ -37,9 +37,9 @@ public class AddressAdapter {
         return formattedAddress;
     }
 
-    public AddressEntity adptAddressRequestToAddress(AddressRequest addressRequest){
+    public Address adptAddressRequestToAddress(AddressRequest addressRequest){
 
-        AddressEntity address = new AddressEntity();
+        Address address = new Address();
 
         address.setZipCode(addressRequest.getZipCode());
         address.setCity(addressRequest.getCity());
@@ -54,7 +54,7 @@ public class AddressAdapter {
         return address;
     }
 
-    public AddressResponse adptAddressToAddressResponse(AddressEntity address){
+    public AddressResponse adptAddressToAddressResponse(Address address){
 
 
         AddressResponse indirizzoResponse = new AddressResponse();

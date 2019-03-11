@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS learner (
 	email varchar(255) NOT NULL,
 	degree_of_studies varchar(255) NOT NULL,
 	course_of_study varchar(255) NULL,
-	curriculum_vitae varchar(255) NOT NULL,
+	curriculum_vitae jsonb NULL,
 	note varchar(255) NULL
 );
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS teacher (
 	register varchar(255) NOT NULL,
 	vat_holder bool NOT NULL,
 	vat_number varchar(255) NULL,
-	curriculum_vitae varchar(255) NOT NULL,
+	curriculum_vitae jsonb NULL,
 	sector varchar(255) NOT NULL,
 	note varchar(255) NULL
 );

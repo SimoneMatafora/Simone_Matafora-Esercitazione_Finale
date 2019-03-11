@@ -1,10 +1,10 @@
-package it.tcgroup.vilear.coursemanager.entity;
+package it.tcgroup.vilear.coursemanager.entity.jsonb;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class AddressEntity implements Serializable {
+public class Address implements Serializable {
     
     @JsonProperty("nation")
     private String nation;
@@ -30,10 +30,10 @@ public class AddressEntity implements Serializable {
     @JsonProperty("formatted_address")
     private String formattedAddress;
 
-    public AddressEntity() {
+    public Address() {
     }
 
-    public AddressEntity( String nation, String region, String province, String city, String street, String number, String zipCode, String formattedAddress) {
+    public Address(String nation, String region, String province, String city, String street, String number, String zipCode, String formattedAddress) {
         this.nation = nation;
         this.region = region;
         this.province = province;
@@ -111,7 +111,7 @@ public class AddressEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "AddressEntity{" +
+        return "Address{" +
                 ", nation='" + nation + '\'' +
                 ", region='" + region + '\'' +
                 ", province='" + province + '\'' +
@@ -127,7 +127,7 @@ public class AddressEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressEntity that = (AddressEntity) o;
+        Address that = (Address) o;
         return  Objects.equals(nation, that.nation) &&
                 Objects.equals(region, that.region) &&
                 Objects.equals(province, that.province) &&
