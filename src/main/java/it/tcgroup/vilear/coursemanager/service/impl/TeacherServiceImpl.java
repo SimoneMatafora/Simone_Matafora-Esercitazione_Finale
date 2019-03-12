@@ -1,22 +1,27 @@
 package it.tcgroup.vilear.coursemanager.service.impl;
 
+import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.TeacherAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.repository.TeacherEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.TeacherRepository;
+import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import it.tcgroup.vilear.coursemanager.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +40,12 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private TeacherAdapter teacherAdapter;
+
+    @Autowired
+    private FilemanagerService filemanagerService;
+
+    @Autowired
+    private AttachmentAdapter attachmentAdapter;
 
     @Override
     public IdResponseV1 insertTeacher(TeacherRequestV1 teacherInsertRequest){
@@ -77,7 +88,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setAccreditedFtCode(teacherUpdate.getAccreditedFtCode());
         teacher.setFiscalCode(teacherUpdate.getFiscalCode());
         teacher.setSurname(teacherUpdate.getSurname());
-        teacher.setCurriculumVitae(teacherUpdate.getCurriculumVitae());
+        //teacher.setCurriculumVitae(teacherUpdate.getCurriculumVitae());
         teacher.setDateOfBirth(teacherUpdate.getDateOfBirth());
         teacher.setPublicEmployee(teacherUpdate.getPublicEmployee());
         teacher.setEmail(teacherUpdate.getEmail());
@@ -130,8 +141,8 @@ public class TeacherServiceImpl implements TeacherService {
         if( teacherPatch.getSurname() != null)
             teacher.setSurname(teacherPatch.getSurname());
 
-        if( teacherPatch.getCurriculumVitae() != null)
-            teacher.setCurriculumVitae(teacherPatch.getCurriculumVitae());
+        /*if( teacherPatch.getCurriculumVitae() != null)
+            teacher.setCurriculumVitae(teacherPatch.getCurriculumVitae());*/
 
         if( teacherPatch.getDateOfBirth() != null)
             teacher.setDateOfBirth(teacherPatch.getDateOfBirth());
@@ -208,6 +219,42 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void deleteTeacher(UUID idTeacher){
         teacherRepository.deleteById(idTeacher);
+    }
+
+    @Override
+    public TeacherResponseV1 addTeacherCurriculum(UploadRequestV1 curriculim, UUID idTeacher) throws IOException {
+
+        Optional<TeacherEntity> optTeacher = teacherRepository.findById(idTeacher);
+        if(!optTeacher.isPresent()){
+            throw new NotFoundException("Tacher with id " + idTeacher+ " not found");
+        }
+
+        TeacherEntity teacher = optTeacher.get();
+
+        curriculim.setResourceId(idTeacher.toString());
+        curriculim.setResourceType("curriculum");
+
+        UploadResponseV1 response = filemanagerService.uploadFile(curriculim);
+
+        teacher.setCurriculumVitae(attachmentAdapter.adptUploadResponseToAttachment(response));
+
+        teacherRepository.save(teacher);
+
+        return teacherAdapter.adptTeacherToTeacherResponse(teacher);
+
+    }
+
+    @Override
+    public void deleteTeacherCurriculum(UUID idTeacher){
+
+        Optional<TeacherEntity> optTeacher = teacherRepository.findById(idTeacher);
+        if(!optTeacher.isPresent()){
+            throw new NotFoundException("Tacher with id " + idTeacher+ " not found");
+        }
+
+        TeacherEntity teacher = optTeacher.get();
+        teacher.setCurriculumVitae(null);
+        teacherRepository.save(teacher);
     }
 
 }

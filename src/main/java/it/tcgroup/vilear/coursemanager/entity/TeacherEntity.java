@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddresType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -88,8 +89,9 @@ public class TeacherEntity implements Serializable {
     @Column(name = "note")
     private String note;
 
+    @Type(type = "JsonDataAttachmentType")
     @Column(name = "curriculum_vitae")
-    private String curriculumVitae;
+    private Attachment curriculumVitae;
 
     @Type(type = "JsonDataAddressType")
     @Column(name = "address")
@@ -98,7 +100,7 @@ public class TeacherEntity implements Serializable {
     public TeacherEntity() {
     }
 
-    public TeacherEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, Address address) {
+    public TeacherEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, Address address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -283,11 +285,11 @@ public class TeacherEntity implements Serializable {
         this.note = note;
     }
 
-    public String getCurriculumVitae() {
+    public Attachment getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(String curriculumVitae) {
+    public void setCurriculumVitae(Attachment curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 

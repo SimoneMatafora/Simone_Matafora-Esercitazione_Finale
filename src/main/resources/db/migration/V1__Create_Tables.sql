@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS course (
 	certificate_type varchar(255) NULL,
 	minimum_numeric_of_participants numeric NULL,
 	disabled bool NULL,
-	course_logo varchar(255) NULL,
+	course_logo jsonb NULL,
 	part_full_time varchar(255) NULL,
 	morning_start_hour TIME NULL,
 	morning_end_hour TIME NULL,
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS course (
 	partners jsonb NOT NULL,
 	teachers jsonb NOT NULL,
 	placement jsonb NULL,
-	document_attachment varchar(255) NULL
+	document_attachment jsonb NULL
 );
 
 CREATE TABLE IF NOT EXISTS partner (

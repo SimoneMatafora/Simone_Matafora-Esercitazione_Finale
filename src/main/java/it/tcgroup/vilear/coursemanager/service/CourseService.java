@@ -1,11 +1,14 @@
 package it.tcgroup.vilear.coursemanager.service;
 
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public interface CourseService {
@@ -18,5 +21,10 @@ public interface CourseService {
     PaginationResponseV1<CourseResponseV1> getCoursePagination(int page, int pageSize, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality,
                                                                PaymentModalityEnum paymentModality, FoundsTypeCourseEnum foundsType, String courseStartDate, PartFullTimeCourseEnum partFullTime, String courseCode, String businessName,
                                                                CourseTypeEnum courseType, SpecialInitiativesCourseEnum specialInitiatives);
+
+    CourseResponseV1 addCourseLogo(UploadRequestV1 logo, UUID idCourse) throws IOException;
+    CourseResponseV1 addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException;
+    void deleteCourseLogo(UUID idCourse);
+    void deleteCourseAttachments(UUID idCourse, List<UUID> attachmentList);
 
 }

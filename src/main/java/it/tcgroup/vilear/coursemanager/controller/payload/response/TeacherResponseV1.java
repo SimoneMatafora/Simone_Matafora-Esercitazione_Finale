@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.controller.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.util.Date;
 
@@ -70,7 +71,7 @@ public class TeacherResponseV1 {
     private String note;
 
     @JsonProperty("curriculum_vitae")
-    private String curriculumVitae;
+    private Attachment curriculumVitae;
 
     @JsonProperty("address")
     private AddressResponse address;
@@ -78,7 +79,7 @@ public class TeacherResponseV1 {
     public TeacherResponseV1() {
     }
 
-    public TeacherResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, AddressResponse address) {
+    public TeacherResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressResponse address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -263,11 +264,11 @@ public class TeacherResponseV1 {
         this.note = note;
     }
 
-    public String getCurriculumVitae() {
+    public Attachment getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(String curriculumVitae) {
+    public void setCurriculumVitae(Attachment curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 

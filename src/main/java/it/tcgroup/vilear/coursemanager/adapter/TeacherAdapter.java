@@ -39,7 +39,6 @@ public class TeacherAdapter {
         teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
         teacher.setFiscalCode(teacherInsertRequest.getFiscalCode());
         teacher.setSurname(teacherInsertRequest.getSurname());
-        teacher.setCurriculumVitae(teacherInsertRequest.getCurriculumVitae());
         teacher.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
         teacher.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
         teacher.setEmail(teacherInsertRequest.getEmail());
@@ -76,7 +75,6 @@ public class TeacherAdapter {
         teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
         teacher.setFiscalCode(teacherInsertRequest.getFiscalCode());
         teacher.setSurname(teacherInsertRequest.getSurname());
-        teacher.setCurriculumVitae(teacherInsertRequest.getCurriculumVitae());
         teacher.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
         teacher.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
         teacher.setEmail(teacherInsertRequest.getEmail());

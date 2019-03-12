@@ -1,10 +1,12 @@
 package it.tcgroup.vilear.coursemanager.service;
 
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public interface TeacherService {
@@ -17,4 +19,6 @@ public interface TeacherService {
                                                                  String luogoDiNascita, String email, String areaProfessionale, Boolean dipendentePubblico, Boolean accreditatoFt, String codiceAccredidatoFt,
                                                                  Boolean autorizzato, Boolean iscrizioneOrdineProfessionale, String albo, Boolean titolarePiva, String settore, String citta, String comune, String cap);
     void deleteTeacher(UUID idTeacher);
+    TeacherResponseV1 addTeacherCurriculum(UploadRequestV1 curriculim, UUID idTeacher) throws IOException;
+    void deleteTeacherCurriculum(UUID idTeacher);
 }

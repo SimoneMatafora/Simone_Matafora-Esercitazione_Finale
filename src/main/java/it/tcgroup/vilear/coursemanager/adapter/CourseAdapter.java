@@ -58,7 +58,7 @@ public class CourseAdapter {
         course.setCourseCode(courseRequest.getCourseCode());
         course.setCourseDescription(courseRequest.getCourseDescription());
         course.setCourseEndDate(courseRequest.getCourseEndDate());
-        course.setCourseLogo(courseRequest.getCourseLogo());
+        //course.setCourseLogo(courseRequest.getCourseLogo());
         course.setCourseStartDate(courseRequest.getCourseStartDate());
         course.setCourseTitle(courseRequest.getCourseTitle());
         course.setCourseType(courseRequest.getCourseType());
@@ -66,7 +66,7 @@ public class CourseAdapter {
         course.setDailyRegister(courseRequest.getDailyRegister());
         course.setDeliveryDateInAdministration(courseRequest.getDeliveryDateInAdministration());
         course.setDisabled(courseRequest.getDisabled());
-        course.setDocumentAttachment(courseRequest.getDocumentAttachment());
+        //course.setDocumentAttachment(courseRequest.getDocumentAttachment());
         course.setEducationalTargetDescription(courseRequest.getEducationalTargetDescription());
         course.setEntourageHours(courseRequest.getEntourageHours());
         course.setExpiredReportingDate(courseRequest.getExpiredReportingDate());
@@ -145,7 +145,7 @@ public class CourseAdapter {
         courseResponse.setCourseCode(course.getCourseCode());
         courseResponse.setCourseDescription(course.getCourseDescription());
         courseResponse.setCourseEndDate(course.getCourseEndDate());
-        courseResponse.setCourseLogo(course.getCourseLogo());
+        //courseResponse.setCourseLogo(course.getCourseLogo());
         courseResponse.setCourseStartDate(course.getCourseStartDate());
         courseResponse.setCourseTitle(course.getCourseTitle());
         courseResponse.setCourseType(course.getCourseType());
@@ -153,7 +153,7 @@ public class CourseAdapter {
         courseResponse.setDailyRegister(course.getDailyRegister());
         courseResponse.setDeliveryDateInAdministration(course.getDeliveryDateInAdministration());
         courseResponse.setDisabled(course.getDisabled());
-        courseResponse.setDocumentAttachment(course.getDocumentAttachment());
+        //courseResponse.setDocumentAttachment(course.getDocumentAttachment());
         courseResponse.setEducationalTargetDescription(course.getEducationalTargetDescription());
         courseResponse.setEntourageHours(course.getEntourageHours());
         courseResponse.setExpiredReportingDate(course.getExpiredReportingDate());

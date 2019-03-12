@@ -1,26 +1,29 @@
 package it.tcgroup.vilear.coursemanager.service.impl;
 
+import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.CourseAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
+import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 @Transactional
 @Service
@@ -34,6 +37,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseEMRepository courseEMRepository;
+
+    @Autowired
+    private FilemanagerService filemanagerService;
+
+    @Autowired
+    private AttachmentAdapter attachmentAdapter;
+
 
     @Override
     public IdResponseV1 insertCourse(CourseRequestV1 courseInsertRequest) {
@@ -90,7 +100,7 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseCode(courseUpdate.getCourseCode());
         course.setCourseDescription(courseUpdate.getCourseDescription());
         course.setCourseEndDate(courseUpdate.getCourseEndDate());
-        course.setCourseLogo(courseUpdate.getCourseLogo());
+        //course.setCourseLogo(courseUpdate.getCourseLogo());
         course.setCourseStartDate(courseUpdate.getCourseStartDate());
         course.setCourseTitle(courseUpdate.getCourseTitle());
         course.setCourseType(courseUpdate.getCourseType());
@@ -98,7 +108,7 @@ public class CourseServiceImpl implements CourseService {
         course.setDailyRegister(courseUpdate.getDailyRegister());
         course.setDeliveryDateInAdministration(courseUpdate.getDeliveryDateInAdministration());
         course.setDisabled(courseUpdate.getDisabled());
-        course.setDocumentAttachment(courseUpdate.getDocumentAttachment());
+        //course.setDocumentAttachment(courseUpdate.getDocumentAttachment());
         course.setEducationalTargetDescription(courseUpdate.getEducationalTargetDescription());
         course.setEntourageHours(courseUpdate.getEntourageHours());
         course.setExpiredReportingDate(courseUpdate.getExpiredReportingDate());
@@ -199,8 +209,8 @@ public class CourseServiceImpl implements CourseService {
             course.setCourseDescription(coursePatch.getCourseDescription());
         if(coursePatch.getCourseEndDate() != null)
             course.setCourseEndDate(coursePatch.getCourseEndDate());
-        if(coursePatch.getCourseLogo() != null)
-            course.setCourseLogo(coursePatch.getCourseLogo());
+        /*if(coursePatch.getCourseLogo() != null)
+            course.setCourseLogo(coursePatch.getCourseLogo());*/
         if(coursePatch.getCourseStartDate() != null)
             course.setCourseStartDate(coursePatch.getCourseStartDate());
         if(coursePatch.getCourseTitle() != null)
@@ -215,8 +225,8 @@ public class CourseServiceImpl implements CourseService {
             course.setDeliveryDateInAdministration(coursePatch.getDeliveryDateInAdministration());
         if(coursePatch.getDisabled() != null)
             course.setDisabled(coursePatch.getDisabled());
-        if(coursePatch.getDocumentAttachment() != null)
-            course.setDocumentAttachment(coursePatch.getDocumentAttachment());
+        /*if(coursePatch.getDocumentAttachment() != null)
+            course.setDocumentAttachment(coursePatch.getDocumentAttachment());*/
         if(coursePatch.getEducationalTargetDescription() != null)
             course.setEducationalTargetDescription(coursePatch.getEducationalTargetDescription());
         if(coursePatch.getEntourageHours() != null)
@@ -336,5 +346,87 @@ public class CourseServiceImpl implements CourseService {
         return courseAdapter.adpCoursePaginationTooursePaginationResposne(coursesPagination);
 
     }
+
+
+    @Override
+    public CourseResponseV1 addCourseLogo(UploadRequestV1 logo, UUID idCourse) throws IOException{
+
+        Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
+        if(!courseOpt.isPresent()){
+            throw new NotFoundException("Course with id " + idCourse+ " not found");
+        }
+
+        CourseEntity course = courseOpt.get();
+        UploadResponseV1 response = filemanagerService.uploadFile(logo);
+        course.setCourseLogo(attachmentAdapter.adptUploadResponseToAttachment(response));
+        courseRepository.save(course);
+
+        return courseAdapter.adptCourseToCourseResponse(course);
+    }
+
+    @Override
+    public void deleteCourseLogo(UUID idCourse){
+
+        Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
+        if(!courseOpt.isPresent()){
+            throw new NotFoundException("Course with id " + idCourse+ " not found");
+        }
+
+        CourseEntity course = courseOpt.get();
+        course.setCourseLogo(null);
+        courseRepository.save(course);
+    }
+
+    @Override
+    public CourseResponseV1 addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException{
+
+        Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
+        if(!courseOpt.isPresent()){
+            throw new NotFoundException("Course with id " + idCourse+ " not found");
+        }
+
+        CourseEntity course = courseOpt.get();
+        List<Attachment> attachments = course.getDocumentsAttachment();
+        if(attachments == null){
+            attachments = new LinkedList<>();
+        }
+
+        UploadResponseV1 response;
+
+        for (UploadRequestV1 att : attachmentList){
+             response = filemanagerService.uploadFile(att);
+             attachments.add(attachmentAdapter.adptUploadResponseToAttachment(response));
+        }
+
+        courseRepository.save(course);
+        return courseAdapter.adptCourseToCourseResponse(course);
+
+    }
+
+    @Override
+    public void deleteCourseAttachments(UUID idCourse, List<UUID> attachmentList){
+
+        Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
+        if(!courseOpt.isPresent()){
+            throw new NotFoundException("Course with id " + idCourse+ " not found");
+        }
+
+        CourseEntity course = courseOpt.get();
+
+        for (UUID uuidAttacment : attachmentList){
+
+            Iterator<Attachment> iterator = course.getDocumentsAttachment().iterator();
+            while (iterator.hasNext()){
+
+                Attachment att = iterator.next();
+                if(att.getFileManagerId().equalsIgnoreCase(uuidAttacment.toString())){
+                    course.getDocumentsAttachment().remove(att);
+                    break;
+                }
+            }
+        }
+        courseRepository.save(course);
+    }
+
 
 }

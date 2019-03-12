@@ -69,7 +69,7 @@ public class LearnerServiceImpl implements LearnerService {
 
         learner.setFiscalCode(learnerUpdate.getFiscalCode());
         learner.setSurname(learnerUpdate.getSurname());
-        learner.setCurriculumVitae(learnerUpdate.getCurriculumVitae());
+        //learner.setCurriculumVitae(learnerUpdate.getCurriculumVitae());
         learner.setDateOfBirth(learnerUpdate.getDateOfBirth());
         learner.setEmail(learnerUpdate.getEmail());
         learner.setBirthPlace(learnerUpdate.getBirthPlace());
@@ -116,8 +116,8 @@ public class LearnerServiceImpl implements LearnerService {
         if( learnerPatch.getSurname() != null)
             learner.setSurname(learnerPatch.getSurname());
 
-        if( learnerPatch.getCurriculumVitae() != null)
-            learner.setCurriculumVitae(learnerPatch.getCurriculumVitae());
+        /*if( learnerPatch.getCurriculumVitae() != null)
+            learner.setCurriculumVitae(learnerPatch.getCurriculumVitae());*/
 
         if( learnerPatch.getDateOfBirth() != null)
             learner.setDateOfBirth(learnerPatch.getDateOfBirth());
@@ -206,5 +206,18 @@ public class LearnerServiceImpl implements LearnerService {
 
         return learnerAdapter.adptLearnerToLearnerResponse(learner);
 
+    }
+
+    @Override
+    public void deleteLearnerCurriculum(UUID idLearner){
+
+        Optional<LearnerEntity> optLearner = learnerRepository.findById(idLearner);
+        if(!optLearner.isPresent()){
+            throw new NotFoundException("Learner with id " + idLearner+ " not found");
+        }
+
+        LearnerEntity learner = optLearner.get();
+        learner.setCurriculumVitae(null);
+        learnerRepository.save(learner);
     }
 }

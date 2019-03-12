@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -71,7 +72,7 @@ public class TeacherDto implements Serializable {
     private String note;
 
     @JsonProperty("curriculum_vitae")
-    private String curriculumVitae;
+    private Attachment curriculumVitae;
 
     @JsonProperty("address")
     private AddressDto address;
@@ -79,7 +80,7 @@ public class TeacherDto implements Serializable {
     public TeacherDto() {
     }
 
-    public TeacherDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, AddressDto address) {
+    public TeacherDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressDto address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -264,11 +265,11 @@ public class TeacherDto implements Serializable {
         this.note = note;
     }
 
-    public String getCurriculumVitae() {
+    public Attachment getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(String curriculumVitae) {
+    public void setCurriculumVitae(Attachment curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 

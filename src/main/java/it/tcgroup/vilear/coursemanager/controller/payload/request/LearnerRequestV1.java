@@ -47,16 +47,13 @@ public class LearnerRequestV1 {
     @JsonProperty("note")
     private String note;
 
-    @JsonProperty("curriculum_vitae")
-    private Attachment curriculumVitae;
-
     @JsonProperty("address")
     private AddressRequest address;
 
     public LearnerRequestV1() {
     }
 
-    public LearnerRequestV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, Attachment curriculumVitae, AddressRequest address) {
+    public LearnerRequestV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, AddressRequest address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -69,7 +66,6 @@ public class LearnerRequestV1 {
         this.degreeOfStudies = degreeOfStudies;
         this.courseOfStudy = courseOfStudy;
         this.note = note;
-        this.curriculumVitae = curriculumVitae;
         this.address = address;
     }
 
@@ -169,14 +165,6 @@ public class LearnerRequestV1 {
         this.note = note;
     }
 
-    public Attachment getCurriculumVitae() {
-        return curriculumVitae;
-    }
-
-    public void setCurriculumVitae(Attachment curriculumVitae) {
-        this.curriculumVitae = curriculumVitae;
-    }
-
     public AddressRequest getAddress() {
         return address;
     }
@@ -200,7 +188,6 @@ public class LearnerRequestV1 {
                 ", degreeOfStudies=" + degreeOfStudies +
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
                 ", address=" + address +
                 '}';
     }

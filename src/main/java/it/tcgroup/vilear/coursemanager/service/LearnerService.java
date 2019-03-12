@@ -20,4 +20,5 @@ public interface LearnerService {
 
     void deleteLearner(UUID idLearner);
     LearnerResponseV1 addLearnerCurriculum(UploadRequestV1 curriculim, UUID idLearner) throws IOException;
+    void deleteLearnerCurriculum(UUID idLearner);
 }

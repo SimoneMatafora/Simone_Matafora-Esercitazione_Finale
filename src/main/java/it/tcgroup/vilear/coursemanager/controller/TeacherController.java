@@ -2,9 +2,11 @@ package it.tcgroup.vilear.coursemanager.controller;
 
 import io.swagger.annotations.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -40,7 +43,7 @@ public class TeacherController {
             @ApiParam(value = "Body of the Teacher to be created", required = true)
             @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
 
-        return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.OK);
+        return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
     }
 
     /*MODIFICA TEACHER*/
@@ -189,5 +192,50 @@ public class TeacherController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /*INSERIMENTO CURRICULUM*/
+    @PostMapping(value = "/teacher/curriculum/{UUID_TEACHER}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Teacher Curriculum", notes = "Insert Teacher Curriculum using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UploadResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<TeacherResponseV1> postInsertTeacherCurriculum(
+            @ApiParam(value = "Body of the Teacher Curriculum to be upload on filemanager", required = true)
+            @RequestBody UploadRequestV1 uploadRequest,
+            @ApiParam(value = "UUID of the Teacher", required = true)
+            @PathVariable(name = "UUID_TEACHER") String idTeacher) throws IOException {
+
+        return new ResponseEntity<>( teacherService.addTeacherCurriculum(uploadRequest, UUID.fromString(idTeacher)), HttpStatus.OK);
+    }
+
+    /*ELIMINAZIONE CURRICULUM*/
+    @DeleteMapping(value = "/teacher/curriculum/{UUID_TEACHER}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Delete Teacher Curriculum", notes = "Delete Teacher Curriculum")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UploadResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity deleteTeacherCurriculum(
+            @ApiParam(value = "UUID of the Teacher", required = true)
+            @PathVariable(name = "UUID_TEACHER") String idTeacher) {
+
+        teacherService.deleteTeacherCurriculum(UUID.fromString(idTeacher));
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
 
 }

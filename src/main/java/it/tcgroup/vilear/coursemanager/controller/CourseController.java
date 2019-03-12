@@ -2,9 +2,11 @@ package it.tcgroup.vilear.coursemanager.controller;
 
 import io.swagger.annotations.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -181,6 +185,96 @@ public class CourseController {
                 businessName,
                 CourseTypeEnum.create(courseType),
                 specialInitiatives),HttpStatus.OK);
+    }
+
+    /*INSERIMENTO LOGO*/
+    @PostMapping(value = "/course/logo/{UUID_COURSE}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Learner Curriculum", notes = "Insert Logo of the Course using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = CourseResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<CourseResponseV1> postInsertCourseLogo(
+            @ApiParam(value = "Body of the Attachment to be upload on filemanager", required = true)
+            @RequestBody UploadRequestV1 uploadRequest,
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
+
+        return new ResponseEntity<>( courseService.addCourseLogo(uploadRequest, UUID.fromString(idCourse)), HttpStatus.OK);
+    }
+
+    /*ELIMINAZIONE LOGO*/
+    @DeleteMapping(value = "/course/logo/{UUID_COURSE}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Delete Logo of the Course", notes = "Delete Logo of the Course")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UploadResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity deleteCourseLogo(
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse) {
+
+        courseService.deleteCourseLogo(UUID.fromString(idCourse));
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /*INSERIMENTO ALLEGATI*/
+    @PostMapping(value = "/course/logo/{UUID_COURSE}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Learner Curriculum", notes = "Insert Logo of the Course using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = CourseResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<CourseResponseV1> postInsertCourseAttachments(
+            @ApiParam(value = "Body of the Attachments to be upload on filemanager", required = true)
+            @RequestBody List<UploadRequestV1> uploadRequestList,
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
+
+        return new ResponseEntity<>( courseService.addCourseAttachments(uploadRequestList, UUID.fromString(idCourse)), HttpStatus.OK);
+    }
+
+    //DEVO COMPLETARE L'ELIMINAZIONE DEGLI ATTACHMENTS
+
+    /*ELIMINAZIONE ALLEGATI*/
+    @DeleteMapping(value = "/course/logo/{UUID_COURSE}/{UUID}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Delete Logo of the Course", notes = "Delete Logo of the Course")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UploadResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity deleteCourseAttachments(
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse,
+            @ApiParam(value = "List of UUID Attacments", required = true)
+            @PathVariable(name = "UUID_COURSE") List<String> idCourse) {
+
+        courseService.deleteCourseAttachments(UUID.fromString(idCourse));
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

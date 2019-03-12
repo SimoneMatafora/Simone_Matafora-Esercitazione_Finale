@@ -69,16 +69,13 @@ public class TeacherRequestV1 {
     @JsonProperty("note")
     private String note;
 
-    @JsonProperty("curriculum_vitae")
-    private String curriculumVitae;
-
     @JsonProperty("address")
     private AddressRequest address;
 
     public TeacherRequestV1() {
     }
 
-    public TeacherRequestV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, String curriculumVitae, AddressRequest address) {
+    public TeacherRequestV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, AddressRequest address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -99,7 +96,6 @@ public class TeacherRequestV1 {
         this.vatNumber = vatNumber;
         this.sector = sector;
         this.note = note;
-        this.curriculumVitae = curriculumVitae;
         this.address = address;
     }
 
@@ -263,14 +259,6 @@ public class TeacherRequestV1 {
         this.note = note;
     }
 
-    public String getCurriculumVitae() {
-        return curriculumVitae;
-    }
-
-    public void setCurriculumVitae(String curriculumVitae) {
-        this.curriculumVitae = curriculumVitae;
-    }
-
     public AddressRequest getAddress() {
         return address;
     }
@@ -302,7 +290,6 @@ public class TeacherRequestV1 {
                 ", vatNumber='" + vatNumber + '\'' +
                 ", sector='" + sector + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
                 ", address=" + address +
                 '}';
     }

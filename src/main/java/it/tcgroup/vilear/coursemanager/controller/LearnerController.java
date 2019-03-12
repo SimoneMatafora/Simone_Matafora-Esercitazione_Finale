@@ -199,4 +199,25 @@ public class LearnerController {
         return new ResponseEntity<>( learnerService.addLearnerCurriculum(uploadRequest, UUID.fromString(idLearner)), HttpStatus.OK);
     }
 
+    /*ELIMINAZIONE CURRICULUM*/
+    @DeleteMapping(value = "/learner/curriculum/{UUID_LEARNER}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Delete Learner Curriculum", notes = "Delete Learner Curriculum")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UploadResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity deleteLearnerCurriculum(
+            @ApiParam(value = "UUID of the Learner", required = true)
+            @PathVariable(name = "UUID_LEARNER") String idLearner) {
+
+        learnerService.deleteLearnerCurriculum(UUID.fromString(idLearner));
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

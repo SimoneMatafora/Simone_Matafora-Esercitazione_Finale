@@ -32,7 +32,6 @@ public class LearnerAdapter {
 
         learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
         learner.setSurname(learnerInsertRequest.getSurname());
-        learner.setCurriculumVitae(learnerInsertRequest.getCurriculumVitae());
         learner.setDateOfBirth(learnerInsertRequest.getDateOfBirth());
         learner.setEmail(learnerInsertRequest.getEmail());
         learner.setBirthPlace(learnerInsertRequest.getBirthPlace());
@@ -58,7 +57,6 @@ public class LearnerAdapter {
         learner.setId(learnerInsertRequest.getId());
         learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
         learner.setSurname(learnerInsertRequest.getSurname());
-        learner.setCurriculumVitae(learnerInsertRequest.getCurriculumVitae());
         learner.setDateOfBirth(learnerInsertRequest.getDateOfBirth());
         learner.setEmail(learnerInsertRequest.getEmail());
         learner.setBirthPlace(learnerInsertRequest.getBirthPlace());
