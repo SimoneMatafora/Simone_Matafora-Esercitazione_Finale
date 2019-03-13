@@ -36,25 +36,7 @@ public class Attachment implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
     private Date createdAt;
 
-    @JsonProperty("hidden")
-    private Boolean hidden = false;
-
-    @JsonProperty("validate")
-    private Boolean validate = false;
-
     public Attachment() {
-    }
-
-    public Attachment(String fileManagerId, String fileManagerName, String blobName, Long blobSize, String mimeType, String description, Date createdAt, Boolean hidden, Boolean validate) {
-        this.fileManagerId = fileManagerId;
-        this.fileManagerName = fileManagerName;
-        this.blobName = blobName;
-        this.blobSize = blobSize;
-        this.mimeType = mimeType;
-        this.description = description;
-        this.createdAt = createdAt;
-        this.hidden = hidden;
-        this.validate = validate;
     }
 
     public Attachment(String fileManagerId, String fileManagerName, String blobName, Long blobSize, String mimeType, String description, Date createdAt) {
@@ -127,24 +109,6 @@ public class Attachment implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Boolean getHidden() {
-        return hidden;
-    }
-
-    @JsonSetter
-    public void setHidden(Boolean hidden) {
-        if (hidden != null)
-            this.hidden = hidden;
-    }
-
-    public Boolean getValidate() {
-        return validate;
-    }
-    @JsonSetter
-    public void setValidate(Boolean validate) {
-        if(validate != null)
-            this.validate = validate;
-    }
 
     @Override
     public String toString() {

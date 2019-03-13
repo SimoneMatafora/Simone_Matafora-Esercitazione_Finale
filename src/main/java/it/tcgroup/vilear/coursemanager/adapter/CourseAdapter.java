@@ -145,7 +145,7 @@ public class CourseAdapter {
         courseResponse.setCourseCode(course.getCourseCode());
         courseResponse.setCourseDescription(course.getCourseDescription());
         courseResponse.setCourseEndDate(course.getCourseEndDate());
-        //courseResponse.setCourseLogo(course.getCourseLogo());
+        courseResponse.setCourseLogo(course.getCourseLogo());
         courseResponse.setCourseStartDate(course.getCourseStartDate());
         courseResponse.setCourseTitle(course.getCourseTitle());
         courseResponse.setCourseType(course.getCourseType());
@@ -153,7 +153,7 @@ public class CourseAdapter {
         courseResponse.setDailyRegister(course.getDailyRegister());
         courseResponse.setDeliveryDateInAdministration(course.getDeliveryDateInAdministration());
         courseResponse.setDisabled(course.getDisabled());
-        //courseResponse.setDocumentAttachment(course.getDocumentAttachment());
+        courseResponse.setDocumentAttachment(course.getDocumentsAttachment());
         courseResponse.setEducationalTargetDescription(course.getEducationalTargetDescription());
         courseResponse.setEntourageHours(course.getEntourageHours());
         courseResponse.setExpiredReportingDate(course.getExpiredReportingDate());

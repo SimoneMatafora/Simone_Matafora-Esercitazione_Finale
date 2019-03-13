@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -252,14 +253,8 @@ public class CourseController {
         return new ResponseEntity<>( courseService.addCourseAttachments(uploadRequestList, UUID.fromString(idCourse)), HttpStatus.OK);
     }
 
-    //DEVO COMPLETARE L'ELIMINAZIONE DEGLI ATTACHMENTS
-
     /*ELIMINAZIONE ALLEGATI*/
-
-    /*
-    @DeleteMapping(value = "/course/logo/{UUID_COURSE}/{UUID}",
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @DeleteMapping(value = "/course/attachments/{UUID_COURSE}/{LIST_OF_ID_ATTACHMENT}")
     @ApiOperation(value="Delete Logo of the Course", notes = "Delete Logo of the Course")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UploadResponseV1.class),
@@ -273,11 +268,16 @@ public class CourseController {
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse,
             @ApiParam(value = "List of UUID Attacments", required = true)
-            @PathVariable(name = "UUID_COURSE") List<String> idCourse) {
+            @PathVariable(name = "LIST_OF_ID_ATTACHMENT") String[] idStringAttachmentList) {
 
-        courseService.deleteCourseAttachments(UUID.fromString(idCourse));
+
+        List<UUID> idAttachmentList = new LinkedList<>();
+        for (String att : idStringAttachmentList){
+            idAttachmentList.add(UUID.fromString(att));
+        }
+
+        courseService.deleteCourseAttachments(UUID.fromString(idCourse), idAttachmentList);
         return new ResponseEntity(HttpStatus.OK);
     }
-    */
 
 }

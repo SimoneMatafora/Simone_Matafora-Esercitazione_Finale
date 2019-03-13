@@ -29,6 +29,8 @@ import java.util.*;
         @TypeDef(name = "JsonDataTeacherCourseType", typeClass = JsonDataTeacherCourseType.class),
         @TypeDef(name = "JsonDataPlacementCourseType", typeClass = JsonDataPlacementCourseType.class),
         @TypeDef(name = "JavaDataPartnerDtoType", typeClass = JavaDataPartnerDtoType.class),
+        @TypeDef(name = "JsonDataAttachmentType", typeClass = JsonDataAttachmentType.class),
+        @TypeDef(name = "JsonDataAttachmentListType", typeClass = JsonDataAttachmentListType.class),
 })
 public class CourseEntity {
 
@@ -283,8 +285,8 @@ public class CourseEntity {
     @Column(name = "placement")
     private List<PlacementCourse> placementList;
 
-    @Type(type = "JsonDataAttachmentType")
-    @Column(name = "documents_attachment")
+    @Type(type = "JsonDataAttachmentListType")
+    @Column(name = "document_attachment")
     private List<Attachment> documentsAttachment;
 
     public CourseEntity() {

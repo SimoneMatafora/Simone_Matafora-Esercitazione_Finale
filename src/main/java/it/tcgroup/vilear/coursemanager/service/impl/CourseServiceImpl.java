@@ -357,6 +357,8 @@ public class CourseServiceImpl implements CourseService {
         }
 
         CourseEntity course = courseOpt.get();
+        logo.setResourceId(idCourse.toString());
+        logo.setResourceType("course's logo");
         UploadResponseV1 response = filemanagerService.uploadFile(logo);
         course.setCourseLogo(attachmentAdapter.adptUploadResponseToAttachment(response));
         courseRepository.save(course);
@@ -394,10 +396,15 @@ public class CourseServiceImpl implements CourseService {
         UploadResponseV1 response;
 
         for (UploadRequestV1 att : attachmentList){
-             response = filemanagerService.uploadFile(att);
-             attachments.add(attachmentAdapter.adptUploadResponseToAttachment(response));
+
+            att.setResourceId(idCourse.toString());
+            att.setResourceType("document");
+            response = filemanagerService.uploadFile(att);
+            attachments.add(attachmentAdapter.adptUploadResponseToAttachment(response));
         }
 
+        course.setDocumentsAttachment(attachments);
+        System.out.println(course.getDocumentsAttachment());
         courseRepository.save(course);
         return courseAdapter.adptCourseToCourseResponse(course);
 
