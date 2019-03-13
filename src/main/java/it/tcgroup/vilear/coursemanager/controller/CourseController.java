@@ -231,10 +231,10 @@ public class CourseController {
     }
 
     /*INSERIMENTO ALLEGATI*/
-    @PostMapping(value = "/course/logo/{UUID_COURSE}",
+    @PostMapping(value = "/course/attachments/{UUID_COURSE}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value="Insert Learner Curriculum", notes = "Insert Logo of the Course using info passed in the body")
+    @ApiOperation(value="Insert Learner Curriculum", notes = "Insert Attachments of the Course using info passed in the body")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created", response = CourseResponseV1.class),
             @ApiResponse(code = 400, message = "Bad Request"),
