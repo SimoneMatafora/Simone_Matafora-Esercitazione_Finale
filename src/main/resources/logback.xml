@@ -23,6 +23,7 @@
 
     <!-- ### ROOT LOGGER ### -->
     <root level="INFO">
+        <appender-ref ref="FILE_ROLLER"/>
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
