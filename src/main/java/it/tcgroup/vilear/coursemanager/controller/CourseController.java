@@ -255,6 +255,8 @@ public class CourseController {
     //DEVO COMPLETARE L'ELIMINAZIONE DEGLI ATTACHMENTS
 
     /*ELIMINAZIONE ALLEGATI*/
+
+    /*
     @DeleteMapping(value = "/course/logo/{UUID_COURSE}/{UUID}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -276,5 +278,6 @@ public class CourseController {
         courseService.deleteCourseAttachments(UUID.fromString(idCourse));
         return new ResponseEntity(HttpStatus.OK);
     }
+    */
 
 }
