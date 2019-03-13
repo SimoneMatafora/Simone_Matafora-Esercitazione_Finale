@@ -404,7 +404,6 @@ public class CourseServiceImpl implements CourseService {
         }
 
         course.setDocumentsAttachment(attachments);
-        System.out.println(course.getDocumentsAttachment());
         courseRepository.save(course);
         return courseAdapter.adptCourseToCourseResponse(course);
 
