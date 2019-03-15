@@ -18,9 +18,9 @@ public interface CourseService {
     CourseResponseV1 updateCourse(CourseRequestV1 courseUpdateRequest, UUID idCourse);
     CourseResponseV1 patchCourse(CourseRequestV1 courseUpdateRequest, UUID courseId);
     void deleteCourse(UUID courseId);
-    PaginationResponseV1<CourseResponseV1> getCoursePagination(int page, int pageSize, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality,
-                                                               PaymentModalityEnum paymentModality, FoundsTypeCourseEnum foundsType, String courseStartDate, PartFullTimeCourseEnum partFullTime, String courseCode, String businessName,
-                                                               CourseTypeEnum courseType, SpecialInitiativesCourseEnum specialInitiatives);
+    PaginationResponseV1<CourseResponseV1> getCoursePagination(int page, int pageSize, String courseTitle, String contentsArea, String learnerType, String supplyModality,
+                                                               String paymentModality, String foundsType, String courseStartDate, String partFullTime, String courseCode, String businessName,
+                                                               String courseType, String specialInitiatives);
 
     CourseResponseV1 addCourseLogo(UploadRequestV1 logo, UUID idCourse) throws IOException;
     CourseResponseV1 addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException;

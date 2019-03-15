@@ -172,19 +172,19 @@ public class CourseController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "course_type", required = false) String courseType,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "special_initiatives", required = false) SpecialInitiativesCourseEnum specialInitiatives) {
+            @RequestParam(value = "special_initiatives", required = false) String specialInitiatives) {
 
         return new ResponseEntity<>(courseService.getCoursePagination(page, pageSize, courseTitle,
-                ContentsAreaCourseEnum.create(contentsArea),
-                LearnerTypeCourseEnum.create(learnerType),
-                SupplyModalityCourseEnum.create(supplyModality),
-                PaymentModalityEnum.create(paymentModality),
-                FoundsTypeCourseEnum.create(foundsType),
+                contentsArea,
+                learnerType,
+                supplyModality,
+                paymentModality,
+                foundsType,
                 courseStartDate,
-                PartFullTimeCourseEnum.create(partFullTime),
+                partFullTime,
                 courseCode,
                 businessName,
-                CourseTypeEnum.create(courseType),
+                courseType,
                 specialInitiatives),HttpStatus.OK);
     }
 

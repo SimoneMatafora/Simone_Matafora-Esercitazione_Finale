@@ -321,23 +321,24 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public PaginationResponseV1<CourseResponseV1> getCoursePagination(int page, int pageSize, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality,
-                                                                      PaymentModalityEnum paymentModality, FoundsTypeCourseEnum foundsType, String courseStartDate, PartFullTimeCourseEnum partFullTime, String courseCode, String businessName,
-                                                                      CourseTypeEnum courseType, SpecialInitiativesCourseEnum specialInitiatives){
+    public PaginationResponseV1<CourseResponseV1> getCoursePagination(int page, int pageSize, String courseTitle, String contentsArea, String learnerType, String supplyModality,
+                                                                      String paymentModality, String foundsType, String courseStartDate, String partFullTime, String courseCode, String businessName,
+                                                                      String courseType, String specialInitiatives){
 
         Pagination<CourseEntity> coursesPagination = new Pagination<>();
 
-        List<CourseEntity> learnersList = courseEMRepository.getCoursesForPagination(courseTitle, contentsArea, learnerType, supplyModality, paymentModality, foundsType,
-                courseStartDate, partFullTime, courseCode, businessName, courseType, specialInitiatives);
 
-        coursesPagination.setStats(new PaginationResponseV1.InfoPagination(learnersList.size(), page, pageSize));
+        List<CourseEntity> courseList = courseEMRepository.getCoursesForPagination(courseTitle, contentsArea, learnerType, supplyModality, paymentModality, foundsType,
+              courseStartDate, partFullTime, courseCode, businessName, courseType, specialInitiatives);
+
+        coursesPagination.setStats(new PaginationResponseV1.InfoPagination(courseList.size(), page, pageSize));
 
         int start = coursesPagination.getStats().getStartPage();
         int count = 0;
         List<CourseEntity> courseForPagination = new LinkedList<>();
 
-        while (count < coursesPagination.getStats().getPageSize() && ((start - 1) + count) < learnersList.size()) {
-            courseForPagination.add((learnersList.get((start - 1) + count)));
+        while (count < coursesPagination.getStats().getPageSize() && ((start - 1) + count) < courseList.size()) {
+            courseForPagination.add((courseList.get((start - 1) + count)));
             count++;
         }
 

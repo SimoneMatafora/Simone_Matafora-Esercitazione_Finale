@@ -19,70 +19,69 @@ public class TeacherEMRepository {
                                                        String birthPlace, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode,
                                                        Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String sector, String city, String region, String province){
 
-
-        String sql = "SELECT d FROM TeacherEntity d INNER JOIN d.address i ";
+        String sql = "SELECT * FROM teacher t";
 
         List<String> whereCondition = new LinkedList<>();
 
         if( username != null){
-            whereCondition.add("d.username = '" + username + "' ");
+            whereCondition.add("upper(t.username) = upper('" + username + "') ");
         }
         if( name != null){
-            whereCondition.add("d.name = '" + name + "' ");
+            whereCondition.add("upper(t.name) = upper('" + name + "') ");
         }
         if( surname != null){
-            whereCondition.add("d.surname = '" + surname + "' ");
+            whereCondition.add("upper(t.surname) = upper('" + surname + "') ");
         }
         if( phone != null){
-            whereCondition.add("d.phone = '" + phone + "' ");
+            whereCondition.add("upper(t.phone) = upper('" + phone + "') ");
         }
         if( fiscalCode != null){
-            whereCondition.add("d.fiscalCode = '" + fiscalCode + "' ");
+            whereCondition.add("upper(t.fiscal_code) = upper('" + fiscalCode + "') ");
         }
         if( dateOfBirth != null){
-            whereCondition.add("d.dateOfBirth = '" + dateOfBirth + "' ");
+            whereCondition.add("t.date_of_birth\\:\\:DATE = ('" + dateOfBirth + "')\\:\\:DATE ");
         }
         if( birthPlace != null){
-            whereCondition.add("d.birthPlace = '" + birthPlace + "' ");
+            whereCondition.add("upper(t.birth_place) = upper('" + birthPlace + "') ");
         }
         if( email != null){
-            whereCondition.add("d.email = '" + email + "'");
+            whereCondition.add("t.email = '" + email + "'");
         }
         if( professionalArea != null){
-            whereCondition.add("d.professionalArea = '" + professionalArea + "' ");
+            whereCondition.add("t.professional_area = upper('" + professionalArea + "') ");
         }
         if( publicEmployee != null){
-            whereCondition.add("d.publicEmployee = " + publicEmployee + " ");
+            whereCondition.add("t.public_employee = " + publicEmployee + " ");
         }
         if( accreditedFt != null){
-            whereCondition.add("d.accreditedFt = " + accreditedFt +  " ");
+            whereCondition.add("t.accredited_ft = " + accreditedFt +  " ");
         }
         if( accreditedFtCode != null){
-            whereCondition.add("d.accreditedFtCode = '" + accreditedFtCode + "' ");
+            whereCondition.add("t.accredited_ft_code = '" + accreditedFtCode + "' ");
         }
         if( authorized != null){
-            whereCondition.add("d.authorized = " + authorized + " ");
+            whereCondition.add("t.authorized = " + authorized + " ");
         }
         if( professionalOrderRegistration != null){
-            whereCondition.add("d.professionalOrderRegistration = " + professionalOrderRegistration + " ");
+            whereCondition.add("t.professional_order_registration = upper('" + professionalOrderRegistration + "') ");
         }
         if( register != null){
-            whereCondition.add("d.register = '" + register + "'");
+            whereCondition.add("upper(t.register) = upper('" + register + "') ");
         }
         if( vatHolder != null){
-            whereCondition.add("d.vatHolder = " + vatHolder + " ");
+            whereCondition.add("t.vat_older = " + vatHolder + " ");
         }
         if( sector != null){
-            whereCondition.add("d.sector = '" + sector + "'");
-        }
-        if( city != null){
-            whereCondition.add("i.city = '" + city + "' ");
-        }
-        if( region != null){
-            whereCondition.add("i.region = '" + region + "' ");
+            whereCondition.add("upper(t.sector) = upper('" + sector + "') ");
         }
         if( province != null){
-            whereCondition.add("i.province = '" + province + "' ");
+            whereCondition.add("upper(t.address ->> 'province') = upper('" + province + "') ");
+        }
+        if( city != null){
+            whereCondition.add("upper(t.address ->> 'city') = upper('" + city + "') ");
+        }
+        if( region != null) {
+            whereCondition.add("upper(t.address ->> 'region') = upper('" + region + "') ");
         }
 
         int i = 1;
@@ -97,7 +96,7 @@ public class TeacherEMRepository {
         }
 
         sql += where;
-        Query query = em.createQuery(sql, TeacherEntity.class);
+        Query query = em.createNativeQuery(sql, TeacherEntity.class);
 
         return query.getResultList();
 

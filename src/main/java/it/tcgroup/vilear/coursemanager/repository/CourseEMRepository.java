@@ -16,9 +16,9 @@ public class CourseEMRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<CourseEntity> getCoursesForPagination(String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality,
-                                                      PaymentModalityEnum paymentModality, FoundsTypeCourseEnum foundsType, String courseStartDate, PartFullTimeCourseEnum partFullTime, String courseCode, String businessName,
-                                                      CourseTypeEnum courseType, SpecialInitiativesCourseEnum specialInitiatives){
+    public List<CourseEntity> getCoursesForPagination(String courseTitle, String contentsArea, String learnerType, String supplyModality,
+                                                      String paymentModality, String foundsType, String courseStartDate, String partFullTime, String courseCode, String businessName,
+                                                      String courseType, String specialInitiatives){
 
 
         String sql = "SELECT c FROM CourseEntity c ";
@@ -29,37 +29,37 @@ public class CourseEMRepository {
             whereCondition.add("c.courseTitle = '" + courseTitle + "' ");
         }
         if( contentsArea != null){
-            whereCondition.add("c.contentsArea = '" + contentsArea + "' ");
+            whereCondition.add("c.contentsArea = '" + ContentsAreaCourseEnum.create(contentsArea) + "' ");
         }
         if( learnerType != null){
-            whereCondition.add("c.learnerType = '" + learnerType + "' ");
+            whereCondition.add("c.learnerType = '" + LearnerTypeCourseEnum.create(learnerType) + "' ");
         }
         if( supplyModality != null){
-            whereCondition.add("c.supplyModality = '" + supplyModality + "' ");
+            whereCondition.add("c.supplyModality = '" + SupplyModalityCourseEnum.create(supplyModality) + "' ");
         }
         if( paymentModality != null){
-            whereCondition.add("c.paymentModality = '" + paymentModality + "' ");
+            whereCondition.add("c.paymentModality = '" + PaymentModalityEnum.create(paymentModality)+ "' ");
         }
         if( foundsType != null){
-            whereCondition.add("c.foundsType = '" + foundsType + "' ");
+            whereCondition.add("c.foundsType = '" + FoundsTypeCourseEnum.create(foundsType) + "' ");
         }
         if( courseStartDate != null){
-            whereCondition.add("c.courseStartDate = '" + courseStartDate + "' ");
+            whereCondition.add("c.courseStartDate\\:\\:DATE = ('" + courseStartDate + "')\\:\\:DATE ");
         }
         if( partFullTime != null){
-            whereCondition.add("c.partFullTime = '" + partFullTime + "'");
+            whereCondition.add("c.partFullTime = '" + PartFullTimeCourseEnum.create(partFullTime) + "'");
         }
         if( courseCode != null){
             whereCondition.add("c.courseCode = '" + courseCode + "' ");
         }
         if( businessName != null){
-            whereCondition.add("c.businessName= '" + businessName + "' ");
+            whereCondition.add("upper(c.businessName) = upper('" + businessName + "') ");
         }
         if( courseType != null){
-            whereCondition.add("c.courseType = '" + courseType + "' ");
+            whereCondition.add("c.courseType = '" + CourseTypeEnum.create(courseType) + "' ");
         }
         if( specialInitiatives != null){
-            whereCondition.add("c.specialInitiatives = '" + specialInitiatives + "' ");
+            whereCondition.add("c.specialInitiatives = '" + SpecialInitiativesCourseEnum.create(specialInitiatives) + "' ");
         }
 
         int i = 1;
