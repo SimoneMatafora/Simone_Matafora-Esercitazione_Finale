@@ -1,6 +1,6 @@
 package it.tcgroup.vilear.coursemanager.common.util;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
+import it.tcgroup.vilear.coursemanager.common.exception.InternalException;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
