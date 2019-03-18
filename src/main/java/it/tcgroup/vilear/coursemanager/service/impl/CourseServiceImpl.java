@@ -82,8 +82,8 @@ public class CourseServiceImpl implements CourseService {
 
         course.setActuatorSubject(courseUpdate.getActuatorSubject());
         course.setAfternoonEndHour(courseUpdate.getAfternoonEndHour());
-        course.setAfternoonStatrHour(courseUpdate.getAfternoonStatrHour());
-        course.setAmount_fin_security_capital(courseUpdate.getAmount_fin_security_capital());
+        course.setAfternoonStartHour(courseUpdate.getAfternoonStartHour());
+        course.setAmountFinSecurityCapital(courseUpdate.getAmountFinSecurityCapital ());
         course.setAmountAttendanceBenefits(courseUpdate.getAmountAttendanceBenefits());
         course.setAmountAutorizedFT(courseUpdate.getAmountAutorizedFT());
         course.setAmountAutorizedFTDate(courseUpdate.getAmountAutorizedFTDate());
@@ -142,7 +142,8 @@ public class CourseServiceImpl implements CourseService {
         course.setSupplyModality(courseUpdate.getSupplyModality());
         course.setTeacherList(courseUpdate.getTeacherList());
         course.setTheoryHours(courseUpdate.getTheoryHours());
-        course.setTicket_amount(courseUpdate.getTicket_amount());
+        course.setTicketAmount(courseUpdate.getTicketAmount());
+        course.setNumberOfTickets(courseUpdate.getNumberOfTickets());
         course.setTotalAmountWithoutFS(courseUpdate.getTotalAmountWithoutFS());
         course.setTotalHours(courseUpdate.getTotalHours());
         course.setTotalHoursTraining(courseUpdate.getTotalHoursTraining());
@@ -173,10 +174,10 @@ public class CourseServiceImpl implements CourseService {
             course.setActuatorSubject(coursePatch.getActuatorSubject());
         if(coursePatch.getAfternoonEndHour() != null)
             course.setAfternoonEndHour(coursePatch.getAfternoonEndHour());
-        if(coursePatch.getAfternoonStatrHour() != null)
-            course.setAfternoonStatrHour(coursePatch.getAfternoonStatrHour());
-        if(coursePatch.getAmount_fin_security_capital() != null)
-            course.setAmount_fin_security_capital(coursePatch.getAmount_fin_security_capital());
+        if(coursePatch.getAfternoonStartHour() != null)
+            course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
+        if(coursePatch.getAmountFinSecurityCapital () != null)
+            course.setAmountFinSecurityCapital (coursePatch.getAmountFinSecurityCapital ());
         if(coursePatch.getAmountAttendanceBenefits() != null)
             course.setAmountAttendanceBenefits(coursePatch.getAmountAttendanceBenefits());
         if(coursePatch.getAmountAutorizedFT() != null)
@@ -293,8 +294,10 @@ public class CourseServiceImpl implements CourseService {
             course.setTeacherList(coursePatch.getTeacherList());
         if(coursePatch.getTheoryHours() != null)
             course.setTheoryHours(coursePatch.getTheoryHours());
-        if(coursePatch.getTicket_amount() != null)
-            course.setTicket_amount(coursePatch.getTicket_amount());
+        if(coursePatch.getTicketAmount() != null)
+            course.setTicketAmount(coursePatch.getTicketAmount());
+        if(coursePatch.getNumberOfTickets() != null)
+            course.setNumberOfTickets(coursePatch.getNumberOfTickets());
         if(coursePatch.getTotalAmountWithoutFS() != null)
             course.setTotalAmountWithoutFS(coursePatch.getTotalAmountWithoutFS());
         if(coursePatch.getTotalHours() != null)

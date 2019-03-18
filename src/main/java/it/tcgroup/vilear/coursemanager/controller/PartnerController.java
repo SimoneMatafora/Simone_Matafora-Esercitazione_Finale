@@ -125,7 +125,7 @@ public class PartnerController {
             @ApiParam(value = "Defines the page number to be displayed", required = false)
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "businessName", required = false) String businessName,
+            @RequestParam(value = "business_name", required = false) String businessName,
             @ApiParam(value = "", required = false)
             @RequestParam(value = "company", required = false) Boolean company,
             @ApiParam(value = "", required = false)

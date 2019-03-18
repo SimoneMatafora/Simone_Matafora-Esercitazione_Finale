@@ -40,8 +40,8 @@ public class CourseAdapter {
 
         course.setActuatorSubject(partnerAdapter.adptPartnerRequestToPartnerDto(courseRequest.getActuatorSubject()));
         course.setAfternoonEndHour(courseRequest.getAfternoonEndHour());
-        course.setAfternoonStatrHour(courseRequest.getAfternoonStatrHour());
-        course.setAmount_fin_security_capital(courseRequest.getAmount_fin_security_capital());
+        course.setAfternoonStartHour(courseRequest.getAfternoonStartHour());
+        course.setAmountFinSecurityCapital(courseRequest.getAmountFinSecurityCapital());
         course.setAmountAttendanceBenefits(courseRequest.getAmountAttendanceBenefits());
         course.setAmountAutorizedFT(courseRequest.getAmountAutorizedFT());
         course.setAmountAutorizedFTDate(courseRequest.getAmountAutorizedFTDate());
@@ -80,6 +80,7 @@ public class CourseAdapter {
         course.setMorningEndHour(courseRequest.getMorningEndHour());
         course.setMorningStartHour(courseRequest.getMorningStartHour());
         course.setNote(courseRequest.getNote());
+        course.setNumberOfTickets(courseRequest.getNumberOfTickets());
         course.setOrenatationHours(courseRequest.getOrenatationHours());
         course.setPartFullTimeCourse(courseRequest.getPartFullTimeCourse());
         course.setPartnerList(partnerCourseAdapter.adptPartnerCourseRequestToPartnerCourse(courseRequest.getPartnerList()));
@@ -100,7 +101,7 @@ public class CourseAdapter {
         course.setSupplyModality(courseRequest.getSupplyModality());
         course.setTeacherList(teacherCourseAdapter.adptTeacherCourseRequestToTeacherCourse(courseRequest.getTeacherList()));
         course.setTheoryHours(courseRequest.getTheoryHours());
-        course.setTicket_amount(courseRequest.getTicket_amount());
+        course.setTicketAmount(courseRequest.getTicketAmount());
         course.setTotalAmountWithoutFS(courseRequest.getTotalAmountWithoutFS());
         course.setTotalHours(courseRequest.getTotalHours());
         course.setTotalHoursTraining(courseRequest.getTotalHoursTraining());
@@ -127,8 +128,8 @@ public class CourseAdapter {
         courseResponse.setId(course.getId().toString());
         courseResponse.setActuatorSubject(partnerAdapter.adptPartnerDtoToPartnerResponse(course.getActuatorSubject()));
         courseResponse.setAfternoonEndHour(course.getAfternoonEndHour());
-        courseResponse.setAfternoonStatrHour(course.getAfternoonStatrHour());
-        courseResponse.setAmount_fin_security_capital(course.getAmount_fin_security_capital());
+        courseResponse.setAfternoonStartHour(course.getAfternoonStartHour());
+        courseResponse.setAmountFinSecurityCapital(course.getAmountFinSecurityCapital());
         courseResponse.setAmountAttendanceBenefits(course.getAmountAttendanceBenefits());
         courseResponse.setAmountAutorizedFT(course.getAmountAutorizedFT());
         courseResponse.setAmountAutorizedFTDate(course.getAmountAutorizedFTDate());
@@ -167,6 +168,7 @@ public class CourseAdapter {
         courseResponse.setMorningEndHour(course.getMorningEndHour());
         courseResponse.setMorningStartHour(course.getMorningStartHour());
         courseResponse.setNote(course.getNote());
+        courseResponse.setNumberOfTickets(course.getNumberOfTickets());
         courseResponse.setOrenatationHours(course.getOrenatationHours());
         courseResponse.setPartFullTimeCourse(course.getPartFullTimeCourse());
         courseResponse.setPartnerList(partnerCourseAdapter.adptPartnerCourseToPartnerCourseResponse(course.getPartnerList()));
@@ -187,7 +189,7 @@ public class CourseAdapter {
         courseResponse.setSupplyModality(course.getSupplyModality());
         courseResponse.setTeacherList(teacherCourseAdapter.adptTeacherCourseToTeacherCourseResponse(course.getTeacherList()));
         courseResponse.setTheoryHours(course.getTheoryHours());
-        courseResponse.setTicket_amount(course.getTicket_amount());
+        courseResponse.setTicketAmount(course.getTicketAmount());
         courseResponse.setTotalAmountWithoutFS(course.getTotalAmountWithoutFS());
         courseResponse.setTotalHours(course.getTotalHours());
         courseResponse.setTotalHoursTraining(course.getTotalHoursTraining());

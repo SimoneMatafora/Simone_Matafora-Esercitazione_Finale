@@ -99,8 +99,8 @@ public class CourseResponseV1 {
     private Date morningEndHour;
 
     @JsonFormat(pattern = "HH:mm:ss")
-    @JsonProperty( "afternoon_statr_hour")
-    private Date afternoonStatrHour;
+    @JsonProperty( "afternoon_start_hour")
+    private Date afternoonStartHour;
 
     @JsonFormat(pattern = "HH:mm:ss")
     @JsonProperty( "afternoon_end_hour")
@@ -166,7 +166,10 @@ public class CourseResponseV1 {
     private Boolean issueTicket;
 
     @JsonProperty( "ticket_amount")
-    private Double ticket_amount;
+    private Double ticketAmount;
+
+    @JsonProperty( "number_of_tickets")
+    private Integer numberOfTickets;
 
     @JsonProperty( "attendance_benefits")
     private Boolean attendanceBenefits;
@@ -178,7 +181,7 @@ public class CourseResponseV1 {
     private Double amountReportFT;
 
     @JsonProperty( "amount_fin_security_capital")
-    private Double amount_fin_security_capital;
+    private Double amountFinSecurityCapital;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
     @JsonProperty( "amount_autorized_FT_date")
@@ -944,7 +947,7 @@ public class CourseResponseV1 {
     public CourseResponseV1() {
     }
 
-    public CourseResponseV1(String id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, PartnerResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, List<Attachment> documentAttachment) {
+    public CourseResponseV1(String id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, List<Attachment> documentAttachment) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
@@ -972,7 +975,7 @@ public class CourseResponseV1 {
         this.partFullTimeCourse = partFullTimeCourse;
         this.morningStartHour = morningStartHour;
         this.morningEndHour = morningEndHour;
-        this.afternoonStatrHour = afternoonStatrHour;
+        this.afternoonStartHour = afternoonStartHour;
         this.afternoonEndHour = afternoonEndHour;
         this.actuatorSubject = actuatorSubject;
         this.courseCode = courseCode;
@@ -992,11 +995,12 @@ public class CourseResponseV1 {
         this.note = note;
         this.recipient = recipient;
         this.issueTicket = issueTicket;
-        this.ticket_amount = ticket_amount;
+        this.ticketAmount = ticketAmount;
+        this.numberOfTickets = numberOfTickets;
         this.attendanceBenefits = attendanceBenefits;
         this.amountAttendanceBenefits = amountAttendanceBenefits;
         this.amountReportFT = amountReportFT;
-        this.amount_fin_security_capital = amount_fin_security_capital;
+        this.amountFinSecurityCapital = amountFinSecurityCapital;
         this.amountAutorizedFTDate = amountAutorizedFTDate;
         this.amountAutorizedFT = amountAutorizedFT;
         this.totalPartnerCost = totalPartnerCost;
@@ -1234,14 +1238,6 @@ public class CourseResponseV1 {
         this.morningEndHour = morningEndHour;
     }
 
-    public Date getAfternoonStatrHour() {
-        return afternoonStatrHour;
-    }
-
-    public void setAfternoonStatrHour(Date afternoonStatrHour) {
-        this.afternoonStatrHour = afternoonStatrHour;
-    }
-
     public Date getAfternoonEndHour() {
         return afternoonEndHour;
     }
@@ -1394,14 +1390,6 @@ public class CourseResponseV1 {
         this.issueTicket = issueTicket;
     }
 
-    public Double getTicket_amount() {
-        return ticket_amount;
-    }
-
-    public void setTicket_amount(Double ticket_amount) {
-        this.ticket_amount = ticket_amount;
-    }
-
     public Boolean getAttendanceBenefits() {
         return attendanceBenefits;
     }
@@ -1424,14 +1412,6 @@ public class CourseResponseV1 {
 
     public void setAmountReportFT(Double amountReportFT) {
         this.amountReportFT = amountReportFT;
-    }
-
-    public Double getAmount_fin_security_capital() {
-        return amount_fin_security_capital;
-    }
-
-    public void setAmount_fin_security_capital(Double amount_fin_security_capital) {
-        this.amount_fin_security_capital = amount_fin_security_capital;
     }
 
     public Date getAmountAutorizedFTDate() {
@@ -1586,6 +1566,38 @@ public class CourseResponseV1 {
         this.documentAttachment = documentAttachment;
     }
 
+    public Date getAfternoonStartHour() {
+        return afternoonStartHour;
+    }
+
+    public void setAfternoonStartHour(Date afternoonStartHour) {
+        this.afternoonStartHour = afternoonStartHour;
+    }
+
+    public Double getTicketAmount() {
+        return ticketAmount;
+    }
+
+    public void setTicketAmount(Double ticketAmount) {
+        this.ticketAmount = ticketAmount;
+    }
+
+    public Integer getNumberOfTickets() {
+        return numberOfTickets;
+    }
+
+    public void setNumberOfTickets(Integer numberOfTickets) {
+        this.numberOfTickets = numberOfTickets;
+    }
+
+    public Double getAmountFinSecurityCapital() {
+        return amountFinSecurityCapital;
+    }
+
+    public void setAmountFinSecurityCapital(Double amountFinSecurityCapital) {
+        this.amountFinSecurityCapital = amountFinSecurityCapital;
+    }
+
     @Override
     public String toString() {
         return "CourseResponseV1{" +
@@ -1612,11 +1624,11 @@ public class CourseResponseV1 {
                 ", certificateTypeCourse=" + certificateTypeCourse +
                 ", minimumNumericOfParticipants=" + minimumNumericOfParticipants +
                 ", disabled=" + disabled +
-                ", courseLogo='" + courseLogo + '\'' +
+                ", courseLogo=" + courseLogo +
                 ", partFullTimeCourse=" + partFullTimeCourse +
                 ", morningStartHour=" + morningStartHour +
                 ", morningEndHour=" + morningEndHour +
-                ", afternoonStatrHour=" + afternoonStatrHour +
+                ", afternoonStartHour=" + afternoonStartHour +
                 ", afternoonEndHour=" + afternoonEndHour +
                 ", actuatorSubject=" + actuatorSubject +
                 ", courseCode='" + courseCode + '\'' +
@@ -1636,11 +1648,12 @@ public class CourseResponseV1 {
                 ", note='" + note + '\'' +
                 ", recipient=" + recipient +
                 ", issueTicket=" + issueTicket +
-                ", ticket_amount=" + ticket_amount +
+                ", ticketAmount=" + ticketAmount +
+                ", numberOfTickets=" + numberOfTickets +
                 ", attendanceBenefits=" + attendanceBenefits +
                 ", amountAttendanceBenefits=" + amountAttendanceBenefits +
                 ", amountReportFT=" + amountReportFT +
-                ", amount_fin_security_capital=" + amount_fin_security_capital +
+                ", amountFinSecurityCapital=" + amountFinSecurityCapital +
                 ", amountAutorizedFTDate=" + amountAutorizedFTDate +
                 ", amountAutorizedFT=" + amountAutorizedFT +
                 ", totalPartnerCost=" + totalPartnerCost +
@@ -1659,7 +1672,7 @@ public class CourseResponseV1 {
                 ", partnerList=" + partnerList +
                 ", teacherList=" + teacherList +
                 ", placementList=" + placementList +
-                ", documentAttachment='" + documentAttachment + '\'' +
+                ", documentAttachment=" + documentAttachment +
                 '}';
     }
 }

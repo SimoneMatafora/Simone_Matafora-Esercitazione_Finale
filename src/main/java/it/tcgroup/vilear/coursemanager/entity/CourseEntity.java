@@ -134,8 +134,8 @@ public class CourseEntity {
     private Date morningEndHour;
 
     @Temporal(value = TemporalType.TIME)
-    @Column(name = "afternoon_statr_hour")
-    private Date afternoonStatrHour;
+    @Column(name = "afternoon_start_hour")
+    private Date afternoonStartHour;
 
     @Temporal(value = TemporalType.TIME)
     @Column(name = "afternoon_end_hour")
@@ -205,7 +205,10 @@ public class CourseEntity {
     private Boolean issueTicket;
 
     @Column(name = "ticket_amount")
-    private Double ticket_amount;
+    private Double ticketAmount;
+
+    @Column(name = "number_of_tickets")
+    private Integer numberOfTickets;
 
     @Column(name = "attendance_benefits")
     private Boolean attendanceBenefits;
@@ -217,7 +220,7 @@ public class CourseEntity {
     private Double amountReportFT;
 
     @Column(name = "amount_fin_security_capital")
-    private Double amount_fin_security_capital;
+    private Double amountFinSecurityCapital;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "amount_autorized_FT_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
@@ -292,7 +295,7 @@ public class CourseEntity {
     public CourseEntity() {
     }
 
-    public CourseEntity(UUID id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStatrHour, Date afternoonEndHour, PartnerDto actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticket_amount, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amount_fin_security_capital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourse> headquatersCourse, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, List<Attachment> documentsAttachment) {
+    public CourseEntity(UUID id, String courseTitle, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerDto actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourse> headquatersCourse, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, List<Attachment> documentsAttachment) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.contentsArea = contentsArea;
@@ -320,7 +323,7 @@ public class CourseEntity {
         this.partFullTimeCourse = partFullTimeCourse;
         this.morningStartHour = morningStartHour;
         this.morningEndHour = morningEndHour;
-        this.afternoonStatrHour = afternoonStatrHour;
+        this.afternoonStartHour = afternoonStartHour;
         this.afternoonEndHour = afternoonEndHour;
         this.actuatorSubject = actuatorSubject;
         this.courseCode = courseCode;
@@ -340,11 +343,12 @@ public class CourseEntity {
         this.note = note;
         this.recipient = recipient;
         this.issueTicket = issueTicket;
-        this.ticket_amount = ticket_amount;
+        this.ticketAmount = ticketAmount;
+        this.numberOfTickets = numberOfTickets;
         this.attendanceBenefits = attendanceBenefits;
         this.amountAttendanceBenefits = amountAttendanceBenefits;
         this.amountReportFT = amountReportFT;
-        this.amount_fin_security_capital = amount_fin_security_capital;
+        this.amountFinSecurityCapital = amountFinSecurityCapital;
         this.amountAutorizedFTDate = amountAutorizedFTDate;
         this.amountAutorizedFT = amountAutorizedFT;
         this.totalPartnerCost = totalPartnerCost;
@@ -582,14 +586,6 @@ public class CourseEntity {
         this.morningEndHour = morningEndHour;
     }
 
-    public Date getAfternoonStatrHour() {
-        return afternoonStatrHour;
-    }
-
-    public void setAfternoonStatrHour(Date afternoonStatrHour) {
-        this.afternoonStatrHour = afternoonStatrHour;
-    }
-
     public Date getAfternoonEndHour() {
         return afternoonEndHour;
     }
@@ -734,12 +730,28 @@ public class CourseEntity {
         this.issueTicket = issueTicket;
     }
 
-    public Double getTicket_amount() {
-        return ticket_amount;
+    public Date getAfternoonStartHour() {
+        return afternoonStartHour;
     }
 
-    public void setTicket_amount(Double ticket_amount) {
-        this.ticket_amount = ticket_amount;
+    public void setAfternoonStartHour(Date afternoonStartHour) {
+        this.afternoonStartHour = afternoonStartHour;
+    }
+
+    public Double getTicketAmount() {
+        return ticketAmount;
+    }
+
+    public void setTicketAmount(Double ticketAmount) {
+        this.ticketAmount = ticketAmount;
+    }
+
+    public Integer getNumberOfTickets() {
+        return numberOfTickets;
+    }
+
+    public void setNumberOfTickets(Integer numberOfTickets) {
+        this.numberOfTickets = numberOfTickets;
     }
 
     public Boolean getAttendanceBenefits() {
@@ -766,12 +778,12 @@ public class CourseEntity {
         this.amountReportFT = amountReportFT;
     }
 
-    public Double getAmount_fin_security_capital() {
-        return amount_fin_security_capital;
+    public Double getAmountFinSecurityCapital() {
+        return amountFinSecurityCapital;
     }
 
-    public void setAmount_fin_security_capital(Double amount_fin_security_capital) {
-        this.amount_fin_security_capital = amount_fin_security_capital;
+    public void setAmountFinSecurityCapital(Double amountFinSecurityCapital) {
+        this.amountFinSecurityCapital = amountFinSecurityCapital;
     }
 
     public Date getAmountAutorizedFTDate() {
@@ -960,11 +972,11 @@ public class CourseEntity {
                 ", certificateTypeCourse=" + certificateTypeCourse +
                 ", minimumNumericOfParticipants=" + minimumNumericOfParticipants +
                 ", disabled=" + disabled +
-                ", courseLogo='" + courseLogo + '\'' +
+                ", courseLogo=" + courseLogo +
                 ", partFullTimeCourse=" + partFullTimeCourse +
                 ", morningStartHour=" + morningStartHour +
                 ", morningEndHour=" + morningEndHour +
-                ", afternoonStatrHour=" + afternoonStatrHour +
+                ", afternoonStartHour=" + afternoonStartHour +
                 ", afternoonEndHour=" + afternoonEndHour +
                 ", actuatorSubject=" + actuatorSubject +
                 ", courseCode='" + courseCode + '\'' +
@@ -984,11 +996,12 @@ public class CourseEntity {
                 ", note='" + note + '\'' +
                 ", recipient=" + recipient +
                 ", issueTicket=" + issueTicket +
-                ", ticket_amount=" + ticket_amount +
+                ", ticketAmount=" + ticketAmount +
+                ", numberOfTickets=" + numberOfTickets +
                 ", attendanceBenefits=" + attendanceBenefits +
                 ", amountAttendanceBenefits=" + amountAttendanceBenefits +
                 ", amountReportFT=" + amountReportFT +
-                ", amount_fin_security_capital=" + amount_fin_security_capital +
+                ", amountFinSecurityCapital=" + amountFinSecurityCapital +
                 ", amountAutorizedFTDate=" + amountAutorizedFTDate +
                 ", amountAutorizedFT=" + amountAutorizedFT +
                 ", totalPartnerCost=" + totalPartnerCost +
@@ -1007,7 +1020,7 @@ public class CourseEntity {
                 ", partnerList=" + partnerList +
                 ", teacherList=" + teacherList +
                 ", placementList=" + placementList +
-                ", documentsAttachment='" + documentsAttachment + '\'' +
+                ", documentsAttachment=" + documentsAttachment +
                 '}';
     }
 
@@ -1043,7 +1056,7 @@ public class CourseEntity {
                 partFullTimeCourse == that.partFullTimeCourse &&
                 Objects.equals(morningStartHour, that.morningStartHour) &&
                 Objects.equals(morningEndHour, that.morningEndHour) &&
-                Objects.equals(afternoonStatrHour, that.afternoonStatrHour) &&
+                Objects.equals(afternoonStartHour, that.afternoonStartHour) &&
                 Objects.equals(afternoonEndHour, that.afternoonEndHour) &&
                 Objects.equals(actuatorSubject, that.actuatorSubject) &&
                 Objects.equals(courseCode, that.courseCode) &&
@@ -1063,11 +1076,12 @@ public class CourseEntity {
                 Objects.equals(note, that.note) &&
                 recipient == that.recipient &&
                 Objects.equals(issueTicket, that.issueTicket) &&
-                Objects.equals(ticket_amount, that.ticket_amount) &&
+                Objects.equals(ticketAmount, that.ticketAmount) &&
+                Objects.equals(numberOfTickets, that.numberOfTickets) &&
                 Objects.equals(attendanceBenefits, that.attendanceBenefits) &&
                 Objects.equals(amountAttendanceBenefits, that.amountAttendanceBenefits) &&
                 Objects.equals(amountReportFT, that.amountReportFT) &&
-                Objects.equals(amount_fin_security_capital, that.amount_fin_security_capital) &&
+                Objects.equals(amountFinSecurityCapital, that.amountFinSecurityCapital) &&
                 Objects.equals(amountAutorizedFTDate, that.amountAutorizedFTDate) &&
                 Objects.equals(amountAutorizedFT, that.amountAutorizedFT) &&
                 Objects.equals(totalPartnerCost, that.totalPartnerCost) &&
@@ -1091,6 +1105,6 @@ public class CourseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, courseTitle, contentsArea, learnerType, supplyModality, paymentModality, costs, foundsTypeCourse, educationalTargetDescription, courseDescription, courseStartDate, courseEndDate, theoryHours, practiceHours, coachingHours, visitHours, skilsAnalysisHours, totalHours, totalHoursTraining, dailyHours, certificateTypeCourse, minimumNumericOfParticipants, disabled, courseLogo, partFullTimeCourse, morningStartHour, morningEndHour, afternoonStatrHour, afternoonEndHour, actuatorSubject, courseCode, businessName, businessEmail, externalReferenceCode, courseType, sendedProjectDate, receiptFTConfirmationDate, sendedCanceledProjectDate, autProgetctFTRealizedDate, sendedLearnersFTDate, entourageHours, orenatationHours, specialInitiatives, tradeUnionTeachingRequest, note, recipient, issueTicket, ticket_amount, attendanceBenefits, amountAttendanceBenefits, amountReportFT, amount_fin_security_capital, amountAutorizedFTDate, amountAutorizedFT, totalPartnerCost, totalPartnerCostOnPercent, totalAmountWithoutFS, sendedPaperReportingDate, sendedEletronicReportingDate, expiredReportingDate, invoiceAuthorizationDate, deliveryDateInAdministration, commercialTaxableCommunicationDate, reportNote, dailyRegister, headquatersCourse, recipientManagment, partnerList, teacherList, placementList, documentsAttachment);
+        return Objects.hash(id, courseTitle, contentsArea, learnerType, supplyModality, paymentModality, costs, foundsTypeCourse, educationalTargetDescription, courseDescription, courseStartDate, courseEndDate, theoryHours, practiceHours, coachingHours, visitHours, skilsAnalysisHours, totalHours, totalHoursTraining, dailyHours, certificateTypeCourse, minimumNumericOfParticipants, disabled, courseLogo, partFullTimeCourse, morningStartHour, morningEndHour, afternoonStartHour, afternoonEndHour, actuatorSubject, courseCode, businessName, businessEmail, externalReferenceCode, courseType, sendedProjectDate, receiptFTConfirmationDate, sendedCanceledProjectDate, autProgetctFTRealizedDate, sendedLearnersFTDate, entourageHours, orenatationHours, specialInitiatives, tradeUnionTeachingRequest, note, recipient, issueTicket, ticketAmount, numberOfTickets, attendanceBenefits, amountAttendanceBenefits, amountReportFT, amountFinSecurityCapital, amountAutorizedFTDate, amountAutorizedFT, totalPartnerCost, totalPartnerCostOnPercent, totalAmountWithoutFS, sendedPaperReportingDate, sendedEletronicReportingDate, expiredReportingDate, invoiceAuthorizationDate, deliveryDateInAdministration, commercialTaxableCommunicationDate, reportNote, dailyRegister, headquatersCourse, recipientManagment, partnerList, teacherList, placementList, documentsAttachment);
     }
 }
