@@ -26,4 +26,6 @@ public interface DogeService {
 
     DogeResponseV1 register(UUID idCourse) throws Exception;
 
+    DogeResponseV1 tradeUnionTeaching(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception;
+
 }

@@ -140,4 +140,22 @@ public class DogeController {
         return new ResponseEntity<>(new IdentifierResponseV1(dogeResponseV1.getDocumentId()), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/pdf/tradeunionteaching/{UUID}")
+    public ResponseEntity<List<IdentifierResponseV1>> getTradeUnionTeaching(@PathVariable("UUID") UUID idCourse) throws Exception{
+        Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
+        if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
+        CourseEntity courseEntity = courseEntityOptional.get();
+        List<IdentifierResponseV1> identifierResponseV1s = new ArrayList<>();
+        if(courseEntity.getTeacherList() != null)
+        {
+            for(TeacherCourse teacherCourse : courseEntity.getTeacherList())
+            {
+                DogeResponseV1 dogeResponseV1 = dogeService.tradeUnionTeaching(courseEntity, teacherCourse);
+                identifierResponseV1s.add(new IdentifierResponseV1(dogeResponseV1.getDocumentId()));
+            }
+        }
+
+        return new ResponseEntity<>(identifierResponseV1s, HttpStatus.OK);
+    }
+
 }

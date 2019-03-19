@@ -9,6 +9,8 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.DogeResponseV
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
+import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
+import it.tcgroup.vilear.coursemanager.entity.enumerated.PaymentModalityTradeUnionEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.SupplyServicePartnerCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
@@ -1025,6 +1027,81 @@ public class DogeServiceImpl implements DogeService {
         dogeRequestV1.setData(requestMap);
         dogeRequestV1.setFilename("Registro-Didattico-"+courseEntity.getCourseCode()+".pdf");
         dogeRequestV1.setTemplate("RegistroDidattico");
+        DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
+        String uuid = UUID.randomUUID().toString();
+        fileManager.setUuid(uuid);
+        fileManager.setResourceId("1");
+        fileManager.setResourceType("doge");
+        fileManager.setBlobType("pdf");
+        dogeRequestV1.setFileManager(fileManager);
+        DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
+        if(response.getCode() == 1){
+            response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
+        }
+        DogeResponseV1 dogeResponse = new DogeResponseV1();
+        dogeResponse.setDocumentId(uuid);
+        dogeResponse.setActionResult(response);
+        return dogeResponse;
+    }
+
+    @Override
+    public DogeResponseV1 tradeUnionTeaching(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception{
+        if(teacherCourse == null) throw new BadRequestException("Teacher not found");
+        DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
+        Map<String, Object> requestMap = new HashMap<>();
+
+        if(teacherCourse.getTeacher() != null) {
+            TeacherDto teacherDto = teacherCourse.getTeacher();
+            String teacher = teacherDto.getSurname()+" "+teacherDto.getName();
+            requestMap.put("name_and_surname", teacher);
+            requestMap.put("name_and_surname_2", teacher.toUpperCase());
+            String birthday = teacherDto.getBirthPlace()+", "+teacherDto.getDateOfBirth();
+            requestMap.put("birthday", birthday);
+            requestMap.put("fiscal_code", teacherDto.getFiscalCode());
+            if(teacherDto.getVatHolder()){
+                requestMap.put("check_yes", true);
+                requestMap.put("check_no", false);
+                requestMap.put("vat_number", teacherDto.getVatNumber());
+            } else {
+                requestMap.put("check_yes", false);
+                requestMap.put("check_no", true);
+            }
+            if(teacherDto.getProfessionalOrderRegistration()){
+                requestMap.put("check_yes_2", true);
+                requestMap.put("check_no_2", false);
+                requestMap.put("albo", teacherDto.getSector());
+                requestMap.put("code_albo", teacherDto.getRegister());
+            } else {
+                requestMap.put("check_yes_2", false);
+                requestMap.put("check_no_2", true);
+            }
+            if(teacherDto.getPublicEmployee()){
+                requestMap.put("check_yes_3", true);
+                requestMap.put("check_no_3", false);
+            } else {
+                requestMap.put("check_yes_3", false);
+                requestMap.put("check_no_3", true);
+            }
+        }
+        requestMap.put("organization", teacherCourse.getAcronymTradeUnino().getValue());
+        if(teacherCourse.getPaymentModalityTradeUnion().equals(PaymentModalityTradeUnionEnum.CON_DELEGA_DI_INCASSO)){
+            requestMap.put("check_yes_4", true);
+            requestMap.put("check_no_4", false);
+        }else {
+            requestMap.put("check_yes_4", false);
+            requestMap.put("check_no_4", true);
+        }
+        requestMap.put("course_description", courseEntity.getCourseTitle());
+        requestMap.put("project_code", courseEntity.getCourseCode());
+        requestMap.put("doc_hours", teacherCourse.getHoursTeachingLetterAssignment().toString());
+        requestMap.put("note", courseEntity.getNote());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        requestMap.put("date", simpleDateFormat.format(new Date()));
+
+        dogeRequestV1.setData(requestMap);
+        String teacherName = teacherCourse.getTeacher().getSurname()+"-"+teacherCourse.getTeacher().getName();
+        dogeRequestV1.setFilename("Docenza-Sindacale-"+teacherName+".pdf");
+        dogeRequestV1.setTemplate("DocenzaSindacale");
         DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
         String uuid = UUID.randomUUID().toString();
         fileManager.setUuid(uuid);
