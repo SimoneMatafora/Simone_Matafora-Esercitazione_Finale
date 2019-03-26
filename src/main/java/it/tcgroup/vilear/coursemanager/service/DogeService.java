@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,8 +33,5 @@ public interface DogeService {
     List<DogeResponseV1> register(UUID idCourse) throws Exception;
 
     DogeResponseV1 tradeUnionTeaching(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception;
-
-    void doMerge(List<InputStream> list, OutputStream outputStream)
-            throws Exception;
 
 }

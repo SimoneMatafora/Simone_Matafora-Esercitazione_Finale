@@ -155,14 +155,15 @@ public class DogeController {
         int i = 1;
         for(DogeResponseV1 dogeResponseV11 : dogeResponseV1){
             DownloadResponseV1 downloadResponseV1 = filemanagerService.downloadFile(dogeResponseV11.getDocumentId());
+            identifierResponseV1s.add(new IdentifierResponseV1(dogeResponseV11.getDocumentId()));
             String filename = "prova-"+i;
             String path = "temp/"+filename+".pdf";
             byte[] prova = Base64.getDecoder().decode(downloadResponseV1.getFileContent());
             FileUtils.writeByteArrayToFile(new File(path), prova);
+
             File file1 = new File(path);
             PDDocument pdDocument = PDDocument.load(new File(path));
-            ((LinkedList<File>) fileList).add(file1);
-            ((LinkedList<File>) fileList).add(file1);
+            fileList.add(file1);
             ((LinkedList<PDDocument>) pdDocuments).addLast(pdDocument);
             i++;
         }
@@ -178,14 +179,18 @@ public class DogeController {
         }*/
 
         mergePdf(fileList);
+        File file3 = new File("temp/pdfprovafinale.pdf");
+        byte[] byteFile = FileUtils.readFileToByteArray(file3);
+
+        filecontent = Base64.getEncoder().encodeToString(byteFile);
 
 
         /*List<InputStream> list = new ArrayList<InputStream>();
         for (File file: fileList){
             list.add(new FileInputStream(file));
         }
-        OutputStream out = new FileOutputStream(new File("temp/risultato.pdf"));*/
-        //dogeService.doMerge(list, out);
+        OutputStream out = new FileOutputStream(new File("temp/risultato.pdf"));
+        dogeService.doMerge(list, out);*/
 
 
 
@@ -204,17 +209,18 @@ public class DogeController {
 
     public void mergePdf(List<File> files) throws IOException {
         PDFMergerUtility PDFmerger = new PDFMergerUtility();
-        PDFmerger.setDestinationFileName("temp/risultato.pdf");
+        PDFmerger.setDestinationFileName("temp/pdfprovafinale.pdf");
         List<PDDocument> pdDocuments = new LinkedList<>();
         for (File file : files){
             PDDocument pdDocument = PDDocument.load(new File(file.getPath()));
             ((LinkedList<PDDocument>) pdDocuments).addLast(pdDocument);
             PDFmerger.addSource(file);
         }
-        PDFmerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
+        PDFmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
         for (PDDocument pdDocument : pdDocuments){
-            pdDocument.close();
+           pdDocument.close();
         }
+
     }
 
     @GetMapping(value = "/pdf/tradeunionteaching/{UUID}")

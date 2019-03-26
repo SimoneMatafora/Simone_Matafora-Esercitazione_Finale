@@ -1,9 +1,11 @@
 package it.tcgroup.vilear.coursemanager.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
+import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
+import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.common.util.HttpUtil;
@@ -23,6 +25,17 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.DogeService;
 import okhttp3.Response;
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.io.RandomAccessBufferedFileInputStream;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.xwpf.usermodel.BreakType;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +44,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 @Service
 public class DogeServiceImpl implements DogeService {
@@ -1278,7 +1290,7 @@ public class DogeServiceImpl implements DogeService {
             calendar.setTime(sdf.parse(start));
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("E");
             String numPage = "";
-            /*while(!finish) {
+            while(!finish) {
                 if(!simpleDateFormat2.format(calendar.getTime()).equals("sab") && !simpleDateFormat2.format(calendar.getTime()).equals("dom")) {
                     int giorno = calendar.get(Calendar.DAY_OF_MONTH);
                     String day = "";
@@ -1298,7 +1310,7 @@ public class DogeServiceImpl implements DogeService {
 
                         numPages++;
 
-                        //DogeResponseV1 secondResponse2 = secondRegister(courseEntity, hour.format(courseEntity.getAfternoonStatrHour()), hour.format(courseEntity.getAfternoonEndHour()), day, month, year, i);
+                        DogeResponseV1 secondResponse2 = secondRegister(courseEntity, hour.format(courseEntity.getAfternoonStatrHour()), hour.format(courseEntity.getAfternoonEndHour()), day, month, year, i);
                         ((LinkedList<DogeResponseV1>) dogeResponseV1List).addLast(secondResponse1);
                         ((LinkedList<DogeResponseV1>) dogeResponseV1List).addLast(secondResponse2);
                     } else if (courseEntity.getMorningStartHour() != null && courseEntity.getMorningEndHour() != null) {
@@ -1316,7 +1328,7 @@ public class DogeServiceImpl implements DogeService {
                     start = sdf.format(calendar.getTime());
 
                 } else finish = true;
-            }*/
+            }
             //numPages = numPages+i-4;
         }
         String pages = ""+numPages+"";
@@ -1415,7 +1427,10 @@ public class DogeServiceImpl implements DogeService {
             outputStream.flush();
             document.close();
             outputStream.close();
+
     }
+
+
 
     @Override
     public DogeResponseV1 tradeUnionTeaching(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception{
