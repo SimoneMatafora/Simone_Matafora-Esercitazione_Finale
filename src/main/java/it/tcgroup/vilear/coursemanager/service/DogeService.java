@@ -1,11 +1,16 @@
 package it.tcgroup.vilear.coursemanager.service;
 
+import com.itextpdf.text.DocumentException;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.DogeResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,8 +29,11 @@ public interface DogeService {
 
     DogeResponseV1 assignmentWithWithholdingTax(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception;
 
-    DogeResponseV1 register(UUID idCourse) throws Exception;
+    List<DogeResponseV1> register(UUID idCourse) throws Exception;
 
     DogeResponseV1 tradeUnionTeaching(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception;
+
+    void doMerge(List<InputStream> list, OutputStream outputStream)
+            throws Exception;
 
 }

@@ -1,6 +1,9 @@
 package it.tcgroup.vilear.coursemanager.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.*;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.common.util.HttpUtil;
@@ -29,6 +32,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -543,8 +548,183 @@ public class DogeServiceImpl implements DogeService {
         return dogeResponse;
     }
 
+
+    public DogeResponseV1 firstRegister(CourseEntity courseEntity, String numPages) throws Exception{
+        DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
+        Map<String, Object> requestMap = new HashMap<>();
+
+        requestMap.put("project_title", courseEntity.getCourseTitle());
+        requestMap.put("project_type", courseEntity.getCourseType().getValue());
+        requestMap.put("project_hour", courseEntity.getTotalHours().toString());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String period="dal "+simpleDateFormat.format(courseEntity.getCourseStartDate())+" al "+simpleDateFormat.format(courseEntity.getCourseEndDate());
+        requestMap.put("project_period", period);
+
+        //Indirizzo sede del corso
+        if(courseEntity.getPartnerList() != null){
+            for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
+            {
+                if(partnerCourse.getSupplierService() != null){
+                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                        if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
+                            if(partnerCourse.getSupplier() != null) {
+                                String addressPartner = partnerCourse.getSupplier().getBusinessName();
+                                if(partnerCourse.getSupplier().getAddressList() != null)
+                                {
+                                    for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
+                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                            addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
+                                            requestMap.put("project_location", addressPartner);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        requestMap.put("project_code", courseEntity.getCourseCode());
+        requestMap.put("project_code_2", courseEntity.getCourseCode());
+        requestMap.put("project_code_3", courseEntity.getCourseCode());
+        if(courseEntity.getTeacherList() != null){
+            int i = 1;
+            for (TeacherCourse teacherCourse : courseEntity.getTeacherList()){
+                String role = "role_"+i;
+                String surname = "surname_"+i;
+                String name = "name_"+i;
+                requestMap.put(role, teacherCourse.getRole().getValue());
+                if(teacherCourse.getTeacher() != null) {
+                    requestMap.put(surname, teacherCourse.getTeacher().getSurname());
+                    requestMap.put(name, teacherCourse.getTeacher().getName());
+
+                }
+                i++;
+            }
+        }
+        if(courseEntity.getPlacementList() != null){
+            int i=1;
+            for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
+                if(placementCourse.getLearner() != null) {
+                    String learnerSurname = placementCourse.getLearner().getSurname();
+                    String learnerName = placementCourse.getLearner().getName();
+                    String learnerFiscalCode = placementCourse.getLearner().getFiscalCode();
+                    String surname = "s_surname_" + i;
+                    requestMap.put(surname, learnerSurname);
+                    String name = "s_name_" + i;
+                    requestMap.put(name, learnerName);
+                    String fiscal_code = "fiscal_code" + i;
+                    requestMap.put(fiscal_code, learnerFiscalCode);
+                    i++;
+                }
+            }
+        }
+        requestMap.put("num_pages", numPages);
+        dogeRequestV1.setData(requestMap);
+        dogeRequestV1.setFilename("Registro-Didattico-"+courseEntity.getCourseCode()+"-First.pdf");
+        dogeRequestV1.setTemplate("RegistroDidatticoFirst");
+        DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
+        String uuid = UUID.randomUUID().toString();
+        fileManager.setUuid(uuid);
+        fileManager.setResourceId("1");
+        fileManager.setResourceType("doge");
+        fileManager.setBlobType("pdf");
+        dogeRequestV1.setFileManager(fileManager);
+        DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
+        if(response.getCode() == 1){
+            response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
+        }
+        DogeResponseV1 dogeResponse = new DogeResponseV1();
+        dogeResponse.setDocumentId(uuid);
+        dogeResponse.setActionResult(response);
+        return dogeResponse;
+    }
+
+    public DogeResponseV1 secondRegister(CourseEntity courseEntity, String startHour, String endHour, String day, String month, String year, Integer numPage) throws Exception{
+        DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("project_code", courseEntity.getCourseCode());
+        if(courseEntity.getPlacementList() != null){
+            int i=1;
+            for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
+                if(placementCourse.getLearner() != null) {
+                    String learnerSurname = placementCourse.getLearner().getSurname();
+                    String learnerName = placementCourse.getLearner().getName();
+                    String surname = "s_surname_" + i;
+                    requestMap.put(surname, learnerSurname);
+                    String name = "s_name_" + i;
+                    requestMap.put(name, learnerName);
+                    i++;
+                }
+            }
+        }
+        requestMap.put("start_hour", startHour);
+        requestMap.put("end_hour", endHour);
+        requestMap.put("day", day);
+        requestMap.put("month", month);
+        requestMap.put("year", year);
+        requestMap.put("num_page", numPage.toString());
+        dogeRequestV1.setData(requestMap);
+        dogeRequestV1.setFilename("Registro-Didattico-"+courseEntity.getCourseCode()+"-Second.pdf");
+        dogeRequestV1.setTemplate("RegistroDidatticoSecond");
+        DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
+        String uuid = UUID.randomUUID().toString();
+        fileManager.setUuid(uuid);
+        fileManager.setResourceId("1");
+        fileManager.setResourceType("doge");
+        fileManager.setBlobType("pdf");
+        dogeRequestV1.setFileManager(fileManager);
+        DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
+        if(response.getCode() == 1){
+            response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
+        }
+        DogeResponseV1 dogeResponse = new DogeResponseV1();
+        dogeResponse.setDocumentId(uuid);
+        dogeResponse.setActionResult(response);
+        return dogeResponse;
+    }
+
+    public DogeResponseV1 thirdRegister(CourseEntity courseEntity) throws Exception{
+        DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("project_code_23", courseEntity.getCourseCode());
+        if(courseEntity.getPlacementList() != null){
+            int i=1;
+            for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
+                if(placementCourse.getLearner() != null) {
+                    String learnerSurname = placementCourse.getLearner().getSurname();
+                    String learnerName = placementCourse.getLearner().getName();
+                    String surname = "s1_surname_" + i;
+                    requestMap.put(surname, learnerSurname);
+                    String name = "s1_name_" + i;
+                    requestMap.put(name, learnerName);
+                    i++;
+                }
+            }
+        }
+        dogeRequestV1.setData(requestMap);
+        dogeRequestV1.setFilename("Registro-Didattico-"+courseEntity.getCourseCode()+"-Third.pdf");
+        dogeRequestV1.setTemplate("RegistroDidatticoThird");
+        DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
+        String uuid = UUID.randomUUID().toString();
+        fileManager.setUuid(uuid);
+        fileManager.setResourceId("1");
+        fileManager.setResourceType("doge");
+        fileManager.setBlobType("pdf");
+        dogeRequestV1.setFileManager(fileManager);
+        DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
+        if(response.getCode() == 1){
+            response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
+        }
+        DogeResponseV1 dogeResponse = new DogeResponseV1();
+        dogeResponse.setDocumentId(uuid);
+        dogeResponse.setActionResult(response);
+        return dogeResponse;
+    }
+
     @Override
-    public DogeResponseV1 register(UUID idCourse) throws Exception{
+    /*public DogeResponseV1 register(UUID idCourse) throws Exception{
         Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
         if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
         CourseEntity courseEntity = courseEntityOptional.get();
@@ -554,8 +734,8 @@ public class DogeServiceImpl implements DogeService {
         requestMap.put("project_title", courseEntity.getCourseTitle());
         requestMap.put("project_type", courseEntity.getCourseType().getValue());
         requestMap.put("project_hour", courseEntity.getTotalHours().toString());
-
-        String period="dal "+courseEntity.getCourseStartDate()+" al "+courseEntity.getCourseEndDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String period="dal "+simpleDateFormat.format(courseEntity.getCourseStartDate())+" al "+simpleDateFormat.format(courseEntity.getCourseEndDate());
         requestMap.put("project_period", period);
 
         //Indirizzo sede del corso
@@ -644,115 +824,115 @@ public class DogeServiceImpl implements DogeService {
                     String learnerSurname = placementCourse.getLearner().getSurname();
                     String learnerName = placementCourse.getLearner().getName();
                     String learnerFiscalCode = placementCourse.getLearner().getFiscalCode();
-                    String surname = "s_surname" + i;
+                    String surname = "s_surname_" + i;
                     requestMap.put(surname, learnerSurname);
-                    String f1_surname = "f1_surname" + i;
+                    String f1_surname = "f1_surname_" + i;
                     requestMap.put(f1_surname, learnerSurname);
-                    String f2_surname = "f2_surname" + i;
+                    String f2_surname = "f2_surname_" + i;
                     requestMap.put(f2_surname, learnerSurname);
-                    String f3_surname = "f3_surname" + i;
+                    String f3_surname = "f3_surname_" + i;
                     requestMap.put(f3_surname, learnerSurname);
-                    String f4_surname = "f4_surname" + i;
+                    String f4_surname = "f4_surname_" + i;
                     requestMap.put(f4_surname, learnerSurname);
-                    String f5_surname = "f5_surname" + i;
+                    String f5_surname = "f5_surname_" + i;
                     requestMap.put(f5_surname, learnerSurname);
-                    String f6_surname = "f6_surname" + i;
+                    String f6_surname = "f6_surname_" + i;
                     requestMap.put(f6_surname, learnerSurname);
-                    String f7_surname = "f7_surname" + i;
+                    String f7_surname = "f7_surname_" + i;
                     requestMap.put(f7_surname, learnerSurname);
-                    String f8_surname = "f8_surname" + i;
+                    String f8_surname = "f8_surname_" + i;
                     requestMap.put(f8_surname, learnerSurname);
-                    String f9_surname = "f9_surname" + i;
+                    String f9_surname = "f9_surname_" + i;
                     requestMap.put(f9_surname, learnerSurname);
-                    String f10_surname = "f10_surname" + i;
+                    String f10_surname = "f10_surname_" + i;
                     requestMap.put(f10_surname, learnerSurname);
-                    String f11_surname = "f11_surname" + i;
+                    String f11_surname = "f11_surname_" + i;
                     requestMap.put(f11_surname, learnerSurname);
-                    String f12_surname = "f12_surname" + i;
+                    String f12_surname = "f12_surname_" + i;
                     requestMap.put(f12_surname, learnerSurname);
-                    String f13_surname = "f13_surname" + i;
+                    String f13_surname = "f13_surname_" + i;
                     requestMap.put(f13_surname, learnerSurname);
-                    String f14_surname = "f14_surname" + i;
+                    String f14_surname = "f14_surname_" + i;
                     requestMap.put(f14_surname, learnerSurname);
-                    String f15_surname = "f15_surname" + i;
+                    String f15_surname = "f15_surname_" + i;
                     requestMap.put(f15_surname, learnerSurname);
-                    String f16_surname = "f16_surname" + i;
+                    String f16_surname = "f16_surname_" + i;
                     requestMap.put(f16_surname, learnerSurname);
-                    String f17_surname = "f17_surname" + i;
+                    String f17_surname = "f17_surname_" + i;
                     requestMap.put(f17_surname, learnerSurname);
-                    String f18_surname = "f18_surname" + i;
+                    String f18_surname = "f18_surname_" + i;
                     requestMap.put(f18_surname, learnerSurname);
-                    String f19_surname = "f19_surname" + i;
+                    String f19_surname = "f19_surname_" + i;
                     requestMap.put(f19_surname, learnerSurname);
-                    String f20_surname = "f20_surname" + i;
+                    String f20_surname = "f20_surname_" + i;
                     requestMap.put(f20_surname, learnerSurname);
-                    String f21_surname = "f21_surname" + i;
+                    String f21_surname = "f21_surname_" + i;
                     requestMap.put(f21_surname, learnerSurname);
-                    String f22_surname = "f22_surname" + i;
+                    String f22_surname = "f22_surname_" + i;
                     requestMap.put(f22_surname, learnerSurname);
-                    String f23_surname = "f23_surname" + i;
+                    String f23_surname = "f23_surname_" + i;
                     requestMap.put(f23_surname, learnerSurname);
-                    String f24_surname = "f24_surname" + i;
+                    String f24_surname = "f24_surname_" + i;
                     requestMap.put(f24_surname, learnerSurname);
-                    String f25_surname = "f25_surname" + i;
+                    String f25_surname = "f25_surname_" + i;
                     requestMap.put(f25_surname, learnerSurname);
-                    String f26_surname = "f26_surname" + i;
+                    String f26_surname = "f26_surname_" + i;
                     requestMap.put(f26_surname, learnerSurname);
-                    String f27_surname = "f27_surname" + i;
+                    String f27_surname = "f27_surname_" + i;
                     requestMap.put(f27_surname, learnerSurname);
-                    String f28_surname = "f28_surname" + i;
+                    String f28_surname = "f28_surname_" + i;
                     requestMap.put(f28_surname, learnerSurname);
-                    String f29_surname = "f29_surname" + i;
+                    String f29_surname = "f29_surname_" + i;
                     requestMap.put(f29_surname, learnerSurname);
-                    String f30_surname = "f30_surname" + i;
+                    String f30_surname = "f30_surname_" + i;
                     requestMap.put(f30_surname, learnerSurname);
-                    String f31_surname = "f31_surname" + i;
+                    String f31_surname = "f31_surname_" + i;
                     requestMap.put(f31_surname, learnerSurname);
-                    String f32_surname = "f32_surname" + i;
+                    String f32_surname = "f32_surname_" + i;
                     requestMap.put(f32_surname, learnerSurname);
-                    String f33_surname = "f33_surname" + i;
+                    String f33_surname = "f33_surname_" + i;
                     requestMap.put(f33_surname, learnerSurname);
-                    String f34_surname = "f34_surname" + i;
+                    String f34_surname = "f34_surname_" + i;
                     requestMap.put(f34_surname, learnerSurname);
-                    String f35_surname = "f35_surname" + i;
+                    String f35_surname = "f35_surname_" + i;
                     requestMap.put(f35_surname, learnerSurname);
 
-                    String name = "s_name" + i;
-                    String f1_name = "f1_name" + i;
-                    String f2_name = "f2_name" + i;
-                    String f3_name = "f3_name" + i;
-                    String f4_name = "f4_name" + i;
-                    String f5_name = "f5_name" + i;
-                    String f6_name = "f6_name" + i;
-                    String f7_name = "f7_name" + i;
-                    String f8_name = "f8_name" + i;
-                    String f9_name = "f9_name" + i;
-                    String f10_name = "f10_name" + i;
-                    String f11_name = "f11_name" + i;
-                    String f12_name = "f12_name" + i;
-                    String f13_name = "f13_name" + i;
-                    String f14_name = "f14_name" + i;
-                    String f15_name = "f15_name" + i;
-                    String f16_name = "f16_name" + i;
-                    String f17_name = "f17_name" + i;
-                    String f18_name = "f18_name" + i;
-                    String f19_name = "f19_name" + i;
-                    String f20_name = "f20_name" + i;
-                    String f21_name = "f21_name" + i;
-                    String f22_name = "f22_name" + i;
-                    String f23_name = "f23_name" + i;
-                    String f24_name = "f24_name" + i;
-                    String f25_name = "f25_name" + i;
-                    String f26_name = "f26_name" + i;
-                    String f27_name = "f27_name" + i;
-                    String f28_name = "f28_name" + i;
-                    String f29_name = "f29_name" + i;
-                    String f30_name = "f30_name" + i;
-                    String f31_name = "f31_name" + i;
-                    String f32_name = "f32_name" + i;
-                    String f33_name = "f33_name" + i;
-                    String f34_name = "f34_name" + i;
-                    String f35_name = "f35_name" + i;
+                    String name = "s_name_" + i;
+                    String f1_name = "f1_name_" + i;
+                    String f2_name = "f2_name_" + i;
+                    String f3_name = "f3_name_" + i;
+                    String f4_name = "f4_name_" + i;
+                    String f5_name = "f5_name_" + i;
+                    String f6_name = "f6_name_" + i;
+                    String f7_name = "f7_name_" + i;
+                    String f8_name = "f8_name_" + i;
+                    String f9_name = "f9_name_" + i;
+                    String f10_name = "f10_name_" + i;
+                    String f11_name = "f11_name_" + i;
+                    String f12_name = "f12_name_" + i;
+                    String f13_name = "f13_name_" + i;
+                    String f14_name = "f14_name_" + i;
+                    String f15_name = "f15_name_" + i;
+                    String f16_name = "f16_name_" + i;
+                    String f17_name = "f17_name_" + i;
+                    String f18_name = "f18_name_" + i;
+                    String f19_name = "f19_name_" + i;
+                    String f20_name = "f20_name_" + i;
+                    String f21_name = "f21_name_" + i;
+                    String f22_name = "f22_name_" + i;
+                    String f23_name = "f23_name_" + i;
+                    String f24_name = "f24_name_" + i;
+                    String f25_name = "f25_name_" + i;
+                    String f26_name = "f26_name_" + i;
+                    String f27_name = "f27_name_" + i;
+                    String f28_name = "f28_name_" + i;
+                    String f29_name = "f29_name_" + i;
+                    String f30_name = "f30_name_" + i;
+                    String f31_name = "f31_name_" + i;
+                    String f32_name = "f32_name_" + i;
+                    String f33_name = "f33_name_" + i;
+                    String f34_name = "f34_name_" + i;
+                    String f35_name = "f35_name_" + i;
                     requestMap.put(name, learnerName);
                     requestMap.put(f1_name, learnerName);
                     requestMap.put(f2_name, learnerName);
@@ -1023,6 +1203,44 @@ public class DogeServiceImpl implements DogeService {
             requestMap.put("f34_end_hour", courseEntity.getAfternoonEndHour());
         }
 
+        if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null)
+        {
+            boolean finish = false;
+            String start = courseEntity.getCourseStartDate().toString();
+            String end = courseEntity.getCourseEndDate().toString();
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            System.out.println(courseEntity.getCourseStartDate());
+            System.out.println(start);
+            System.out.println(sdf.parse(start));
+            calendar.setTime(sdf.parse(start));
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("E");
+            int i =1;
+            while(!finish){
+                System.out.println(calendar.getTime());
+                System.out.println(simpleDateFormat2.format(calendar.getTime()));
+                if(!simpleDateFormat2.format(calendar.getTime()).equals("sab") && !simpleDateFormat2.format(calendar.getTime()).equals("dom")){
+                    String dayLabel = "f"+i+"_day";
+                    String monthLabel = "f"+i+"_month";
+                    String yearLabel = "f"+i+"_year";
+                    String day = ""+calendar.get(Calendar.DAY_OF_MONTH)+"";
+                    int mese = calendar.get(Calendar.MONTH)+1;
+                    String month = ""+mese+"";
+                    String year = ""+calendar.get(Calendar.YEAR)+"";
+                    requestMap.put(dayLabel,day);
+                    requestMap.put(monthLabel,month);
+                    requestMap.put(yearLabel,year);
+                    i++;
+
+                }
+                if(start.compareTo(end) < 0){
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    start = sdf.format(calendar.getTime());
+
+                } else finish = true;
+            }
+
+        }
 
         dogeRequestV1.setData(requestMap);
         dogeRequestV1.setFilename("Registro-Didattico-"+courseEntity.getCourseCode()+".pdf");
@@ -1042,6 +1260,161 @@ public class DogeServiceImpl implements DogeService {
         dogeResponse.setDocumentId(uuid);
         dogeResponse.setActionResult(response);
         return dogeResponse;
+    }*/
+
+    public List<DogeResponseV1> register(UUID idCourse) throws Exception{
+        List<DogeResponseV1> dogeResponseV1List = new LinkedList<>();
+        Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
+        if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
+        CourseEntity courseEntity = courseEntityOptional.get();
+        int numPages = 11;
+        Integer i = 4;
+        if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null) {
+            boolean finish = false;
+            String start = courseEntity.getCourseStartDate().toString();
+            String end = courseEntity.getCourseEndDate().toString();
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            calendar.setTime(sdf.parse(start));
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("E");
+            String numPage = "";
+            /*while(!finish) {
+                if(!simpleDateFormat2.format(calendar.getTime()).equals("sab") && !simpleDateFormat2.format(calendar.getTime()).equals("dom")) {
+                    int giorno = calendar.get(Calendar.DAY_OF_MONTH);
+                    String day = "";
+                    if(giorno < 10){
+                        day += "0"+giorno+"";
+                    } else day = ""+giorno;
+                    int mese = calendar.get(Calendar.MONTH)+1;
+                    String month = "";
+                    if(mese < 10){
+                        month += "0"+mese;
+                    } else {month += ""+mese;}
+                    String year = ""+calendar.get(Calendar.YEAR);
+                    numPage = ""+i;
+                    SimpleDateFormat hour = new SimpleDateFormat("HH:mm");
+                    if (courseEntity.getMorningStartHour() != null && courseEntity.getMorningEndHour() != null && courseEntity.getAfternoonStatrHour() != null && courseEntity.getAfternoonEndHour() != null) {
+                        DogeResponseV1 secondResponse1 = secondRegister(courseEntity, hour.format(courseEntity.getMorningStartHour()), hour.format(courseEntity.getMorningEndHour()), day, month, year, i);
+
+                        numPages++;
+
+                        //DogeResponseV1 secondResponse2 = secondRegister(courseEntity, hour.format(courseEntity.getAfternoonStatrHour()), hour.format(courseEntity.getAfternoonEndHour()), day, month, year, i);
+                        ((LinkedList<DogeResponseV1>) dogeResponseV1List).addLast(secondResponse1);
+                        ((LinkedList<DogeResponseV1>) dogeResponseV1List).addLast(secondResponse2);
+                    } else if (courseEntity.getMorningStartHour() != null && courseEntity.getMorningEndHour() != null) {
+                        DogeResponseV1 secondResponse1 = secondRegister(courseEntity, hour.format(courseEntity.getMorningStartHour()), hour.format(courseEntity.getMorningEndHour()), day, month, year, i);
+                        ((LinkedList<DogeResponseV1>) dogeResponseV1List).addLast(secondResponse1);
+                    } else if (courseEntity.getAfternoonStatrHour() != null && courseEntity.getAfternoonEndHour() != null) {
+                        DogeResponseV1 secondResponse2 = secondRegister(courseEntity, hour.format(courseEntity.getAfternoonStatrHour()), hour.format(courseEntity.getAfternoonEndHour()), day, month, year, i);
+                        ((LinkedList<DogeResponseV1>) dogeResponseV1List).addLast(secondResponse2);
+                    }
+
+                    numPages++;
+                }
+                if(start.compareTo(end) < 0){
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    start = sdf.format(calendar.getTime());
+
+                } else finish = true;
+            }*/
+            //numPages = numPages+i-4;
+        }
+        String pages = ""+numPages+"";
+
+        DogeResponseV1 firstResponse = firstRegister(courseEntity, pages);
+        ((LinkedList<DogeResponseV1>) dogeResponseV1List).addFirst(firstResponse);
+        DogeResponseV1 thirdResponse = thirdRegister(courseEntity);
+        ((LinkedList<DogeResponseV1>) dogeResponseV1List).addLast(thirdResponse);
+        /*if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null)
+        {
+            boolean finish = false;
+            String start = courseEntity.getCourseStartDate().toString();
+            String end = courseEntity.getCourseEndDate().toString();
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            System.out.println(courseEntity.getCourseStartDate());
+            System.out.println(start);
+            System.out.println(sdf.parse(start));
+            calendar.setTime(sdf.parse(start));
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("E");
+            int i =1;
+            while(!finish){
+                System.out.println(calendar.getTime());
+                System.out.println(simpleDateFormat2.format(calendar.getTime()));
+                if(!simpleDateFormat2.format(calendar.getTime()).equals("sab") && !simpleDateFormat2.format(calendar.getTime()).equals("dom")){
+                    String dayLabel = "f"+i+"_day";
+                    String monthLabel = "f"+i+"_month";
+                    String yearLabel = "f"+i+"_year";
+                    String day = ""+calendar.get(Calendar.DAY_OF_MONTH)+"";
+                    int mese = calendar.get(Calendar.MONTH)+1;
+                    String month = ""+mese+"";
+                    String year = ""+calendar.get(Calendar.YEAR)+"";
+                    i++;
+
+                }
+                if(start.compareTo(end) < 0){
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    start = sdf.format(calendar.getTime());
+
+                } else finish = true;
+            }
+
+        }*/
+
+        return dogeResponseV1List;
+    }
+
+       public void doMerge(List<InputStream> inputPdfList,
+                OutputStream outputStream) throws Exception{
+            //Create document and pdfReader objects.
+            Document document = new Document();
+            List<PdfReader> readers =
+                    new ArrayList<>();
+            int totalPages = 0;
+
+            //Create pdf Iterator object using inputPdfList.
+            Iterator<InputStream> pdfIterator =
+                    inputPdfList.iterator();
+
+            // Create reader list for the input pdf files.
+            while (pdfIterator.hasNext()) {
+                InputStream pdf = pdfIterator.next();
+                PdfReader pdfReader = new PdfReader(pdf);
+                readers.add(pdfReader);
+                totalPages = totalPages + pdfReader.getNumberOfPages();
+            }
+
+            // Create writer for the outputStream
+            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+
+            //Open document.
+            document.open();
+
+            //Contain the pdf data.
+            PdfContentByte pageContentByte = writer.getDirectContent();
+
+            PdfImportedPage pdfImportedPage;
+            int currentPdfReaderPage = 1;
+            Iterator<PdfReader> iteratorPDFReader = readers.iterator();
+
+            // Iterate and process the reader list.
+            while (iteratorPDFReader.hasNext()) {
+                PdfReader pdfReader = iteratorPDFReader.next();
+                //Create page and add content.
+                while (currentPdfReaderPage <= pdfReader.getNumberOfPages()) {
+                    document.newPage();
+                    pdfImportedPage = writer.getImportedPage(
+                            pdfReader,currentPdfReaderPage);
+                    pageContentByte.addTemplate(pdfImportedPage, 0, 0);
+                    currentPdfReaderPage++;
+                }
+                currentPdfReaderPage = 1;
+            }
+
+            //Close document and outputStream.
+            outputStream.flush();
+            document.close();
+            outputStream.close();
     }
 
     @Override

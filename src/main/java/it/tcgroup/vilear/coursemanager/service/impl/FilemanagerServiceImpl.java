@@ -6,6 +6,7 @@ import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.common.util.HttpUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.DownloadResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
@@ -21,6 +22,8 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Transactional
 @Service
@@ -37,6 +40,9 @@ public class FilemanagerServiceImpl implements FilemanagerService {
 
     @Value("${filemanager.api.upload}")
     private String uploadApi;
+
+    @Value("${filemanager.api.download}")
+    private String downloadApi;
 
     public class CustomTypeReference extends TypeReference<Object> {
         private final Type type;
@@ -97,5 +103,13 @@ public class FilemanagerServiceImpl implements FilemanagerService {
         });
     }
 
+    @Override
+    public DownloadResponseV1 downloadFile(String idFile) throws IOException {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+
+        return callWithoutCert(endpointUrl + downloadApi + idFile, HttpMethod.GET, null, headers, new ParameterizedTypeReference<DownloadResponseV1>() {
+        });
+    }
 
 }
