@@ -109,6 +109,7 @@ public class CourseAdapter {
         course.setTotalPartnerCostOnPercent(courseRequest.getTotalPartnerCostOnPercent());
         course.setTradeUnionTeachingRequest(courseRequest.getTradeUnionTeachingRequest());
         course.setVisitHours(courseRequest.getVisitHours());
+        course.setStatus(courseRequest.getStatus());
 
         return course;
     }
@@ -197,6 +198,7 @@ public class CourseAdapter {
         courseResponse.setTotalPartnerCostOnPercent(course.getTotalPartnerCostOnPercent());
         courseResponse.setTradeUnionTeachingRequest(course.getTradeUnionTeachingRequest());
         courseResponse.setVisitHours(course.getVisitHours());
+        courseResponse.setStatus(course.getStatus());
 
         return courseResponse;
     }
