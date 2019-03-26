@@ -228,7 +228,8 @@ public class LearnerServiceImpl implements LearnerService {
             if (candidate != null) {
                 learner.getCurriculumVitae().remove(candidate);
                 learnerRepository.save(learner);
-            }
+            } else throw new NotFoundException("Attachment with id " + idAttachment + " not found");
+
         }
     }
 
