@@ -26,6 +26,7 @@ public class AttachmentAdapter {
         attachment.setFileManagerId(uploadResponse.getId().toString());
         attachment.setFileManagerName(uploadResponse.getFileName());
         attachment.setMimeType(uploadResponse.getMimeType());
+        attachment.setResourceType(uploadResponse.getResourceType());
 
         return attachment;
 

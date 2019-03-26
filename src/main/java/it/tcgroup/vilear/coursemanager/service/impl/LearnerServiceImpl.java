@@ -11,6 +11,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationRes
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.repository.LearnerEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
@@ -21,10 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Transactional
 @Service
@@ -196,11 +194,13 @@ public class LearnerServiceImpl implements LearnerService {
         LearnerEntity learner = optLearner.get();
 
         curriculim.setResourceId(idLearner.toString());
-        curriculim.setResourceType("curriculum");
+        //curriculim.setResourceType("curriculum");
 
         UploadResponseV1 response = filemanagerService.uploadFile(curriculim);
 
-        learner.setCurriculumVitae(attachmentAdapter.adptUploadResponseToAttachment(response));
+        if(learner.getCurriculumVitae() ==null)
+            learner.setCurriculumVitae(new ArrayList<>());
+        learner.getCurriculumVitae().add(attachmentAdapter.adptUploadResponseToAttachment(response));
 
         learnerRepository.save(learner);
 
@@ -209,15 +209,30 @@ public class LearnerServiceImpl implements LearnerService {
     }
 
     @Override
-    public void deleteLearnerCurriculum(UUID idLearner){
+    public void deleteLearnerCurriculum(UUID idLearner, UUID idAttachment) {
 
         Optional<LearnerEntity> optLearner = learnerRepository.findById(idLearner);
-        if(!optLearner.isPresent()){
-            throw new NotFoundException("Learner with id " + idLearner+ " not found");
+        if (!optLearner.isPresent()) {
+            throw new NotFoundException("Learner with id " + idLearner + " not found");
         }
 
         LearnerEntity learner = optLearner.get();
-        learner.setCurriculumVitae(null);
-        learnerRepository.save(learner);
+        if (learner.getCurriculumVitae() != null) {
+            Attachment candidate = null;
+            Iterator<Attachment> iAttachment = learner.getCurriculumVitae().iterator();
+            while (candidate == null && iAttachment.hasNext()) {
+                Attachment now = iAttachment.next();
+                if (now.getFileManagerId().equalsIgnoreCase(idAttachment.toString()))
+                    candidate = now;
+            }
+            if (candidate != null) {
+                learner.getCurriculumVitae().remove(candidate);
+                learnerRepository.save(learner);
+            }
+        }
     }
+
+
+
+
 }

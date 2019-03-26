@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class LearnerDto implements Serializable {
 
@@ -48,7 +49,7 @@ public class LearnerDto implements Serializable {
     private String note;
 
     @JsonProperty( "curriculum_vitae")
-    private Attachment curriculumVitae;
+    private List<Attachment> curriculumVitae;
     
     @JsonProperty( "address")
     private AddressDto address;
@@ -56,7 +57,7 @@ public class LearnerDto implements Serializable {
     public LearnerDto() {
     }
 
-    public LearnerDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, Attachment curriculumVitae, AddressDto address) {
+    public LearnerDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> curriculumVitae, AddressDto address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -169,11 +170,11 @@ public class LearnerDto implements Serializable {
         this.note = note;
     }
 
-    public Attachment getCurriculumVitae() {
+    public List<Attachment> getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(Attachment curriculumVitae) {
+    public void setCurriculumVitae(List<Attachment> curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 

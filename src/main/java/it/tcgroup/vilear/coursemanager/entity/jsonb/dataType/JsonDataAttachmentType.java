@@ -1,5 +1,6 @@
 package it.tcgroup.vilear.coursemanager.entity.jsonb.dataType;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.tcgroup.vilear.coursemanager.common.hibernate.JsonDataType;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
@@ -8,6 +9,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class JsonDataAttachmentType extends JsonDataType {
 
@@ -20,7 +22,8 @@ public class JsonDataAttachmentType extends JsonDataType {
         }
         try {
             final ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(cellContent.getBytes("UTF-8"), Attachment.class);
+            return mapper.readValue(cellContent.getBytes("UTF-8"), new TypeReference<List<Attachment>>() {
+            });
         } catch (final Exception ex) {
             throw new RuntimeException("Failed to convert String to Attachment: " + ex.getMessage(), ex);
         }

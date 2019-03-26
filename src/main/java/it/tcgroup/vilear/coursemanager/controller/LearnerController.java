@@ -200,7 +200,7 @@ public class LearnerController {
     }
 
     /*ELIMINAZIONE CURRICULUM*/
-    @DeleteMapping(value = "/learner/curriculum/{UUID_LEARNER}",
+    @DeleteMapping(value = "/learner/curriculum/{UUID_LEARNER}/{UUID_ATTACHMENT}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value="Delete Learner Curriculum", notes = "Delete Learner Curriculum")
@@ -214,9 +214,11 @@ public class LearnerController {
     })
     public ResponseEntity deleteLearnerCurriculum(
             @ApiParam(value = "UUID of the Learner", required = true)
-            @PathVariable(name = "UUID_LEARNER") String idLearner) {
+            @PathVariable(name = "UUID_LEARNER") String idLearner,
+            @ApiParam(value = "UUID of the Attachment to delete", required = true)
+            @PathVariable(name = "UUID_ATTACHMENT") String idAttachment) {
 
-        learnerService.deleteLearnerCurriculum(UUID.fromString(idLearner));
+        learnerService.deleteLearnerCurriculum(UUID.fromString(idLearner), UUID.fromString(idAttachment));
         return new ResponseEntity(HttpStatus.OK);
     }
 

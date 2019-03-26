@@ -20,6 +20,9 @@ public class Attachment implements Serializable {
     @JsonProperty("file_manager_name")
     private String fileManagerName;
 
+    @JsonProperty("resource_type")
+    private String resourceType;
+
     @JsonProperty("blob_name")
     private String blobName;
 
@@ -39,9 +42,10 @@ public class Attachment implements Serializable {
     public Attachment() {
     }
 
-    public Attachment(String fileManagerId, String fileManagerName, String blobName, Long blobSize, String mimeType, String description, Date createdAt) {
+    public Attachment(String fileManagerId, String fileManagerName, String resourceType, String blobName, Long blobSize, String mimeType, String description, Date createdAt) {
         this.fileManagerId = fileManagerId;
         this.fileManagerName = fileManagerName;
+        this.resourceType = resourceType;
         this.blobName = blobName;
         this.blobSize = blobSize;
         this.mimeType = mimeType;
@@ -109,6 +113,13 @@ public class Attachment implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
 
     @Override
     public String toString() {

@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.entity.enumerated.DegreeOfStudiesEnum;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.util.Date;
+import java.util.List;
 
 public class LearnerResponseV1 {
 
@@ -48,7 +49,7 @@ public class LearnerResponseV1 {
     private String note;
 
     @JsonProperty("curriculum_vitae")
-    private Attachment curriculumVitae;
+    private List<Attachment> curriculumVitae;
 
     @JsonProperty("address")
     private AddressResponse address;
@@ -56,7 +57,7 @@ public class LearnerResponseV1 {
     public LearnerResponseV1() {
     }
 
-    public LearnerResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, Attachment curriculumVitae, AddressResponse address) {
+    public LearnerResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> curriculumVitae, AddressResponse address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -169,11 +170,11 @@ public class LearnerResponseV1 {
         this.note = note;
     }
 
-    public Attachment getCurriculumVitae() {
+    public List<Attachment> getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(Attachment curriculumVitae) {
+    public void setCurriculumVitae(List<Attachment> curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 

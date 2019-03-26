@@ -14,6 +14,7 @@ import org.hibernate.annotations.TypeDefs;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -72,7 +73,7 @@ public class LearnerEntity implements Serializable {
 
     @Type(type = "JsonDataAttachmentType")
     @Column(name = "curriculum_vitae")
-    private Attachment curriculumVitae;
+    private List<Attachment> curriculumVitae;
 
     @Type(type = "JsonDataAddressType")
     @Column(name = "address")
@@ -81,8 +82,7 @@ public class LearnerEntity implements Serializable {
     public LearnerEntity() {
     }
 
-    public LearnerEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, Attachment curriculumVitae, Address address) {
-        this.id = id;
+    public LearnerEntity(String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> curriculumVitae, Address address) {
         this.username = username;
         this.name = name;
         this.surname = surname;
@@ -194,11 +194,11 @@ public class LearnerEntity implements Serializable {
         this.note = note;
     }
 
-    public Attachment getCurriculumVitae() {
+    public List<Attachment> getCurriculumVitae() {
         return curriculumVitae;
     }
 
-    public void setCurriculumVitae(Attachment curriculumVitae) {
+    public void setCurriculumVitae(List<Attachment> curriculumVitae) {
         this.curriculumVitae = curriculumVitae;
     }
 
