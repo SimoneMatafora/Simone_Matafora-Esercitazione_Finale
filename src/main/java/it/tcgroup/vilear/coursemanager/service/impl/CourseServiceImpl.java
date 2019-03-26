@@ -439,19 +439,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseResponseV1 patchCourseStatus(UUID idCourse, CourseStatusEnum newStatus) {
+    public CourseResponseV1 patchCourseStatus(UUID idCourse) {
         Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
         if(!courseOpt.isPresent()){
             throw new NotFoundException("Course with id " + idCourse+ " not found");
         }
         CourseEntity course = courseOpt.get();
 
-        if(!course.getStatus().toValue().equalsIgnoreCase(newStatus.toValue())) {
-            if(newStatus.toValue().equalsIgnoreCase(CourseStatusEnum.CANCELLATO.toValue()))
-                course.setStatus(CourseStatusEnum.CANCELLATO);
-            else if(newStatus.toValue().equalsIgnoreCase(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE.toValue()))
-                course.setStatus(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE);
-            else if(newStatus.toValue().equalsIgnoreCase(CourseStatusEnum.PUBBLICATO.toValue()) &&
+        if(course.getStatus().toValue().equalsIgnoreCase(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE.toValue()) &&
             course.getCourseType() !=null  && course.getSupplyModality() != null && course.getContentsArea() != null &&
             course.getActuatorSubject() != null  && course.getFoundsTypeCourse() != null &&
             course.getCourseCode() != null && course.getCourseTitle() != null && course.getCourseDescription() != null &&
@@ -464,12 +459,13 @@ public class CourseServiceImpl implements CourseService {
             !course.getPlacementList().isEmpty() && course.getPlacementList().get(0).getHiringDate() != null &&
             course.getPlacementList().get(0).getMissionHours() != null && course.getPlacementList().get(0).getBonusAmount() != null)
                 course.setStatus(CourseStatusEnum.PUBBLICATO);
-
             courseRepository.save(course);
-        }
+
         return courseAdapter.adptCourseToCourseResponse(course);
 
     }
+
+
 
 
 }

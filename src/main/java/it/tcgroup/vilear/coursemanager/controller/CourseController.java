@@ -281,7 +281,7 @@ public class CourseController {
     }
 
     /*CAMBIO STATO CORSO*/
-    @PatchMapping(value = "/course/{UUID_COURSE}/{STATUS}",
+    @PatchMapping(value = "/course/public/{UUID_COURSE}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Upload Course Status", notes = "Update the course status using info passed in the request")
@@ -295,11 +295,9 @@ public class CourseController {
     })
     public ResponseEntity<CourseResponseV1> patchCourseStatus(
             @ApiParam(value = "UUID of the Course", required = true)
-            @PathVariable(name = "UUID_COURSE") String idCourse,
-            @ApiParam(value = "The status in which the Course must go", required = true)
-            @PathVariable(name = "STATUS") String status) throws IOException {
+            @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
 
-        return new ResponseEntity<>(courseService.patchCourseStatus(UUID.fromString(idCourse), CourseStatusEnum.create(status)), HttpStatus.OK);
+        return new ResponseEntity<>(courseService.patchCourseStatus(UUID.fromString(idCourse)), HttpStatus.OK);
     }
 
 }
