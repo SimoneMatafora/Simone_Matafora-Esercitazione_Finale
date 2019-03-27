@@ -156,10 +156,10 @@ public class DogeController {
         for(DogeResponseV1 dogeResponseV11 : dogeResponseV1){
             DownloadResponseV1 downloadResponseV1 = filemanagerService.downloadFile(dogeResponseV11.getDocumentId());
             identifierResponseV1s.add(new IdentifierResponseV1(dogeResponseV11.getDocumentId()));
-            String filename = "prova-"+i;
+            String filename = "register-part-"+i;
             String path = "temp/"+filename+".pdf";
-            byte[] prova = Base64.getDecoder().decode(downloadResponseV1.getFileContent());
-            FileUtils.writeByteArrayToFile(new File(path), prova);
+            byte[] decodedFile = Base64.getDecoder().decode(downloadResponseV1.getFileContent());
+            FileUtils.writeByteArrayToFile(new File(path), decodedFile);
 
             File file1 = new File(path);
             PDDocument pdDocument = PDDocument.load(new File(path));
@@ -168,31 +168,12 @@ public class DogeController {
             i++;
         }
 
-        /*PDFMergerUtility PDFmerger = new PDFMergerUtility();
-        PDFmerger.setDestinationFileName("temp/risultato.pdf");
-        for (File file : fileList){
-            PDFmerger.addSource(file);
-        }
-        PDFmerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
-        for (PDDocument pdDocument : pdDocuments){
-            pdDocument.close();
-        }*/
-
-        mergePdf(fileList);
-        File file3 = new File("temp/pdfprovafinale.pdf");
+        mergePdf(fileList, idCourse);
+        String path = "temp/Registro-Didattico-Completo-"+idCourse+".pdf";
+        File file3 = new File(path);
         byte[] byteFile = FileUtils.readFileToByteArray(file3);
 
         filecontent = Base64.getEncoder().encodeToString(byteFile);
-
-
-        /*List<InputStream> list = new ArrayList<InputStream>();
-        for (File file: fileList){
-            list.add(new FileInputStream(file));
-        }
-        OutputStream out = new FileOutputStream(new File("temp/risultato.pdf"));
-        dogeService.doMerge(list, out);*/
-
-
 
         UploadRequestV1 uploadRequestV1 = new UploadRequestV1();
         UUID uuid = UUID.randomUUID();
@@ -207,9 +188,10 @@ public class DogeController {
         return new ResponseEntity<>(uploadResponseV1, HttpStatus.OK);
     }
 
-    public void mergePdf(List<File> files) throws IOException {
+    public void mergePdf(List<File> files, UUID idCourse) throws IOException {
         PDFMergerUtility PDFmerger = new PDFMergerUtility();
-        PDFmerger.setDestinationFileName("temp/pdfprovafinale.pdf");
+        String path = "temp/Registro-Didattico-Completo-"+idCourse+".pdf";
+        PDFmerger.setDestinationFileName(path);
         List<PDDocument> pdDocuments = new LinkedList<>();
         for (File file : files){
             PDDocument pdDocument = PDDocument.load(new File(file.getPath()));
