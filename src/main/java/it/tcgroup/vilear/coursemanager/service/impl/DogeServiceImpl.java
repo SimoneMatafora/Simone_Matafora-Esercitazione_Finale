@@ -45,6 +45,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -735,6 +736,82 @@ public class DogeServiceImpl implements DogeService {
         return dogeResponse;
     }
 
+    public final static Date find(int year){
+        if ( (year < 1573) || (year > 2499) ) {
+            throw new BadRequestException("Year not valid");
+        }
+
+        int a = year % 19;
+        int b = year % 4;
+        int c = year % 7;
+
+        int m = 0;
+        int n = 0;
+
+        if ( (year >= 1583) && (year <= 1699) ) { m = 22; n = 2; }
+        if ( (year >= 1700) && (year <= 1799) ) { m = 23; n = 3; }
+        if ( (year >= 1800) && (year <= 1899) ) { m = 23; n = 4; }
+        if ( (year >= 1900) && (year <= 2099) ) { m = 24; n = 5; }
+        if ( (year >= 2100) && (year <= 2199) ) { m = 24; n = 6; }
+        if ( (year >= 2200) && (year <= 2299) ) { m = 25; n = 0; }
+        if ( (year >= 2300) && (year <= 2399) ) { m = 26; n = 1; }
+        if ( (year >= 2400) && (year <= 2499) ) { m = 25; n = 1; }
+
+        int d = (19 * a + m) % 30;
+        int e = (2 * b + 4 * c + 6 * d + n) % 7;
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.YEAR , year);
+
+        if ( d+e < 10 ) {
+            calendar.set(Calendar.MONTH , Calendar.MARCH);
+            calendar.set(Calendar.DAY_OF_MONTH, d + e + 22);
+        } else {
+            calendar.set(Calendar.MONTH , Calendar.APRIL);
+            int day = d+e-9;
+            if ( 26 == day ) {day = 19;}
+            if ( ( 25 == day ) && ( 28 == d) && ( e == 6 ) && ( a > 10 ) ) { day = 18; }
+            calendar.set(Calendar.DAY_OF_MONTH, day);
+        }
+
+        return calendar.getTime();
+    }
+
+    public List<String> holidays(int year) throws ParseException {
+        List<String> holidays = new ArrayList<>();
+        String natale = year+"-12-25";
+        holidays.add(natale);
+        String capodanno = year+"-01-01";
+        holidays.add(capodanno);
+        String epifania = year+"-01-06";
+        holidays.add(epifania);
+        String liberazione = year+"-04-25";
+        holidays.add(liberazione);
+        String lavoro = year+"-05-01";
+        holidays.add(lavoro);
+        String repubblica = year+"-06-02";
+        holidays.add(repubblica);
+        String ferragosto = year+"-08-15";
+        holidays.add(ferragosto);
+        String ognissanti = year+"-11-01";
+        holidays.add(ognissanti);
+        String immacolata = year+"-12-08";
+        holidays.add(immacolata);
+        String stefano = year+"-12-26";
+        holidays.add(stefano);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date easterDate = find(year);
+        Calendar calendar2 = Calendar.getInstance();
+        String easter = simpleDateFormat.format(easterDate);
+        calendar2.setTime(simpleDateFormat.parse(easter));
+        calendar2.add(Calendar.DAY_OF_MONTH, 1);
+        easter = simpleDateFormat.format(calendar2.getTime());
+        holidays.add(easter);
+
+        return holidays;
+
+    }
+
     @Override
     public List<DogeResponseV1> register(UUID idCourse) throws Exception{
         List<DogeResponseV1> dogeResponseV1List = new LinkedList<>();
@@ -745,14 +822,17 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null) {
             boolean finish = false;
             String start = courseEntity.getCourseStartDate().toString();
-            String end = courseEntity.getCourseEndDate().toString();
+            Date endDate = courseEntity.getCourseEndDate();
             Calendar calendar = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String end = sdf.format(endDate);
             calendar.setTime(sdf.parse(start));
             SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("E");
             Integer numPage = 4;
+
             while(!finish) {
-                if(!simpleDateFormat2.format(calendar.getTime()).equals("sab") && !simpleDateFormat2.format(calendar.getTime()).equals("dom")) {
+                List<String> holidays = holidays(calendar.get(Calendar.YEAR));
+                if(!simpleDateFormat2.format(calendar.getTime()).equals("sab") && !simpleDateFormat2.format(calendar.getTime()).equals("dom") && !holidays.contains(sdf.format(calendar.getTime()))) {
                     int giorno = calendar.get(Calendar.DAY_OF_MONTH);
                     String day = "";
                     if(giorno < 10){
