@@ -88,6 +88,23 @@ public class AddressAdapter {
         return address;
     }
 
+    public AddressDto adptAddressToAddressDto(Address address) {
+
+        AddressDto addressDto = new AddressDto();
+
+        addressDto.setZipCode(address.getZipCode());
+        addressDto.setCity(address.getCity());
+        addressDto.setProvince(address.getProvince());
+        addressDto.setRegion(address.getRegion());
+        addressDto.setStreet(address.getStreet());
+        addressDto.setNation(address.getNation());
+        addressDto.setNumber(address.getNumber());
+
+        addressDto.setFormattedAddress(this.formatAddress(address));
+
+        return addressDto;
+    }
+
     public AddressResponse adptAddressDtoToAddressResponse(AddressDto address){
 
 

@@ -9,8 +9,11 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerRespon
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCourse;
+import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
@@ -21,10 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Transactional
 @Service
@@ -44,6 +44,9 @@ public class LearnerServiceImpl implements LearnerService {
 
     @Autowired
     private AttachmentAdapter attachmentAdapter;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Override
     public IdResponseV1 insertLearner(LearnerRequestV1 learnerInsertRequest) {
@@ -219,5 +222,34 @@ public class LearnerServiceImpl implements LearnerService {
         LearnerEntity learner = optLearner.get();
         learner.setCurriculumVitae(null);
         learnerRepository.save(learner);
+    }
+
+    @Override
+    public boolean candidateLearnerToCourse(UUID idLearner, UUID idCourse) {
+
+        Optional<LearnerEntity> optLearner = learnerRepository.findById(idLearner);
+        if(!optLearner.isPresent())
+            throw new NotFoundException("Learner with id " + idLearner+ " not found");
+
+        LearnerEntity learner = optLearner.get();
+        System.out.println("sono qui");
+        if(learner.getName() != null && learner.getSurname() != null && learner.getDateOfBirth() != null &&
+        learner.getBirthPlace() != null && learner.getFiscalCode() != null && learner.getEmail() != null &&
+        learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getAddress() != null &&
+        learner.getCurriculumVitae() != null) {
+            System.out.println("sono qua");
+            Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
+            if (!courseOpt.isPresent())
+                throw new NotFoundException("Course with id " + idCourse + " not found");
+            CourseEntity course = courseOpt.get();
+            if(course.getRecipientManagment() == null)
+                course.setRecipientManagment(new ArrayList<>());
+            RecipientManagmentCourse recipientManagmentCourse = new RecipientManagmentCourse();
+            recipientManagmentCourse.setLearner(learnerAdapter.adptLearnerToLearnerDto(learner));
+            course.getRecipientManagment().add(recipientManagmentCourse);
+            courseRepository.save(course);
+            return true;
+        }
+        return false;
     }
 }
