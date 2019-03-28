@@ -280,4 +280,24 @@ public class CourseController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /*CAMBIO STATO CORSO*/
+    @PatchMapping(value = "/course/public/{UUID_COURSE}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Upload Course Status", notes = "Update the course status using info passed in the request")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = CourseResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<CourseResponseV1> patchCourseStatus(
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
+
+        return new ResponseEntity<>(courseService.patchCourseStatus(UUID.fromString(idCourse)), HttpStatus.OK);
+    }
+
 }

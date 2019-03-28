@@ -27,4 +27,6 @@ public interface CourseService {
     void deleteCourseLogo(UUID idCourse);
     void deleteCourseAttachments(UUID idCourse, List<UUID> attachmentList);
 
+    CourseResponseV1 patchCourseStatus(UUID idCourse);
+
 }

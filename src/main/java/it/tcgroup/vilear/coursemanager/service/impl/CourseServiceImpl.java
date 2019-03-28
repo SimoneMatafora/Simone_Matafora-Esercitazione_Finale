@@ -438,5 +438,34 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(course);
     }
 
+    @Override
+    public CourseResponseV1 patchCourseStatus(UUID idCourse) {
+        Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
+        if(!courseOpt.isPresent()){
+            throw new NotFoundException("Course with id " + idCourse+ " not found");
+        }
+        CourseEntity course = courseOpt.get();
+
+        if(course.getStatus().toValue().equalsIgnoreCase(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE.toValue()) &&
+            course.getCourseType() !=null  && course.getSupplyModality() != null && course.getContentsArea() != null &&
+            course.getActuatorSubject() != null  && course.getFoundsTypeCourse() != null &&
+            course.getCourseCode() != null && course.getCourseTitle() != null && course.getCourseDescription() != null &&
+            course.getEducationalTargetDescription() != null && course.getHeadquatersCourse() != null && !course.getHeadquatersCourse().isEmpty() &&
+            course.getCourseStartDate() != null && course.getCourseEndDate() != null && course.getTheoryHours() != null && course.getPracticeHours() != null &&
+            course.getOrenatationHours() != null && course.getCoachingHours() != null && course.getTotalHours() != null && course.getTotalHoursTraining() != null &&
+            course.getMorningStartHour() != null && course.getMorningEndHour() != null && course.getAfternoonStartHour() != null && course.getAfternoonEndHour() != null &&
+            course.getMinimumNumericOfParticipants() != null && course.getAmountReportFT() != null && course.getAmountAutorizedFT() != null && course.getTeacherList() != null &&
+            !course.getTeacherList().isEmpty() && course.getRecipientManagment() != null && !course.getRecipientManagment().isEmpty() && course.getPlacementList() != null &&
+            !course.getPlacementList().isEmpty() && course.getPlacementList().get(0).getHiringDate() != null &&
+            course.getPlacementList().get(0).getMissionHours() != null && course.getPlacementList().get(0).getBonusAmount() != null)
+                course.setStatus(CourseStatusEnum.PUBBLICATO);
+            courseRepository.save(course);
+
+        return courseAdapter.adptCourseToCourseResponse(course);
+
+    }
+
+
+
 
 }

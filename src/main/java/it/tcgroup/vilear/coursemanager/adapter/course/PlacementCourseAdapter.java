@@ -57,14 +57,14 @@ public class PlacementCourseAdapter {
 
         PlacementCourseResponseV1 placementCourseResponse = new PlacementCourseResponseV1();
 
-        placementCourseResponse.setBonusAmount(placementCourseResponse.getBonusAmount());
-        placementCourseResponse.setCoherence(placementCourseResponse.getCoherence());
-        placementCourseResponse.setExpiredPlacementDate(placementCourseResponse.getExpiredPlacementDate());
-        placementCourseResponse.setHiringDate(placementCourseResponse.getHiringDate());
+        placementCourseResponse.setBonusAmount(placementCourse.getBonusAmount());
+        placementCourseResponse.setCoherence(placementCourse.getCoherence());
+        placementCourseResponse.setExpiredPlacementDate(placementCourse.getExpiredPlacementDate());
+        placementCourseResponse.setHiringDate(placementCourse.getHiringDate());
         placementCourseResponse.setLearner(learnerAdapter.adptLearnerDtoToLearnerResponse(placementCourse.getLearner()));
-        placementCourseResponse.setMissionHours(placementCourseResponse.getMissionHours());
-        placementCourseResponse.setNote(placementCourseResponse.getNote());
-        placementCourseResponse.setSendedEletronicPlacementDate(placementCourseResponse.getSendedEletronicPlacementDate());
+        placementCourseResponse.setMissionHours(placementCourse.getMissionHours());
+        placementCourseResponse.setNote(placementCourse.getNote());
+        placementCourseResponse.setSendedEletronicPlacementDate(placementCourse.getSendedEletronicPlacementDate());
 
         return placementCourseResponse;
     }
