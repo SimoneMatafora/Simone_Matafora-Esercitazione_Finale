@@ -257,4 +257,10 @@ public class TeacherServiceImpl implements TeacherService {
         teacherRepository.save(teacher);
     }
 
+    @Override
+    public List<TeacherResponseV1> getCandidateTeacher() {
+        List<TeacherEntity> teacherEntityList = teacherRepository.searchCandidateTeacher();
+        return teacherAdapter.adptTeacherToTeacherResponse(teacherEntityList);
+    }
+
 }

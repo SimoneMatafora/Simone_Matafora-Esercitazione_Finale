@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationRes
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public interface TeacherService {
@@ -21,4 +22,6 @@ public interface TeacherService {
     void deleteTeacher(UUID idTeacher);
     TeacherResponseV1 addTeacherCurriculum(UploadRequestV1 curriculim, UUID idTeacher) throws IOException;
     void deleteTeacherCurriculum(UUID idTeacher);
+    List<TeacherResponseV1> getCandidateTeacher();
+
 }

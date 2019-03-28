@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -173,6 +176,23 @@ public class TeacherController {
                 professionalOrderRegistration, register, vatHolder, sector, city, region, province),HttpStatus.OK);
     }
 
+    /*SEARCH CANDIDATE TEACHER */
+    @ApiOperation(value="Search Candidate Teacher", notes = "It retrieves teacher data through parameters for candidacy")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = TeacherResponseV1.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @GetMapping(value="/teachers/candidate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<TeacherResponseV1>> searchTeacherForCandidacy(
+    ){
+
+        return new ResponseEntity<>(teacherService.getCandidateTeacher(), HttpStatus.OK);
+    }
+
     /*CANCELLAZIONE TEACHER*/
     @DeleteMapping( value = "/teacher/{UUID_TEACHER}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -235,6 +255,7 @@ public class TeacherController {
         teacherService.deleteTeacherCurriculum(UUID.fromString(idTeacher));
         return new ResponseEntity(HttpStatus.OK);
     }
+
 
 
 
