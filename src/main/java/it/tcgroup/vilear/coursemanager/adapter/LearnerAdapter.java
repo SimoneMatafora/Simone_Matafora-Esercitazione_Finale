@@ -71,6 +71,32 @@ public class LearnerAdapter {
         return learner;
     }
 
+    public LearnerDto adptLearnerToLearnerDto(LearnerEntity learner){
+
+        LearnerDto learnerDto = new LearnerDto();
+
+        AddressDto address = null;
+        if (learner.getAddress() != null)
+            address = addressAdapter.adptAddressToAddressDto(learner.getAddress());
+
+        learnerDto.setId(learner.getId().toString());
+        learnerDto.setFiscalCode(learner.getFiscalCode());
+        learnerDto.setSurname(learner.getSurname());
+        learnerDto.setDateOfBirth(learner.getDateOfBirth());
+        learnerDto.setEmail(learner.getEmail());
+        learnerDto.setBirthPlace(learner.getBirthPlace());
+        learnerDto.setName(learner.getName());
+        learnerDto.setDegreeOfStudies(learner.getDegreeOfStudies());
+        learnerDto.setCourseOfStudy(learner.getCourseOfStudy());
+        learnerDto.setNote(learner.getNote());
+        learnerDto.setPhone(learner.getPhone());
+        learnerDto.setUsername(learner.getUsername());
+        learnerDto.setAddress(address);
+        learnerDto.setCurriculumVitae(learner.getCurriculumVitae());
+
+        return learnerDto;
+    }
+
     public LearnerResponseV1 adptLearnerDtoToLearnerResponse(LearnerDto learnerDto){
 
         LearnerResponseV1 learnerResponse = new LearnerResponseV1();

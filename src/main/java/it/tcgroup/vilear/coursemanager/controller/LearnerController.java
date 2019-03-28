@@ -222,4 +222,29 @@ public class LearnerController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /*CANDIDATURA LEARNER A CORSO*/
+    @PostMapping(value = "/learner/candidate/{UUID_LEARNER}/{UUID_COURSE}",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Candidate Learner", notes = "Candidate Learner using info passed in the request")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = IdResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<IdResponseV1> postCandidateLearner(
+            @ApiParam(value = "UUID of the Learner", required = true)
+            @PathVariable(name = "UUID_LEARNER") String idLearner,
+            @ApiParam(value = "UUID of the Course", required = true)
+            @PathVariable(name = "UUID_COURSE") String idCourse) {
+
+        if(learnerService.candidateLearnerToCourse(UUID.fromString(idLearner),UUID.fromString(idCourse)))
+            return new ResponseEntity<>(null, HttpStatus.OK);
+
+        return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
+    }
+
 }
