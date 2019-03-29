@@ -73,8 +73,8 @@ public class LearnerEntity implements Serializable {
     private String note;
 
     @Type(type = "JsonDataAttachmentListType")
-    @Column(name = "curriculum_vitae")
-    private List<Attachment> curriculumVitae;
+    @Column(name = "attachments")
+    private List<Attachment> attachments;
 
     @Type(type = "JsonDataAddressType")
     @Column(name = "address")
@@ -83,7 +83,8 @@ public class LearnerEntity implements Serializable {
     public LearnerEntity() {
     }
 
-    public LearnerEntity(String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> curriculumVitae, Address address) {
+    public LearnerEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, Address address) {
+        this.id = id;
         this.username = username;
         this.name = name;
         this.surname = surname;
@@ -95,7 +96,7 @@ public class LearnerEntity implements Serializable {
         this.degreeOfStudies = degreeOfStudies;
         this.courseOfStudy = courseOfStudy;
         this.note = note;
-        this.curriculumVitae = curriculumVitae;
+        this.attachments = attachments;
         this.address = address;
     }
 
@@ -195,12 +196,12 @@ public class LearnerEntity implements Serializable {
         this.note = note;
     }
 
-    public List<Attachment> getCurriculumVitae() {
-        return curriculumVitae;
+    public List<Attachment> getAttachments() {
+        return attachments;
     }
 
-    public void setCurriculumVitae(List<Attachment> curriculumVitae) {
-        this.curriculumVitae = curriculumVitae;
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     public Address getAddress() {
@@ -226,7 +227,7 @@ public class LearnerEntity implements Serializable {
                 ", degreeOfStudies=" + degreeOfStudies +
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
+                ", attachments=" + attachments +
                 ", address=" + address +
                 '}';
     }
@@ -248,12 +249,12 @@ public class LearnerEntity implements Serializable {
                 degreeOfStudies == that.degreeOfStudies &&
                 Objects.equals(courseOfStudy, that.courseOfStudy) &&
                 Objects.equals(note, that.note) &&
-                Objects.equals(curriculumVitae, that.curriculumVitae) &&
+                Objects.equals(attachments, that.attachments) &&
                 Objects.equals(address, that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, curriculumVitae, address);
+        return Objects.hash(id, username, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, attachments, address);
     }
 }

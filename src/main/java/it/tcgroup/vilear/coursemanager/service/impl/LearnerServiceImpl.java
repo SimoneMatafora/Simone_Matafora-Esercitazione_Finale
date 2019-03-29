@@ -204,9 +204,9 @@ public class LearnerServiceImpl implements LearnerService {
 
         UploadResponseV1 response = filemanagerService.uploadFile(curriculim);
 
-        if(learner.getCurriculumVitae() ==null)
-            learner.setCurriculumVitae(new ArrayList<>());
-        learner.getCurriculumVitae().add(attachmentAdapter.adptUploadResponseToAttachment(response));
+        if(learner.getAttachments() ==null)
+            learner.setAttachments(new ArrayList<>());
+        learner.getAttachments().add(attachmentAdapter.adptUploadResponseToAttachment(response));
 
         learnerRepository.save(learner);
 
@@ -223,16 +223,16 @@ public class LearnerServiceImpl implements LearnerService {
         }
 
         LearnerEntity learner = optLearner.get();
-        if (learner.getCurriculumVitae() != null) {
+        if (learner.getAttachments() != null) {
             Attachment candidate = null;
-            Iterator<Attachment> iAttachment = learner.getCurriculumVitae().iterator();
+            Iterator<Attachment> iAttachment = learner.getAttachments().iterator();
             while (candidate == null && iAttachment.hasNext()) {
                 Attachment now = iAttachment.next();
                 if (now.getFileManagerId().equalsIgnoreCase(idAttachment.toString()))
                     candidate = now;
             }
             if (candidate != null) {
-                learner.getCurriculumVitae().remove(candidate);
+                learner.getAttachments().remove(candidate);
                 learnerRepository.save(learner);
             } else throw new NotFoundException("Attachment with id " + idAttachment + " not found");
 
@@ -251,7 +251,7 @@ public class LearnerServiceImpl implements LearnerService {
         if(learner.getName() != null && learner.getSurname() != null && learner.getDateOfBirth() != null &&
         learner.getBirthPlace() != null && learner.getFiscalCode() != null && learner.getEmail() != null &&
         learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getAddress() != null &&
-        learner.getCurriculumVitae() != null) {
+        learner.getAttachments() != null) {
             System.out.println("sono qua");
             Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
             if (!courseOpt.isPresent())

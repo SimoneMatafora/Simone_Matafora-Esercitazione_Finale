@@ -200,10 +200,10 @@ public class LearnerController {
     }
 
     /*ELIMINAZIONE CURRICULUM*/
-    @DeleteMapping(value = "/learner/curriculum/{UUID_LEARNER}/{UUID_ATTACHMENT}",
+    @DeleteMapping(value = "/learner/attachment/{UUID_LEARNER}/{UUID_ATTACHMENT}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value="Delete Learner Curriculum", notes = "Delete Learner Curriculum")
+    @ApiOperation(value="Delete Learner Attachment with specific UUID", notes = "Delete Learner Attachment")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UploadResponseV1.class),
             @ApiResponse(code = 400, message = "Bad Request"),

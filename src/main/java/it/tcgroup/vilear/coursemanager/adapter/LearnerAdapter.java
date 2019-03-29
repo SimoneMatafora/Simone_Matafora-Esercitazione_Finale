@@ -92,7 +92,7 @@ public class LearnerAdapter {
         learnerDto.setPhone(learner.getPhone());
         learnerDto.setUsername(learner.getUsername());
         learnerDto.setAddress(address);
-        learnerDto.setCurriculumVitae(learner.getCurriculumVitae());
+        learnerDto.setAttachemnts(learner.getAttachments());
 
         return learnerDto;
     }
@@ -108,7 +108,7 @@ public class LearnerAdapter {
         learnerResponse.setId(learnerDto.getId());
         learnerResponse.setFiscalCode(learnerDto.getFiscalCode());
         learnerResponse.setSurname(learnerDto.getSurname());
-        learnerResponse.setCurriculumVitae(learnerDto.getCurriculumVitae());
+        learnerResponse.setAttachments(learnerDto.getAttachemnts());
         learnerResponse.setDateOfBirth(learnerDto.getDateOfBirth());
         learnerResponse.setEmail(learnerDto.getEmail());
         learnerResponse.setBirthPlace(learnerDto.getBirthPlace());
@@ -138,7 +138,7 @@ public class LearnerAdapter {
         learnerResponse.setId(learner.getId().toString());
         learnerResponse.setFiscalCode(learner.getFiscalCode());
         learnerResponse.setSurname(learner.getSurname());
-        learnerResponse.setCurriculumVitae(learner.getCurriculumVitae());
+        learnerResponse.setAttachments(learner.getAttachments());
         learnerResponse.setDateOfBirth(learner.getDateOfBirth());
         learnerResponse.setEmail(learner.getEmail());
         learnerResponse.setBirthPlace(learner.getBirthPlace());

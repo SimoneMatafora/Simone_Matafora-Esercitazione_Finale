@@ -48,8 +48,8 @@ public class LearnerDto implements Serializable {
     @JsonProperty( "note")
     private String note;
 
-    @JsonProperty( "curriculum_vitae")
-    private List<Attachment> curriculumVitae;
+    @JsonProperty( "attachemnts")
+    private List<Attachment> attachemnts;
     
     @JsonProperty( "address")
     private AddressDto address;
@@ -57,7 +57,7 @@ public class LearnerDto implements Serializable {
     public LearnerDto() {
     }
 
-    public LearnerDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> curriculumVitae, AddressDto address) {
+    public LearnerDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachemnts, AddressDto address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -70,7 +70,7 @@ public class LearnerDto implements Serializable {
         this.degreeOfStudies = degreeOfStudies;
         this.courseOfStudy = courseOfStudy;
         this.note = note;
-        this.curriculumVitae = curriculumVitae;
+        this.attachemnts = attachemnts;
         this.address = address;
     }
 
@@ -170,12 +170,12 @@ public class LearnerDto implements Serializable {
         this.note = note;
     }
 
-    public List<Attachment> getCurriculumVitae() {
-        return curriculumVitae;
+    public List<Attachment> getAttachemnts() {
+        return attachemnts;
     }
 
-    public void setCurriculumVitae(List<Attachment> curriculumVitae) {
-        this.curriculumVitae = curriculumVitae;
+    public void setAttachemnts(List<Attachment> attachemnts) {
+        this.attachemnts = attachemnts;
     }
 
     public AddressDto getAddress() {
@@ -201,7 +201,7 @@ public class LearnerDto implements Serializable {
                 ", degreeOfStudies=" + degreeOfStudies +
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
+                ", attachemnts=" + attachemnts +
                 ", address=" + address +
                 '}';
     }

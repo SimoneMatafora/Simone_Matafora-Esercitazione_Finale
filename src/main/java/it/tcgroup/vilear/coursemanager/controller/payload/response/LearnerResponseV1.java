@@ -48,8 +48,8 @@ public class LearnerResponseV1 {
     @JsonProperty("note")
     private String note;
 
-    @JsonProperty("curriculum_vitae")
-    private List<Attachment> curriculumVitae;
+    @JsonProperty("attachments")
+    private List<Attachment> attachments;
 
     @JsonProperty("address")
     private AddressResponse address;
@@ -57,7 +57,7 @@ public class LearnerResponseV1 {
     public LearnerResponseV1() {
     }
 
-    public LearnerResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> curriculumVitae, AddressResponse address) {
+    public LearnerResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, AddressResponse address) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -70,7 +70,7 @@ public class LearnerResponseV1 {
         this.degreeOfStudies = degreeOfStudies;
         this.courseOfStudy = courseOfStudy;
         this.note = note;
-        this.curriculumVitae = curriculumVitae;
+        this.attachments = attachments;
         this.address = address;
     }
 
@@ -170,12 +170,12 @@ public class LearnerResponseV1 {
         this.note = note;
     }
 
-    public List<Attachment> getCurriculumVitae() {
-        return curriculumVitae;
+    public List<Attachment> getAttachments() {
+        return attachments;
     }
 
-    public void setCurriculumVitae(List<Attachment> curriculumVitae) {
-        this.curriculumVitae = curriculumVitae;
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     public AddressResponse getAddress() {
@@ -189,7 +189,8 @@ public class LearnerResponseV1 {
     @Override
     public String toString() {
         return "LearnerResponseV1{" +
-                "username='" + username + '\'' +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +
@@ -200,7 +201,7 @@ public class LearnerResponseV1 {
                 ", degreeOfStudies=" + degreeOfStudies +
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
+                ", attachments=" + attachments +
                 ", address=" + address +
                 '}';
     }
