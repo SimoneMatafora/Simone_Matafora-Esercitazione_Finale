@@ -21,6 +21,9 @@ public class TeacherAdapter {
     @Autowired
     private AddressAdapter addressAdapter;
 
+    @Autowired
+    private AttachmentAdapter attachmentAdapter;
+
     public TeacherEntity adptTeacherRequestToTeacher(TeacherRequestV1 teacherInsertRequest){
 
         if(teacherInsertRequest == null)

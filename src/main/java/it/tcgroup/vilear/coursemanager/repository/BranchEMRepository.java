@@ -57,10 +57,7 @@ public class BranchEMRepository {
             i++;
         }
 
-        System.out.println("sql prima della where "+sql);
         sql += where;
-        System.out.println(sql);
-
         Query query = em.createNativeQuery(sql, BranchEntity.class);
 
         return query.getResultList();

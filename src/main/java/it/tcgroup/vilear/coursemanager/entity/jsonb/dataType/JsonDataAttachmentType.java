@@ -22,8 +22,7 @@ public class JsonDataAttachmentType extends JsonDataType {
         }
         try {
             final ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(cellContent.getBytes("UTF-8"), new TypeReference<List<Attachment>>() {
-            });
+            return mapper.readValue(cellContent.getBytes("UTF-8"),Attachment.class);
         } catch (final Exception ex) {
             throw new RuntimeException("Failed to convert String to Attachment: " + ex.getMessage(), ex);
         }

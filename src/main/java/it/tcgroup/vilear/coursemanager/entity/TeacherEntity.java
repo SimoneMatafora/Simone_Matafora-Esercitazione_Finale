@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddresType;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAttachmentType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -17,7 +18,8 @@ import java.util.*;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "teacher")
 @TypeDefs({
-        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class)
+        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class),
+        @TypeDef(name = "JsonDataAttachmentType", typeClass = JsonDataAttachmentType.class)
 })
 public class TeacherEntity implements Serializable {
 

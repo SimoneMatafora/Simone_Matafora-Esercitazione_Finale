@@ -200,6 +200,7 @@ public class TeacherServiceImpl implements TeacherService {
                 birthPlace, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized,
                 professionalOrderRegistration, register, vatHolder, sector, city, region, province);
 
+
         teachersPagination.setStats(new InfoPagination(teachersList.size(), page, pageSize));
 
         int start = teachersPagination.getStats().getStartPage();
