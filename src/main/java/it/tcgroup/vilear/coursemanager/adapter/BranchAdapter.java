@@ -44,6 +44,7 @@ public class BranchAdapter {
 
         BranchResponseV1 brancheResponse = new BranchResponseV1();
 
+        brancheResponse.setId(branch.getId().toString());
         brancheResponse.setRightOfAccessToTheCourses(branch.getRightOfAccessToTheCourses());
         brancheResponse.setEmail(branch.getEmail());
         brancheResponse.setAddress(addressAdapter.adptAddressToAddressResponse(branch.getAddress()));
