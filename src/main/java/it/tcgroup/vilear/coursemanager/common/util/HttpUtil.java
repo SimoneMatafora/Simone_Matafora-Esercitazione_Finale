@@ -1,17 +1,27 @@
 package it.tcgroup.vilear.coursemanager.common.util;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.*;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.security.cert.CertificateException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -100,6 +110,58 @@ public class HttpUtil {
             throw e;
         }
     }
+
+    public class CustomTypeReference extends TypeReference<Object> {
+        private final Type type;
+
+        public CustomTypeReference(ParameterizedTypeReference pt) {
+            this.type = pt.getType();
+        }
+
+        @Override
+        public Type getType() {
+            return type;
+        }
+    }
+
+    public  <T, P> T call(String url, HttpMethod method, P value, HashMap<String, String> headersparams, ParameterizedTypeReference<T> typeReference) {
+        try {
+
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+            for (String k : headersparams.keySet()) {
+                headers.add(k, headersparams.get(k));
+            }
+
+            HttpEntity<P> entity = new HttpEntity<>(value, headers);
+
+            return restTemplate.exchange(url, method, entity, typeReference).getBody();
+        } catch (Exception e) {
+
+            throw e;
+        }
+    }
+
+    public <T, P> T callWithoutCert(String url, HttpMethod method, P value, HashMap<String, String> headersparams, ParameterizedTypeReference<T> typeReference) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonInString = null;
+
+        if (value != null) {
+            jsonInString = mapper.writeValueAsString(value);
+        }
+
+        Response responseToken = this.callURL(headersparams, url, jsonInString, method);
+
+        if (responseToken.code() != HttpStatus.OK.value() && responseToken.code() != HttpStatus.CREATED.value()) {
+            throw new BadRequestException(responseToken.message() + " with code " + responseToken.code());
+        }
+
+        String response = responseToken.body().string();
+        TypeReference tr = new CustomTypeReference(typeReference);
+        return mapper.readValue(response, tr);
+    }
+
 
     public static OkHttpClient.Builder getUnsafeOkHttpClientBuilder() {
         try {

@@ -75,6 +75,7 @@ public class BranchServiceImpl implements BranchService {
         branch.setUsername(branchUpdate.getUsername());
         branch.setSuperBranch(branchUpdate.getSuperBranch());
         branch.setRightOfAccessToTheCourses(branchUpdate.getRightOfAccessToTheCourses());
+        branch.setAddress(branchUpdate.getAddress());
 
         branchRepository.save(branch);
 

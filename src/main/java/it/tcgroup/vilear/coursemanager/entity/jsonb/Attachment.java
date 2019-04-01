@@ -13,10 +13,10 @@ public class Attachment implements Serializable {
 
     private static final long serialVersionUID = -1400425835635903570L;
 
-    @JsonProperty("file_manager_id")
+    @JsonProperty("id")
     private String fileManagerId;
 
-    @JsonProperty("file_manager_name")
+    @JsonProperty("file_name")
     private String fileManagerName;
 
     @JsonProperty("resource_type")

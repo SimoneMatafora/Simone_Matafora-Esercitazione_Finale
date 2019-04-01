@@ -1,26 +1,18 @@
 package it.tcgroup.vilear.coursemanager.service.impl;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.common.util.HttpUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
-import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 
 @Transactional
 @Service
@@ -38,6 +30,7 @@ public class FilemanagerServiceImpl implements FilemanagerService {
     @Value("${filemanager.api.upload}")
     private String uploadApi;
 
+/*
     public class CustomTypeReference extends TypeReference<Object> {
         private final Type type;
 
@@ -88,12 +81,11 @@ public class FilemanagerServiceImpl implements FilemanagerService {
         TypeReference tr = new CustomTypeReference(typeReference);
         return mapper.readValue(response, tr);
     }
-
-
+*/
     @Override
     public UploadResponseV1 uploadFile(UploadRequestV1 uploadRequest) throws IOException {
 
-        return callWithoutCert(endpointUrl + uploadApi, HttpMethod.POST, uploadRequest, null, new ParameterizedTypeReference<UploadResponseV1>() {
+        return httpUtil.callWithoutCert(endpointUrl + uploadApi, HttpMethod.POST, uploadRequest, null, new ParameterizedTypeReference<UploadResponseV1>() {
         });
     }
 

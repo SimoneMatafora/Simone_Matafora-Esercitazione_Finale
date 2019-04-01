@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerRespon
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.LearnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class LearnerController {
 
     @Autowired
     private LearnerService learnerService;
+
+    @Autowired
+    private AuthorizationService authorizationService;
 
     /*INSERIMENTO LEARNER*/
     @PostMapping(value = "/learner",
@@ -61,11 +65,14 @@ public class LearnerController {
     })
     public ResponseEntity<LearnerResponseV1> putModifyLearner(
             @ApiParam(value = "UUID that identifies the Learner to be modified", required = true)
-            @PathVariable(name = "UUID_LEARNER") String idDocente,
+            @PathVariable(name = "UUID_LEARNER") String idLearner,
             @ApiParam(value = "Updated body of the learner", required = true)
             @RequestBody LearnerRequestV1 learnerUpdateRequest) {
 
-        return new ResponseEntity<>(learnerService.updateLearner(learnerUpdateRequest, UUID.fromString(idDocente)) ,HttpStatus.OK);
+        if(!authorizationService.checkAlive(learnerUpdateRequest.getEmail()))
+            throw new RuntimeException("Exception");
+
+        return new ResponseEntity<>(learnerService.updateLearner(learnerUpdateRequest, UUID.fromString(idLearner)) ,HttpStatus.OK);
     }
 
     /*RECUPERO LEARNER TRAMITE ID*/

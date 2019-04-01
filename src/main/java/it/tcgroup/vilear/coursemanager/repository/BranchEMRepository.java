@@ -28,10 +28,10 @@ public class BranchEMRepository {
             whereCondition.add("upper(b.name) = upper('" + name + "') ");
         }
         if( rightOfAccessToTheCourses != null){
-            whereCondition.add("b.rightOfAccessToTheCourses = '" + rightOfAccessToTheCourses + "' ");
+            whereCondition.add("b.right_of_access_to_the_courses = '" + rightOfAccessToTheCourses + "' ");
         }
         if( superFiliale != null){
-            whereCondition.add("b.superFiliale = " + superFiliale + " ");
+            whereCondition.add("b.super = " + superFiliale + " ");
         }
         if( email != null){
             whereCondition.add("b.email = '" + email + "'");
