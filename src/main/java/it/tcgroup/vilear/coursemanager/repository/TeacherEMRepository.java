@@ -48,7 +48,7 @@ public class TeacherEMRepository {
             whereCondition.add("t.email = '" + email + "'");
         }
         if( professionalArea != null){
-            whereCondition.add("t.professional_area = upper('" + professionalArea + "') ");
+            whereCondition.add("upper(t.professional_area) = upper('" + professionalArea + "') ");
         }
         if( publicEmployee != null){
             whereCondition.add("t.public_employee = " + publicEmployee + " ");
@@ -69,7 +69,7 @@ public class TeacherEMRepository {
             whereCondition.add("upper(t.register) = upper('" + register + "') ");
         }
         if( vatHolder != null){
-            whereCondition.add("t.vat_older = " + vatHolder + " ");
+            whereCondition.add("t.vat_holder = " + vatHolder + " ");
         }
         if( sector != null){
             whereCondition.add("upper(t.sector) = upper('" + sector + "') ");

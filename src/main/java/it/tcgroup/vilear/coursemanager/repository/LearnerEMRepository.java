@@ -51,7 +51,7 @@ public class LearnerEMRepository {
             whereCondition.add("l.degree_of_studies = upper('" + degreeOfStudies + "') ");
         }
         if( courseOfStudy != null){
-            whereCondition.add("l.course_of_study= upper('" + courseOfStudy + "') ");
+            whereCondition.add("upper(l.course_of_study)= upper('" + courseOfStudy + "') ");
         }
         if( city != null){
             whereCondition.add("upper(l.address ->> 'city') = upper('" + city + "') ");
@@ -78,6 +78,5 @@ public class LearnerEMRepository {
         Query query = em.createNativeQuery(sql, LearnerEntity.class);
 
         return query.getResultList();
-
     }
 }
