@@ -5,8 +5,10 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV
 import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public interface LearnerService {
@@ -19,7 +21,7 @@ public interface LearnerService {
                                                                   String luogoDiNascita, String email, String tipoDiStudio, String indirizzoDiStudio, String citta, String comune, String cap);
 
     void deleteLearner(UUID idLearner);
-    LearnerResponseV1 addLearnerCurriculum(UploadRequestV1 curriculim, UUID idLearner) throws IOException;
+    Attachment addLearnerCurriculum(UploadRequestV1 curriculim, UUID idLearner) throws IOException;
 
 
     boolean candidateLearnerToCourse(UUID idLearner, UUID idCourse);

@@ -190,7 +190,7 @@ public class LearnerServiceImpl implements LearnerService {
     }
 
     @Override
-    public LearnerResponseV1 addLearnerCurriculum(UploadRequestV1 curriculim, UUID idLearner) throws IOException {
+    public Attachment addLearnerCurriculum(UploadRequestV1 curriculim, UUID idLearner) throws IOException {
 
         Optional<LearnerEntity> optLearner = learnerRepository.findById(idLearner);
         if(!optLearner.isPresent()){
@@ -204,13 +204,15 @@ public class LearnerServiceImpl implements LearnerService {
 
         UploadResponseV1 response = filemanagerService.uploadFile(curriculim);
 
+
+
         if(learner.getAttachments() ==null)
             learner.setAttachments(new ArrayList<>());
         learner.getAttachments().add(attachmentAdapter.adptUploadResponseToAttachment(response));
 
         learnerRepository.save(learner);
 
-        return learnerAdapter.adptLearnerToLearnerResponse(learner);
+        return attachmentAdapter.adptUploadResponseToAttachment(response);
 
     }
 

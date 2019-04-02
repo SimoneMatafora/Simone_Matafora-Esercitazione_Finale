@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -244,7 +245,7 @@ public class CourseController {
             @ApiResponse(code = 406, message = "Not Acceptable"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity<CourseResponseV1> postInsertCourseAttachments(
+    public ResponseEntity<List<Attachment>> postInsertCourseAttachments(
             @ApiParam(value = "Body of the Attachments to be upload on filemanager", required = true)
             @RequestBody List<UploadRequestV1> uploadRequestList,
             @ApiParam(value = "UUID of the Course", required = true)

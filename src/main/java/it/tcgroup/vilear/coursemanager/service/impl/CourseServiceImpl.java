@@ -384,7 +384,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseResponseV1 addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException{
+    public List<Attachment> addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException{
 
         Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
         if(!courseOpt.isPresent()){
@@ -399,17 +399,20 @@ public class CourseServiceImpl implements CourseService {
 
         UploadResponseV1 response;
 
+        List<Attachment> actualAttachment = new LinkedList<>();
+
         for (UploadRequestV1 att : attachmentList){
 
             att.setResourceId(idCourse.toString());
             att.setResourceType("document");
             response = filemanagerService.uploadFile(att);
             attachments.add(attachmentAdapter.adptUploadResponseToAttachment(response));
+            actualAttachment.add(attachmentAdapter.adptUploadResponseToAttachment(response));
         }
 
         course.setDocumentsAttachment(attachments);
         courseRepository.save(course);
-        return courseAdapter.adptCourseToCourseResponse(course);
+        return actualAttachment;
 
     }
 
