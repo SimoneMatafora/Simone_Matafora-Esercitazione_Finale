@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerRespon
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.LearnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,7 +198,7 @@ public class LearnerController {
             @ApiResponse(code = 406, message = "Not Acceptable"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity<LearnerResponseV1> postInsertLearnerCurriculum(
+    public ResponseEntity<Attachment> postInsertLearnerCurriculum(
             @ApiParam(value = "Body of the Learner Curriculum to be upload on filemanager", required = true)
             @RequestBody UploadRequestV1 uploadRequest,
             @ApiParam(value = "UUID of the Learner", required = true)

@@ -5,7 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +23,7 @@ public interface CourseService {
                                                                String courseType, String specialInitiatives);
 
     CourseResponseV1 addCourseLogo(UploadRequestV1 logo, UUID idCourse) throws IOException;
-    CourseResponseV1 addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException;
+    List<Attachment> addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException;
     void deleteCourseLogo(UUID idCourse);
     void deleteCourseAttachments(UUID idCourse, List<UUID> attachmentList);
 

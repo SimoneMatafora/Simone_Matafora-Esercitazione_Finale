@@ -12,6 +12,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherRespon
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.repository.TeacherEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.TeacherRepository;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
@@ -223,7 +224,7 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public TeacherResponseV1 addTeacherCurriculum(UploadRequestV1 curriculim, UUID idTeacher) throws IOException {
+    public Attachment addTeacherCurriculum(UploadRequestV1 curriculim, UUID idTeacher) throws IOException {
 
         Optional<TeacherEntity> optTeacher = teacherRepository.findById(idTeacher);
         if(!optTeacher.isPresent()){
@@ -241,7 +242,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         teacherRepository.save(teacher);
 
-        return teacherAdapter.adptTeacherToTeacherResponse(teacher);
+        return attachmentAdapter.adptUploadResponseToAttachment(response);
 
     }
 
