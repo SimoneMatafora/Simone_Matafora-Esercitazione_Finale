@@ -9,6 +9,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationRes
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,9 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    private AuthorizationService authorizationService;
+
     /*INSERIMENTO COURSE*/
     @PostMapping(value = "/course",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -44,8 +48,12 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<IdResponseV1> postInsertCourse(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Course to be created", required = true)
             @RequestBody CourseRequestV1 courseInsertRequestV1) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( courseService.insertCourse(courseInsertRequestV1), HttpStatus.OK);
     }
@@ -63,8 +71,12 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<CourseResponseV1> getCourseById(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Course to be found", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.getCourse(UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -83,10 +95,14 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<CourseResponseV1> putModifyCourse(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID that identifies the Course to be modified", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse,
             @ApiParam(value = "Updated body of the course", required = true)
             @RequestBody CourseRequestV1 courseUpdateRequest) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.updateCourse(courseUpdateRequest, UUID.fromString(idCourse)) ,HttpStatus.OK);
     }
@@ -105,10 +121,14 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<CourseResponseV1> patchCourse(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse,
             @ApiParam(value = "Some attributes of the body of the Course to be modified", required = true)
             @RequestBody CourseRequestV1 coursePatchRequestV1) throws Exception {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.patchCourse(coursePatchRequestV1, UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -125,8 +145,12 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteCourse(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
+
+        authorizationService.checkAlive(userId);
 
         courseService.deleteCourse(UUID.fromString(idCourse));
 
@@ -146,6 +170,8 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PaginationResponseV1<CourseResponseV1>> getLearnersPagination(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Defines how many Courses can contain the single page", required = false)
             @RequestParam(value = "page_size", defaultValue = "20") Integer pageSize,
             @ApiParam(value = "Defines the page number to be displayed", required = false)
@@ -175,6 +201,8 @@ public class CourseController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "special_initiatives", required = false) String specialInitiatives) {
 
+        authorizationService.checkAlive(userId);
+
         return new ResponseEntity<>(courseService.getCoursePagination(page, pageSize, courseTitle,
                 contentsArea,
                 learnerType,
@@ -203,10 +231,14 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<CourseResponseV1> postInsertCourseLogo(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Attachment to be upload on filemanager", required = true)
             @RequestBody UploadRequestV1 uploadRequest,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( courseService.addCourseLogo(uploadRequest, UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -225,8 +257,12 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteCourseLogo(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
+
+        authorizationService.checkAlive(userId);
 
         courseService.deleteCourseLogo(UUID.fromString(idCourse));
         return new ResponseEntity(HttpStatus.OK);
@@ -246,10 +282,14 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<List<Attachment>> postInsertCourseAttachments(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Attachments to be upload on filemanager", required = true)
             @RequestBody List<UploadRequestV1> uploadRequestList,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( courseService.addCourseAttachments(uploadRequestList, UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -266,11 +306,14 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteCourseAttachments(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse,
             @ApiParam(value = "List of UUID Attacments", required = true)
             @PathVariable(name = "LIST_OF_ID_ATTACHMENT") String[] idStringAttachmentList) {
 
+        authorizationService.checkAlive(userId);
 
         List<UUID> idAttachmentList = new LinkedList<>();
         for (String att : idStringAttachmentList){
@@ -295,8 +338,12 @@ public class CourseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<CourseResponseV1> patchCourseStatus(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.patchCourseStatus(UUID.fromString(idCourse)), HttpStatus.OK);
     }

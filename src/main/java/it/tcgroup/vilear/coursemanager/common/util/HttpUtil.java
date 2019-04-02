@@ -154,12 +154,16 @@ public class HttpUtil {
         Response responseToken = this.callURL(headersparams, url, jsonInString, method);
 
         if (responseToken.code() != HttpStatus.OK.value() && responseToken.code() != HttpStatus.CREATED.value()) {
-            throw new BadRequestException(responseToken.message() + " with code " + responseToken.code());
+            throw new BadRequestException(responseToken.message() + " with code " + responseToken.code() );
         }
 
-        String response = responseToken.body().string();
-        TypeReference tr = new CustomTypeReference(typeReference);
-        return mapper.readValue(response, tr);
+        if(typeReference != null){
+
+            String response = responseToken.body().string();
+            TypeReference tr = new CustomTypeReference(typeReference);
+            return mapper.readValue(response, tr);
+        }
+        return null;
     }
 
 

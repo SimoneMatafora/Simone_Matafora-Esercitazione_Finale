@@ -5,6 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.PartnerRequest
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PartnerResponseV1;
+import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.PartnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class PartnerController {
     @Autowired
     private PartnerService partnerService;
 
+    @Autowired
+    private AuthorizationService authorizationService;
+
     /*INSERIMENTO PARTNER*/
     @PostMapping(value = "/partner",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -37,8 +41,12 @@ public class PartnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<IdResponseV1> postInsertPartner(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Partner to be created", required = true)
             @RequestBody PartnerRequestV1 partnerInsertRequestV1) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( partnerService.insertPartner(partnerInsertRequestV1),HttpStatus.OK);
     }
@@ -57,10 +65,14 @@ public class PartnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PartnerResponseV1> putModifyPartner(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID that identifies the Partner to be modified", required = true)
             @PathVariable(name = "UUID_PARTNER") String idPartner,
             @ApiParam(value = "Updated body of the Partner", required = true)
             @RequestBody PartnerRequestV1 partnerUpdateRequest) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(partnerService.updatePartner(partnerUpdateRequest, UUID.fromString(idPartner)) ,HttpStatus.OK);
     }
@@ -78,8 +90,12 @@ public class PartnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PartnerResponseV1> getPartnerById(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Partner to be found", required = true)
             @PathVariable(name = "UUID_PARTNER") String idPartner) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(partnerService.getPartner(UUID.fromString(idPartner)), HttpStatus.OK);
     }
@@ -98,11 +114,14 @@ public class PartnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PartnerResponseV1> patchPartner(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Partner", required = true)
             @PathVariable(name = "UUID_PARTNER") String idPartner,
             @ApiParam(value = "Some attributes of the body of the Partner to be modified", required = true)
             @RequestBody PartnerRequestV1 partnerPatchRequestV1) throws Exception {
 
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(partnerService.patchPartner(partnerPatchRequestV1, UUID.fromString(idPartner)), HttpStatus.OK);
     }
@@ -120,6 +139,8 @@ public class PartnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PaginationResponseV1<PartnerResponseV1>> getPartnersPagination(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Defines how many Partners can contain the single page", required = false)
             @RequestParam(value = "page_size", defaultValue = "20") Integer pageSize,
             @ApiParam(value = "Defines the page number to be displayed", required = false)
@@ -147,6 +168,8 @@ public class PartnerController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
 
+        authorizationService.checkAlive(userId);
+
         return new ResponseEntity<>(partnerService.getPartnersPagination(page, pageSize, businessName, company, managerName, accreditedFt, teacherName, teacherSurname,
                 teacherProfessionalArea, teacherPublicEmployee, city, region, province),HttpStatus.OK);
     }
@@ -163,8 +186,12 @@ public class PartnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deletePartner(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Partner", required = true)
             @PathVariable(name = "UUID_PARTNER") String idPartner) {
+
+        authorizationService.checkAlive(userId);
 
         partnerService.deletePartner(UUID.fromString(idPartner));
 
