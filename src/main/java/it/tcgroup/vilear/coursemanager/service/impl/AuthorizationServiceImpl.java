@@ -3,7 +3,6 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.common.util.HttpUtil;
-import it.tcgroup.vilear.coursemanager.controller.payload.request.CheckAliveRequestV1;
 import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
 
 @Service
 public class AuthorizationServiceImpl implements AuthorizationService {
@@ -29,21 +30,24 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private String checkAliveUrl;
 
     @Override
-    public Boolean checkAlive(String checkAlive){
+    public Boolean checkAlive(UUID checkAliveUserId){
 
         try {
 
-            Boolean result = httpUtil.callWithoutCert(endpointUrl + checkAliveUrl, HttpMethod.POST, new CheckAliveRequestV1(checkAlive), null, new ParameterizedTypeReference<Boolean>() {});
+            Boolean result = null;
 
-            if(result)
-                throw new BadRequestException("Session expired, Please login again");
+            HashMap<String, String> headersparams = new HashMap<>();
+            headersparams.put("id-user", checkAliveUserId.toString());
+
+            httpUtil.callWithoutCert(endpointUrl + checkAliveUrl, HttpMethod.GET, null, headersparams,null);
 
             return result;
 
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("Connection error with Vilear-Auth");
+        } catch (BadRequestException e){
+            throw new BadRequestException("Session expired, Please login again");
         }
-
     }
 
 

@@ -17,6 +17,7 @@ import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -320,7 +321,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourse(UUID courseId){
-        courseRepository.deleteById(courseId);
+
+        Optional<CourseEntity> optCourse = courseRepository.findById(courseId);
+
+        if(optCourse.isPresent())
+            courseRepository.delete(optCourse.get());
+        else
+            throw new NotFoundException("Course with uuid: " + courseId + " isn't present ");
     }
 
     @Override

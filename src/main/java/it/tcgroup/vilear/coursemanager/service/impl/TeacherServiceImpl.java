@@ -219,7 +219,13 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void deleteTeacher(UUID idTeacher){
-        teacherRepository.deleteById(idTeacher);
+
+        Optional<TeacherEntity> optTeacher = teacherRepository.findById(idTeacher);
+
+        if(optTeacher.isPresent())
+            teacherRepository.delete(optTeacher.get());
+        else
+            throw new NotFoundException("Teacher with uuid: " + idTeacher + " isn't present ");
     }
 
     @Override

@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationRes
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
+import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,9 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
+    @Autowired
+    private AuthorizationService authorizationService;
+
     /*INSERIMENTO TEACHER*/
     @PostMapping(value = "/teacher",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -43,8 +47,12 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<IdResponseV1> postInsertTeacher(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Teacher to be created", required = true)
             @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
     }
@@ -63,10 +71,14 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<TeacherResponseV1> putModifyTeacher(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID that identifies the Teacher to be modified", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher,
             @ApiParam(value = "Updated body of the Teacher", required = true)
             @RequestBody TeacherRequestV1 teacherUpdateRequest) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.updateTeacher(teacherUpdateRequest, UUID.fromString(idTeacher)) ,HttpStatus.OK);
     }
@@ -84,8 +96,12 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<TeacherResponseV1> getTeacherById(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Teacher to be found", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.getTeacher(UUID.fromString(idTeacher)), HttpStatus.OK);
     }
@@ -104,11 +120,14 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<TeacherResponseV1> patchTeacher(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Teacher", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher,
             @ApiParam(value = "Some attributes of the body of the Teacher to be modified", required = true)
             @RequestBody TeacherRequestV1 teacherPatchRequestV1) throws Exception {
 
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.patchTeacher(teacherPatchRequestV1, UUID.fromString(idTeacher)), HttpStatus.OK);
     }
@@ -126,6 +145,8 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PaginationResponseV1<TeacherResponseV1>> getTeachersPagination(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Defines how many Teachers can contain the single page", required = false)
             @RequestParam(value = "page_size", defaultValue = "20") Integer pageSize,
             @ApiParam(value = "Defines the page number to be displayed", required = false)
@@ -171,6 +192,8 @@ public class TeacherController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
 
+        authorizationService.checkAlive(userId);
+
         return new ResponseEntity<>(teacherService.getTeachersPagination(page, pageSize, username, name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized,
                 professionalOrderRegistration, register, vatHolder, sector, city, region, province),HttpStatus.OK);
@@ -188,7 +211,11 @@ public class TeacherController {
     })
     @GetMapping(value="/teachers/candidate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<TeacherResponseV1>> searchTeacherForCandidacy(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId
     ){
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.getCandidateTeacher(), HttpStatus.OK);
     }
@@ -205,8 +232,12 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteTeacher(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Teacher", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) {
+
+        authorizationService.checkAlive(userId);
 
         teacherService.deleteTeacher(UUID.fromString(idTeacher));
 
@@ -227,10 +258,14 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<TeacherResponseV1> postInsertTeacherCurriculum(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Teacher Curriculum to be upload on filemanager", required = true)
             @RequestBody UploadRequestV1 uploadRequest,
             @ApiParam(value = "UUID of the Teacher", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) throws IOException {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( teacherService.addTeacherCurriculum(uploadRequest, UUID.fromString(idTeacher)), HttpStatus.OK);
     }
@@ -249,8 +284,12 @@ public class TeacherController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteTeacherCurriculum(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Teacher", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) {
+
+        authorizationService.checkAlive(userId);
 
         teacherService.deleteTeacherCurriculum(UUID.fromString(idTeacher));
         return new ResponseEntity(HttpStatus.OK);

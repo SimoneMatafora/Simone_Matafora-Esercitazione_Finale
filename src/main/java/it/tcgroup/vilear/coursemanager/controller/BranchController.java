@@ -5,6 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.BranchRequestV
 import it.tcgroup.vilear.coursemanager.controller.payload.response.BranchResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class BranchController {
     @Autowired
     private BranchService branchService;
 
+    @Autowired
+    private AuthorizationService authorizationService;
+
     /*INSERIMENTO BRANCH*/
     @PostMapping(value = "/branch",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -37,8 +41,12 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<IdResponseV1> postInsertBranch(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Branch to be created", required = true)
             @RequestBody BranchRequestV1 branchInsertRequestV1) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1), HttpStatus.OK);
     }
@@ -57,10 +65,14 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<BranchResponseV1> putModifyBranch(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID that identifies the Branch to be modified", required = true)
             @PathVariable(name = "UUID_BRANCH") String idDocente,
             @ApiParam(value = "Updated body of the Branch", required = true)
             @RequestBody BranchRequestV1 branchUpdateRequest) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.updateBranch(branchUpdateRequest, UUID.fromString(idDocente)) ,HttpStatus.OK);
     }
@@ -78,8 +90,12 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<BranchResponseV1> getBranchById(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Branch to be founfd", required = true)
             @PathVariable(name = "UUID_BRANCH") String idBranch) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.getBranch(UUID.fromString(idBranch)), HttpStatus.OK);
     }
@@ -98,10 +114,14 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<BranchResponseV1> patchBranch(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Branch", required = true)
             @PathVariable(name = "UUID_BRANCH") String idBranch,
             @ApiParam(value = "Some attributes of the body of the Branch to be modified", required = true)
             @RequestBody BranchRequestV1 branchPatchRequestV1) throws Exception {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.patchBranch(branchPatchRequestV1, UUID.fromString(idBranch)), HttpStatus.OK);
     }
@@ -118,8 +138,12 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteBranch(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Branch", required = true)
             @PathVariable(name = "UUID_BRANCH") String idBranch) {
+
+        authorizationService.checkAlive(userId);
 
         branchService.deleteBranch(UUID.fromString(idBranch));
 
@@ -139,6 +163,8 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PaginationResponseV1<BranchResponseV1>> getBranchesPagination(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Defines how many Discenti can contain the single page", required = false)
             @RequestParam(value = "page_size", defaultValue = "20") Integer page_size,
             @ApiParam(value = "Defines the page number to be displayed", required = false)
@@ -159,6 +185,8 @@ public class BranchController {
             @RequestParam(value = "region", required = false) String region,
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.getBranchesPagination(page, page_size, username, name, email, rightOfAccessToTheCourses, superBranch, city, region, province),HttpStatus.OK);
     }

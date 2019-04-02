@@ -143,7 +143,13 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public void deleteBranch(UUID idBranch){
-        branchRepository.deleteById(idBranch);
+
+        Optional<BranchEntity> optBranch = branchRepository.findById(idBranch);
+
+        if (optBranch.isPresent())
+            branchRepository.delete(optBranch.get());
+        else
+            throw new NotFoundException("Branch with uuid: " + idBranch + " isn't present ");
     }
 
 

@@ -44,8 +44,12 @@ public class LearnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<IdResponseV1> postInsertLearner(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Learner to be created", required = true)
             @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
     }
@@ -67,10 +71,11 @@ public class LearnerController {
             @ApiParam(value = "UUID that identifies the Learner to be modified", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner,
             @ApiParam(value = "Updated body of the learner", required = true)
-            @RequestBody LearnerRequestV1 learnerUpdateRequest) {
+            @RequestBody LearnerRequestV1 learnerUpdateRequest,
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId) {
 
-        if(!authorizationService.checkAlive(learnerUpdateRequest.getEmail()))
-            throw new RuntimeException("Exception");
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(learnerService.updateLearner(learnerUpdateRequest, UUID.fromString(idLearner)) ,HttpStatus.OK);
     }
@@ -88,8 +93,12 @@ public class LearnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<LearnerResponseV1> getLearnerById(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Learner to be founfd", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner) {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(learnerService.getLearner(UUID.fromString(idLearner)), HttpStatus.OK);
     }
@@ -110,8 +119,12 @@ public class LearnerController {
     public ResponseEntity<LearnerResponseV1> patchLearner(
             @ApiParam(value = "UUID of the Learner", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner,
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Some attributes of the body of the Learner to be modified", required = true)
             @RequestBody LearnerRequestV1 learnerPatchRequestV1) throws Exception {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(learnerService.patchLearner(learnerPatchRequestV1, UUID.fromString(idLearner)), HttpStatus.OK);
     }
@@ -128,8 +141,12 @@ public class LearnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteLearner(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Learner", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner) {
+
+        authorizationService.checkAlive(userId);
 
         learnerService.deleteLearner(UUID.fromString(idLearner));
 
@@ -149,6 +166,8 @@ public class LearnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PaginationResponseV1<LearnerResponseV1>> getLearnersPagination(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Defines how many Learners can contain the single page", required = false)
             @RequestParam(value = "page_size", defaultValue = "20") Integer pageSize,
             @ApiParam(value = "Defines the page number to be displayed", required = false)
@@ -180,6 +199,8 @@ public class LearnerController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
 
+        authorizationService.checkAlive(userId);
+
         return new ResponseEntity<>(learnerService.getLearnersPagination(page, pageSize, username, name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, degreeOfStudies, courseOfStudy, city, region, province),HttpStatus.OK);
     }
@@ -198,10 +219,14 @@ public class LearnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<LearnerResponseV1> postInsertLearnerCurriculum(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "Body of the Learner Curriculum to be upload on filemanager", required = true)
             @RequestBody UploadRequestV1 uploadRequest,
             @ApiParam(value = "UUID of the Learner", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner) throws IOException {
+
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( learnerService.addLearnerCurriculum(uploadRequest, UUID.fromString(idLearner)), HttpStatus.OK);
     }
@@ -220,12 +245,17 @@ public class LearnerController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteLearnerCurriculum(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Learner", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner,
             @ApiParam(value = "UUID of the Attachment to delete", required = true)
             @PathVariable(name = "UUID_ATTACHMENT") String idAttachment) {
 
+        authorizationService.checkAlive(userId);
+
         learnerService.deleteLearnerCurriculum(UUID.fromString(idLearner), UUID.fromString(idAttachment));
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -235,23 +265,27 @@ public class LearnerController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value="Candidate Learner", notes = "Candidate Learner using info passed in the request")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created", response = IdResponseV1.class),
+            @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 406, message = "Not Acceptable"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity<IdResponseV1> postCandidateLearner(
+    public ResponseEntity postCandidateLearner(
+            @ApiParam(value = "UUID user logged", required = true)
+            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Learner", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner,
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
 
-        if(learnerService.candidateLearnerToCourse(UUID.fromString(idLearner),UUID.fromString(idCourse)))
-            return new ResponseEntity<>(null, HttpStatus.OK);
+        authorizationService.checkAlive(userId);
 
-        return new ResponseEntity<>(null,HttpStatus.NOT_ACCEPTABLE);
+        if(learnerService.candidateLearnerToCourse(UUID.fromString(idLearner),UUID.fromString(idCourse)))
+            return new ResponseEntity(HttpStatus.OK);
+
+        return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

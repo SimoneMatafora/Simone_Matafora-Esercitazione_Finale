@@ -160,6 +160,12 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public void deletePartner(UUID idPartner) {
-        partnerRepository.deleteById(idPartner);
+
+        Optional<PartnerEntity> optPartner = partnerRepository.findById(idPartner);
+
+        if (optPartner.isPresent())
+            partnerRepository.delete(optPartner.get());
+        else
+            throw new NotFoundException("Partner with uuid: " + idPartner + " isn't present ");
     }
 }

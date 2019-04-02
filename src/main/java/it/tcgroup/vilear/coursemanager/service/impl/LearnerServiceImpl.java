@@ -186,7 +186,14 @@ public class LearnerServiceImpl implements LearnerService {
 
     @Override
     public void deleteLearner(UUID idLearner){
-        learnerRepository.deleteById(idLearner);
+
+
+        Optional<LearnerEntity> optLearner = learnerRepository.findById(idLearner);
+
+        if(optLearner.isPresent())
+            learnerRepository.delete(optLearner.get());
+        else
+            throw new NotFoundException("Learner with uuid: " + idLearner + " isn't present ");
     }
 
     @Override
