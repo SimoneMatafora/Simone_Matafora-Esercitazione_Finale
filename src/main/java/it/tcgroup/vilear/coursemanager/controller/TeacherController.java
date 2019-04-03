@@ -34,6 +34,26 @@ public class TeacherController {
     @Autowired
     private AuthorizationService authorizationService;
 
+    /*INSERIMENTO TEACHER REGISTRAZIONE*/
+    @PostMapping(value = "/teacher/registration",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Teacher", notes = "Insert teacher using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = IdResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<IdResponseV1> postInsertTeacherRegistration(
+            @ApiParam(value = "Body of the Teacher to be created", required = true)
+            @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
+
+        return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
+    }
+
     /*INSERIMENTO TEACHER*/
     @PostMapping(value = "/teacher",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,

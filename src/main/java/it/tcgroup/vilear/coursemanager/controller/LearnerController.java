@@ -31,6 +31,27 @@ public class LearnerController {
     @Autowired
     private AuthorizationService authorizationService;
 
+
+    /*INSERIMENTO LEARNER REGISTRAZIONE*/
+    @PostMapping(value = "/learner/registration",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Learner", notes = "Insert Learner using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = IdResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<IdResponseV1> postInsertLearnerRegistration(
+            @ApiParam(value = "Body of the Learner to be created", required = true)
+            @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
+
+        return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
+    }
+
     /*INSERIMENTO LEARNER*/
     @PostMapping(value = "/learner",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
