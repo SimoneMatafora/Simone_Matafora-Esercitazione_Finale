@@ -37,9 +37,6 @@ public class LearnerEntity implements Serializable {
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "name")
     private String name;
 
@@ -83,9 +80,8 @@ public class LearnerEntity implements Serializable {
     public LearnerEntity() {
     }
 
-    public LearnerEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, Address address) {
+    public LearnerEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, Address address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.surname = surname;
         this.fiscalCode = fiscalCode;
@@ -106,14 +102,6 @@ public class LearnerEntity implements Serializable {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -216,7 +204,6 @@ public class LearnerEntity implements Serializable {
     public String toString() {
         return "LearnerEntity{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +
@@ -238,7 +225,6 @@ public class LearnerEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         LearnerEntity that = (LearnerEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(username, that.username) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(surname, that.surname) &&
                 Objects.equals(fiscalCode, that.fiscalCode) &&
@@ -255,6 +241,6 @@ public class LearnerEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, attachments, address);
+        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, attachments, address);
     }
 }

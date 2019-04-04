@@ -1,6 +1,8 @@
 package it.tcgroup.vilear.coursemanager.controller;
 
 import io.swagger.annotations.*;
+import it.tcgroup.vilear.coursemanager.common.validation.MessageCode;
+import it.tcgroup.vilear.coursemanager.common.validation.RequestValidator;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -34,6 +36,9 @@ public class TeacherController {
     @Autowired
     private AuthorizationService authorizationService;
 
+    @Autowired
+    private RequestValidator requestValidator;
+
     /*INSERIMENTO TEACHER REGISTRAZIONE*/
     @PostMapping(value = "/teacher/registration",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -50,6 +55,9 @@ public class TeacherController {
     public ResponseEntity<IdResponseV1> postInsertTeacherRegistration(
             @ApiParam(value = "Body of the Teacher to be created", required = true)
             @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
+
+        requestValidator.validateRequest(teacherInsertRequestV1, MessageCode.E00X_1000);
+        requestValidator.validateRequest(teacherInsertRequestV1.getAddress(), MessageCode.E00X_1000);
 
         return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
     }

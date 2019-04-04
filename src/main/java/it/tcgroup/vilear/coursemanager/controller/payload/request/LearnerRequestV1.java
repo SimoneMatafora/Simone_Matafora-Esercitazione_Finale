@@ -6,6 +6,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequest
 import it.tcgroup.vilear.coursemanager.entity.enumerated.DegreeOfStudiesEnum;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class LearnerRequestV1 {
@@ -13,31 +14,35 @@ public class LearnerRequestV1 {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("username")
-    private String username;
-
+    @NotNull
     @JsonProperty("name")
     private String name;
 
+    @NotNull
     @JsonProperty("surname")
     private String surname;
 
+    @NotNull
     @JsonProperty("fiscal_code")
     private String fiscalCode;
 
+    @NotNull
     @JsonProperty("date_of_birth")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
+    @NotNull
     @JsonProperty("birth_place")
     private  String birthPlace;
 
     @JsonProperty("phone")
     private  String phone;
 
+    @NotNull
     @JsonProperty("email")
     private String email;
 
+    @NotNull
     @JsonProperty("degree_of_studies")
     private DegreeOfStudiesEnum degreeOfStudies;
 
@@ -47,15 +52,15 @@ public class LearnerRequestV1 {
     @JsonProperty("note")
     private String note;
 
+    @NotNull
     @JsonProperty("address")
     private AddressRequest address;
 
     public LearnerRequestV1() {
     }
 
-    public LearnerRequestV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, AddressRequest address) {
+    public LearnerRequestV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, AddressRequest address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.surname = surname;
         this.fiscalCode = fiscalCode;
@@ -75,14 +80,6 @@ public class LearnerRequestV1 {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -177,7 +174,6 @@ public class LearnerRequestV1 {
     public String toString() {
         return "LearnerRequestV1{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +

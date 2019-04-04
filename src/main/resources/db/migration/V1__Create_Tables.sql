@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS learner (
 	id UUID PRIMARY KEY,
-	username varchar(255) NOT NULL,
 	name varchar(255) NOT NULL,
 	surname varchar(255) NOT NULL,
 	fiscal_code varchar(16) NOT NULL,
@@ -17,7 +16,6 @@ CREATE TABLE IF NOT EXISTS learner (
 
 CREATE TABLE IF NOT EXISTS teacher (
 	id UUID PRIMARY KEY,
-	username varchar(255) NOT NULL,
 	name varchar(255) NOT NULL,
 	surname varchar(255) NOT NULL,
 	fiscal_code varchar(16) NOT NULL,
@@ -29,20 +27,19 @@ CREATE TABLE IF NOT EXISTS teacher (
 	professional_area varchar(255) NOT NULL,
 	public_employee bool NOT NULL,
 	accredited_ft bool NOT NULL,
-	accredited_ft_code varchar(255) NOT NULL,
+	accredited_ft_code varchar(255) NULL,
 	authorized bool NOT NULL,
 	professional_order_registration bool NOT NULL,
-	register varchar(255) NOT NULL,
+	register varchar(255) NULL,
 	vat_holder bool NOT NULL,
 	vat_number varchar(255) NULL,
 	curriculum_vitae jsonb NULL,
-	sector varchar(255) NOT NULL,
+	sector varchar(255) NULL,
 	note varchar(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS branch (
 	id UUID PRIMARY KEY,
-	username varchar(255) NOT NULL,
 	name varchar(255) NOT NULL,
 	email varchar(255) NOT NULL,
 	super bool NOT NULL,

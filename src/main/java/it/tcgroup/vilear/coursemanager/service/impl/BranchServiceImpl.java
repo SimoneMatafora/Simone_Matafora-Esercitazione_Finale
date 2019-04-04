@@ -72,7 +72,6 @@ public class BranchServiceImpl implements BranchService {
 
         branch.setEmail(branchUpdate.getEmail());
         branch.setName(branchUpdate.getName());
-        branch.setUsername(branchUpdate.getUsername());
         branch.setSuperBranch(branchUpdate.getSuperBranch());
         branch.setRightOfAccessToTheCourses(branchUpdate.getRightOfAccessToTheCourses());
         branch.setAddress(branchUpdate.getAddress());
@@ -105,9 +104,6 @@ public class BranchServiceImpl implements BranchService {
 
         if( branchPatch.getName() != null)
             branch.setName(branchPatch.getName());
-
-        if( branchPatch.getUsername() != null)
-            branch.setUsername(branchPatch.getUsername());
 
         if( branchPatch.getAddress() != null)
             branch.setAddress(branchPatch.getAddress());

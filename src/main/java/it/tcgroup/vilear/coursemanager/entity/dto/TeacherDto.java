@@ -12,9 +12,6 @@ public class TeacherDto implements Serializable {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("username")
-    private String username;
-
     @JsonProperty("name")
     private String name;
 
@@ -80,9 +77,8 @@ public class TeacherDto implements Serializable {
     public TeacherDto() {
     }
 
-    public TeacherDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressDto address) {
+    public TeacherDto(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressDto address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.surname = surname;
         this.fiscalCode = fiscalCode;
@@ -111,14 +107,6 @@ public class TeacherDto implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -285,7 +273,6 @@ public class TeacherDto implements Serializable {
     public String toString() {
         return "TeacherDto{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +

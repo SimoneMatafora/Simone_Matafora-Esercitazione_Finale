@@ -8,9 +8,6 @@ public class BranchResponseV1 {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("username")
-    private String username;
-
     @JsonProperty("name")
     private String name;
 
@@ -29,9 +26,8 @@ public class BranchResponseV1 {
     public BranchResponseV1() {
     }
 
-    public BranchResponseV1(String id, String username, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressResponse address) {
+    public BranchResponseV1(String id, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressResponse address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.email = email;
         this.superBranch = superBranch;
@@ -45,14 +41,6 @@ public class BranchResponseV1 {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -98,7 +86,6 @@ public class BranchResponseV1 {
     @Override
     public String toString() {
         return "BranchResponseV1{" +
-                "username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", superBranch=" + superBranch +

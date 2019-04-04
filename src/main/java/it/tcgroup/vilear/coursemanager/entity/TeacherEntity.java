@@ -32,9 +32,6 @@ public class TeacherEntity implements Serializable {
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "name")
     private String name;
 
@@ -102,9 +99,8 @@ public class TeacherEntity implements Serializable {
     public TeacherEntity() {
     }
 
-    public TeacherEntity(UUID id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, Address address) {
+    public TeacherEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, Address address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.surname = surname;
         this.fiscalCode = fiscalCode;
@@ -133,14 +129,6 @@ public class TeacherEntity implements Serializable {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -307,7 +295,6 @@ public class TeacherEntity implements Serializable {
     public String toString() {
         return "TeacherEntity{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +
@@ -337,7 +324,6 @@ public class TeacherEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         TeacherEntity that = (TeacherEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(username, that.username) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(surname, that.surname) &&
                 Objects.equals(fiscalCode, that.fiscalCode) &&
@@ -362,7 +348,7 @@ public class TeacherEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized, professionalOrderRegistration, register, vatHolder, vatNumber, sector, note, curriculumVitae, address);
+        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized, professionalOrderRegistration, register, vatHolder, vatNumber, sector, note, curriculumVitae, address);
     }
 }
 

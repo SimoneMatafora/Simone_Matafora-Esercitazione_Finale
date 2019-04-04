@@ -14,9 +14,6 @@ public class LearnerDto implements Serializable {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty( "username")
-    private String username;
-
     @JsonProperty( "name")
     private String name;
 
@@ -57,9 +54,8 @@ public class LearnerDto implements Serializable {
     public LearnerDto() {
     }
 
-    public LearnerDto(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachemnts, AddressDto address) {
+    public LearnerDto(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachemnts, AddressDto address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.surname = surname;
         this.fiscalCode = fiscalCode;
@@ -80,14 +76,6 @@ public class LearnerDto implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -190,7 +178,6 @@ public class LearnerDto implements Serializable {
     public String toString() {
         return "LearnerDto{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +

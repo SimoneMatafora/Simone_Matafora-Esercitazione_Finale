@@ -11,9 +11,6 @@ public class TeacherResponseV1 {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("username")
-    private String username;
-
     @JsonProperty("name")
     private String name;
 
@@ -79,9 +76,8 @@ public class TeacherResponseV1 {
     public TeacherResponseV1() {
     }
 
-    public TeacherResponseV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressResponse address) {
+    public TeacherResponseV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressResponse address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.surname = surname;
         this.fiscalCode = fiscalCode;
@@ -110,14 +106,6 @@ public class TeacherResponseV1 {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -283,7 +271,6 @@ public class TeacherResponseV1 {
     @Override
     public String toString() {
         return "TeacherResponseV1{" +
-                "username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +

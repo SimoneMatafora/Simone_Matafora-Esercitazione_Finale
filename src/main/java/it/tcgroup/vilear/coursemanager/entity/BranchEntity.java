@@ -30,9 +30,6 @@ public class BranchEntity implements Serializable {
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "name")
     private String name;
 
@@ -52,9 +49,8 @@ public class BranchEntity implements Serializable {
     public BranchEntity() {
     }
 
-    public BranchEntity(UUID id, String username, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, Address address) {
+    public BranchEntity(UUID id, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, Address address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.email = email;
         this.superBranch = superBranch;
@@ -68,14 +64,6 @@ public class BranchEntity implements Serializable {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -122,7 +110,6 @@ public class BranchEntity implements Serializable {
     public String toString() {
         return "BranchEntity{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", superBranche=" + superBranch +
@@ -137,7 +124,6 @@ public class BranchEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         BranchEntity that = (BranchEntity) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(username, that.username) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(superBranch, that.superBranch) &&
@@ -147,6 +133,6 @@ public class BranchEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, name, email, superBranch, rightOfAccessToTheCourses, address);
+        return Objects.hash(id, name, email, superBranch, rightOfAccessToTheCourses, address);
     }
 }

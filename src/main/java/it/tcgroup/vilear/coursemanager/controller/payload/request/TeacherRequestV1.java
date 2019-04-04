@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.controller.payload.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class TeacherRequestV1 {
@@ -10,32 +11,36 @@ public class TeacherRequestV1 {
     @JsonProperty("id")
     private String id;
 
-    @JsonProperty("username")
-    private String username;
-
+    @NotNull
     @JsonProperty("name")
     private String name;
 
+    @NotNull
     @JsonProperty("surname")
     private String surname;
 
+    @NotNull
     @JsonProperty("fiscal_code")
     private String fiscalCode;
 
+    @NotNull
     @JsonProperty("date_of_birth")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
+    @NotNull
     @JsonProperty("birth_place")
     private  String birthPlace;
 
     @JsonProperty("phone")
     private  String phone;
 
+    @NotNull
     @JsonProperty("email")
     private String email;
 
     //DA CONSIDERARE COME EVENTUALE CLASSE ENUMERATA O RIFERIMENTO A TABELLA ESTERNA
+    @NotNull
     @JsonProperty("professional_area")
     private String professionalArea;
 
@@ -69,15 +74,15 @@ public class TeacherRequestV1 {
     @JsonProperty("note")
     private String note;
 
+    @NotNull
     @JsonProperty("address")
     private AddressRequest address;
 
     public TeacherRequestV1() {
     }
 
-    public TeacherRequestV1(String id, String username, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, AddressRequest address) {
+    public TeacherRequestV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, AddressRequest address) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.surname = surname;
         this.fiscalCode = fiscalCode;
@@ -105,14 +110,6 @@ public class TeacherRequestV1 {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -271,7 +268,6 @@ public class TeacherRequestV1 {
     public String toString() {
         return "TeacherRequestV1{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +
@@ -302,9 +298,11 @@ public class TeacherRequestV1 {
         @JsonProperty("region")
         private String region;
 
+        @NotNull
         @JsonProperty("province")
         private String province;
 
+        @NotNull
         @JsonProperty("city")
         private String city;
 
@@ -314,6 +312,7 @@ public class TeacherRequestV1 {
         @JsonProperty("number")
         private String number;
 
+        @NotNull
         @JsonProperty("zip_code")
         private String zipCode;
 

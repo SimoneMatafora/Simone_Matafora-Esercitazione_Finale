@@ -82,7 +82,6 @@ public class LearnerServiceImpl implements LearnerService {
         learner.setName(learnerUpdate.getName());
         learner.setNote(learnerUpdate.getNote());
         learner.setPhone(learnerUpdate.getPhone());
-        learner.setUsername(learnerUpdate.getUsername());
         learner.setAddress(learnerUpdate.getAddress());
 
         learnerRepository.save(learner);
@@ -146,9 +145,6 @@ public class LearnerServiceImpl implements LearnerService {
 
         if( learnerPatch.getCourseOfStudy() != null)
             learner.setCourseOfStudy(learnerPatch.getCourseOfStudy());
-
-        if( learnerPatch.getUsername() != null)
-            learner.setUsername(learnerPatch.getUsername());
 
         if( learnerPatch.getAddress() != null)
             learner.setAddress(learnerPatch.getAddress());

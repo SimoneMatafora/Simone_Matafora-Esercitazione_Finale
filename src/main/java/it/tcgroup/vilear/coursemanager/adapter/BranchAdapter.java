@@ -27,7 +27,6 @@ public class BranchAdapter {
         branch.setAddress(addressAdapter.adptAddressRequestToAddress(filialeRequest.getAddress()));
         branch.setName(filialeRequest.getName());
         branch.setSuperBranch(filialeRequest.getSuperBranch());
-        branch.setUsername(filialeRequest.getUsername());
 
         return branch;
     }
@@ -50,7 +49,6 @@ public class BranchAdapter {
         brancheResponse.setAddress(addressAdapter.adptAddressToAddressResponse(branch.getAddress()));
         brancheResponse.setName(branch.getName());
         brancheResponse.setSuperBranch(branch.getSuperBranch());
-        brancheResponse.setUsername(branch.getUsername());
 
         return brancheResponse;
     }

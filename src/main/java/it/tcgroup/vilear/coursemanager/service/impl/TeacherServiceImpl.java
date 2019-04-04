@@ -101,7 +101,6 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setSector(teacherUpdate.getSector());
         teacher.setPhone(teacherUpdate.getPhone());
         teacher.setVatHolder(teacherUpdate.getVatHolder());
-        teacher.setUsername(teacherUpdate.getUsername());
         teacher.setAddress(teacherUpdate.getAddress());
 
         teacherRepository.save(teacher);
@@ -177,9 +176,6 @@ public class TeacherServiceImpl implements TeacherService {
 
         if( teacherPatch.getVatHolder() != null)
             teacher.setVatHolder(teacherPatch.getVatHolder());
-
-        if( teacherPatch.getUsername() != null)
-            teacher.setUsername(teacherPatch.getUsername());
 
         if( teacherPatch.getAddress() != null)
             teacher.setAddress(teacherPatch.getAddress());

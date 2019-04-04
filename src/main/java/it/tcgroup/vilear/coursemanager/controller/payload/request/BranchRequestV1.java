@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BranchRequestV1 {
 
-    @JsonProperty("username")
-    private String username;
-
     @JsonProperty("name")
     private String name;
 
@@ -26,21 +23,12 @@ public class BranchRequestV1 {
     public BranchRequestV1() {
     }
 
-    public BranchRequestV1(String username, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressRequest address) {
-        this.username = username;
+    public BranchRequestV1( String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressRequest address) {
         this.name = name;
         this.email = email;
         this.superBranch = superBranch;
         this.rightOfAccessToTheCourses = rightOfAccessToTheCourses;
         this.address = address;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {
@@ -86,7 +74,6 @@ public class BranchRequestV1 {
     @Override
     public String toString() {
         return "BranchRequestV1{" +
-                "username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", superBranch=" + superBranch +

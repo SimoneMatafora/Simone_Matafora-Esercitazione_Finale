@@ -40,7 +40,6 @@ public class LearnerAdapter {
         learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
         learner.setNote(learnerInsertRequest.getNote());
         learner.setPhone(learnerInsertRequest.getPhone());
-        learner.setUsername(learnerInsertRequest.getUsername());
         learner.setAddress(address);
 
         return learner;
@@ -65,7 +64,6 @@ public class LearnerAdapter {
         learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
         learner.setNote(learnerInsertRequest.getNote());
         learner.setPhone(learnerInsertRequest.getPhone());
-        learner.setUsername(learnerInsertRequest.getUsername());
         learner.setAddress(address);
 
         return learner;
@@ -90,7 +88,6 @@ public class LearnerAdapter {
         learnerDto.setCourseOfStudy(learner.getCourseOfStudy());
         learnerDto.setNote(learner.getNote());
         learnerDto.setPhone(learner.getPhone());
-        learnerDto.setUsername(learner.getUsername());
         learnerDto.setAddress(address);
         learnerDto.setAttachemnts(learner.getAttachments());
 
@@ -117,7 +114,6 @@ public class LearnerAdapter {
         learnerResponse.setCourseOfStudy(learnerDto.getCourseOfStudy());
         learnerResponse.setNote(learnerDto.getNote());
         learnerResponse.setPhone(learnerDto.getPhone());
-        learnerResponse.setUsername(learnerDto.getUsername());
         learnerResponse.setAddress(addressResponse);
 
         return learnerResponse;
@@ -147,7 +143,6 @@ public class LearnerAdapter {
         learnerResponse.setCourseOfStudy(learner.getCourseOfStudy());
         learnerResponse.setNote(learner.getNote());
         learnerResponse.setPhone(learner.getPhone());
-        learnerResponse.setUsername(learner.getUsername());
 
         learnerResponse.setAddress(addressAdapter.adptAddressToAddressResponse(learner.getAddress()));
 
