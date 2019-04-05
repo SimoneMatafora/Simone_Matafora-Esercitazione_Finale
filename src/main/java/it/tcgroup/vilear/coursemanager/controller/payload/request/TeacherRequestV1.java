@@ -75,7 +75,7 @@ public class TeacherRequestV1 {
     private String note;
 
     @NotNull
-    @JsonProperty("curriculum")
+    @JsonProperty("curriculum_vitae")
     private UploadRequestV1 curriculum;
 
     @NotNull
