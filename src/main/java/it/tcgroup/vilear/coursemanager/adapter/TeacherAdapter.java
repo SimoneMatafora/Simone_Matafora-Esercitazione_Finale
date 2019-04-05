@@ -1,19 +1,27 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
+import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.TeacherCourseRequestV1.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class TeacherAdapter {
@@ -24,58 +32,78 @@ public class TeacherAdapter {
     @Autowired
     private AttachmentAdapter attachmentAdapter;
 
-    public TeacherEntity adptTeacherRequestToTeacher(TeacherRequestV1 teacherInsertRequest){
+    @Autowired
+    private FilemanagerService filemanagerService;
 
-        if(teacherInsertRequest == null)
-            return null;
+    public TeacherEntity adptTeacherRequestToTeacher(TeacherRequestV1 teacherInsertRequest) {
 
-        TeacherEntity teacher = new TeacherEntity();
+        try {
 
-        Address address = null;
-        if (teacherInsertRequest.getAddress() != null)
-            address = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getAddress());
+            if (teacherInsertRequest == null)
+                return null;
 
-        teacher.setRegister(teacherInsertRequest.getRegister());
-        teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
-        teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
-        teacher.setFiscalCode(teacherInsertRequest.getFiscalCode());
-        teacher.setSurname(teacherInsertRequest.getSurname());
-        teacher.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
-        teacher.setEmail(teacherInsertRequest.getEmail());
-        teacher.setBirthPlace(teacherInsertRequest.getBirthPlace());
-        teacher.setName(teacherInsertRequest.getName());
-        teacher.setNote(teacherInsertRequest.getNote());
-        teacher.setVatNumber(teacherInsertRequest.getVatNumber());
-        teacher.setSector(teacherInsertRequest.getSector());
-        teacher.setPhone(teacherInsertRequest.getPhone());
-        teacher.setAddress(address);
+            TeacherEntity teacher = new TeacherEntity();
 
-        if(teacherInsertRequest.getVatHolder() == null)
-            teacher.setVatHolder(false);
-        else
-            teacher.setVatHolder(teacherInsertRequest.getVatHolder());
+            Address address = null;
+            if (teacherInsertRequest.getAddress() != null)
+                address = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getAddress());
 
-        if(teacherInsertRequest.getProfessionalOrderRegistration() == null)
-            teacher.setProfessionalOrderRegistration(false);
-        else
-            teacher.setProfessionalOrderRegistration(teacherInsertRequest.getProfessionalOrderRegistration());
+            Attachment curriculum = null;
+            if (teacherInsertRequest.getCurriculum() != null) {
 
-        if(teacherInsertRequest.getAuthorized() == null)
-            teacher.setAuthorized(false);
-        else
-            teacher.setAuthorized(teacherInsertRequest.getAuthorized());
+                UploadRequestV1 request = teacherInsertRequest.getCurriculum();
+                request.setResourceId(teacherInsertRequest.getId());
+                UploadResponseV1 response = filemanagerService.uploadFile(request);
+                curriculum = attachmentAdapter.adptUploadResponseToAttachment(response);
+            }
 
-        if(teacherInsertRequest.getAccreditedFt() == null)
-            teacher.setAccreditedFt(false);
-        else
-            teacher.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
+            teacher.setId(UUID.fromString(teacherInsertRequest.getId()));
+            teacher.setCurriculumVitae(curriculum);
+            teacher.setRegister(teacherInsertRequest.getRegister());
+            teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
+            teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
+            teacher.setFiscalCode(teacherInsertRequest.getFiscalCode());
+            teacher.setSurname(teacherInsertRequest.getSurname());
+            teacher.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
+            teacher.setEmail(teacherInsertRequest.getEmail());
+            teacher.setBirthPlace(teacherInsertRequest.getBirthPlace());
+            teacher.setName(teacherInsertRequest.getName());
+            teacher.setNote(teacherInsertRequest.getNote());
+            teacher.setVatNumber(teacherInsertRequest.getVatNumber());
+            teacher.setSector(teacherInsertRequest.getSector());
+            teacher.setPhone(teacherInsertRequest.getPhone());
+            teacher.setAddress(address);
 
-        if(teacherInsertRequest.getPublicEmployee() == null)
-            teacher.setPublicEmployee(false);
-        else
-            teacher.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
+            if (teacherInsertRequest.getVatHolder() == null)
+                teacher.setVatHolder(false);
+            else
+                teacher.setVatHolder(teacherInsertRequest.getVatHolder());
 
-        return teacher;
+            if (teacherInsertRequest.getProfessionalOrderRegistration() == null)
+                teacher.setProfessionalOrderRegistration(false);
+            else
+                teacher.setProfessionalOrderRegistration(teacherInsertRequest.getProfessionalOrderRegistration());
+
+            if (teacherInsertRequest.getAuthorized() == null)
+                teacher.setAuthorized(false);
+            else
+                teacher.setAuthorized(teacherInsertRequest.getAuthorized());
+
+            if (teacherInsertRequest.getAccreditedFt() == null)
+                teacher.setAccreditedFt(false);
+            else
+                teacher.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
+
+            if (teacherInsertRequest.getPublicEmployee() == null)
+                teacher.setPublicEmployee(false);
+            else
+                teacher.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
+
+            return teacher;
+
+        }catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public TeacherDto adptTeacherRequestToTeacherDto(TeacherRequestV1 teacherInsertRequest){
@@ -130,7 +158,61 @@ public class TeacherAdapter {
         else
             teacher.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
 
-        System.out.println(teacher.getPublicEmployee());
+        return teacher;
+    }
+
+    public TeacherDto adptTeacherRequestDtoToTeacherDto(TeacherRequestDtoV1 teacherInsertRequest){
+
+        if(teacherInsertRequest == null)
+            return null;
+
+        TeacherDto teacher = new TeacherDto();
+
+        AddressDto address = null;
+        if (teacherInsertRequest.getAddress() != null)
+            address = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getAddress());
+
+        teacher.setId(teacherInsertRequest.getId());
+        teacher.setRegister(teacherInsertRequest.getRegister());
+        teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
+        teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
+        teacher.setFiscalCode(teacherInsertRequest.getFiscalCode());
+        teacher.setSurname(teacherInsertRequest.getSurname());
+        teacher.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
+        teacher.setEmail(teacherInsertRequest.getEmail());
+        teacher.setBirthPlace(teacherInsertRequest.getBirthPlace());
+        teacher.setName(teacherInsertRequest.getName());
+        teacher.setNote(teacherInsertRequest.getNote());
+        teacher.setVatNumber(teacherInsertRequest.getVatNumber());
+        teacher.setSector(teacherInsertRequest.getSector());
+        teacher.setPhone(teacherInsertRequest.getPhone());
+        teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
+        teacher.setAddress(address);
+
+        if(teacherInsertRequest.getVatHolder() == null)
+            teacher.setVatHolder(false);
+        else
+            teacher.setVatHolder(teacherInsertRequest.getVatHolder());
+
+        if(teacherInsertRequest.getProfessionalOrderRegistration() == null)
+            teacher.setProfessionalOrderRegistration(false);
+        else
+            teacher.setProfessionalOrderRegistration(teacherInsertRequest.getProfessionalOrderRegistration());
+
+        if(teacherInsertRequest.getAuthorized() == null)
+            teacher.setAuthorized(false);
+        else
+            teacher.setAuthorized(teacherInsertRequest.getAuthorized());
+
+        if(teacherInsertRequest.getAccreditedFt() == null)
+            teacher.setAccreditedFt(false);
+        else
+            teacher.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
+
+        if(teacherInsertRequest.getPublicEmployee() == null)
+            teacher.setPublicEmployee(false);
+        else
+            teacher.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
 
         return teacher;
     }

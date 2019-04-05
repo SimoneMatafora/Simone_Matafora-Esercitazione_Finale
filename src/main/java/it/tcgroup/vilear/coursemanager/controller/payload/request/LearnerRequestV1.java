@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 public class LearnerRequestV1 {
 
@@ -53,13 +54,17 @@ public class LearnerRequestV1 {
     private String note;
 
     @NotNull
+    @JsonProperty("attachments")
+    private List<UploadRequestV1> attachments;
+
+    @NotNull
     @JsonProperty("address")
     private AddressRequest address;
 
     public LearnerRequestV1() {
     }
 
-    public LearnerRequestV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, AddressRequest address) {
+    public LearnerRequestV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, @NotNull List<UploadRequestV1> attachments, @NotNull AddressRequest address) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -71,6 +76,7 @@ public class LearnerRequestV1 {
         this.degreeOfStudies = degreeOfStudies;
         this.courseOfStudy = courseOfStudy;
         this.note = note;
+        this.attachments = attachments;
         this.address = address;
     }
 
@@ -162,6 +168,14 @@ public class LearnerRequestV1 {
         this.note = note;
     }
 
+    public List<UploadRequestV1> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<UploadRequestV1> attachments) {
+        this.attachments = attachments;
+    }
+
     public AddressRequest getAddress() {
         return address;
     }
@@ -184,6 +198,7 @@ public class LearnerRequestV1 {
                 ", degreeOfStudies=" + degreeOfStudies +
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
+                ", attachments=" + attachments +
                 ", address=" + address +
                 '}';
     }

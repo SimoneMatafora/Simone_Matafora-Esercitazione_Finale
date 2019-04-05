@@ -26,7 +26,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourse.setAccepted(recipientManagmentCourseRequest.getAccepted());
         recipientManagmentCourse.setExonerationGeneralSecurity(recipientManagmentCourseRequest.getExonerationGeneralSecurity());
         recipientManagmentCourse.setExonerationRightsAndDuties(recipientManagmentCourseRequest.getExonerationRightsAndDuties());
-        recipientManagmentCourse.setLearner(learnerAdapter.adptLearnerRequestToLearnerDto(recipientManagmentCourseRequest.getLearner()));
+        recipientManagmentCourse.setLearner(learnerAdapter.adptLearnerRequestDtoToLearnerDto(recipientManagmentCourseRequest.getLearner()));
         recipientManagmentCourse.setNecessaryHours(recipientManagmentCourseRequest.getNecessaryHours());
         recipientManagmentCourse.setRecipientType(recipientManagmentCourseRequest.getRecipientType());
         recipientManagmentCourse.setRejected(recipientManagmentCourseRequest.getRejected());

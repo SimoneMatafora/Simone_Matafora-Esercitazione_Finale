@@ -12,6 +12,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadRespons
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.LearnerService;
+import it.tcgroup.vilear.coursemanager.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +33,9 @@ public class LearnerController {
 
     @Autowired
     private AuthorizationService authorizationService;
+
+    @Autowired
+    private ValidateService validateService;
 
     @Autowired
     private RequestValidator requestValidator;
@@ -55,8 +59,7 @@ public class LearnerController {
             @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
 
 
-        requestValidator.validateRequest(learnerInsertRequestV1, MessageCode.E00X_1000);
-        requestValidator.validateRequest(learnerInsertRequestV1.getAddress(), MessageCode.E00X_1000);
+        validateService.requestValidatorLearner(learnerInsertRequestV1);
 
         return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
     }
@@ -81,6 +84,8 @@ public class LearnerController {
             @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorLearner(learnerInsertRequestV1);
 
         return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
     }
@@ -107,6 +112,8 @@ public class LearnerController {
             @RequestHeader(name = "id-user") UUID userId) {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorLearner(learnerUpdateRequest);
 
         return new ResponseEntity<>(learnerService.updateLearner(learnerUpdateRequest, UUID.fromString(idLearner)) ,HttpStatus.OK);
     }
@@ -156,6 +163,8 @@ public class LearnerController {
             @RequestBody LearnerRequestV1 learnerPatchRequestV1) throws Exception {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorPatchLearner(learnerPatchRequestV1);
 
         return new ResponseEntity<>(learnerService.patchLearner(learnerPatchRequestV1, UUID.fromString(idLearner)), HttpStatus.OK);
     }

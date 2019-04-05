@@ -32,7 +32,7 @@ public class TeacherCourseAdapter {
         teacherCourse.setPaymentModality(teacherCourseRequest.getPaymentModality());
         teacherCourse.setPaymentModalityTradeUnion(teacherCourseRequest.getPaymentModalityTradeUnion());
         teacherCourse.setRole(teacherCourseRequest.getRole());
-        teacherCourse.setTeacher(teacherAdapter.adptTeacherRequestToTeacherDto(teacherCourseRequest.getTeacher()));
+        teacherCourse.setTeacher(teacherAdapter.adptTeacherRequestDtoToTeacherDto(teacherCourseRequest.getTeacher()));
         teacherCourse.setTotalHoursPerformed(teacherCourseRequest.getTotalHoursPerformed());
         teacherCourse.setTradeUninoTeachingLetter(teacherCourseRequest.getTradeUninoTeachingLetter());
 

@@ -1,6 +1,7 @@
 package it.tcgroup.vilear.coursemanager.controller.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.TeacherCourseRequestV1.*;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.StatusTeacherPartnerEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
 
@@ -56,7 +57,7 @@ public class PartnerRequestV1 {
     public static class TeacherPartnerRequestV1{
 
         @JsonProperty("teacher")
-        private TeacherRequestV1 teacher;
+        private TeacherRequestDtoV1 teacher;
 
         @JsonProperty("status")
         private StatusTeacherPartnerEnum status;
@@ -64,16 +65,16 @@ public class PartnerRequestV1 {
         public TeacherPartnerRequestV1() {
         }
 
-        public TeacherPartnerRequestV1(TeacherRequestV1 teacher, StatusTeacherPartnerEnum status) {
+        public TeacherPartnerRequestV1(TeacherRequestDtoV1 teacher, StatusTeacherPartnerEnum status) {
             this.teacher = teacher;
             this.status = status;
         }
 
-        public TeacherRequestV1 getTeacher() {
+        public TeacherRequestDtoV1 getTeacher() {
             return teacher;
         }
 
-        public void setTeacher(TeacherRequestV1 teacher) {
+        public void setTeacher(TeacherRequestDtoV1 teacher) {
             this.teacher = teacher;
         }
 

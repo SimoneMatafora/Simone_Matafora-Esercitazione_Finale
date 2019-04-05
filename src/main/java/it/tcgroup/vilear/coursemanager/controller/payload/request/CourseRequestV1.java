@@ -3,6 +3,9 @@ package it.tcgroup.vilear.coursemanager.controller.payload.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -485,7 +488,7 @@ public class CourseRequestV1 {
     public static class RecipientManagmentCourseRequestV1{
 
         @JsonProperty("learner")
-        private LearnerRequestV1 learner;
+        private LearnerRequestDtoV1 learner;
 
         @JsonProperty("recipient_code")
         private RecipientTypeLearnerCourseEnum recipientType;
@@ -524,7 +527,7 @@ public class CourseRequestV1 {
         public RecipientManagmentCourseRequestV1() {
         }
 
-        public RecipientManagmentCourseRequestV1(LearnerRequestV1 learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -539,11 +542,11 @@ public class CourseRequestV1 {
             this.withdrawnForm = withdrawnForm;
         }
 
-        public LearnerRequestV1 getLearner() {
+        public LearnerRequestDtoV1 getLearner() {
             return learner;
         }
 
-        public void setLearner(LearnerRequestV1 learner) {
+        public void setLearner(LearnerRequestDtoV1 learner) {
             this.learner = learner;
         }
 
@@ -652,6 +655,201 @@ public class CourseRequestV1 {
                     ", withdrawnForm='" + withdrawnForm + '\'' +
                     '}';
         }
+
+        public static class LearnerRequestDtoV1{
+
+            @JsonProperty("id")
+            private String id;
+
+            @NotNull
+            @JsonProperty("name")
+            private String name;
+
+            @NotNull
+            @JsonProperty("surname")
+            private String surname;
+
+            @NotNull
+            @JsonProperty("fiscal_code")
+            private String fiscalCode;
+
+            @NotNull
+            @JsonProperty("date_of_birth")
+            @JsonFormat(pattern = "yyyy-MM-dd")
+            private Date dateOfBirth;
+
+            @NotNull
+            @JsonProperty("birth_place")
+            private  String birthPlace;
+
+            @JsonProperty("phone")
+            private  String phone;
+
+            @NotNull
+            @JsonProperty("email")
+            private String email;
+
+            @NotNull
+            @JsonProperty("degree_of_studies")
+            private DegreeOfStudiesEnum degreeOfStudies;
+
+            @JsonProperty("course_of_study")
+            private String courseOfStudy;
+
+            @JsonProperty("note")
+            private String note;
+
+            @NotNull
+            @JsonProperty("attachments")
+            private List<Attachment> attachments;
+
+            @NotNull
+            @JsonProperty("address")
+            private TeacherRequestV1.AddressRequest address;
+
+            public LearnerRequestDtoV1() {
+            }
+
+            public LearnerRequestDtoV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, @NotNull List<Attachment> attachments, @NotNull TeacherRequestV1.AddressRequest address) {
+                this.id = id;
+                this.name = name;
+                this.surname = surname;
+                this.fiscalCode = fiscalCode;
+                this.dateOfBirth = dateOfBirth;
+                this.birthPlace = birthPlace;
+                this.phone = phone;
+                this.email = email;
+                this.degreeOfStudies = degreeOfStudies;
+                this.courseOfStudy = courseOfStudy;
+                this.note = note;
+                this.attachments = attachments;
+                this.address = address;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getSurname() {
+                return surname;
+            }
+
+            public void setSurname(String surname) {
+                this.surname = surname;
+            }
+
+            public String getFiscalCode() {
+                return fiscalCode;
+            }
+
+            public void setFiscalCode(String fiscalCode) {
+                this.fiscalCode = fiscalCode;
+            }
+
+            public Date getDateOfBirth() {
+                return dateOfBirth;
+            }
+
+            public void setDateOfBirth(Date dateOfBirth) {
+                this.dateOfBirth = dateOfBirth;
+            }
+
+            public String getBirthPlace() {
+                return birthPlace;
+            }
+
+            public void setBirthPlace(String birthPlace) {
+                this.birthPlace = birthPlace;
+            }
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
+            public String getEmail() {
+                return email;
+            }
+
+            public void setEmail(String email) {
+                this.email = email;
+            }
+
+            public DegreeOfStudiesEnum getDegreeOfStudies() {
+                return degreeOfStudies;
+            }
+
+            public void setDegreeOfStudies(DegreeOfStudiesEnum degreeOfStudies) {
+                this.degreeOfStudies = degreeOfStudies;
+            }
+
+            public String getCourseOfStudy() {
+                return courseOfStudy;
+            }
+
+            public void setCourseOfStudy(String courseOfStudy) {
+                this.courseOfStudy = courseOfStudy;
+            }
+
+            public String getNote() {
+                return note;
+            }
+
+            public void setNote(String note) {
+                this.note = note;
+            }
+
+            public List<Attachment> getAttachments() {
+                return attachments;
+            }
+
+            public void setAttachments(List<Attachment> attachments) {
+                this.attachments = attachments;
+            }
+
+            public TeacherRequestV1.AddressRequest getAddress() {
+                return address;
+            }
+
+            public void setAddress(TeacherRequestV1.AddressRequest address) {
+                this.address = address;
+            }
+
+            @Override
+            public String toString() {
+                return "LearnerRequestV1{" +
+                        "id='" + id + '\'' +
+                        ", name='" + name + '\'' +
+                        ", surname='" + surname + '\'' +
+                        ", fiscalCode='" + fiscalCode + '\'' +
+                        ", dateOfBirth=" + dateOfBirth +
+                        ", birthPlace='" + birthPlace + '\'' +
+                        ", phone='" + phone + '\'' +
+                        ", email='" + email + '\'' +
+                        ", degreeOfStudies=" + degreeOfStudies +
+                        ", courseOfStudy='" + courseOfStudy + '\'' +
+                        ", note='" + note + '\'' +
+                        ", attachments=" + attachments +
+                        ", address=" + address +
+                        '}';
+            }
+        }
+
     }
 
     public static class PartnerCourseRequestV1{
@@ -847,7 +1045,7 @@ public class CourseRequestV1 {
     public static class TeacherCourseRequestV1{
 
         @JsonProperty("teacher")
-        private TeacherRequestV1 teacher;
+        private TeacherRequestDtoV1 teacher;
 
         @JsonProperty("role")
         private RoleTeacherCourseEnum role;
@@ -886,7 +1084,7 @@ public class CourseRequestV1 {
         public TeacherCourseRequestV1() {
         }
 
-        public TeacherCourseRequestV1(TeacherRequestV1 teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnion, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+        public TeacherCourseRequestV1(TeacherRequestDtoV1 teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnion, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
             this.teacher = teacher;
             this.role = role;
             this.grossHourlyCost = grossHourlyCost;
@@ -901,11 +1099,11 @@ public class CourseRequestV1 {
             this.paymentModalityTradeUnion = paymentModalityTradeUnion;
         }
 
-        public TeacherRequestV1 getTeacher() {
+        public TeacherRequestDtoV1 getTeacher() {
             return teacher;
         }
 
-        public void setTeacher(TeacherRequestV1 teacher) {
+        public void setTeacher(TeacherRequestDtoV1 teacher) {
             this.teacher = teacher;
         }
 
@@ -1014,12 +1212,311 @@ public class CourseRequestV1 {
                     ", paymentModalityTradeUnion=" + paymentModalityTradeUnion +
                     '}';
         }
+
+        public static class TeacherRequestDtoV1{
+
+            @JsonProperty("id")
+            private String id;
+
+            @NotNull
+            @JsonProperty("name")
+            private String name;
+
+            @NotNull
+            @JsonProperty("surname")
+            private String surname;
+
+            @NotNull
+            @JsonProperty("fiscal_code")
+            private String fiscalCode;
+
+            @NotNull
+            @JsonProperty("date_of_birth")
+            @JsonFormat(pattern = "yyyy-MM-dd")
+            private Date dateOfBirth;
+
+            @NotNull
+            @JsonProperty("birth_place")
+            private  String birthPlace;
+
+            @JsonProperty("phone")
+            private  String phone;
+
+            @NotNull
+            @JsonProperty("email")
+            private String email;
+
+            //DA CONSIDERARE COME EVENTUALE CLASSE ENUMERATA O RIFERIMENTO A TABELLA ESTERNA
+            @NotNull
+            @JsonProperty("professional_area")
+            private String professionalArea;
+
+            @JsonProperty("public_employee")
+            private Boolean publicEmployee;
+
+            @JsonProperty("accredited_ft")
+            private Boolean accreditedFt;
+
+            @JsonProperty("accredited_ft_code")
+            private String accreditedFtCode;
+
+            @JsonProperty("authorized")
+            private Boolean authorized;
+
+            @JsonProperty("professional_order_registration")
+            private Boolean professionalOrderRegistration;
+
+            @JsonProperty("register")
+            private String register;
+
+            @JsonProperty("vat_holder")
+            private Boolean vatHolder;
+
+            @JsonProperty("vat_number")
+            private String vatNumber;
+
+            @JsonProperty("sector")
+            private String sector;
+
+            @JsonProperty("note")
+            private String note;
+
+            @NotNull
+            @JsonProperty("curriculum")
+            private Attachment curriculum;
+
+            @NotNull
+            @JsonProperty("address")
+            private TeacherRequestV1.AddressRequest address;
+
+            public TeacherRequestDtoV1() {
+            }
+
+            public TeacherRequestDtoV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, @NotNull Attachment curriculum, @NotNull TeacherRequestV1.AddressRequest address) {
+                this.id = id;
+                this.name = name;
+                this.surname = surname;
+                this.fiscalCode = fiscalCode;
+                this.dateOfBirth = dateOfBirth;
+                this.birthPlace = birthPlace;
+                this.phone = phone;
+                this.email = email;
+                this.professionalArea = professionalArea;
+                this.publicEmployee = publicEmployee;
+                this.accreditedFt = accreditedFt;
+                this.accreditedFtCode = accreditedFtCode;
+                this.authorized = authorized;
+                this.professionalOrderRegistration = professionalOrderRegistration;
+                this.register = register;
+                this.vatHolder = vatHolder;
+                this.vatNumber = vatNumber;
+                this.sector = sector;
+                this.note = note;
+                this.curriculum = curriculum;
+                this.address = address;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getSurname() {
+                return surname;
+            }
+
+            public void setSurname(String surname) {
+                this.surname = surname;
+            }
+
+            public String getFiscalCode() {
+                return fiscalCode;
+            }
+
+            public void setFiscalCode(String fiscalCode) {
+                this.fiscalCode = fiscalCode;
+            }
+
+            public Date getDateOfBirth() {
+                return dateOfBirth;
+            }
+
+            public void setDateOfBirth(Date dateOfBirth) {
+                this.dateOfBirth = dateOfBirth;
+            }
+
+            public String getBirthPlace() {
+                return birthPlace;
+            }
+
+            public void setBirthPlace(String birthPlace) {
+                this.birthPlace = birthPlace;
+            }
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
+            public String getEmail() {
+                return email;
+            }
+
+            public void setEmail(String email) {
+                this.email = email;
+            }
+
+            public String getProfessionalArea() {
+                return professionalArea;
+            }
+
+            public void setProfessionalArea(String professionalArea) {
+                this.professionalArea = professionalArea;
+            }
+
+            public Boolean getPublicEmployee() {
+                return publicEmployee;
+            }
+
+            public void setPublicEmployee(Boolean publicEmployee) {
+                this.publicEmployee = publicEmployee;
+            }
+
+            public Boolean getAccreditedFt() {
+                return accreditedFt;
+            }
+
+            public void setAccreditedFt(Boolean accreditedFt) {
+                this.accreditedFt = accreditedFt;
+            }
+
+            public String getAccreditedFtCode() {
+                return accreditedFtCode;
+            }
+
+            public void setAccreditedFtCode(String accreditedFtCode) {
+                this.accreditedFtCode = accreditedFtCode;
+            }
+
+            public Boolean getAuthorized() {
+                return authorized;
+            }
+
+            public void setAuthorized(Boolean authorized) {
+                this.authorized = authorized;
+            }
+
+            public Boolean getProfessionalOrderRegistration() {
+                return professionalOrderRegistration;
+            }
+
+            public void setProfessionalOrderRegistration(Boolean professionalOrderRegistration) {
+                this.professionalOrderRegistration = professionalOrderRegistration;
+            }
+
+            public String getRegister() {
+                return register;
+            }
+
+            public void setRegister(String register) {
+                this.register = register;
+            }
+
+            public Boolean getVatHolder() {
+                return vatHolder;
+            }
+
+            public void setVatHolder(Boolean vatHolder) {
+                this.vatHolder = vatHolder;
+            }
+
+            public String getVatNumber() {
+                return vatNumber;
+            }
+
+            public void setVatNumber(String vatNumber) {
+                this.vatNumber = vatNumber;
+            }
+
+            public String getSector() {
+                return sector;
+            }
+
+            public void setSector(String sector) {
+                this.sector = sector;
+            }
+
+            public String getNote() {
+                return note;
+            }
+
+            public void setNote(String note) {
+                this.note = note;
+            }
+
+            public Attachment getCurriculum() {
+                return curriculum;
+            }
+
+            public void setCurriculum(Attachment curriculum) {
+                this.curriculum = curriculum;
+            }
+
+            public TeacherRequestV1.AddressRequest getAddress() {
+                return address;
+            }
+
+            public void setAddress(TeacherRequestV1.AddressRequest address) {
+                this.address = address;
+            }
+
+            @Override
+            public String toString() {
+                return "TeacherRequestDtoV1{" +
+                        "id='" + id + '\'' +
+                        ", name='" + name + '\'' +
+                        ", surname='" + surname + '\'' +
+                        ", fiscalCode='" + fiscalCode + '\'' +
+                        ", dateOfBirth=" + dateOfBirth +
+                        ", birthPlace='" + birthPlace + '\'' +
+                        ", phone='" + phone + '\'' +
+                        ", email='" + email + '\'' +
+                        ", professionalArea='" + professionalArea + '\'' +
+                        ", publicEmployee=" + publicEmployee +
+                        ", accreditedFt=" + accreditedFt +
+                        ", accreditedFtCode='" + accreditedFtCode + '\'' +
+                        ", authorized=" + authorized +
+                        ", professionalOrderRegistration=" + professionalOrderRegistration +
+                        ", register='" + register + '\'' +
+                        ", vatHolder=" + vatHolder +
+                        ", vatNumber='" + vatNumber + '\'' +
+                        ", sector='" + sector + '\'' +
+                        ", note='" + note + '\'' +
+                        ", curriculum=" + curriculum +
+                        ", address=" + address +
+                        '}';
+            }
+        }
     }
 
     public static class PlacementCourseRequestV1{
 
         @JsonProperty("learner")
-        private LearnerRequestV1 learner;
+        private RecipientManagmentCourseRequestV1.LearnerRequestDtoV1 learner;
 
         @JsonFormat(pattern = "yyyy-MM-dd")
         @JsonProperty("hiring_date")
@@ -1049,7 +1546,7 @@ public class CourseRequestV1 {
         public PlacementCourseRequestV1() {
         }
 
-        public PlacementCourseRequestV1(LearnerRequestV1 learner, Date hiringDate, Double missionHours, Double bonusAmount, Date expiredPlacementDate, Date sendedEletronicPlacementDate, Boolean coherence, String note) {
+        public PlacementCourseRequestV1(RecipientManagmentCourseRequestV1.LearnerRequestDtoV1 learner, Date hiringDate, Double missionHours, Double bonusAmount, Date expiredPlacementDate, Date sendedEletronicPlacementDate, Boolean coherence, String note) {
             this.learner = learner;
             this.hiringDate = hiringDate;
             this.missionHours = missionHours;
@@ -1060,11 +1557,11 @@ public class CourseRequestV1 {
             this.note = note;
         }
 
-        public LearnerRequestV1 getLearner() {
+        public RecipientManagmentCourseRequestV1.LearnerRequestDtoV1 getLearner() {
             return learner;
         }
 
-        public void setLearner(LearnerRequestV1 learner) {
+        public void setLearner(RecipientManagmentCourseRequestV1.LearnerRequestDtoV1 learner) {
             this.learner = learner;
         }
 

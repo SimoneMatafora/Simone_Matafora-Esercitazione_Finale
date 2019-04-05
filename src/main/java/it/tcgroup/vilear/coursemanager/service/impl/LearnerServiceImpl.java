@@ -17,6 +17,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCou
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
+import it.tcgroup.vilear.coursemanager.service.AddressService;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import it.tcgroup.vilear.coursemanager.service.LearnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class LearnerServiceImpl implements LearnerService {
     private FilemanagerService filemanagerService;
 
     @Autowired
+    private AddressService addressService;
+
+    @Autowired
     private AttachmentAdapter attachmentAdapter;
 
     @Autowired
@@ -51,6 +55,9 @@ public class LearnerServiceImpl implements LearnerService {
 
     @Override
     public IdResponseV1 insertLearner(LearnerRequestV1 learnerInsertRequest) {
+
+        UUID idLearner = UUID.randomUUID();
+        learnerInsertRequest.setId(idLearner.toString());
 
         LearnerEntity learner = learnerAdapter.adptLearnerRequestToLearner(learnerInsertRequest);
 
@@ -147,7 +154,7 @@ public class LearnerServiceImpl implements LearnerService {
             learner.setCourseOfStudy(learnerPatch.getCourseOfStudy());
 
         if( learnerPatch.getAddress() != null)
-            learner.setAddress(learnerPatch.getAddress());
+            learner.setAddress(addressService.patchAddress(learner.getAddress(), learnerPatch.getAddress()));
 
         learnerRepository.save(learner);
 
@@ -179,7 +186,6 @@ public class LearnerServiceImpl implements LearnerService {
 
         return learnerAdapter.adpLearnerPaginationToLearnerPaginationResposne(learnersPagination);
     }
-
     @Override
     public void deleteLearner(UUID idLearner){
 

@@ -1,20 +1,27 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
+import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class LearnerAdapter {
@@ -22,27 +29,53 @@ public class LearnerAdapter {
     @Autowired
     private AddressAdapter addressAdapter;
 
+    @Autowired
+    private FilemanagerService filemanagerService;
+
+    @Autowired
+    private AttachmentAdapter attachmentAdapter;
+
     public LearnerEntity adptLearnerRequestToLearner(LearnerRequestV1 learnerInsertRequest){
 
-        LearnerEntity learner = new LearnerEntity();
+        try {
 
-        Address address = null;
-        if (learnerInsertRequest.getAddress() != null)
-            address = addressAdapter.adptAddressRequestToAddress(learnerInsertRequest.getAddress());
+            LearnerEntity learner = new LearnerEntity();
 
-        learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
-        learner.setSurname(learnerInsertRequest.getSurname());
-        learner.setDateOfBirth(learnerInsertRequest.getDateOfBirth());
-        learner.setEmail(learnerInsertRequest.getEmail());
-        learner.setBirthPlace(learnerInsertRequest.getBirthPlace());
-        learner.setName(learnerInsertRequest.getName());
-        learner.setDegreeOfStudies(learnerInsertRequest.getDegreeOfStudies());
-        learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
-        learner.setNote(learnerInsertRequest.getNote());
-        learner.setPhone(learnerInsertRequest.getPhone());
-        learner.setAddress(address);
+            Address address = null;
+            if (learnerInsertRequest.getAddress() != null)
+                address = addressAdapter.adptAddressRequestToAddress(learnerInsertRequest.getAddress());
 
-        return learner;
+            List<Attachment> attachmentList = new LinkedList<>();
+            if(learnerInsertRequest.getAttachments() != null && !learnerInsertRequest.getAttachments().isEmpty()){
+
+                for (UploadRequestV1 att : learnerInsertRequest.getAttachments() ) {
+
+                    att.setResourceId(learnerInsertRequest.getId());
+                    UploadResponseV1 response = filemanagerService.uploadFile(att);
+                    attachmentList.add(attachmentAdapter.adptUploadResponseToAttachment(response));
+                }
+            }
+
+            learner.setAttachments(attachmentList);
+            learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
+            learner.setSurname(learnerInsertRequest.getSurname());
+            learner.setDateOfBirth(learnerInsertRequest.getDateOfBirth());
+            learner.setEmail(learnerInsertRequest.getEmail());
+            learner.setBirthPlace(learnerInsertRequest.getBirthPlace());
+            learner.setName(learnerInsertRequest.getName());
+            learner.setDegreeOfStudies(learnerInsertRequest.getDegreeOfStudies());
+            learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
+            learner.setNote(learnerInsertRequest.getNote());
+            learner.setPhone(learnerInsertRequest.getPhone());
+            learner.setAddress(address);
+            learner.setId(UUID.fromString(learnerInsertRequest.getId()));
+
+            return learner;
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public LearnerDto adptLearnerRequestToLearnerDto(LearnerRequestV1 learnerInsertRequest){
@@ -64,6 +97,31 @@ public class LearnerAdapter {
         learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
         learner.setNote(learnerInsertRequest.getNote());
         learner.setPhone(learnerInsertRequest.getPhone());
+        learner.setAddress(address);
+
+        return learner;
+    }
+
+    public LearnerDto adptLearnerRequestDtoToLearnerDto(CourseRequestV1.RecipientManagmentCourseRequestV1.LearnerRequestDtoV1 learnerInsertRequest){
+
+        LearnerDto learner = new LearnerDto();
+
+        AddressDto address = null;
+        if (learnerInsertRequest.getAddress() != null)
+            address = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getAddress());
+
+        learner.setId(learnerInsertRequest.getId());
+        learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
+        learner.setSurname(learnerInsertRequest.getSurname());
+        learner.setDateOfBirth(learnerInsertRequest.getDateOfBirth());
+        learner.setEmail(learnerInsertRequest.getEmail());
+        learner.setBirthPlace(learnerInsertRequest.getBirthPlace());
+        learner.setName(learnerInsertRequest.getName());
+        learner.setDegreeOfStudies(learnerInsertRequest.getDegreeOfStudies());
+        learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
+        learner.setNote(learnerInsertRequest.getNote());
+        learner.setPhone(learnerInsertRequest.getPhone());
+        learner.setAttachemnts(learnerInsertRequest.getAttachments());
         learner.setAddress(address);
 
         return learner;

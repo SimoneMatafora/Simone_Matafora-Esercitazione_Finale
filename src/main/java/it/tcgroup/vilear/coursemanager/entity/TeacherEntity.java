@@ -24,11 +24,6 @@ import java.util.*;
 public class TeacherEntity implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     private UUID id;
 

@@ -246,7 +246,7 @@ public class PartnerAdapter {
 
             TeacherPartner teacherPartner = new TeacherPartner();
 
-            teacherPartner.setTeacher(teacherAdapter.adptTeacherRequestToTeacherDto(teacherPartnerRequest.getTeacher()));
+            teacherPartner.setTeacher(teacherAdapter.adptTeacherRequestDtoToTeacherDto(teacherPartnerRequest.getTeacher()));
             teacherPartner.setStatus(teacherPartnerRequest.getStatus());
 
             return teacherPartner;

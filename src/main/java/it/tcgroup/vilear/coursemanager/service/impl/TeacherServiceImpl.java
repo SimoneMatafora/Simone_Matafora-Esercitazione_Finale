@@ -15,6 +15,7 @@ import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.repository.TeacherEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.TeacherRepository;
+import it.tcgroup.vilear.coursemanager.service.AddressService;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import it.tcgroup.vilear.coursemanager.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherAdapter teacherAdapter;
 
     @Autowired
+    private AddressService addressService;
+
+    @Autowired
     private FilemanagerService filemanagerService;
 
     @Autowired
@@ -50,6 +54,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public IdResponseV1 insertTeacher(TeacherRequestV1 teacherInsertRequest){
+
+        UUID idTeacher = UUID.randomUUID();
+        teacherInsertRequest.setId(idTeacher.toString());
 
         TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherInsertRequest);
         teacherRepository.save(teacher);
@@ -178,7 +185,7 @@ public class TeacherServiceImpl implements TeacherService {
             teacher.setVatHolder(teacherPatch.getVatHolder());
 
         if( teacherPatch.getAddress() != null)
-            teacher.setAddress(teacherPatch.getAddress());
+            teacher.setAddress(addressService.patchAddress(teacher.getAddress(),teacherPatch.getAddress()));
 
         teacherRepository.save(teacher);
 

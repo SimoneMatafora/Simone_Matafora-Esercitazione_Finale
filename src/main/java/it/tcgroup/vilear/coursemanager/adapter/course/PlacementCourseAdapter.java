@@ -28,7 +28,7 @@ public class PlacementCourseAdapter {
         placementCourse.setCoherence(placementCourseRequest.getCoherence());
         placementCourse.setExpiredPlacementDate(placementCourseRequest.getExpiredPlacementDate());
         placementCourse.setHiringDate(placementCourseRequest.getHiringDate());
-        placementCourse.setLearner(learnerAdapter.adptLearnerRequestToLearnerDto(placementCourseRequest.getLearner()));
+        placementCourse.setLearner(learnerAdapter.adptLearnerRequestDtoToLearnerDto(placementCourseRequest.getLearner()));
         placementCourse.setMissionHours(placementCourseRequest.getMissionHours());
         placementCourse.setNote(placementCourseRequest.getNote());
         placementCourse.setSendedEletronicPlacementDate(placementCourseRequest.getSendedEletronicPlacementDate());
