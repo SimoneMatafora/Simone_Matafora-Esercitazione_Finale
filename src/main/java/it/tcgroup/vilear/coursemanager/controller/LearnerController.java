@@ -58,7 +58,6 @@ public class LearnerController {
             @ApiParam(value = "Body of the Learner to be created", required = true)
             @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
 
-
         validateService.requestValidatorLearner(learnerInsertRequestV1);
 
         return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
@@ -88,6 +87,28 @@ public class LearnerController {
         validateService.requestValidatorLearner(learnerInsertRequestV1);
 
         return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
+    }
+
+    /*AGGIORNA ID LEARNER*/
+    @PatchMapping(value = "/learner/update/id")
+    @ApiOperation(value="Learner update id", notes = "After confirmed registration, update id learner")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity patchLearnerId(
+            @ApiParam(value = "UUID logged user", required = true)
+            @RequestHeader(name = "id-user") String userId,
+            @ApiParam(value = "Email logged user", required = false)
+            @RequestHeader(name = "email-user") String emailUser) {
+
+        learnerService.updateIdLearner(emailUser, userId);
+
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 
     /*MODIFICA LEARNER*/

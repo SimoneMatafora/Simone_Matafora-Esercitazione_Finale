@@ -1,7 +1,6 @@
 package it.tcgroup.vilear.coursemanager.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.TeacherPartner;
 

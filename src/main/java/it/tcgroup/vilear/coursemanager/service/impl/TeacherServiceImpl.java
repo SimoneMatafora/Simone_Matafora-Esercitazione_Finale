@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.TeacherAdapter;
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
@@ -272,6 +273,18 @@ public class TeacherServiceImpl implements TeacherService {
     public List<TeacherResponseV1> getCandidateTeacher() {
         List<TeacherEntity> teacherEntityList = teacherRepository.searchCandidateTeacher();
         return teacherAdapter.adptTeacherToTeacherResponse(teacherEntityList);
+    }
+
+    @Override
+    public TeacherResponseV1 updateIdTeacher(String email, String userId) {
+
+        if(email == null || email.equalsIgnoreCase(""))
+            throw new BadParametersException("email paramiter is empty!");
+
+        System.out.println("email " + email + "id " + userId);
+        teacherRepository.updateTeacherIdByEmail(email, UUID.fromString(userId));
+
+        return null;
     }
 
 }

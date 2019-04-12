@@ -2,10 +2,12 @@ package it.tcgroup.vilear.coursemanager.repository;
 
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,5 +20,10 @@ public interface TeacherRepository extends JpaRepository<TeacherEntity, UUID> {
             "(t.professionalOrderRegistration = FALSE OR (t.professionalOrderRegistration = TRUE AND t.sector IS NOT NULL)) AND " +
             "(t.accreditedFt = FALSE OR (t.accreditedFt = TRUE AND t.accreditedFtCode IS NOT NULL))")
     List<TeacherEntity> searchCandidateTeacher();
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE TeacherEntity t SET t.id = :userId WHERE t.email = :email")
+    void updateTeacherIdByEmail(@Param("email") String email, @Param("userId") UUID userId);
 
 }

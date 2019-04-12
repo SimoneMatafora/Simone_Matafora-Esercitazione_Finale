@@ -1,6 +1,7 @@
 package it.tcgroup.vilear.coursemanager.service.impl;
 
 import it.tcgroup.vilear.coursemanager.adapter.BranchAdapter;
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.BranchRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
@@ -148,5 +149,15 @@ public class BranchServiceImpl implements BranchService {
             throw new NotFoundException("Branch with uuid: " + idBranch + " isn't present ");
     }
 
+    @Override
+    public BranchResponseV1 updateIdBranch(String email, String userId) {
+
+        if(email == null || email.equalsIgnoreCase(""))
+            throw new BadParametersException("email paramiter is empty!");
+
+        branchRepository.updateBranchIdByEmail(email, UUID.fromString(userId));
+
+        return null;
+    }
 
 }

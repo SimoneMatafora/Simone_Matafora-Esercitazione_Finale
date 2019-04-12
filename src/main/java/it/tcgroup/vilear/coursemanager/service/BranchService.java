@@ -16,5 +16,6 @@ public interface BranchService {
     PaginationResponseV1<BranchResponseV1> getBranchesPagination(int page, int pageSize, String username, String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
                                                                        String city, String region, String province);
     void deleteBranch(UUID idBranch);
+    BranchResponseV1 updateIdBranch(String email, String userId);
 
 }

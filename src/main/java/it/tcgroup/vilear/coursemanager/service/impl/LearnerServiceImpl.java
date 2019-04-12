@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.LearnerAdapter;
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
@@ -248,6 +249,17 @@ public class LearnerServiceImpl implements LearnerService {
             } else throw new NotFoundException("Attachment with id " + idAttachment + " not found");
 
         }
+    }
+
+    @Override
+    public LearnerResponseV1 updateIdLearner(String email, String userId) {
+
+        if(email == null || email.equalsIgnoreCase(""))
+            throw new BadParametersException("email paramiter is empty!");
+
+        learnerRepository.updateLearnerIdByEmail(email, UUID.fromString(userId));
+
+        return null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package it.tcgroup.vilear.coursemanager.controller;
 
 import io.swagger.annotations.*;
+import it.tcgroup.vilear.coursemanager.common.validation.MessageCode;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.PartnerRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
@@ -27,6 +28,26 @@ public class PartnerController {
     @Autowired
     private AuthorizationService authorizationService;
 
+    /*INSERIMENTO PARTNER REGISTRAZIONE*/
+    @PostMapping(value = "/partner/registration",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Partner", notes = "Insert partner using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = IdResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<IdResponseV1> postInsertPartneRegistration(
+            @ApiParam(value = "Body of the Partner to be created", required = true)
+            @RequestBody PartnerRequestV1 partnerInsertRequestV1) {
+
+        return new ResponseEntity<>( partnerService.insertPartner(partnerInsertRequestV1),HttpStatus.CREATED);
+    }
+
     /*INSERIMENTO PARTNER*/
     @PostMapping(value = "/partner",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -49,6 +70,28 @@ public class PartnerController {
         authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( partnerService.insertPartner(partnerInsertRequestV1),HttpStatus.OK);
+    }
+
+    /*AGGIORNA ID PARTNER*/
+    @PatchMapping(value = "/partner/update/id")
+    @ApiOperation(value="Partner update id", notes = "After confirmed registration, update id partner")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity patchPartnerId(
+            @ApiParam(value = "UUID logged user", required = true)
+            @RequestHeader(name = "id-user") String userId,
+            @ApiParam(value = "Email logged user", required = false)
+            @RequestHeader(name = "email-user") String emailUser) {
+
+        partnerService.updateIdPartner(emailUser, userId);
+
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 
     /*MODIFICA PARTNER*/

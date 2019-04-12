@@ -1,6 +1,7 @@
 package it.tcgroup.vilear.coursemanager.service.impl;
 
 import it.tcgroup.vilear.coursemanager.adapter.PartnerAdapter;
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.PartnerRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -167,5 +168,16 @@ public class PartnerServiceImpl implements PartnerService {
             partnerRepository.delete(optPartner.get());
         else
             throw new NotFoundException("Partner with uuid: " + idPartner + " isn't present ");
+    }
+
+    @Override
+    public PartnerResponseV1 updateIdPartner(String email, String userId) {
+
+        if(email == null || email.equalsIgnoreCase(""))
+            throw new BadParametersException("email paramiter is empty!");
+
+        partnerRepository.updatePartnerIdByEmail(email, UUID.fromString(userId));
+
+        return null;
     }
 }

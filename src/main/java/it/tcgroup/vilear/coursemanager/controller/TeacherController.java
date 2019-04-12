@@ -86,6 +86,28 @@ public class TeacherController {
         return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
     }
 
+    /*AGGIORNA ID TEACHER*/
+    @PatchMapping(value = "/teacher/update/id")
+    @ApiOperation(value="Teacher update id", notes = "After confirmed registration, update id teacher")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity patchTeacherId(
+            @ApiParam(value = "UUID logged user", required = true)
+            @RequestHeader(name = "id-user") String userId,
+            @ApiParam(value = "Email logged user", required = false)
+            @RequestHeader(name = "email-user") String emailUser) {
+
+        teacherService.updateIdTeacher(emailUser, userId);
+
+        return new ResponseEntity<>( HttpStatus.CREATED);
+    }
+
     /*MODIFICA TEACHER*/
     @PutMapping(value = "/teacher/{UUID_TEACHER}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,

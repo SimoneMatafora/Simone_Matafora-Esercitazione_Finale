@@ -27,4 +27,5 @@ public interface LearnerService {
     boolean candidateLearnerToCourse(UUID idLearner, UUID idCourse);
 
     void deleteLearnerCurriculum(UUID idLearner, UUID idAttachment);
+    LearnerResponseV1 updateIdLearner(String email, String userId);
 }

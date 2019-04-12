@@ -5,6 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.IOException;
@@ -24,5 +25,6 @@ public interface TeacherService {
     Attachment addTeacherCurriculum(UploadRequestV1 curriculim, UUID idTeacher) throws IOException;
     void deleteTeacherCurriculum(UUID idTeacher);
     List<TeacherResponseV1> getCandidateTeacher();
+    TeacherResponseV1 updateIdTeacher(String email, String userId);
 
 }

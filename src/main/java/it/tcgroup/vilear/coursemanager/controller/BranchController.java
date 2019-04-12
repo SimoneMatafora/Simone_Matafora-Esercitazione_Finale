@@ -27,6 +27,27 @@ public class BranchController {
     @Autowired
     private AuthorizationService authorizationService;
 
+
+    /*INSERIMENTO BRANCH REGISTRAZIONE*/
+    @PostMapping(value = "/branch/registration",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value="Insert Branch", notes = "Insert branch using info passed in the body")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = IdResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<IdResponseV1> postInsertBranchRegistration(
+            @ApiParam(value = "Body of the Branch to be created", required = true)
+            @RequestBody BranchRequestV1 branchInsertRequestV1) {
+
+        return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1),HttpStatus.CREATED);
+    }
+
     /*INSERIMENTO BRANCH*/
     @PostMapping(value = "/branch",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -49,6 +70,28 @@ public class BranchController {
         authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1), HttpStatus.OK);
+    }
+
+    /*AGGIORNA ID BRANCH*/
+    @PatchMapping(value = "/branch/update/id")
+    @ApiOperation(value="Branch update id", notes = "After confirmed registration, update id branch")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity patchBranchId(
+            @ApiParam(value = "UUID logged user", required = true)
+            @RequestHeader(name = "id-user") String userId,
+            @ApiParam(value = "Email logged user", required = false)
+            @RequestHeader(name = "email-user") String emailUser) {
+
+        branchService.updateIdBranch(emailUser, userId);
+
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 
     /*MODIFICA BRANCH*/
