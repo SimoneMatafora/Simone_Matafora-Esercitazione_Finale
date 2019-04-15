@@ -1,11 +1,17 @@
 package it.tcgroup.vilear.coursemanager.common.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
+import it.tcgroup.vilear.coursemanager.common.exception.ForbiddenExcemption;
+import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +50,86 @@ public class HttpUtil {
 
     @Value("${http.timeout.write:10}")
     private int writeTimeout;
+
+    private static class ExceptionResponse{
+
+        @JsonProperty("timestamp")
+        String timestamp;
+
+        @JsonProperty("status")
+        Integer status;
+
+        @JsonProperty("error")
+        String error;
+
+        @JsonProperty("message")
+        String message;
+
+        @JsonProperty("path")
+        String path;
+
+        public ExceptionResponse() {
+        }
+
+        public ExceptionResponse(String timestamp, Integer status, String error, String message, String path) {
+            this.timestamp = timestamp;
+            this.status = status;
+            this.error = error;
+            this.message = message;
+            this.path = path;
+        }
+
+        public String getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(String timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        public Integer getStatus() {
+            return status;
+        }
+
+        public void setStatus(Integer status) {
+            this.status = status;
+        }
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
+
+        @Override
+        public String toString() {
+            return "ExceptionResponse{" +
+                    "timestamp='" + timestamp + '\'' +
+                    ", status=" + status +
+                    ", error='" + error + '\'' +
+                    ", message='" + message + '\'' +
+                    ", path='" + path + '\'' +
+                    '}';
+        }
+    }
 
     public Response callURL(Map<String, String> headers, String url, String jsonBody, HttpMethod method) throws IOException {
 
@@ -144,6 +230,7 @@ public class HttpUtil {
     }
 
     public <T, P> T callWithoutCert(String url, HttpMethod method, P value, HashMap<String, String> headersparams, ParameterizedTypeReference<T> typeReference) throws IOException {
+
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = null;
 
@@ -152,9 +239,23 @@ public class HttpUtil {
         }
 
         Response responseToken = this.callURL(headersparams, url, jsonInString, method);
+        ExceptionResponse responseException = null;
 
-        if (responseToken.code() != HttpStatus.OK.value() && responseToken.code() != HttpStatus.CREATED.value()) {
-            throw new BadRequestException(responseToken.message() + " with code " + responseToken.code() );
+        if(!responseToken.isSuccessful() && responseToken.body() != null){
+
+            responseException = mapper.readValue(responseToken.body().string(),ExceptionResponse.class);
+
+            if(responseToken.code() == HttpStatus.INTERNAL_SERVER_ERROR.value()){
+                throw new InternalError(responseException.getMessage());
+            }else if(responseToken.code() == HttpStatus.FORBIDDEN.value()){
+                throw new ForbiddenExcemption( responseException.getMessage());
+            }else if(responseToken.code() == HttpStatus.NOT_FOUND.value()){
+                throw new NotFoundException(responseException.getMessage());
+            }else if(responseToken.code() == HttpStatus.NOT_ACCEPTABLE.value()){
+                throw new BadParametersException(responseException.getMessage());
+            }else if(responseToken.code() == HttpStatus.BAD_REQUEST.value() || (responseToken.code() != HttpStatus.OK.value() && responseToken.code() != HttpStatus.CREATED.value())){
+                throw new BadRequestException(responseException.getMessage());
+            }
         }
 
         if(typeReference != null){

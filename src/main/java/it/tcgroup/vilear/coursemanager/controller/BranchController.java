@@ -7,6 +7,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.BranchService;
+import it.tcgroup.vilear.coursemanager.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +28,8 @@ public class BranchController {
     @Autowired
     private AuthorizationService authorizationService;
 
+    @Autowired
+    private ValidateService validateService;
 
     /*INSERIMENTO BRANCH REGISTRAZIONE*/
     @PostMapping(value = "/branch/registration",
@@ -44,6 +47,8 @@ public class BranchController {
     public ResponseEntity<IdResponseV1> postInsertBranchRegistration(
             @ApiParam(value = "Body of the Branch to be created", required = true)
             @RequestBody BranchRequestV1 branchInsertRequestV1) {
+
+        validateService.requestValidatorBranch(branchInsertRequestV1);
 
         return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1),HttpStatus.CREATED);
     }
@@ -68,6 +73,8 @@ public class BranchController {
             @RequestBody BranchRequestV1 branchInsertRequestV1) {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorBranch(branchInsertRequestV1);
 
         return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1), HttpStatus.OK);
     }
@@ -165,6 +172,8 @@ public class BranchController {
             @RequestBody BranchRequestV1 branchPatchRequestV1) throws Exception {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorPatchBranch(branchPatchRequestV1);
 
         return new ResponseEntity<>(branchService.patchBranch(branchPatchRequestV1, UUID.fromString(idBranch)), HttpStatus.OK);
     }

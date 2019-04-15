@@ -3,11 +3,15 @@ package it.tcgroup.vilear.coursemanager.controller.payload.request;
 import  it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 public class BranchRequestV1 {
 
+    @NotNull
     @JsonProperty("name")
     private String name;
 
+    @NotNull
     @JsonProperty("email")
     private String email;
 
@@ -17,6 +21,7 @@ public class BranchRequestV1 {
     @JsonProperty("right_of_access_to_the_courses")
     private String rightOfAccessToTheCourses;
 
+    @NotNull
     @JsonProperty("address")
     private AddressRequest address;
 

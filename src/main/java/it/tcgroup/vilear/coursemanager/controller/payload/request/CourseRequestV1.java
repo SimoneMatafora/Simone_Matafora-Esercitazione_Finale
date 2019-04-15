@@ -12,12 +12,14 @@ import java.util.List;
 
 public class CourseRequestV1 {
 
+    @NotNull
     @JsonProperty( "course_title")
     private String courseTitle;
 
     @JsonProperty("status")
     private CourseStatusEnum status;
 
+    @NotNull
     @JsonProperty( "contents_area")
     private ContentsAreaCourseEnum contentsArea;
 
@@ -33,6 +35,7 @@ public class CourseRequestV1 {
     @JsonProperty( "costs")
     private Double costs;
 
+    @NotNull
     @JsonProperty( "founds_type")
     private FoundsTypeCourseEnum foundsTypeCourse;
 
@@ -42,10 +45,12 @@ public class CourseRequestV1 {
     @JsonProperty( "course_description")
     private String courseDescription;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonProperty( "course_start_date")
     private Date courseStartDate;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonProperty( "course_end_date")
     private Date courseEndDate;
@@ -108,6 +113,7 @@ public class CourseRequestV1 {
     @JsonProperty( "actuator_subject")
     private PartnerRequestV1 actuatorSubject;
 
+    @NotNull
     @JsonProperty( "course_code")
     private String courseCode;
 
@@ -120,6 +126,7 @@ public class CourseRequestV1 {
     @JsonProperty( "external_reference_code")
     private String externalReferenceCode;
 
+    @NotNull
     @JsonProperty( "course_type")
     private CourseTypeEnum courseType;
 
@@ -1541,7 +1548,6 @@ public class CourseRequestV1 {
 
         @JsonProperty("note")
         private String note;
-
 
         public PlacementCourseRequestV1() {
         }

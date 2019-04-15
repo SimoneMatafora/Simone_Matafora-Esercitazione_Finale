@@ -13,6 +13,7 @@ import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.TeacherService;
+import it.tcgroup.vilear.coursemanager.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,7 +38,7 @@ public class TeacherController {
     private AuthorizationService authorizationService;
 
     @Autowired
-    private RequestValidator requestValidator;
+    private ValidateService validateService;
 
     /*INSERIMENTO TEACHER REGISTRAZIONE*/
     @PostMapping(value = "/teacher/registration",
@@ -56,8 +57,7 @@ public class TeacherController {
             @ApiParam(value = "Body of the Teacher to be created", required = true)
             @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
 
-        requestValidator.validateRequest(teacherInsertRequestV1, MessageCode.E00X_1000);
-        requestValidator.validateRequest(teacherInsertRequestV1.getAddress(), MessageCode.E00X_1000);
+        validateService.requestValidatorTeacher(teacherInsertRequestV1);
 
         return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
     }
@@ -82,6 +82,8 @@ public class TeacherController {
             @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorTeacher(teacherInsertRequestV1);
 
         return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
     }
@@ -179,6 +181,8 @@ public class TeacherController {
             @RequestBody TeacherRequestV1 teacherPatchRequestV1) throws Exception {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorPatchTeacher(teacherPatchRequestV1);
 
         return new ResponseEntity<>(teacherService.patchTeacher(teacherPatchRequestV1, UUID.fromString(idTeacher)), HttpStatus.OK);
     }

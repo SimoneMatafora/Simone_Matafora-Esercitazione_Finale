@@ -5,6 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV
 import it.tcgroup.vilear.coursemanager.entity.enumerated.StatusTeacherPartnerEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class PartnerRequestV1 {
@@ -12,15 +13,18 @@ public class PartnerRequestV1 {
     @JsonProperty("id")
     private String id;
 
+    @NotNull
     @JsonProperty( "business_name")
     private String businessName;
 
+    @NotNull
     @JsonProperty( "vat_number")
     private String vatNumber;
 
     @JsonProperty( "company")
     private Boolean company;
 
+    @NotNull
     @JsonProperty( "email")
     private String email;
 
@@ -51,6 +55,7 @@ public class PartnerRequestV1 {
     @JsonProperty( "teacher_list")
     private List<TeacherPartnerRequestV1> teacherList;
 
+    @NotNull
     @JsonProperty( "address_list")
     private List<AddressPartnerRequestV1> addressList;
 
@@ -97,9 +102,11 @@ public class PartnerRequestV1 {
 
     public static class AddressPartnerRequestV1{
 
+        @NotNull
         @JsonProperty("address")
         private TeacherRequestV1.AddressRequest address;
 
+        @NotNull
         @JsonProperty("type")
         private TypeAddressPartnerEnum type;
 

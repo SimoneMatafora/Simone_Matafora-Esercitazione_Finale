@@ -281,7 +281,6 @@ public class TeacherServiceImpl implements TeacherService {
         if(email == null || email.equalsIgnoreCase(""))
             throw new BadParametersException("email paramiter is empty!");
 
-        System.out.println("email " + email + "id " + userId);
         teacherRepository.updateTeacherIdByEmail(email, UUID.fromString(userId));
 
         return null;

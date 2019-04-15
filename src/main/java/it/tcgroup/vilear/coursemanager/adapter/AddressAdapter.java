@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressAdapter {
 
-    private String formatAddress(Address address){
+    public String formatAddress(Address address){
 
         String formattedAddress = "";
         if(address.getStreet() != null){ formattedAddress += address.getStreet(); }
@@ -23,7 +23,7 @@ public class AddressAdapter {
         return formattedAddress;
     }
 
-    private String formatAddress(AddressDto address){
+    public String formatAddress(AddressDto address){
 
         String formattedAddress = "";
         if(address.getStreet() != null){ formattedAddress += address.getStreet(); }

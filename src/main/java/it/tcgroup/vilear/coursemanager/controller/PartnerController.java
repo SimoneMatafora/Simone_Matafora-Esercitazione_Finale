@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationRes
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PartnerResponseV1;
 import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.PartnerService;
+import it.tcgroup.vilear.coursemanager.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +29,9 @@ public class PartnerController {
     @Autowired
     private AuthorizationService authorizationService;
 
+    @Autowired
+    private ValidateService validateService;
+
     /*INSERIMENTO PARTNER REGISTRAZIONE*/
     @PostMapping(value = "/partner/registration",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -41,9 +45,11 @@ public class PartnerController {
             @ApiResponse(code = 406, message = "Not Acceptable"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity<IdResponseV1> postInsertPartneRegistration(
+    public ResponseEntity<IdResponseV1> postInsertPartnerRegistration(
             @ApiParam(value = "Body of the Partner to be created", required = true)
             @RequestBody PartnerRequestV1 partnerInsertRequestV1) {
+
+        validateService.requestValidatorPartner(partnerInsertRequestV1);
 
         return new ResponseEntity<>( partnerService.insertPartner(partnerInsertRequestV1),HttpStatus.CREATED);
     }
@@ -68,6 +74,8 @@ public class PartnerController {
             @RequestBody PartnerRequestV1 partnerInsertRequestV1) {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorPartner(partnerInsertRequestV1);
 
         return new ResponseEntity<>( partnerService.insertPartner(partnerInsertRequestV1),HttpStatus.OK);
     }
@@ -165,6 +173,8 @@ public class PartnerController {
             @RequestBody PartnerRequestV1 partnerPatchRequestV1) throws Exception {
 
         authorizationService.checkAlive(userId);
+
+        validateService.requestValidatorPatchPartner(partnerPatchRequestV1);
 
         return new ResponseEntity<>(partnerService.patchPartner(partnerPatchRequestV1, UUID.fromString(idPartner)), HttpStatus.OK);
     }

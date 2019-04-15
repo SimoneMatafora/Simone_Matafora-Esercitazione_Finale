@@ -1,6 +1,8 @@
 package it.tcgroup.vilear.coursemanager.controller;
 
 import io.swagger.annotations.*;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
+import it.tcgroup.vilear.coursemanager.common.exception.ForbiddenExcemption;
 import it.tcgroup.vilear.coursemanager.common.validation.MessageCode;
 import it.tcgroup.vilear.coursemanager.common.validation.RequestValidator;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
@@ -131,6 +133,7 @@ public class LearnerController {
             @RequestBody LearnerRequestV1 learnerUpdateRequest,
             @ApiParam(value = "UUID user logged", required = true)
             @RequestHeader(name = "id-user") UUID userId) {
+
 
         authorizationService.checkAlive(userId);
 

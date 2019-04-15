@@ -830,6 +830,7 @@ public class CourseResponseV1 {
         @JsonProperty("learner")
         private LearnerResponseV1 learner;
 
+        @JsonFormat(pattern = "yyyy-MM-dd")
         @JsonProperty("hiring_date")
         private Date hiringDate;
 
@@ -840,7 +841,7 @@ public class CourseResponseV1 {
         private Double bonusAmount;
 
         @JsonProperty("expired_placement_date")
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         private Date expiredPlacementDate;
 
         @JsonProperty("sended_eletronic_placement_date")

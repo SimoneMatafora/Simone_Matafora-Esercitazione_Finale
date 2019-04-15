@@ -45,8 +45,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         } catch (IOException e) {
             throw new RuntimeException("Connection error with Vilear-Auth");
-        } catch (BadRequestException e){
-            throw new BadRequestException("Session expired, Please login again");
         }
     }
 
