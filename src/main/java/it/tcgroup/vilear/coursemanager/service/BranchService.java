@@ -13,7 +13,7 @@ public interface BranchService {
     BranchResponseV1 getBranch(UUID idBranch);
     BranchResponseV1 updateBranch(BranchRequestV1 branchUpdateRequest, UUID idBranch);
     BranchResponseV1 patchBranch(BranchRequestV1 branchUpdateRequest, UUID idBranch);
-    PaginationResponseV1<BranchResponseV1> getBranchesPagination(int page, int pageSize, String username, String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
+    PaginationResponseV1<BranchResponseV1> getBranchesPagination(int page, int pageSize, String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
                                                                        String city, String region, String province);
     void deleteBranch(UUID idBranch);
 

@@ -163,12 +163,12 @@ public class LearnerServiceImpl implements LearnerService {
     }
 
     @Override
-    public PaginationResponseV1<LearnerResponseV1> getLearnersPagination(int page, int pageSize, String username, String name, String surname, String phone, String fiscalCode, String dateOfBirth,
+    public PaginationResponseV1<LearnerResponseV1> getLearnersPagination(int page, int pageSize, String name, String surname, String phone, String fiscalCode, String dateOfBirth,
                                                                          String birthPlace, String email, String degreeOfStudies, String courseOfStudy, String city, String region, String province){
 
         Pagination<LearnerEntity> learnersPagination = new Pagination<>();
 
-        List<LearnerEntity> learnersList = learnerEMRepository.getLearnersForPagination(username, name, surname, phone, fiscalCode, dateOfBirth,
+        List<LearnerEntity> learnersList = learnerEMRepository.getLearnersForPagination(name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, degreeOfStudies, courseOfStudy, city, region, province);
 
         learnersPagination.setStats(new PaginationResponseV1.InfoPagination(learnersList.size(), page, pageSize));

@@ -181,8 +181,6 @@ public class TeacherController {
             @ApiParam(value = "Defines the page number to be displayed", required = false)
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "username", required = false) String username,
-            @ApiParam(value = "", required = false)
             @RequestParam(value = "name", required = false) String name,
             @ApiParam(value = "", required = false)
             @RequestParam(value = "surname", required = false) String surname,
@@ -223,7 +221,7 @@ public class TeacherController {
 
         authorizationService.checkAlive(userId);
 
-        return new ResponseEntity<>(teacherService.getTeachersPagination(page, pageSize, username, name, surname, phone, fiscalCode, dateOfBirth,
+        return new ResponseEntity<>(teacherService.getTeachersPagination(page, pageSize, name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized,
                 professionalOrderRegistration, register, vatHolder, sector, city, region, province),HttpStatus.OK);
     }

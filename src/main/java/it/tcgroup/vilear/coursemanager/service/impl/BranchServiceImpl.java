@@ -114,12 +114,12 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public PaginationResponseV1<BranchResponseV1> getBranchesPagination(int page, int pageSize, String username, String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
+    public PaginationResponseV1<BranchResponseV1> getBranchesPagination(int page, int pageSize, String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
                                                                        String city, String region, String province){
 
         Pagination<BranchEntity> branchesPagination = new Pagination<>();
 
-        List<BranchEntity> branchesList = branchEMRepository.getFilialiForPagination(username, name, email, rightOfAccessToTheCourses, superBranch, city, region, province);
+        List<BranchEntity> branchesList = branchEMRepository.getFilialiForPagination(name, email, rightOfAccessToTheCourses, superBranch, city, region, province);
 
         branchesPagination.setStats(new PaginationResponseV1.InfoPagination(branchesList.size(), page, pageSize));
 
