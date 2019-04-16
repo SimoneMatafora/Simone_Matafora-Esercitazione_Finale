@@ -1,6 +1,7 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
 import it.tcgroup.vilear.coursemanager.adapter.course.*;
+import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -15,6 +16,9 @@ import java.util.List;
 
 @Component
 public class CourseAdapter {
+
+    @Autowired
+    private DateUtil dateUtil;
 
     @Autowired
     private PartnerAdapter partnerAdapter;
@@ -59,7 +63,7 @@ public class CourseAdapter {
         course.setCourseDescription(courseRequest.getCourseDescription());
         course.setCourseEndDate(courseRequest.getCourseEndDate());
         //course.setCourseLogo(courseRequest.getCourseLogo());
-        course.setCourseStartDate(courseRequest.getCourseStartDate());
+        course.setCourseStartDate(dateUtil.convertIS08601StringToUTCInstant(courseRequest.getCourseStartDate()));
         course.setCourseTitle(courseRequest.getCourseTitle());
         course.setCourseType(courseRequest.getCourseType());
         course.setDailyHours(courseRequest.getDailyHours());
@@ -148,7 +152,7 @@ public class CourseAdapter {
         courseResponse.setCourseDescription(course.getCourseDescription());
         courseResponse.setCourseEndDate(course.getCourseEndDate());
         courseResponse.setCourseLogo(course.getCourseLogo());
-        courseResponse.setCourseStartDate(course.getCourseStartDate());
+        courseResponse.setCourseStartDate(dateUtil.convertUTCInstantToIS08601String(course.getCourseStartDate()));
         courseResponse.setCourseTitle(course.getCourseTitle());
         courseResponse.setCourseType(course.getCourseType());
         courseResponse.setDailyHours(course.getDailyHours());
