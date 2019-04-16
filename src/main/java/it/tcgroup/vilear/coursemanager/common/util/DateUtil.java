@@ -2,10 +2,7 @@ package it.tcgroup.vilear.coursemanager.common.util;
 
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
@@ -32,6 +29,26 @@ public class DateUtil {
 
         LocalDateTime dateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         return Date.from(dateTime.toInstant(ZoneOffset.UTC));
+    }
+
+    public String convertUTCInstantToIS08601String(Instant date) {
+
+        if (date == null) {
+            return null;
+        }
+
+        ZonedDateTime dateTime = ZonedDateTime.ofInstant(date, ZoneId.of("UCT"));
+        return dateTime.format(new DateTimeFormatterBuilder().append(DateTimeFormatter.ISO_LOCAL_DATE_TIME).optionalStart().appendOffset("+HH:MM", "+00:00").optionalEnd().toFormatter());
+    }
+
+    public Instant convertIS08601StringToUTCInstant(String dateString) {
+
+        if (dateString == null || dateString.isEmpty()) {
+            return null;
+        }
+
+        LocalDateTime dateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return Instant.from(dateTime.toInstant(ZoneOffset.UTC));
     }
 
     public Date getNowDate(){
