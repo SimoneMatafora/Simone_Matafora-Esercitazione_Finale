@@ -46,7 +46,7 @@ public class BranchController {
             @ApiParam(value = "Body of the Branch to be created", required = true)
             @RequestBody BranchRequestV1 branchInsertRequestV1) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1), HttpStatus.OK);
     }
@@ -95,7 +95,7 @@ public class BranchController {
             @ApiParam(value = "UUID of the Branch to be founfd", required = true)
             @PathVariable(name = "UUID_BRANCH") String idBranch) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.getBranch(UUID.fromString(idBranch)), HttpStatus.OK);
     }
@@ -186,7 +186,7 @@ public class BranchController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.getBranchesPagination(page, page_size, name, email, rightOfAccessToTheCourses, superBranch, city, region, province),HttpStatus.OK);
     }
