@@ -15,7 +15,7 @@ public class TeacherEMRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<TeacherEntity> getTeachersForPagination(String username, String name, String surname, String phone, String fiscalCode, String dateOfBirth,
+    public List<TeacherEntity> getTeachersForPagination( String name, String surname, String phone, String fiscalCode, String dateOfBirth,
                                                        String birthPlace, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode,
                                                        Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String sector, String city, String region, String province){
 
@@ -23,9 +23,6 @@ public class TeacherEMRepository {
 
         List<String> whereCondition = new LinkedList<>();
 
-        if( username != null){
-            whereCondition.add("upper(t.username) = upper('" + username + "') ");
-        }
         if( name != null){
             whereCondition.add("upper(t.name) = upper('" + name + "') ");
         }
@@ -63,7 +60,7 @@ public class TeacherEMRepository {
             whereCondition.add("t.authorized = " + authorized + " ");
         }
         if( professionalOrderRegistration != null){
-            whereCondition.add("t.professional_order_registration = upper('" + professionalOrderRegistration + "') ");
+            whereCondition.add("t.professional_order_registration = " + professionalOrderRegistration+ " ");
         }
         if( register != null){
             whereCondition.add("upper(t.register) = upper('" + register + "') ");

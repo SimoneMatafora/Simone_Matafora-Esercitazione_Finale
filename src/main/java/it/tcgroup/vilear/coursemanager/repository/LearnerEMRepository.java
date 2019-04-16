@@ -15,7 +15,7 @@ public class LearnerEMRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<LearnerEntity> getLearnersForPagination(String username, String name, String surname, String phone, String fiscalCode, String dateOfBirth,
+    public List<LearnerEntity> getLearnersForPagination( String name, String surname, String phone, String fiscalCode, String dateOfBirth,
                                                         String birthPlace, String email, String degreeOfStudies, String courseOfStudy, String city, String region, String province){
 
 
@@ -23,9 +23,6 @@ public class LearnerEMRepository {
 
         List<String> whereCondition = new LinkedList<>();
 
-        if( username != null){
-            whereCondition.add("upper(l.username) = upper('" + username + "') ");
-        }
         if( name != null){
             whereCondition.add("upper(l.name) = upper('" + name + "') ");
         }

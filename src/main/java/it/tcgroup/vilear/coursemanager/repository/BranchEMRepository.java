@@ -15,15 +15,12 @@ public class BranchEMRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<BranchEntity> getFilialiForPagination(String username, String name, String email, String rightOfAccessToTheCourses, Boolean superFiliale, String city, String region, String province){
+    public List<BranchEntity> getFilialiForPagination(String name, String email, String rightOfAccessToTheCourses, Boolean superFiliale, String city, String region, String province){
 
         String sql = "SELECT * FROM branch b";
 
         List<String> whereCondition = new LinkedList<>();
 
-        if( username != null){
-            whereCondition.add("upper(b.username) = upper('" + username + "') ");
-        }
         if( name != null){
             whereCondition.add("upper(b.name) = upper('" + name + "') ");
         }

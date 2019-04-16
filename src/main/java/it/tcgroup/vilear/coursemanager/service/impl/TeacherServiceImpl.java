@@ -194,14 +194,14 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public PaginationResponseV1<TeacherResponseV1> getTeachersPagination(int page, int pageSize, String username, String name, String surname, String phone, String fiscalCode, String dateOfBirth,
+    public PaginationResponseV1<TeacherResponseV1> getTeachersPagination(int page, int pageSize, String name, String surname, String phone, String fiscalCode, String dateOfBirth,
                                                                         String birthPlace, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode,
                                                                         Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String sector, String city, String region, String province){
 
         Pagination<TeacherEntity> teachersPagination = new Pagination<>();
         //List<TeacherEntity> docentiList = teacherRepository.findAll();
 
-        List<TeacherEntity> teachersList = teacherEMRepository.getTeachersForPagination(username, name, surname, phone, fiscalCode, dateOfBirth,
+        List<TeacherEntity> teachersList = teacherEMRepository.getTeachersForPagination( name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized,
                 professionalOrderRegistration, register, vatHolder, sector, city, region, province);
 

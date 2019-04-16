@@ -17,7 +17,7 @@ public interface LearnerService {
     LearnerResponseV1 updateLearner(LearnerRequestV1 learnerUpdateRequest, UUID idLearner);
     LearnerResponseV1 getLearner(UUID idLearner);
     LearnerResponseV1 patchLearner(LearnerRequestV1 learnerUpdateRequest, UUID idLearner);
-    PaginationResponseV1<LearnerResponseV1> getLearnersPagination(int page, int pageSize, String username, String nome, String cognome, String telefono, String codiceFiscale, String dataDiNascita,
+    PaginationResponseV1<LearnerResponseV1> getLearnersPagination(int page, int pageSize, String nome, String cognome, String telefono, String codiceFiscale, String dataDiNascita,
                                                                   String luogoDiNascita, String email, String tipoDiStudio, String indirizzoDiStudio, String citta, String comune, String cap);
 
     void deleteLearner(UUID idLearner);

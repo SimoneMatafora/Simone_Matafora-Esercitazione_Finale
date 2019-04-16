@@ -237,8 +237,6 @@ public class LearnerController {
             @ApiParam(value = "Defines the page number to be displayed", required = false)
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "username", required = false) String username,
-            @ApiParam(value = "", required = false)
             @RequestParam(value = "name", required = false) String name,
             @ApiParam(value = "", required = false)
             @RequestParam(value = "surname", required = false) String surname,
@@ -265,7 +263,7 @@ public class LearnerController {
 
         authorizationService.checkAlive(userId);
 
-        return new ResponseEntity<>(learnerService.getLearnersPagination(page, pageSize, username, name, surname, phone, fiscalCode, dateOfBirth,
+        return new ResponseEntity<>(learnerService.getLearnersPagination(page, pageSize, name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, degreeOfStudies, courseOfStudy, city, region, province),HttpStatus.OK);
     }
 
