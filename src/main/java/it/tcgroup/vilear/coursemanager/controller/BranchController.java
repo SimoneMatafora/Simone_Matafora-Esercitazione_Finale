@@ -170,8 +170,6 @@ public class BranchController {
             @ApiParam(value = "Defines the page number to be displayed", required = false)
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "username", required = false) String username,
-            @ApiParam(value = "", required = false)
             @RequestParam(value = "name", required = false) String name,
             @ApiParam(value = "", required = false)
             @RequestParam(value = "email", required = false) String email,
