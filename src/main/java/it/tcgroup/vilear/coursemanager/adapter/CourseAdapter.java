@@ -63,7 +63,7 @@ public class CourseAdapter {
         course.setCourseDescription(courseRequest.getCourseDescription());
         course.setCourseEndDate(courseRequest.getCourseEndDate());
         //course.setCourseLogo(courseRequest.getCourseLogo());
-        course.setCourseStartDate(dateUtil.convertIS08601StringToUTCInstant(courseRequest.getCourseStartDate()));
+        course.setCourseStartDate(courseRequest.getCourseStartDate());
         course.setCourseTitle(courseRequest.getCourseTitle());
         course.setCourseType(courseRequest.getCourseType());
         course.setDailyHours(courseRequest.getDailyHours());
@@ -152,7 +152,7 @@ public class CourseAdapter {
         courseResponse.setCourseDescription(course.getCourseDescription());
         courseResponse.setCourseEndDate(course.getCourseEndDate());
         courseResponse.setCourseLogo(course.getCourseLogo());
-        courseResponse.setCourseStartDate(dateUtil.convertUTCInstantToIS08601String(course.getCourseStartDate()));
+        courseResponse.setCourseStartDate(course.getCourseStartDate());
         courseResponse.setCourseTitle(course.getCourseTitle());
         courseResponse.setCourseType(course.getCourseType());
         courseResponse.setDailyHours(course.getDailyHours());

@@ -46,9 +46,7 @@ public class CourseEMRepository {
             whereCondition.add("c.founds_type = '" + FoundsTypeCourseEnum.create(foundsType) + "' ");
         }
         if( courseStartDate != null){
-
             whereCondition.add("c.course_start_date\\:\\:DATE = '"+ courseStartDate +"'\\:\\:DATE ");
-
         }
         if( partFullTime != null){
             whereCondition.add("c.part_full_time = '" + PartFullTimeCourseEnum.create(partFullTime) + "' " );

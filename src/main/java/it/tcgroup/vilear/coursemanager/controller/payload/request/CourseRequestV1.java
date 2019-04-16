@@ -49,7 +49,7 @@ public class CourseRequestV1 {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonProperty( "course_start_date")
-    private String courseStartDate;
+    private Date courseStartDate;
 
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -525,7 +525,7 @@ public class CourseRequestV1 {
         @JsonProperty("withdrawn_with_reason")
         private ReasonWithdrawnLearnerCourseEnum withdrawnReason;
 
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         @JsonProperty("withdrawn_date")
         private Date withdrawnDate;
 
@@ -683,7 +683,7 @@ public class CourseRequestV1 {
 
             @NotNull
             @JsonProperty("date_of_birth")
-            @JsonFormat(pattern = "yyyy-MM-dd")
+            @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
             private Date dateOfBirth;
 
             @NotNull
@@ -872,21 +872,21 @@ public class CourseRequestV1 {
         private Double servicesCosts;
 
         @JsonProperty("first_payment_date")
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         private Date firstPaymentDate;
 
         @JsonProperty("amount_first_paymen")
         private Double amountFirstPaymen;
 
         @JsonProperty("second_payment_date")
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         private Date secondPaymentDate;
 
         @JsonProperty("amount_second_paymen")
         private Double amountSecondPaymen;
 
         @JsonProperty("third_payment_date")
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         private Date thirdPaymentDate;
 
         @JsonProperty("amount_third_paymen")
@@ -1240,7 +1240,7 @@ public class CourseRequestV1 {
 
             @NotNull
             @JsonProperty("date_of_birth")
-            @JsonFormat(pattern = "yyyy-MM-dd")
+            @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
             private Date dateOfBirth;
 
             @NotNull
@@ -1526,7 +1526,7 @@ public class CourseRequestV1 {
         @JsonProperty("learner")
         private RecipientManagmentCourseRequestV1.LearnerRequestDtoV1 learner;
 
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         @JsonProperty("hiring_date")
         private Date hiringDate;
 
@@ -1537,7 +1537,7 @@ public class CourseRequestV1 {
         private Double bonusAmount;
 
         @JsonProperty("expired_placement_date")
-        @JsonFormat(pattern = "yyyy-MM-dd")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
         private Date expiredPlacementDate;
 
         @JsonProperty("sended_eletronic_placement_date")
@@ -1646,7 +1646,7 @@ public class CourseRequestV1 {
     public CourseRequestV1() {
     }
 
-    public CourseRequestV1(String courseTitle, CourseStatusEnum status, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, String courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerRequestV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseRequestV1> headquatersCourse, List<RecipientManagmentCourseRequestV1> recipientManagment, List<PartnerCourseRequestV1> partnerList, List<TeacherCourseRequestV1> teacherList, List<PlacementCourseRequestV1> placementList, String documentAttachment) {
+    public CourseRequestV1(String courseTitle, CourseStatusEnum status, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerRequestV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseRequestV1> headquatersCourse, List<RecipientManagmentCourseRequestV1> recipientManagment, List<PartnerCourseRequestV1> partnerList, List<TeacherCourseRequestV1> teacherList, List<PlacementCourseRequestV1> placementList, String documentAttachment) {
         this.courseTitle = courseTitle;
         this.status = status;
         this.contentsArea = contentsArea;
@@ -1793,11 +1793,11 @@ public class CourseRequestV1 {
         this.courseDescription = courseDescription;
     }
 
-    public String getCourseStartDate() {
+    public Date getCourseStartDate() {
         return courseStartDate;
     }
 
-    public void setCourseStartDate(String courseStartDate) {
+    public void setCourseStartDate(Date courseStartDate) {
         this.courseStartDate = courseStartDate;
     }
 
