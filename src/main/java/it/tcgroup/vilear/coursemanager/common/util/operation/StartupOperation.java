@@ -1,6 +1,6 @@
 package it.tcgroup.vilear.coursemanager.common.util.operation;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
+import it.tcgroup.vilear.coursemanager.common.exception.InternalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -14,6 +14,7 @@ import org.hibernate.annotations.TypeDefs;
 import org.hibernate.type.CalendarTimeType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -33,7 +34,7 @@ import java.util.*;
         @TypeDef(name = "JsonDataAttachmentType", typeClass = JsonDataAttachmentType.class),
         @TypeDef(name = "JsonDataAttachmentListType", typeClass = JsonDataAttachmentListType.class),
 })
-public class CourseEntity {
+public class CourseEntity implements Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")

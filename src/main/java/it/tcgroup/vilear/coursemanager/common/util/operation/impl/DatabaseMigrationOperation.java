@@ -1,7 +1,7 @@
 package it.tcgroup.vilear.coursemanager.common.util.operation.impl;
 
+import it.tcgroup.vilear.coursemanager.common.exception.InternalException;
 import it.tcgroup.vilear.coursemanager.common.util.operation.Operation;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.InternalException;
 import org.apache.commons.lang3.StringUtils;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
