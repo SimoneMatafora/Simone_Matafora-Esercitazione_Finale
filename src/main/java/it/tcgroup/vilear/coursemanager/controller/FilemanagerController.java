@@ -78,7 +78,7 @@ public class FilemanagerController {
         String idFileManager = dogeParseResponse.getId();
 
 
-        DownloadResponseV1 downloadFileManager = filemanagerService.downloadFile(idFileManager);
+        DownloadResponseV1 downloadFileManager = filemanagerService.getFileDoge(idFileManager +" 313");
 
         Attachment attachment = new Attachment();
         attachment.setBlobName(idFileManager + ".pdf");
