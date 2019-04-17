@@ -111,6 +111,7 @@ public class FilemanagerServiceImpl implements FilemanagerService {
     public DownloadResponseV1 getFileDoge(String idFileManager) throws IOException {
 
         DownloadResponseV1 downloadFileManager = this.downloadFile(idFileManager);
+        System.out.println("sto nel retry");
 
         return downloadFileManager;
     }

@@ -16,7 +16,7 @@ public interface FilemanagerService {
     DownloadResponseV1 downloadFile(String idFile) throws IOException;
 
     @Retryable(
-            maxAttempts = 4,
+            maxAttempts = 10,
             backoff = @Backoff(delay = 1000))
     public DownloadResponseV1 getFileDoge(String idFileManager) throws IOException;
 }
