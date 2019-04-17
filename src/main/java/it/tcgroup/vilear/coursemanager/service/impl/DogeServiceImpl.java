@@ -565,14 +565,17 @@ public class DogeServiceImpl implements DogeService {
     public DogeResponseV1 firstRegister(CourseEntity courseEntity, String numPages) throws Exception{
         DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
         Map<String, Object> requestMap = new HashMap<>();
-
-        requestMap.put("project_title", courseEntity.getCourseTitle());
-        requestMap.put("project_type", courseEntity.getCourseType().getValue());
+        if(courseEntity.getCourseTitle() != null)
+            requestMap.put("project_title", courseEntity.getCourseTitle());
+        if(courseEntity.getCourseType() != null)
+            requestMap.put("project_type", courseEntity.getCourseType().getValue());
+        if(courseEntity.getTotalHours() != null)
         requestMap.put("project_hour", courseEntity.getTotalHours().toString());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String period="dal "+courseEntity.getCourseStartDate()+" al "+courseEntity.getCourseEndDate();
-        requestMap.put("project_period", period);
-
+        if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null) {
+            String period = "dal " + simpleDateFormat.format(courseEntity.getCourseStartDate()) + " al " + simpleDateFormat.format(courseEntity.getCourseEndDate());
+            requestMap.put("project_period", period);
+        }
         //Indirizzo sede del corso
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
@@ -597,17 +600,19 @@ public class DogeServiceImpl implements DogeService {
                 }
             }
         }
-
-        requestMap.put("project_code", courseEntity.getCourseCode());
-        requestMap.put("project_code_2", courseEntity.getCourseCode());
-        requestMap.put("project_code_3", courseEntity.getCourseCode());
+        if(courseEntity.getCourseCode() != null) {
+            requestMap.put("project_code", courseEntity.getCourseCode());
+            requestMap.put("project_code_2", courseEntity.getCourseCode());
+            requestMap.put("project_code_3", courseEntity.getCourseCode());
+        }
         if(courseEntity.getTeacherList() != null){
             int i = 1;
             for (TeacherCourse teacherCourse : courseEntity.getTeacherList()){
                 String role = "role_"+i;
                 String surname = "surname_"+i;
                 String name = "name_"+i;
-                requestMap.put(role, teacherCourse.getRole().getValue());
+                if( teacherCourse.getRole() != null)
+                    requestMap.put(role, teacherCourse.getRole().getValue());
                 if(teacherCourse.getTeacher() != null) {
                     requestMap.put(surname, teacherCourse.getTeacher().getSurname());
                     requestMap.put(name, teacherCourse.getTeacher().getName());
@@ -657,7 +662,8 @@ public class DogeServiceImpl implements DogeService {
     public DogeResponseV1 secondRegister(CourseEntity courseEntity, String startHour, String endHour, String day, String month, String year, Integer numPage) throws Exception{
         DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
         Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("project_code", courseEntity.getCourseCode());
+        if(courseEntity.getCourseCode() != null)
+            requestMap.put("project_code", courseEntity.getCourseCode());
         if(courseEntity.getPlacementList() != null){
             int i=1;
             for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
@@ -701,7 +707,8 @@ public class DogeServiceImpl implements DogeService {
     public DogeResponseV1 thirdRegister(CourseEntity courseEntity) throws Exception{
         DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
         Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("project_code_23", courseEntity.getCourseCode());
+        if(courseEntity.getCourseCode() != null)
+            requestMap.put("project_code_23", courseEntity.getCourseCode());
         if(courseEntity.getPlacementList() != null){
             int i=1;
             for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
