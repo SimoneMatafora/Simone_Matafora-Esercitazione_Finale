@@ -148,9 +148,12 @@ public class DogeController {
         List<DogeResponseV1> dogeResponseV1 = dogeService.register(idCourse);
         List<IdentifierResponseV1> identifierResponseV1s = new ArrayList<>();
         String filecontent ="";
+
         List<byte[]> fileList = new ArrayList<>();
         for(DogeResponseV1 dogeResponseV11 : dogeResponseV1){
+
             DownloadResponseV1 downloadResponseV1 = filemanagerService.downloadFile(dogeResponseV11.getDocumentId());
+
             identifierResponseV1s.add(new IdentifierResponseV1(dogeResponseV11.getDocumentId()));
             byte[] decodedFile = Base64.getDecoder().decode(downloadResponseV1.getFileContent());
             fileList.add(decodedFile);

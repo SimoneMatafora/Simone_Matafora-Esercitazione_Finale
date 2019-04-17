@@ -77,7 +77,7 @@ public class PartnerEMRepository {
 
         sql = withAddress + withTeacher + sql + subQuery + where + ")";
 
-        System.out.println(sql);
+
 
         Query query = em.createNativeQuery(sql, PartnerEntity.class);
 
