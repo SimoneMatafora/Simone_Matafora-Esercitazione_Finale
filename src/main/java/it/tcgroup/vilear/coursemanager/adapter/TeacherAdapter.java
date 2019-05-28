@@ -1,5 +1,6 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.TeacherCourseRequestV1.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
@@ -78,13 +79,20 @@ public class TeacherAdapter {
             teacher.setPhone(teacherInsertRequest.getPhone());
             teacher.setResidentialAddress(residentialAddress);
 
-            if (teacherInsertRequest.getDomicileEqualsResidential() == null)
+            if (teacherInsertRequest.getDomicileEqualsResidential() == null) {
                 teacher.setDomicileEqualsResidential(false);
-
-            if(teacher.getDomicileEqualsResidential())
-                teacher.setDomicileAddress(residentialAddress);
-            else
+                if(domicileAddress==null)
+                    throw new BadParametersException("'Bad Request': ['domicileAddress': must not be null]");
                 teacher.setDomicileAddress(domicileAddress);
+            }else {
+                teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
+                if(!teacherInsertRequest.getDomicileEqualsResidential() && domicileAddress==null)
+                    throw new BadParametersException("'Bad Request': ['domicileAddress': must not be null]");
+                if (teacherInsertRequest.getDomicileEqualsResidential())
+                    teacher.setDomicileAddress(residentialAddress);
+                else
+                    teacher.setDomicileAddress(domicileAddress);
+            }
 
             if (teacherInsertRequest.getVatHolder() == null)
                 teacher.setVatHolder(false);
@@ -217,13 +225,20 @@ public class TeacherAdapter {
         teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
         teacher.setResidentialAddress(residentialAddress);
 
-        if (teacherInsertRequest.getDomicileEqualsResidential() == null)
+        if (teacherInsertRequest.getDomicileEqualsResidential() == null) {
             teacher.setDomicileEqualsResidential(false);
-
-        if(teacher.getDomicileEqualsResidential())
-            teacher.setDomicileAddress(residentialAddress);
-        else
+            if(domicileAddress==null)
+                throw new BadParametersException("'Bad Request': ['domicileAddress': must not be null]");
             teacher.setDomicileAddress(domicileAddress);
+        }else {
+            teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
+            if(!teacherInsertRequest.getDomicileEqualsResidential() && domicileAddress==null)
+                throw new BadParametersException("'Bad Request': ['domicileAddress': must not be null]");
+            if (teacherInsertRequest.getDomicileEqualsResidential())
+                teacher.setDomicileAddress(residentialAddress);
+            else
+                teacher.setDomicileAddress(domicileAddress);
+        }
 
         if(teacherInsertRequest.getVatHolder() == null)
             teacher.setVatHolder(false);

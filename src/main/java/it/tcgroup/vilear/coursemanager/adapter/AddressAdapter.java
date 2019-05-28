@@ -56,6 +56,8 @@ public class AddressAdapter {
 
     public AddressResponse adptAddressToAddressResponse(Address address){
 
+        if(address==null)
+            return null;
 
         AddressResponse indirizzoResponse = new AddressResponse();
 
