@@ -90,7 +90,9 @@ public class LearnerServiceImpl implements LearnerService {
         learner.setName(learnerUpdate.getName());
         learner.setNote(learnerUpdate.getNote());
         learner.setPhone(learnerUpdate.getPhone());
-        learner.setAddress(learnerUpdate.getAddress());
+        learner.setResidentialAddress(learnerUpdate.getResidentialAddress());
+        learner.setDomicileAddress(learnerUpdate.getDomicileAddress());
+        learner.setDomicileEqualsResidential(learnerUpdate.getDomicileEqualsResidential());
 
         learnerRepository.save(learner);
 
@@ -154,8 +156,24 @@ public class LearnerServiceImpl implements LearnerService {
         if( learnerPatch.getCourseOfStudy() != null)
             learner.setCourseOfStudy(learnerPatch.getCourseOfStudy());
 
-        if( learnerPatch.getAddress() != null)
-            learner.setAddress(addressService.patchAddress(learner.getAddress(), learnerPatch.getAddress()));
+        if( learnerPatch.getDomicileEqualsResidential() != null){
+
+            if(learnerPatch.getDomicileEqualsResidential()) {
+                learner.setDomicileAddress(addressService.patchAddress(learner.getDomicileAddress(), learnerPatch.getResidentialAddress()));
+
+            }else{
+                if(learnerPatch.getDomicileAddress() == null)
+                    throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+
+                learner.setDomicileAddress(addressService.patchAddress(learner.getDomicileAddress(), learnerPatch.getDomicileAddress()));
+            }
+            learner.setDomicileEqualsResidential(learnerPatch.getDomicileEqualsResidential());
+
+        }else{
+
+            if(learnerPatch.getDomicileAddress() != null)
+                learner.setDomicileAddress(addressService.patchAddress(learner.getDomicileAddress(), learnerPatch.getDomicileAddress()));
+        }
 
         learnerRepository.save(learner);
 
@@ -273,7 +291,7 @@ public class LearnerServiceImpl implements LearnerService {
         System.out.println("sono qui");
         if(learner.getName() != null && learner.getSurname() != null && learner.getDateOfBirth() != null &&
         learner.getBirthPlace() != null && learner.getFiscalCode() != null && learner.getEmail() != null &&
-        learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getAddress() != null &&
+        learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getResidentialAddress() != null &&
         learner.getAttachments() != null) {
             System.out.println("sono qua");
             Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);

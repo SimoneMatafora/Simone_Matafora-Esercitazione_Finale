@@ -24,28 +24,28 @@ public class ValidateServiceImpl implements ValidateService {
     public void requestValidatorLearner(LearnerRequestV1 learnerRequest){
 
         requestValidator.validateRequest(learnerRequest, MessageCode.E00X_1000);
-        requestValidator.validateRequest(learnerRequest.getAddress(), MessageCode.E00X_1000);
+        requestValidator.validateRequest(learnerRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override
     public void requestValidatorPatchLearner(LearnerRequestV1 learnerRequest){
 
-        if(learnerRequest.getAddress() != null)
-            requestValidator.validateRequest(learnerRequest.getAddress(), MessageCode.E00X_1000);
+        if(learnerRequest.getResidentialAddress() != null)
+            requestValidator.validateRequest(learnerRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override
     public void requestValidatorTeacher(TeacherRequestV1 teacherRequest){
 
         requestValidator.validateRequest(teacherRequest, MessageCode.E00X_1000);
-        requestValidator.validateRequest(teacherRequest.getAddress(), MessageCode.E00X_1000);
+        requestValidator.validateRequest(teacherRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override
     public void requestValidatorPatchTeacher(TeacherRequestV1 teacherRequest){
 
-        if(teacherRequest.getAddress() != null)
-            requestValidator.validateRequest(teacherRequest.getAddress(), MessageCode.E00X_1000);
+        if(teacherRequest.getResidentialAddress() != null)
+            requestValidator.validateRequest(teacherRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override

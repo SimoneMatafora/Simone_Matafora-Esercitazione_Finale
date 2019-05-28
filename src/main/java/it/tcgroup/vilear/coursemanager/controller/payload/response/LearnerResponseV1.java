@@ -48,13 +48,19 @@ public class LearnerResponseV1 {
     @JsonProperty("attachments")
     private List<Attachment> attachments;
 
-    @JsonProperty("address")
-    private AddressResponse address;
+    @JsonProperty("residential_address")
+    private AddressResponse residentialAddress;
+
+    @JsonProperty("domicile_address")
+    private AddressResponse domicileAddress;
+
+    @JsonProperty("domicile_equals_residential")
+    private Boolean domicileEqualsResidential;
 
     public LearnerResponseV1() {
     }
 
-    public LearnerResponseV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, AddressResponse address) {
+    public LearnerResponseV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, AddressResponse residentialAddress, AddressResponse domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -67,7 +73,9 @@ public class LearnerResponseV1 {
         this.courseOfStudy = courseOfStudy;
         this.note = note;
         this.attachments = attachments;
-        this.address = address;
+        this.residentialAddress = residentialAddress;
+        this.domicileAddress = domicileAddress;
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     public String getId() {
@@ -166,12 +174,28 @@ public class LearnerResponseV1 {
         this.attachments = attachments;
     }
 
-    public AddressResponse getAddress() {
-        return address;
+    public AddressResponse getResidentialAddress() {
+        return residentialAddress;
     }
 
-    public void setAddress(AddressResponse address) {
-        this.address = address;
+    public void setResidentialAddress(AddressResponse residentialAddress) {
+        this.residentialAddress = residentialAddress;
+    }
+
+    public AddressResponse getDomicileAddress() {
+        return domicileAddress;
+    }
+
+    public void setDomicileAddress(AddressResponse domicileAddress) {
+        this.domicileAddress = domicileAddress;
+    }
+
+    public Boolean getDomicileEqualsResidential() {
+        return domicileEqualsResidential;
+    }
+
+    public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     @Override
@@ -189,7 +213,9 @@ public class LearnerResponseV1 {
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
                 ", attachments=" + attachments +
-                ", address=" + address +
+                ", residentialAddress=" + residentialAddress +
+                ", domicileAddress=" + domicileAddress +
+                ", domicileEqualsResidential=" + domicileEqualsResidential +
                 '}';
     }
 }
