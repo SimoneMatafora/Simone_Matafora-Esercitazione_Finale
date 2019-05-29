@@ -87,6 +87,7 @@ public class TeacherEntity implements Serializable {
     @Column(name = "curriculum_vitae")
     private Attachment curriculumVitae;
 
+
     @Type(type = "JsonDataAddressType")
     @Column(name = "address")
     private Address address;
