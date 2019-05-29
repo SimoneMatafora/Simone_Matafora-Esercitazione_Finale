@@ -215,36 +215,23 @@ public class TeacherServiceImpl implements TeacherService {
         if( teacherPatch.getResidentialAddress() != null)
             teacher.setResidentialAddress(addressService.patchAddress(teacher.getResidentialAddress(),teacherPatch.getResidentialAddress()));
 
-        ///////////////////////////////////////////
-
-        if( teacherPatch.getDomicileEqualsResidential() != null){
-            teacher.setDomicileEqualsResidential(teacherPatch.getDomicileEqualsResidential());
+        if( teacherPatch.getDomicileAddress() != null) {
+            if(teacher.getDomicileEqualsResidential())
+                teacher.setDomicileAddress(teacherPatch.getDomicileAddress());
+            else
+                teacher.setDomicileAddress(addressService.patchAddress(teacher.getDomicileAddress(), teacherPatch.getDomicileAddress()));
+            teacher.setDomicileEqualsResidential(false);
         }
 
-        if(teacher.getDomicileEqualsResidential() teacherPatch.getDomicileAddress() == null)
-
-
-
-        ///////////////////////////////////////////
-
-
-        if( teacherPatch.getDomicileEqualsResidential() != null){
-
-            if(teacherPatch.getDomicileEqualsResidential()) {
-                teacher.setDomicileAddress(addressService.patchAddress(teacher.getDomicileAddress(), teacherPatch.getResidentialAddress()));
-
-            }else{
-                if(teacherPatch.getDomicileAddress() == null)
-                    throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
-
-                teacher.setDomicileAddress(addressService.patchAddress(teacher.getDomicileAddress(), teacherPatch.getDomicileAddress()));
-            }
-            teacher.setDomicileEqualsResidential(teacherPatch.getDomicileEqualsResidential());
-
-        }else{
-            if(teacherPatch.getDomicileAddress() != null)
-                teacher.setDomicileAddress(addressService.patchAddress(teacher.getDomicileAddress(), teacherPatch.getDomicileAddress()));
+        if( teacherPatch.getDomicileEqualsResidential() != null) {
+            if(!teacherPatch.getDomicileEqualsResidential() && teacherPatch.getDomicileAddress() == null && teacher.getDomicileEqualsResidential())
+                throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+            if( teacherPatch.getDomicileAddress() == null)
+                teacher.setDomicileEqualsResidential(teacherPatch.getDomicileEqualsResidential());
         }
+
+        if(teacher.getDomicileEqualsResidential())
+            teacher.setDomicileAddress(teacher.getResidentialAddress());
 
         teacherRepository.save(teacher);
 
