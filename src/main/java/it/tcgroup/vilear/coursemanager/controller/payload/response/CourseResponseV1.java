@@ -329,12 +329,15 @@ public class CourseResponseV1 {
         private Date withdrawnDate;
 
         @JsonProperty("withdrawn_form")
-        private String withdrawnForm;
+        private Attachment withdrawnForm;
+
+        @JsonProperty("num_issued_tickets")
+        private Integer numIssuedTickets;
 
         public RecipientManagmentCourseResponseV1() {
         }
 
-        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -347,6 +350,7 @@ public class CourseResponseV1 {
             this.withdrawnReason = withdrawnReason;
             this.withdrawnDate = withdrawnDate;
             this.withdrawnForm = withdrawnForm;
+            this.numIssuedTickets = numIssuedTickets;
         }
 
         public LearnerResponseV1 getLearner() {
@@ -437,17 +441,25 @@ public class CourseResponseV1 {
             this.withdrawnDate = withdrawnDate;
         }
 
-        public String getWithdrawnForm() {
+        public Attachment getWithdrawnForm() {
             return withdrawnForm;
         }
 
-        public void setWithdrawnForm(String withdrawnForm) {
+        public void setWithdrawnForm(Attachment withdrawnForm) {
             this.withdrawnForm = withdrawnForm;
+        }
+
+        public Integer getNumIssuedTickets() {
+            return numIssuedTickets;
+        }
+
+        public void setNumIssuedTickets(Integer numIssuedTickets) {
+            this.numIssuedTickets = numIssuedTickets;
         }
 
         @Override
         public String toString() {
-            return "RecipientManagmentCourseRequestV1{" +
+            return "RecipientManagmentCourseResponseV1{" +
                     "learner=" + learner +
                     ", recipientType=" + recipientType +
                     ", exonerationGeneralSecurity=" + exonerationGeneralSecurity +
@@ -459,7 +471,8 @@ public class CourseResponseV1 {
                     ", withdrawn=" + withdrawn +
                     ", withdrawnReason=" + withdrawnReason +
                     ", withdrawnDate=" + withdrawnDate +
-                    ", withdrawnForm='" + withdrawnForm + '\'' +
+                    ", withdrawnForm=" + withdrawnForm +
+                    ", numIssuedTickets=" + numIssuedTickets +
                     '}';
         }
     }

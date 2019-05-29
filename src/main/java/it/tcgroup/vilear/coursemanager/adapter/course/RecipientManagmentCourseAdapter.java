@@ -35,6 +35,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourse.setWithdrawnDate(recipientManagmentCourseRequest.getWithdrawnDate());
         recipientManagmentCourse.setWithdrawnForm(recipientManagmentCourseRequest.getWithdrawnForm());
         recipientManagmentCourse.setWithdrawnReason(recipientManagmentCourseRequest.getWithdrawnReason());
+        recipientManagmentCourse.setNumIssuedTickets(recipientManagmentCourseRequest.getNumIssuedTickets());
 
         return recipientManagmentCourse;
     }
@@ -72,6 +73,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourseResponse.setWithdrawnDate(recipientManagmentCourse.getWithdrawnDate());
         recipientManagmentCourseResponse.setWithdrawnForm(recipientManagmentCourse.getWithdrawnForm());
         recipientManagmentCourseResponse.setWithdrawnReason(recipientManagmentCourse.getWithdrawnReason());
+        recipientManagmentCourseResponse.setNumIssuedTickets(recipientManagmentCourse.getNumIssuedTickets());
 
         return recipientManagmentCourseResponse;
 
