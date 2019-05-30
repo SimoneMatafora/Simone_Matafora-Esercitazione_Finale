@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -313,6 +314,12 @@ public class CourseResponseV1 {
         @JsonProperty("exoneration_rights_and_duties")
         private Boolean exonerationRightsAndDuties;
 
+        @JsonProperty("general_security_module")
+        private Boolean generalSecurityModule;
+
+        @JsonProperty("specific_security_module")
+        private Boolean specificSecurityModule;
+
         @JsonProperty("necessary_hours")
         private Double necessaryHours;
 
@@ -340,11 +347,13 @@ public class CourseResponseV1 {
         public RecipientManagmentCourseResponseV1() {
         }
 
-        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
             this.exonerationRightsAndDuties = exonerationRightsAndDuties;
+            this.generalSecurityModule = generalSecurityModule;
+            this.specificSecurityModule = specificSecurityModule;
             this.necessaryHours = necessaryHours;
             this.specificationSsecurityExonerate = specificationSsecurityExonerate;
             this.accepted = accepted;
@@ -451,13 +460,31 @@ public class CourseResponseV1 {
             this.withdrawnForm = withdrawnForm;
         }
 
+        public Boolean getGeneralSecurityModule() {
+            return generalSecurityModule;
+        }
+
+        public void setGeneralSecurityModule(Boolean generalSecurityModule) {
+            this.generalSecurityModule = generalSecurityModule;
+        }
+
+        public Boolean getSpecificSecurityModule() {
+            return specificSecurityModule;
+        }
+
+        public void setSpecificSecurityModule(Boolean specificSecurityModule) {
+            this.specificSecurityModule = specificSecurityModule;
+        }
+
         @Override
         public String toString() {
-            return "RecipientManagmentCourseRequestV1{" +
+            return "RecipientManagmentCourseResponseV1{" +
                     "learner=" + learner +
-                    ", recipientType=" + recipientType +
+                    ", recipientType=" + Arrays.toString(recipientType) +
                     ", exonerationGeneralSecurity=" + exonerationGeneralSecurity +
                     ", exonerationRightsAndDuties=" + exonerationRightsAndDuties +
+                    ", generalSecurityModule=" + generalSecurityModule +
+                    ", specificSecurityModule=" + specificSecurityModule +
                     ", necessaryHours=" + necessaryHours +
                     ", specificationSsecurityExonerate=" + specificationSsecurityExonerate +
                     ", accepted=" + accepted +
