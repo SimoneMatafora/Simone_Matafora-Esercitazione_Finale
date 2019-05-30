@@ -71,16 +71,13 @@ public class LearnerAdapter {
             learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
             learner.setNote(learnerInsertRequest.getNote());
             learner.setPhone(learnerInsertRequest.getPhone());
-            learner.setId(UUID.fromString(learnerInsertRequest.getId()));
+            if(learnerInsertRequest.getId() != null)
+                learner.setId(UUID.fromString(learnerInsertRequest.getId()));
             learner.setResidentialAddress(residentialAddress);
 
-            if (learnerInsertRequest.getDomicileEqualsResidential() == null)
-                learner.setDomicileEqualsResidential(false);
+            learner.setDomicileEqualsResidential(learnerInsertRequest.getDomicileEqualsResidential());
 
-            if(learner.getDomicileEqualsResidential())
-                learner.setDomicileAddress(residentialAddress);
-            else
-                learner.setDomicileAddress(domicileAddress);
+            learner.setDomicileAddress(domicileAddress);
 
             return learner;
 
@@ -115,13 +112,9 @@ public class LearnerAdapter {
         learner.setPhone(learnerInsertRequest.getPhone());
         learner.setResidentialAddress(residentialAddress);
 
-        if (learnerInsertRequest.getDomicileEqualsResidential() == null)
-            learner.setDomicileEqualsResidential(false);
+        learner.setDomicileEqualsResidential(learnerInsertRequest.getDomicileEqualsResidential());
 
-        if(learner.getDomicileEqualsResidential())
-            learner.setDomicileAddress(residentialAddress);
-        else
-            learner.setDomicileAddress(domicileAddress);
+        learner.setDomicileAddress(domicileAddress);
 
         return learner;
     }
@@ -152,13 +145,9 @@ public class LearnerAdapter {
         learner.setAttachemnts(learnerInsertRequest.getAttachments());
         learner.setResidentialAddress(residentialAddress);
 
-        if (learnerInsertRequest.getDomicileEqualsResidential() == null)
-            learner.setDomicileEqualsResidential(false);
+        learner.setDomicileEqualsResidential(learnerInsertRequest.getDomicileEqualsResidential());
 
-        if(learner.getDomicileEqualsResidential())
-            learner.setDomicileAddress(residentialAddress);
-        else
-            learner.setDomicileAddress(domicileAddress);
+        learner.setDomicileAddress(domicileAddress);
 
         return learner;
     }
@@ -188,14 +177,11 @@ public class LearnerAdapter {
         learnerDto.setPhone(learner.getPhone());
         learnerDto.setAttachemnts(learner.getAttachments());
         learnerDto.setResidentialAddress(residentialAddress);
+        learnerDto.setResidentialAddress(residentialAddress);
 
-        if (learner.getDomicileEqualsResidential() == null)
-            learnerDto.setDomicileEqualsResidential(false);
+        learnerDto.setDomicileEqualsResidential(learner.getDomicileEqualsResidential());
 
-        if(learner.getDomicileEqualsResidential())
-            learnerDto.setDomicileAddress(residentialAddress);
-        else
-            learnerDto.setDomicileAddress(domicileAddress);
+        learnerDto.setDomicileAddress(domicileAddress);
 
         return learnerDto;
     }
@@ -226,14 +212,10 @@ public class LearnerAdapter {
         learnerResponse.setPhone(learnerDto.getPhone());
         learnerResponse.setResidentialAddress(residentialAddressResponse);
 
-        if (learnerDto.getDomicileEqualsResidential() == null)
-            learnerResponse.setDomicileEqualsResidential(false);
-        /*
-        if(learnerResponse.getDomicileEqualsResidential())
-            learnerResponse.setDomicileAddress(residentialAddressResponse);
-        else
-            learnerResponse.setDomicileAddress(domicileAddressResponse);
-*/
+        learnerResponse.setDomicileEqualsResidential(learnerDto.getDomicileEqualsResidential());
+
+        learnerResponse.setDomicileAddress(domicileAddressResponse);
+
         return learnerResponse;
     }
 

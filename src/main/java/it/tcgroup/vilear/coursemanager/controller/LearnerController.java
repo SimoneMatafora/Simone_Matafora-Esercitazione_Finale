@@ -84,7 +84,7 @@ public class LearnerController {
             @ApiParam(value = "Body of the Learner to be created", required = true)
             @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         validateService.requestValidatorLearner(learnerInsertRequestV1);
 
@@ -135,7 +135,7 @@ public class LearnerController {
             @RequestHeader(name = "id-user") UUID userId) {
 
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         validateService.requestValidatorLearner(learnerUpdateRequest);
 
@@ -160,7 +160,7 @@ public class LearnerController {
             @ApiParam(value = "UUID of the Learner to be founfd", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(learnerService.getLearner(UUID.fromString(idLearner)), HttpStatus.OK);
     }
@@ -186,7 +186,7 @@ public class LearnerController {
             @ApiParam(value = "Some attributes of the body of the Learner to be modified", required = true)
             @RequestBody LearnerRequestV1 learnerPatchRequestV1) throws Exception {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         validateService.requestValidatorPatchLearner(learnerPatchRequestV1);
 
@@ -210,7 +210,7 @@ public class LearnerController {
             @ApiParam(value = "UUID of the Learner", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         learnerService.deleteLearner(UUID.fromString(idLearner));
 
@@ -261,7 +261,7 @@ public class LearnerController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(learnerService.getLearnersPagination(page, pageSize, name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, degreeOfStudies, courseOfStudy, city, region, province),HttpStatus.OK);
@@ -288,7 +288,7 @@ public class LearnerController {
             @ApiParam(value = "UUID of the Learner", required = true)
             @PathVariable(name = "UUID_LEARNER") String idLearner) throws IOException {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( learnerService.addLearnerCurriculum(uploadRequest, UUID.fromString(idLearner)), HttpStatus.OK);
     }
@@ -314,7 +314,7 @@ public class LearnerController {
             @ApiParam(value = "UUID of the Attachment to delete", required = true)
             @PathVariable(name = "UUID_ATTACHMENT") String idAttachment) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         learnerService.deleteLearnerCurriculum(UUID.fromString(idLearner), UUID.fromString(idAttachment));
 
@@ -342,7 +342,7 @@ public class LearnerController {
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         if(learnerService.candidateLearnerToCourse(UUID.fromString(idLearner),UUID.fromString(idCourse)))
             return new ResponseEntity(HttpStatus.OK);

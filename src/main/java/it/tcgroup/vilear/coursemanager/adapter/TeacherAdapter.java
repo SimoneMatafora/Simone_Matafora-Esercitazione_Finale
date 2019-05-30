@@ -147,13 +147,9 @@ public class TeacherAdapter {
         teacher.setPhone(teacherInsertRequest.getPhone());
         teacher.setResidentialAddress(residentialAddress);
 
-        if (teacherInsertRequest.getDomicileEqualsResidential() == null)
-            teacher.setDomicileEqualsResidential(false);
+        teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
 
-        if(teacher.getDomicileEqualsResidential())
-            teacher.setDomicileAddress(residentialAddress);
-        else
-            teacher.setDomicileAddress(domicileAddress);
+        teacher.setDomicileAddress(domicileAddress);
 
         if(teacherInsertRequest.getVatHolder() == null)
             teacher.setVatHolder(false);

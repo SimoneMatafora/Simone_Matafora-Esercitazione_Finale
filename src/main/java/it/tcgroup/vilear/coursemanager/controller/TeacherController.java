@@ -81,7 +81,7 @@ public class TeacherController {
             @ApiParam(value = "Body of the Teacher to be created", required = true)
             @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         validateService.requestValidatorTeacher(teacherInsertRequestV1);
 
@@ -131,7 +131,7 @@ public class TeacherController {
             @ApiParam(value = "Updated body of the Teacher", required = true)
             @RequestBody TeacherRequestV1 teacherUpdateRequest) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.updateTeacher(teacherUpdateRequest, UUID.fromString(idTeacher)) ,HttpStatus.OK);
     }
@@ -154,7 +154,7 @@ public class TeacherController {
             @ApiParam(value = "UUID of the Teacher to be found", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.getTeacher(UUID.fromString(idTeacher)), HttpStatus.OK);
     }
@@ -180,7 +180,7 @@ public class TeacherController {
             @ApiParam(value = "Some attributes of the body of the Teacher to be modified", required = true)
             @RequestBody TeacherRequestV1 teacherPatchRequestV1) throws Exception {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         validateService.requestValidatorPatchTeacher(teacherPatchRequestV1);
 
@@ -245,7 +245,7 @@ public class TeacherController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "province", required = false) String province ) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.getTeachersPagination(page, pageSize, name, surname, phone, fiscalCode, dateOfBirth,
                 birthPlace, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized,
@@ -268,7 +268,7 @@ public class TeacherController {
             @RequestHeader(name = "id-user") UUID userId
     ){
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(teacherService.getCandidateTeacher(), HttpStatus.OK);
     }
@@ -290,7 +290,7 @@ public class TeacherController {
             @ApiParam(value = "UUID of the Teacher", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         teacherService.deleteTeacher(UUID.fromString(idTeacher));
 
@@ -318,7 +318,7 @@ public class TeacherController {
             @ApiParam(value = "UUID of the Teacher", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) throws IOException {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( teacherService.addTeacherCurriculum(uploadRequest, UUID.fromString(idTeacher)), HttpStatus.OK);
     }
@@ -342,7 +342,7 @@ public class TeacherController {
             @ApiParam(value = "UUID of the Teacher", required = true)
             @PathVariable(name = "UUID_TEACHER") String idTeacher) {
 
-        authorizationService.checkAlive(userId);
+        //authorizationService.checkAlive(userId);
 
         teacherService.deleteTeacherCurriculum(UUID.fromString(idTeacher));
         return new ResponseEntity(HttpStatus.OK);
