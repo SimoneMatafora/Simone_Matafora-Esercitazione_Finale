@@ -39,7 +39,6 @@ public class AddressServiceImpl implements AddressService {
             addressToBePatch.setZipCode(addressPatch.getZipCode());
 
         addressToBePatch.setFormattedAddress(addressAdapter.formatAddress(addressToBePatch));
-
         return addressToBePatch;
     }
 
