@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.AcronymTradeUninoEnum;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.PaymentModalityEnum;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.PaymentModalityTradeUnionEnum;
-import it.tcgroup.vilear.coursemanager.entity.enumerated.RoleTeacherCourseEnum;
+import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -20,6 +17,9 @@ public class TeacherCourse implements Serializable {
 
     @JsonProperty("role")
     private RoleTeacherCourseEnum role;
+
+    @JsonProperty("working_position")
+    private WorkingPositionEnum workingPosition;
 
     @JsonProperty("gross_hourly_cost")
     private Double grossHourlyCost;
@@ -54,9 +54,10 @@ public class TeacherCourse implements Serializable {
     public TeacherCourse() {
     }
 
-    public TeacherCourse(TeacherDto teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+    public TeacherCourse(TeacherDto teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
         this.teacher = teacher;
         this.role = role;
+        this.workingPosition = workingPosition;
         this.grossHourlyCost = grossHourlyCost;
         this.paymentModality = paymentModality;
         this.netHourlyCost = netHourlyCost;
@@ -165,11 +166,20 @@ public class TeacherCourse implements Serializable {
         this.paymentModalityTradeUnion = paymentModalityTradeUnion;
     }
 
+    public WorkingPositionEnum getWorkingPosition() {
+        return workingPosition;
+    }
+
+    public void setWorkingPosition(WorkingPositionEnum workingPosition) {
+        this.workingPosition = workingPosition;
+    }
+
     @Override
     public String toString() {
         return "TeacherCourse{" +
                 "teacher=" + teacher +
                 ", role=" + role +
+                ", workingPosition=" + workingPosition +
                 ", grossHourlyCost=" + grossHourlyCost +
                 ", paymentModality=" + paymentModality +
                 ", netHourlyCost=" + netHourlyCost +
@@ -190,6 +200,7 @@ public class TeacherCourse implements Serializable {
         TeacherCourse that = (TeacherCourse) o;
         return Objects.equals(teacher, that.teacher) &&
                 role == that.role &&
+                workingPosition == that.workingPosition &&
                 Objects.equals(grossHourlyCost, that.grossHourlyCost) &&
                 paymentModality == that.paymentModality &&
                 Objects.equals(netHourlyCost, that.netHourlyCost) &&
@@ -204,6 +215,6 @@ public class TeacherCourse implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(teacher, role, grossHourlyCost, paymentModality, netHourlyCost, main, hoursTeachingLetterAssignment, totalHoursPerformed, tradeUninoTeachingLetter, learnerJudgementForm, acronymTradeUnino, paymentModalityTradeUnion);
+        return Objects.hash(teacher, role, workingPosition, grossHourlyCost, paymentModality, netHourlyCost, main, hoursTeachingLetterAssignment, totalHoursPerformed, tradeUninoTeachingLetter, learnerJudgementForm, acronymTradeUnino, paymentModalityTradeUnion);
     }
 }

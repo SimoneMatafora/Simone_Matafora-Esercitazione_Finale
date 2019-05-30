@@ -1058,6 +1058,9 @@ public class CourseRequestV1 {
         @JsonProperty("role")
         private RoleTeacherCourseEnum role;
 
+        @JsonProperty("working_position")
+        private WorkingPositionEnum workingPosition;
+
         @JsonProperty("gross_hourly_cost")
         private Double grossHourlyCost;
 
@@ -1083,7 +1086,7 @@ public class CourseRequestV1 {
         private String learnerJudgementForm;
 
         @JsonProperty("acronym_trade_union")
-        private AcronymTradeUninoEnum acronymTradeUnion;
+        private String acronymTradeUnion;
 
         @JsonProperty("payment_modality_trade_union_teaching")
         private PaymentModalityTradeUnionEnum paymentModalityTradeUnion;
@@ -1092,9 +1095,10 @@ public class CourseRequestV1 {
         public TeacherCourseRequestV1() {
         }
 
-        public TeacherCourseRequestV1(TeacherRequestDtoV1 teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnion, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+        public TeacherCourseRequestV1(TeacherRequestDtoV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, String acronymTradeUnion, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
             this.teacher = teacher;
             this.role = role;
+            this.workingPosition = workingPosition;
             this.grossHourlyCost = grossHourlyCost;
             this.paymentModality = paymentModality;
             this.netHourlyCost = netHourlyCost;
@@ -1188,10 +1192,10 @@ public class CourseRequestV1 {
         }
 
         public AcronymTradeUninoEnum getAcronymTradeUnino() {
-            return acronymTradeUnion;
+            return AcronymTradeUninoEnum.create(acronymTradeUnion);
         }
 
-        public void setAcronymTradeUnino(AcronymTradeUninoEnum acronymTradeUnion) {
+        public void setAcronymTradeUnino(String acronymTradeUnion) {
             this.acronymTradeUnion = acronymTradeUnion;
         }
 
@@ -1203,11 +1207,28 @@ public class CourseRequestV1 {
             this.paymentModalityTradeUnion = paymentModalityTradeUnion;
         }
 
+        public WorkingPositionEnum getWorkingPosition() {
+            return workingPosition;
+        }
+
+        public void setWorkingPosition(WorkingPositionEnum workingPosition) {
+            this.workingPosition = workingPosition;
+        }
+
+        public String getAcronymTradeUnion() {
+            return acronymTradeUnion;
+        }
+
+        public void setAcronymTradeUnion(String acronymTradeUnion) {
+            this.acronymTradeUnion = acronymTradeUnion;
+        }
+
         @Override
         public String toString() {
             return "TeacherCourseRequestV1{" +
                     "teacher=" + teacher +
                     ", role=" + role +
+                    ", workingPosition=" + workingPosition +
                     ", grossHourlyCost=" + grossHourlyCost +
                     ", paymentModality=" + paymentModality +
                     ", netHourlyCost=" + netHourlyCost +
@@ -1216,7 +1237,7 @@ public class CourseRequestV1 {
                     ", totalHoursPerformed=" + totalHoursPerformed +
                     ", tradeUninoTeachingLetter='" + tradeUninoTeachingLetter + '\'' +
                     ", learnerJudgementForm='" + learnerJudgementForm + '\'' +
-                    ", acronymTradeUnion=" + acronymTradeUnion +
+                    ", acronymTradeUnion='" + acronymTradeUnion + '\'' +
                     ", paymentModalityTradeUnion=" + paymentModalityTradeUnion +
                     '}';
         }

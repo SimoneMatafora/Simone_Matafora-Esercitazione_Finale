@@ -662,6 +662,9 @@ public class CourseResponseV1 {
         @JsonProperty("role")
         private RoleTeacherCourseEnum role;
 
+        @JsonProperty("working_position")
+        private WorkingPositionEnum workingPosition;
+
         @JsonProperty("gross_hourly_cost")
         private Double grossHourlyCost;
 
@@ -687,7 +690,7 @@ public class CourseResponseV1 {
         private String learnerJudgementForm;
 
         @JsonProperty("acronym_trade_unino")
-        private AcronymTradeUninoEnum acronymTradeUnino;
+        private String acronymTradeUnino;
 
         @JsonProperty("payment_modality_trade_union_teaching")
         private PaymentModalityTradeUnionEnum paymentModalityTradeUnion;
@@ -696,9 +699,10 @@ public class CourseResponseV1 {
         public TeacherCourseResponseV1() {
         }
 
-        public TeacherCourseResponseV1(TeacherResponseV1 teacher, RoleTeacherCourseEnum role, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+        public TeacherCourseResponseV1(TeacherResponseV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, String acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
             this.teacher = teacher;
             this.role = role;
+            this.workingPosition = workingPosition;
             this.grossHourlyCost = grossHourlyCost;
             this.paymentModality = paymentModality;
             this.netHourlyCost = netHourlyCost;
@@ -791,12 +795,12 @@ public class CourseResponseV1 {
             this.learnerJudgementForm = learnerJudgementForm;
         }
 
-        public AcronymTradeUninoEnum getAcronymTradeUnino() {
+        public String getAcronymTradeUnino() {
             return acronymTradeUnino;
         }
 
         public void setAcronymTradeUnino(AcronymTradeUninoEnum acronymTradeUnino) {
-            this.acronymTradeUnino = acronymTradeUnino;
+            this.acronymTradeUnino = acronymTradeUnino.getValue();
         }
 
         public PaymentModalityTradeUnionEnum getPaymentModalityTradeUnion() {
@@ -807,11 +811,24 @@ public class CourseResponseV1 {
             this.paymentModalityTradeUnion = paymentModalityTradeUnion;
         }
 
+        public WorkingPositionEnum getWorkingPosition() {
+            return workingPosition;
+        }
+
+        public void setWorkingPosition(WorkingPositionEnum workingPosition) {
+            this.workingPosition = workingPosition;
+        }
+
+        public void setAcronymTradeUnino(String acronymTradeUnino) {
+            this.acronymTradeUnino = acronymTradeUnino;
+        }
+
         @Override
         public String toString() {
-            return "TeacherCourseRequestV1{" +
+            return "TeacherCourseResponseV1{" +
                     "teacher=" + teacher +
                     ", role=" + role +
+                    ", workingPosition=" + workingPosition +
                     ", grossHourlyCost=" + grossHourlyCost +
                     ", paymentModality=" + paymentModality +
                     ", netHourlyCost=" + netHourlyCost +
@@ -820,7 +837,7 @@ public class CourseResponseV1 {
                     ", totalHoursPerformed=" + totalHoursPerformed +
                     ", tradeUninoTeachingLetter='" + tradeUninoTeachingLetter + '\'' +
                     ", learnerJudgementForm='" + learnerJudgementForm + '\'' +
-                    ", acronymTradeUnino=" + acronymTradeUnino +
+                    ", acronymTradeUnino='" + acronymTradeUnino + '\'' +
                     ", paymentModalityTradeUnion=" + paymentModalityTradeUnion +
                     '}';
         }

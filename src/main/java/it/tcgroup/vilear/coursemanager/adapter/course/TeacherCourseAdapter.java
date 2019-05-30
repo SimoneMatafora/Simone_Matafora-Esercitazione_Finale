@@ -35,6 +35,7 @@ public class TeacherCourseAdapter {
         teacherCourse.setTeacher(teacherAdapter.adptTeacherRequestDtoToTeacherDto(teacherCourseRequest.getTeacher()));
         teacherCourse.setTotalHoursPerformed(teacherCourseRequest.getTotalHoursPerformed());
         teacherCourse.setTradeUninoTeachingLetter(teacherCourseRequest.getTradeUninoTeachingLetter());
+        teacherCourse.setWorkingPosition(teacherCourseRequest.getWorkingPosition());
 
         return teacherCourse;
     }
@@ -73,6 +74,7 @@ public class TeacherCourseAdapter {
         teacherCourseResponse.setTeacher(teacherAdapter.adptTeacherDtoToTeacherResponse(teacherCourse.getTeacher()));
         teacherCourseResponse.setTotalHoursPerformed(teacherCourse.getTotalHoursPerformed());
         teacherCourseResponse.setTradeUninoTeachingLetter(teacherCourse.getTradeUninoTeachingLetter());
+        teacherCourseResponse.setWorkingPosition(teacherCourse.getWorkingPosition());
 
         return teacherCourseResponse;
 
