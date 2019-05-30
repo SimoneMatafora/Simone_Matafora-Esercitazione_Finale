@@ -2,13 +2,24 @@ package it.tcgroup.vilear.coursemanager.common.util;
 
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
 public class DateUtil {
+
+    public  Date addDays(Date date, int days)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, days);  // number of days to add
+        return convertIS08601StringToUTCDate(sdf.format(c.getTime()));
+    }
 
     public String convertUTCDateToIS08601String(Date date) {
 

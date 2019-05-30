@@ -2,7 +2,9 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.CourseAdapter;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
+import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
@@ -13,6 +15,7 @@ import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
 import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
@@ -45,11 +48,22 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private AttachmentAdapter attachmentAdapter;
 
+    @Autowired
+    private DateUtil dateUtil;
+
 
     @Override
     public IdResponseV1 insertCourse(CourseRequestV1 courseInsertRequest) {
 
         CourseEntity course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
+        if(course!= null && course.getPlacementList()!= null && !course.getPlacementList().isEmpty()) {
+            for (PlacementCourse placement : course.getPlacementList()) {
+                if (placement.getExpiredPlacementDate() != null && course.getCourseEndDate() != null) {
+                    if (placement.getExpiredPlacementDate() != dateUtil.addDays(course.getCourseEndDate(), 180))
+                        throw new BadRequestException("ExpiredPlacementDate bad request.");
+                }
+            }
+        }
         courseRepository.save(course);
 
         return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -70,6 +84,15 @@ public class CourseServiceImpl implements CourseService {
     @Modifying
     @Override
     public CourseResponseV1 updateCourse(CourseRequestV1 courseUpdateRequest, UUID courseId){
+
+        if(courseUpdateRequest!= null && courseUpdateRequest.getPlacementList()!= null && !courseUpdateRequest.getPlacementList().isEmpty()) {
+            for (CourseRequestV1.PlacementCourseRequestV1 placement : courseUpdateRequest.getPlacementList()) {
+                if (placement.getExpiredPlacementDate() != null && courseUpdateRequest.getCourseEndDate() != null) {
+                    if (placement.getExpiredPlacementDate() != dateUtil.addDays(courseUpdateRequest.getCourseEndDate(), 180))
+                        throw new BadRequestException("ExpiredPlacementDate bad request.");
+                }
+            }
+        }
 
         Optional<CourseEntity> courseOpt = courseRepository.findById(courseId);
 
@@ -263,8 +286,17 @@ public class CourseServiceImpl implements CourseService {
             course.setPartnerList(coursePatch.getPartnerList());
         if(coursePatch.getPaymentModality() != null)
             course.setPaymentModality(coursePatch.getPaymentModality());
-        if(coursePatch.getPlacementList() != null)
+        if(coursePatch.getPlacementList() != null){
+            if(coursePatch!= null && coursePatch.getPlacementList()!= null && !coursePatch.getPlacementList().isEmpty()) {
+                for (PlacementCourse placement : coursePatch.getPlacementList()) {
+                    if (placement.getExpiredPlacementDate() != null && coursePatch.getCourseEndDate() != null) {
+                        if (placement.getExpiredPlacementDate() != dateUtil.addDays(coursePatch.getCourseEndDate(), 180))
+                            throw new BadRequestException("ExpiredPlacementDate bad request.");
+                    }
+                }
+            }
             course.setPlacementList(coursePatch.getPlacementList());
+        }
         if(coursePatch.getPracticeHours() != null)
             course.setPracticeHours(coursePatch.getPracticeHours());
         if(coursePatch.getReceiptFTConfirmationDate() != null)
