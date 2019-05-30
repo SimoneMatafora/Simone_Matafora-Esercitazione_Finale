@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.CourseAdapter;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
@@ -50,6 +51,14 @@ public class CourseServiceImpl implements CourseService {
     public IdResponseV1 insertCourse(CourseRequestV1 courseInsertRequest) {
 
         CourseEntity course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
+        if(course != null && course.getAmountFinSecurityCapital()!=null && course.getAmountAutorizedFT()!=null && course.getTotalHours()!=null){
+            if(course.getTotalHours().equals(0.0))
+                throw new BadRequestException("Total hours is zero. Impossibile to divide");
+
+            Double total = ((course.getAmountAutorizedFT()-140)/course.getTotalHours())*4;
+            if(!course.getAmountFinSecurityCapital().equals(total))
+                throw new BadRequestException("AmountFinSecurityCapital error. ");
+        }
         courseRepository.save(course);
 
         return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -70,6 +79,15 @@ public class CourseServiceImpl implements CourseService {
     @Modifying
     @Override
     public CourseResponseV1 updateCourse(CourseRequestV1 courseUpdateRequest, UUID courseId){
+
+        if(courseUpdateRequest != null && courseUpdateRequest.getAmountFinSecurityCapital()!=null && courseUpdateRequest.getAmountAutorizedFT()!=null && courseUpdateRequest.getTotalHours()!=null){
+            if(courseUpdateRequest.getTotalHours().equals(0.0))
+                throw new BadRequestException("Total hours is zero. Impossibile to divide");
+
+            Double total = ((courseUpdateRequest.getAmountAutorizedFT()-140)/courseUpdateRequest.getTotalHours())*4;
+            if(!courseUpdateRequest.getAmountFinSecurityCapital().equals(total))
+                throw new BadRequestException("AmountFinSecurityCapital error. ");
+        }
 
         Optional<CourseEntity> courseOpt = courseRepository.findById(courseId);
 
@@ -177,8 +195,18 @@ public class CourseServiceImpl implements CourseService {
             course.setAfternoonEndHour(coursePatch.getAfternoonEndHour());
         if(coursePatch.getAfternoonStartHour() != null)
             course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
-        if(coursePatch.getAmountFinSecurityCapital () != null)
+        if(coursePatch.getAmountFinSecurityCapital () != null){
+            if(coursePatch.getAmountAutorizedFT()!=null && coursePatch.getTotalHours()!=null){
+                if(coursePatch.getTotalHours().equals(0.0))
+                    throw new BadRequestException("Total hours is zero. Impossibile to divide");
+
+                Double total = ((coursePatch.getAmountAutorizedFT()-140)/coursePatch.getTotalHours())*4;
+                if(!coursePatch.getAmountFinSecurityCapital().equals(total))
+                    throw new BadRequestException("AmountFinSecurityCapital error. ");
+            }
             course.setAmountFinSecurityCapital (coursePatch.getAmountFinSecurityCapital ());
+        }
+
         if(coursePatch.getAmountAttendanceBenefits() != null)
             course.setAmountAttendanceBenefits(coursePatch.getAmountAttendanceBenefits());
         if(coursePatch.getAmountAutorizedFT() != null)
