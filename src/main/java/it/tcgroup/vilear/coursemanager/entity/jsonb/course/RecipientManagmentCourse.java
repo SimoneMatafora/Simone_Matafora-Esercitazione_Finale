@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.ReasonWithdrawnLearnerCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.RecipientTypeLearnerCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.SecurityExonerateLearnerCourseEnum;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import javax.persistence.Column;
 import javax.persistence.Temporal;
@@ -60,12 +61,12 @@ public class RecipientManagmentCourse implements Serializable {
     private Date withdrawnDate;
 
     @JsonProperty("withdrawn_form")
-    private String withdrawnForm;
+    private Attachment withdrawnForm;
 
     public RecipientManagmentCourse() {
     }
 
-    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm) {
         this.learner = learner;
         this.recipientType = recipientType;
         this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -169,11 +170,11 @@ public class RecipientManagmentCourse implements Serializable {
         this.withdrawnDate = withdrawnDate;
     }
 
-    public String getWithdrawnForm() {
+    public Attachment getWithdrawnForm() {
         return withdrawnForm;
     }
 
-    public void setWithdrawnForm(String withdrawnForm) {
+    public void setWithdrawnForm(Attachment withdrawnForm) {
         this.withdrawnForm = withdrawnForm;
     }
 

@@ -1,14 +1,21 @@
 package it.tcgroup.vilear.coursemanager.adapter.course;
 
+import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.LearnerAdapter;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCourse;
+import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class RecipientManagmentCourseAdapter {
@@ -16,12 +23,27 @@ public class RecipientManagmentCourseAdapter {
     @Autowired
     private LearnerAdapter learnerAdapter;
 
-    public RecipientManagmentCourse adptRecipientManagmentCourseRequestToRecipientManagmentCourse(RecipientManagmentCourseRequestV1 recipientManagmentCourseRequest){
+    @Autowired
+    private AttachmentAdapter attachmentAdapter;
+
+    @Autowired
+    private FilemanagerService filemanagerService;
+
+    public RecipientManagmentCourse adptRecipientManagmentCourseRequestToRecipientManagmentCourse(RecipientManagmentCourseRequestV1 recipientManagmentCourseRequest) throws IOException {
 
         if(recipientManagmentCourseRequest == null)
             return  null;
 
         RecipientManagmentCourse recipientManagmentCourse = new RecipientManagmentCourse();
+
+        Attachment withdrawnForm = null;
+        if (recipientManagmentCourseRequest.getWithdrawnForm() != null) {
+
+            UploadRequestV1 request = recipientManagmentCourseRequest.getWithdrawnForm();
+            request.setResourceId(UUID.randomUUID().toString());
+            UploadResponseV1 response = filemanagerService.uploadFile(request);
+            withdrawnForm = attachmentAdapter.adptUploadResponseToAttachment(response);
+        }
 
         recipientManagmentCourse.setAccepted(recipientManagmentCourseRequest.getAccepted());
         recipientManagmentCourse.setExonerationGeneralSecurity(recipientManagmentCourseRequest.getExonerationGeneralSecurity());
@@ -33,7 +55,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourse.setSpecificationSsecurityExonerate(recipientManagmentCourseRequest.getSpecificationSsecurityExonerate());
         recipientManagmentCourse.setWithdrawn(recipientManagmentCourseRequest.getWithdrawn());
         recipientManagmentCourse.setWithdrawnDate(recipientManagmentCourseRequest.getWithdrawnDate());
-        recipientManagmentCourse.setWithdrawnForm(recipientManagmentCourseRequest.getWithdrawnForm());
+        recipientManagmentCourse.setWithdrawnForm(withdrawnForm);
         recipientManagmentCourse.setWithdrawnReason(recipientManagmentCourseRequest.getWithdrawnReason());
         recipientManagmentCourse.setGeneralSecurityModule(recipientManagmentCourseRequest.getGeneralSecurityModule());
         recipientManagmentCourse.setSpecificSecurityModule(recipientManagmentCourseRequest.getSpecificSecurityModule());
@@ -41,7 +63,7 @@ public class RecipientManagmentCourseAdapter {
         return recipientManagmentCourse;
     }
 
-    public List<RecipientManagmentCourse> adptRecipientManagmentCourseRequestToRecipientManagmentCourse(List<RecipientManagmentCourseRequestV1> recipientManagmentCourseRequest){
+    public List<RecipientManagmentCourse> adptRecipientManagmentCourseRequestToRecipientManagmentCourse(List<RecipientManagmentCourseRequestV1> recipientManagmentCourseRequest) throws IOException {
 
         if(recipientManagmentCourseRequest == null)
             return null;

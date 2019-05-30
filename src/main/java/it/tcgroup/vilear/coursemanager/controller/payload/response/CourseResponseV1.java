@@ -342,12 +342,12 @@ public class CourseResponseV1 {
         private Date withdrawnDate;
 
         @JsonProperty("withdrawn_form")
-        private String withdrawnForm;
+        private Attachment withdrawnForm;
 
         public RecipientManagmentCourseResponseV1() {
         }
 
-        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -452,11 +452,11 @@ public class CourseResponseV1 {
             this.withdrawnDate = withdrawnDate;
         }
 
-        public String getWithdrawnForm() {
+        public Attachment getWithdrawnForm() {
             return withdrawnForm;
         }
 
-        public void setWithdrawnForm(String withdrawnForm) {
+        public void setWithdrawnForm(Attachment withdrawnForm) {
             this.withdrawnForm = withdrawnForm;
         }
 
@@ -717,10 +717,10 @@ public class CourseResponseV1 {
         private Double totalHoursPerformed;
 
         @JsonProperty("trade_unino_teaching_letter")
-        private String tradeUninoTeachingLetter;
+        private Attachment tradeUninoTeachingLetter;
 
         @JsonProperty("learner_judgement_form")
-        private String learnerJudgementForm;
+        private Attachment learnerJudgementForm;
 
         @JsonProperty("acronym_trade_unino")
         private String acronymTradeUnino;
@@ -732,7 +732,7 @@ public class CourseResponseV1 {
         public TeacherCourseResponseV1() {
         }
 
-        public TeacherCourseResponseV1(TeacherResponseV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, String acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+        public TeacherCourseResponseV1(TeacherResponseV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, Attachment tradeUninoTeachingLetter, Attachment learnerJudgementForm, String acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
             this.teacher = teacher;
             this.role = role;
             this.workingPosition = workingPosition;
@@ -812,19 +812,19 @@ public class CourseResponseV1 {
             this.totalHoursPerformed = totalHoursPerformed;
         }
 
-        public String getTradeUninoTeachingLetter() {
+        public Attachment getTradeUninoTeachingLetter() {
             return tradeUninoTeachingLetter;
         }
 
-        public void setTradeUninoTeachingLetter(String tradeUninoTeachingLetter) {
+        public void setTradeUninoTeachingLetter(Attachment tradeUninoTeachingLetter) {
             this.tradeUninoTeachingLetter = tradeUninoTeachingLetter;
         }
 
-        public String getLearnerJudgementForm() {
+        public Attachment getLearnerJudgementForm() {
             return learnerJudgementForm;
         }
 
-        public void setLearnerJudgementForm(String learnerJudgementForm) {
+        public void setLearnerJudgementForm(Attachment learnerJudgementForm) {
             this.learnerJudgementForm = learnerJudgementForm;
         }
 

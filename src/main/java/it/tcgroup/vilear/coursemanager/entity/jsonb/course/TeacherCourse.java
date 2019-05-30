@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.TeacherEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -40,10 +41,10 @@ public class TeacherCourse implements Serializable {
     private Double totalHoursPerformed;
 
     @JsonProperty("trade_unino_teaching_letter")
-    private String tradeUninoTeachingLetter;
+    private Attachment tradeUninoTeachingLetter;
 
     @JsonProperty("learner_judgement_form")
-    private String learnerJudgementForm;
+    private Attachment learnerJudgementForm;
 
     @JsonProperty("acronym_trade_unino")
     private AcronymTradeUninoEnum acronymTradeUnino;
@@ -54,7 +55,7 @@ public class TeacherCourse implements Serializable {
     public TeacherCourse() {
     }
 
-    public TeacherCourse(TeacherDto teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+    public TeacherCourse(TeacherDto teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, Attachment tradeUninoTeachingLetter, Attachment learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
         this.teacher = teacher;
         this.role = role;
         this.workingPosition = workingPosition;
@@ -134,19 +135,19 @@ public class TeacherCourse implements Serializable {
         this.totalHoursPerformed = totalHoursPerformed;
     }
 
-    public String getTradeUninoTeachingLetter() {
+    public Attachment getTradeUninoTeachingLetter() {
         return tradeUninoTeachingLetter;
     }
 
-    public void setTradeUninoTeachingLetter(String tradeUninoTeachingLetter) {
+    public void setTradeUninoTeachingLetter(Attachment tradeUninoTeachingLetter) {
         this.tradeUninoTeachingLetter = tradeUninoTeachingLetter;
     }
 
-    public String getLearnerJudgementForm() {
+    public Attachment getLearnerJudgementForm() {
         return learnerJudgementForm;
     }
 
-    public void setLearnerJudgementForm(String learnerJudgementForm) {
+    public void setLearnerJudgementForm(Attachment learnerJudgementForm) {
         this.learnerJudgementForm = learnerJudgementForm;
     }
 

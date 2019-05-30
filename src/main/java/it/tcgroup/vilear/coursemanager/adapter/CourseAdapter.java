@@ -11,6 +11,7 @@ import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class CourseAdapter {
     @Autowired
     private TeacherCourseAdapter teacherCourseAdapter;
 
-    public CourseEntity adptCourseRequestToCourse(CourseRequestV1 courseRequest){
+    public CourseEntity adptCourseRequestToCourse(CourseRequestV1 courseRequest) throws IOException {
 
         if(courseRequest == null)
             return null;

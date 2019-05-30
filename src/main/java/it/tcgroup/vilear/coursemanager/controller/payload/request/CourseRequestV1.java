@@ -543,12 +543,12 @@ public class CourseRequestV1 {
         private Date withdrawnDate;
 
         @JsonProperty("withdrawn_form")
-        private String withdrawnForm;
+        private UploadRequestV1 withdrawnForm;
 
         public RecipientManagmentCourseRequestV1() {
         }
 
-        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, UploadRequestV1 withdrawnForm) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -653,11 +653,11 @@ public class CourseRequestV1 {
             this.withdrawnDate = withdrawnDate;
         }
 
-        public String getWithdrawnForm() {
+        public UploadRequestV1 getWithdrawnForm() {
             return withdrawnForm;
         }
 
-        public void setWithdrawnForm(String withdrawnForm) {
+        public void setWithdrawnForm(UploadRequestV1 withdrawnForm) {
             this.withdrawnForm = withdrawnForm;
         }
 
@@ -1113,10 +1113,10 @@ public class CourseRequestV1 {
         private Double totalHoursPerformed;
 
         @JsonProperty("trade_unino_teaching_letter")
-        private String tradeUninoTeachingLetter;
+        private UploadRequestV1 tradeUninoTeachingLetter;
 
         @JsonProperty("learner_judgement_form")
-        private String learnerJudgementForm;
+        private UploadRequestV1 learnerJudgementForm;
 
         @JsonProperty("acronym_trade_union")
         private String acronymTradeUnion;
@@ -1128,7 +1128,7 @@ public class CourseRequestV1 {
         public TeacherCourseRequestV1() {
         }
 
-        public TeacherCourseRequestV1(TeacherRequestDtoV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, String tradeUninoTeachingLetter, String learnerJudgementForm, String acronymTradeUnion, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+        public TeacherCourseRequestV1(TeacherRequestDtoV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, UploadRequestV1 tradeUninoTeachingLetter, UploadRequestV1 learnerJudgementForm, String acronymTradeUnion, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
             this.teacher = teacher;
             this.role = role;
             this.workingPosition = workingPosition;
@@ -1208,19 +1208,19 @@ public class CourseRequestV1 {
             this.totalHoursPerformed = totalHoursPerformed;
         }
 
-        public String getTradeUninoTeachingLetter() {
+        public UploadRequestV1 getTradeUninoTeachingLetter() {
             return tradeUninoTeachingLetter;
         }
 
-        public void setTradeUninoTeachingLetter(String tradeUninoTeachingLetter) {
+        public void setTradeUninoTeachingLetter(UploadRequestV1 tradeUninoTeachingLetter) {
             this.tradeUninoTeachingLetter = tradeUninoTeachingLetter;
         }
 
-        public String getLearnerJudgementForm() {
+        public UploadRequestV1 getLearnerJudgementForm() {
             return learnerJudgementForm;
         }
 
-        public void setLearnerJudgementForm(String learnerJudgementForm) {
+        public void setLearnerJudgementForm(UploadRequestV1 learnerJudgementForm) {
             this.learnerJudgementForm = learnerJudgementForm;
         }
 

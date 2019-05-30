@@ -1,14 +1,21 @@
 package it.tcgroup.vilear.coursemanager.adapter.course;
 
+import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.TeacherAdapter;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
+import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class TeacherCourseAdapter {
@@ -16,17 +23,42 @@ public class TeacherCourseAdapter {
     @Autowired
     private TeacherAdapter teacherAdapter;
 
-    public TeacherCourse adptTeacherCourseRequestToTeacherCourse(TeacherCourseRequestV1 teacherCourseRequest){
+    @Autowired
+    private AttachmentAdapter attachmentAdapter;
+
+    @Autowired
+    private FilemanagerService filemanagerService;
+
+    public TeacherCourse adptTeacherCourseRequestToTeacherCourse(TeacherCourseRequestV1 teacherCourseRequest) throws IOException {
 
         if(teacherCourseRequest == null)
             return null;
 
         TeacherCourse teacherCourse = new TeacherCourse();
 
+        Attachment learnerJudgementForm = null;
+        if (teacherCourseRequest.getLearnerJudgementForm() != null) {
+
+            UploadRequestV1 request = teacherCourseRequest.getLearnerJudgementForm();
+            request.setResourceId(UUID.randomUUID().toString());
+            UploadResponseV1 response = filemanagerService.uploadFile(request);
+            learnerJudgementForm = attachmentAdapter.adptUploadResponseToAttachment(response);
+        }
+
+        Attachment tradeUninoTeachingLetter = null;
+        if (teacherCourseRequest.getTradeUninoTeachingLetter() != null) {
+
+            UploadRequestV1 request = teacherCourseRequest.getTradeUninoTeachingLetter();
+            request.setResourceId(UUID.randomUUID().toString());
+            UploadResponseV1 response = filemanagerService.uploadFile(request);
+            tradeUninoTeachingLetter = attachmentAdapter.adptUploadResponseToAttachment(response);
+        }
+
+
         teacherCourse.setAcronymTradeUnino(teacherCourseRequest.getAcronymTradeUnino());
         teacherCourse.setGrossHourlyCost(teacherCourseRequest.getGrossHourlyCost());
         teacherCourse.setHoursTeachingLetterAssignment(teacherCourseRequest.getHoursTeachingLetterAssignment());
-        teacherCourse.setLearnerJudgementForm(teacherCourseRequest.getLearnerJudgementForm());
+        teacherCourse.setLearnerJudgementForm(learnerJudgementForm);
         teacherCourse.setMain(teacherCourseRequest.getMain());
         teacherCourse.setNetHourlyCost(teacherCourseRequest.getNetHourlyCost());
         teacherCourse.setPaymentModality(teacherCourseRequest.getPaymentModality());
@@ -34,13 +66,13 @@ public class TeacherCourseAdapter {
         teacherCourse.setRole(teacherCourseRequest.getRole());
         teacherCourse.setTeacher(teacherAdapter.adptTeacherRequestDtoToTeacherDto(teacherCourseRequest.getTeacher()));
         teacherCourse.setTotalHoursPerformed(teacherCourseRequest.getTotalHoursPerformed());
-        teacherCourse.setTradeUninoTeachingLetter(teacherCourseRequest.getTradeUninoTeachingLetter());
+        teacherCourse.setTradeUninoTeachingLetter(tradeUninoTeachingLetter);
         teacherCourse.setWorkingPosition(teacherCourseRequest.getWorkingPosition());
 
         return teacherCourse;
     }
 
-    public List<TeacherCourse> adptTeacherCourseRequestToTeacherCourse(List<TeacherCourseRequestV1> teacherCourseRequest){
+    public List<TeacherCourse> adptTeacherCourseRequestToTeacherCourse(List<TeacherCourseRequestV1> teacherCourseRequest) throws IOException {
 
         if(teacherCourseRequest == null)
             return null;
