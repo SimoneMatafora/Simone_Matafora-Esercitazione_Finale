@@ -51,13 +51,13 @@ public class LearnerEMRepository {
             whereCondition.add("upper(l.course_of_study)= upper('" + courseOfStudy + "') ");
         }
         if( city != null){
-            whereCondition.add("upper(l.address ->> 'city') = upper('" + city + "') ");
+            whereCondition.add("upper(l.domicile_address ->> 'city') = upper('" + city + "') ");
         }
         if( region != null){
-            whereCondition.add("upper(l.address ->> 'region') = upper('" + region + "') ");
+            whereCondition.add("upper(l.domicile_address ->> 'region') = upper('" + region + "') ");
         }
         if( province != null){
-            whereCondition.add("upper(l.address->> 'province') = upper('" + province + "') ");
+            whereCondition.add("upper(l.domicile_address->> 'province') = upper('" + province + "') ");
         }
 
         int i = 1;

@@ -69,16 +69,16 @@ public class TeacherEMRepository {
             whereCondition.add("t.vat_holder = " + vatHolder + " ");
         }
         if( sector != null){
-            whereCondition.add("upper(t.sector) = upper('" + sector + "') ");
+            whereCondition.add("upper(t.domicile_address) = upper('" + sector + "') ");
         }
         if( province != null){
-            whereCondition.add("upper(t.address ->> 'province') = upper('" + province + "') ");
+            whereCondition.add("upper(t.domicile_address ->> 'province') = upper('" + province + "') ");
         }
         if( city != null){
-            whereCondition.add("upper(t.address ->> 'city') = upper('" + city + "') ");
+            whereCondition.add("upper(t.domicile_address ->> 'city') = upper('" + city + "') ");
         }
         if( region != null) {
-            whereCondition.add("upper(t.address ->> 'region') = upper('" + region + "') ");
+            whereCondition.add("upper(t.domicile_address ->> 'region') = upper('" + region + "') ");
         }
 
         int i = 1;
