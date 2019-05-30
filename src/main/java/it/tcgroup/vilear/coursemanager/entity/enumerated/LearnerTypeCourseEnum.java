@@ -7,7 +7,9 @@ import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 public enum LearnerTypeCourseEnum {
     DIPENDENTI("dipendenti"),
     DISOCCUPATI("disoccupati"),
-    ENTRAMBI("entrambi");
+    SOMMINISTRATO("somministrato"),
+    INOCCUPATO("inoccupato"),
+    MISTO("misto");
 
     private String learnerType;
 

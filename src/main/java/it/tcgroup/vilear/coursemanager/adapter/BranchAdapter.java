@@ -20,6 +20,9 @@ public class BranchAdapter {
 
     public BranchEntity adptBranchRequestToBranch(BranchRequestV1 filialeRequest){
 
+        if(filialeRequest == null)
+            return null;
+
         BranchEntity branch = new BranchEntity();
 
         branch.setRightOfAccessToTheCourses(filialeRequest.getRightOfAccessToTheCourses());
@@ -33,6 +36,9 @@ public class BranchAdapter {
 
     public IdResponseV1 adptBranchIdToBranchIdResponse(BranchEntity branch){
 
+        if(branch == null)
+            return null;
+
         IdResponseV1 filialeIdResponse = new IdResponseV1();
         filialeIdResponse.setId(branch.getId());
 
@@ -40,6 +46,9 @@ public class BranchAdapter {
     }
 
     public BranchResponseV1 adptBranchToBranchResponse(BranchEntity branch){
+
+        if(branch == null)
+            return null;
 
         BranchResponseV1 brancheResponse = new BranchResponseV1();
 
@@ -55,6 +64,9 @@ public class BranchAdapter {
 
     public List<BranchResponseV1> adptBranchToBranchResponse(List<BranchEntity> branchList){
 
+        if(branchList == null)
+            return null;
+
         List<BranchResponseV1> branchResponseList = new LinkedList<>();
         for (BranchEntity att : branchList){
             branchResponseList.add(this.adptBranchToBranchResponse(att));
@@ -64,6 +76,9 @@ public class BranchAdapter {
     }
 
     public PaginationResponseV1<BranchResponseV1> adpBranchPaginationToBranchPaginationResposne(Pagination<BranchEntity> branchPagination){
+
+        if(branchPagination == null)
+            return null;
 
         PaginationResponseV1<BranchResponseV1> branchPaginationResponse = new PaginationResponseV1<>();
 

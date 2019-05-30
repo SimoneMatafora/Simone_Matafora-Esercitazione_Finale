@@ -11,6 +11,9 @@ public class AddressAdapter {
 
     public String formatAddress(Address address){
 
+        if(address == null)
+            return null;
+
         String formattedAddress = "";
         if(address.getStreet() != null){ formattedAddress += address.getStreet(); }
         if(address.getNumber() != null){ formattedAddress += " " + address.getNumber(); }
@@ -25,6 +28,9 @@ public class AddressAdapter {
 
     public String formatAddress(AddressDto address){
 
+        if(address == null)
+            return null;
+
         String formattedAddress = "";
         if(address.getStreet() != null){ formattedAddress += address.getStreet(); }
         if(address.getNumber() != null){ formattedAddress += " " + address.getNumber(); }
@@ -38,6 +44,9 @@ public class AddressAdapter {
     }
 
     public Address adptAddressRequestToAddress(AddressRequest addressRequest){
+
+        if(addressRequest == null)
+            return null;
 
         Address address = new Address();
 
@@ -56,6 +65,8 @@ public class AddressAdapter {
 
     public AddressResponse adptAddressToAddressResponse(Address address){
 
+        if(address == null)
+            return null;
 
         AddressResponse indirizzoResponse = new AddressResponse();
 
@@ -72,6 +83,9 @@ public class AddressAdapter {
     }
 
     public AddressDto adptAddressRequestToAddressDto(AddressRequest addressRequest) {
+
+        if(addressRequest == null)
+            return null;
 
         AddressDto address = new AddressDto();
 
@@ -90,6 +104,9 @@ public class AddressAdapter {
 
     public AddressDto adptAddressToAddressDto(Address address) {
 
+        if(address == null)
+            return null;
+
         AddressDto addressDto = new AddressDto();
 
         addressDto.setZipCode(address.getZipCode());
@@ -107,6 +124,8 @@ public class AddressAdapter {
 
     public AddressResponse adptAddressDtoToAddressResponse(AddressDto address){
 
+        if(address == null)
+            return null;
 
         AddressResponse indirizzoResponse = new AddressResponse();
 

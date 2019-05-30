@@ -40,6 +40,9 @@ public class CourseAdapter {
 
     public CourseEntity adptCourseRequestToCourse(CourseRequestV1 courseRequest){
 
+        if(courseRequest == null)
+            return null;
+
         CourseEntity course = new CourseEntity();
 
         course.setActuatorSubject(partnerAdapter.adptPartnerRequestToPartnerDto(courseRequest.getActuatorSubject()));
@@ -120,6 +123,9 @@ public class CourseAdapter {
 
     public IdResponseV1 adptCourseIdToCourseIdResponse(CourseEntity course){
 
+        if(course == null)
+            return null;
+
         IdResponseV1 courseIdResponse = new IdResponseV1();
         courseIdResponse.setId(course.getId());
 
@@ -127,6 +133,9 @@ public class CourseAdapter {
     }
 
     public CourseResponseV1 adptCourseToCourseResponse(CourseEntity course){
+
+        if(course == null)
+            return null;
 
         CourseResponseV1 courseResponse = new CourseResponseV1();
 
@@ -209,6 +218,9 @@ public class CourseAdapter {
 
     public List<CourseResponseV1> adptCourseToCourseResponse(List<CourseEntity> courseList){
 
+        if(courseList == null)
+            return null;
+
         List<CourseResponseV1> courseResponseList = new LinkedList<>();
 
         for(CourseEntity att : courseList){
@@ -218,6 +230,9 @@ public class CourseAdapter {
     }
 
     public PaginationResponseV1<CourseResponseV1> adpCoursePaginationTooursePaginationResposne(Pagination<CourseEntity> coursesPagination){
+
+        if(coursesPagination == null)
+            return null;
 
         PaginationResponseV1<CourseResponseV1> coursePaginationResponse = new PaginationResponseV1<>();
 

@@ -22,7 +22,7 @@ public class RecipientManagmentCourse implements Serializable {
     private LearnerDto learner;
 
     @JsonProperty("recipient_code")
-    private RecipientTypeLearnerCourseEnum recipientType;
+    private RecipientTypeLearnerCourseEnum[] recipientType;
 
     @JsonProperty("exoneration_general_security")
     private Boolean exonerationGeneralSecurity;
@@ -58,7 +58,7 @@ public class RecipientManagmentCourse implements Serializable {
     public RecipientManagmentCourse() {
     }
 
-    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
         this.learner = learner;
         this.recipientType = recipientType;
         this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -81,11 +81,11 @@ public class RecipientManagmentCourse implements Serializable {
         this.learner = learner;
     }
 
-    public RecipientTypeLearnerCourseEnum getRecipientType() {
+    public RecipientTypeLearnerCourseEnum[] getRecipientType() {
         return recipientType;
     }
 
-    public void setRecipientType(RecipientTypeLearnerCourseEnum recipientType) {
+    public void setRecipientType(RecipientTypeLearnerCourseEnum[] recipientType) {
         this.recipientType = recipientType;
     }
 

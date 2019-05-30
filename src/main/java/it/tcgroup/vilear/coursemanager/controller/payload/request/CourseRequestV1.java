@@ -499,7 +499,7 @@ public class CourseRequestV1 {
         private LearnerRequestDtoV1 learner;
 
         @JsonProperty("recipient_code")
-        private RecipientTypeLearnerCourseEnum recipientType;
+        private RecipientTypeLearnerCourseEnum[] recipientType;
 
         @JsonProperty("exoneration_general_security")
         private Boolean exonerationGeneralSecurity;
@@ -535,7 +535,7 @@ public class CourseRequestV1 {
         public RecipientManagmentCourseRequestV1() {
         }
 
-        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
+        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, String withdrawnForm) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -558,11 +558,11 @@ public class CourseRequestV1 {
             this.learner = learner;
         }
 
-        public RecipientTypeLearnerCourseEnum getRecipientType() {
+        public RecipientTypeLearnerCourseEnum[] getRecipientType() {
             return recipientType;
         }
 
-        public void setRecipientType(RecipientTypeLearnerCourseEnum recipientType) {
+        public void setRecipientType(RecipientTypeLearnerCourseEnum[] recipientType) {
             this.recipientType = recipientType;
         }
 

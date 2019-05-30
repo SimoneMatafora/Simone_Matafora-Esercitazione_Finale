@@ -37,6 +37,9 @@ public class LearnerAdapter {
 
     public LearnerEntity adptLearnerRequestToLearner(LearnerRequestV1 learnerInsertRequest){
 
+        if(learnerInsertRequest == null)
+            return null;
+
         try {
 
             LearnerEntity learner = new LearnerEntity();
@@ -80,6 +83,9 @@ public class LearnerAdapter {
 
     public LearnerDto adptLearnerRequestToLearnerDto(LearnerRequestV1 learnerInsertRequest){
 
+        if(learnerInsertRequest == null)
+            return null;
+
         LearnerDto learner = new LearnerDto();
 
         AddressDto address = null;
@@ -103,6 +109,9 @@ public class LearnerAdapter {
     }
 
     public LearnerDto adptLearnerRequestDtoToLearnerDto(CourseRequestV1.RecipientManagmentCourseRequestV1.LearnerRequestDtoV1 learnerInsertRequest){
+
+        if(learnerInsertRequest == null)
+            return null;
 
         LearnerDto learner = new LearnerDto();
 
@@ -129,6 +138,9 @@ public class LearnerAdapter {
 
     public LearnerDto adptLearnerToLearnerDto(LearnerEntity learner){
 
+        if(learner == null)
+            return null;
+
         LearnerDto learnerDto = new LearnerDto();
 
         AddressDto address = null;
@@ -153,6 +165,9 @@ public class LearnerAdapter {
     }
 
     public LearnerResponseV1 adptLearnerDtoToLearnerResponse(LearnerDto learnerDto){
+
+        if(learnerDto == null)
+            return null;
 
         LearnerResponseV1 learnerResponse = new LearnerResponseV1();
 
@@ -179,6 +194,9 @@ public class LearnerAdapter {
 
     public IdResponseV1 adptLearnerIdToLearnerIdResponse(LearnerEntity learner){
 
+        if(learner == null)
+            return null;
+
         IdResponseV1 learnerIdResponse = new IdResponseV1();
         learnerIdResponse.setId(learner.getId());
 
@@ -186,6 +204,9 @@ public class LearnerAdapter {
     }
 
     public LearnerResponseV1 adptLearnerToLearnerResponse(LearnerEntity learner){
+
+        if(learner == null)
+            return null;
 
         LearnerResponseV1 learnerResponse = new LearnerResponseV1();
 
@@ -209,6 +230,9 @@ public class LearnerAdapter {
 
     public List<LearnerResponseV1> adptLearnerToLearnerResponse(List<LearnerEntity> learnerList){
 
+        if(learnerList ==  null)
+            return null;
+
         List<LearnerResponseV1> learnerResponseList = new LinkedList<>();
         for (LearnerEntity att : learnerList){
             learnerResponseList.add(this.adptLearnerToLearnerResponse(att));
@@ -218,6 +242,9 @@ public class LearnerAdapter {
     }
 
     public PaginationResponseV1<LearnerResponseV1> adpLearnerPaginationToLearnerPaginationResposne(Pagination learnerPagination){
+
+        if(learnerPagination == null)
+            return null;
 
         PaginationResponseV1<LearnerResponseV1> learnerPaginationResponse = new PaginationResponseV1<>();
 
