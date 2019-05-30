@@ -300,7 +300,7 @@ public class CourseServiceImpl implements CourseService {
         if(coursePatch.getPaymentModality() != null)
             course.setPaymentModality(coursePatch.getPaymentModality());
         if(coursePatch.getPlacementList() != null){
-            if(coursePatch!= null && coursePatch.getPlacementList()!= null && !coursePatch.getPlacementList().isEmpty()) {
+            if(!coursePatch.getPlacementList().isEmpty()) {
                 for (PlacementCourse placement : coursePatch.getPlacementList()) {
                     if (placement.getExpiredPlacementDate() != null && coursePatch.getCourseEndDate() != null) {
                         Calendar expiredPlacementDate = Calendar.getInstance();
