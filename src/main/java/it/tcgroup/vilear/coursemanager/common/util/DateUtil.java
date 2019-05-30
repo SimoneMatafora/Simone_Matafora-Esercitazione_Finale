@@ -14,11 +14,11 @@ public class DateUtil {
 
     public  Date addDays(Date date, int days)
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, days);  // number of days to add
-        return convertIS08601StringToUTCDate(sdf.format(c.getTime()));
+        return c.getTime();
     }
 
     public String convertUTCDateToIS08601String(Date date) {
