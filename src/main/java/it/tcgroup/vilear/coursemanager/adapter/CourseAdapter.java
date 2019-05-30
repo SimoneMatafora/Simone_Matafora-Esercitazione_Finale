@@ -117,6 +117,8 @@ public class CourseAdapter {
         course.setTradeUnionTeachingRequest(courseRequest.getTradeUnionTeachingRequest());
         course.setVisitHours(courseRequest.getVisitHours());
         course.setStatus(courseRequest.getStatus());
+        course.setInvoiceAuthorization(courseRequest.getInvoiceAuthorization());
+        course.setAccountingCode(courseRequest.getAccountingCode());
 
         return course;
     }
@@ -212,6 +214,8 @@ public class CourseAdapter {
         courseResponse.setTradeUnionTeachingRequest(course.getTradeUnionTeachingRequest());
         courseResponse.setVisitHours(course.getVisitHours());
         courseResponse.setStatus(course.getStatus());
+        courseResponse.setInvoiceAuthorization(course.getInvoiceAuthorization());
+        courseResponse.setAccountingCode(course.getAccountingCode());
 
         return courseResponse;
     }
