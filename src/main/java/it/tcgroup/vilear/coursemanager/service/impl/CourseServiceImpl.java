@@ -6,6 +6,7 @@ import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.PlacementCourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -59,7 +60,13 @@ public class CourseServiceImpl implements CourseService {
         if(course!= null && course.getPlacementList()!= null && !course.getPlacementList().isEmpty()) {
             for (PlacementCourse placement : course.getPlacementList()) {
                 if (placement.getExpiredPlacementDate() != null && course.getCourseEndDate() != null) {
-                    if (placement.getExpiredPlacementDate() != dateUtil.addDays(course.getCourseEndDate(), 180))
+                    Calendar expiredPlacementDate = Calendar.getInstance();
+                    expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
+                    Calendar courseEndDate = Calendar.getInstance();
+                    courseEndDate.setTime(dateUtil.addDays(course.getCourseEndDate(), 180));
+                    Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
+                            courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
+                    if (sameDay != true )
                         throw new BadRequestException("ExpiredPlacementDate bad request.");
                 }
             }
@@ -86,9 +93,15 @@ public class CourseServiceImpl implements CourseService {
     public CourseResponseV1 updateCourse(CourseRequestV1 courseUpdateRequest, UUID courseId){
 
         if(courseUpdateRequest!= null && courseUpdateRequest.getPlacementList()!= null && !courseUpdateRequest.getPlacementList().isEmpty()) {
-            for (CourseRequestV1.PlacementCourseRequestV1 placement : courseUpdateRequest.getPlacementList()) {
+            for (PlacementCourseRequestV1 placement : courseUpdateRequest.getPlacementList()) {
                 if (placement.getExpiredPlacementDate() != null && courseUpdateRequest.getCourseEndDate() != null) {
-                    if (placement.getExpiredPlacementDate() != dateUtil.addDays(courseUpdateRequest.getCourseEndDate(), 180))
+                    Calendar expiredPlacementDate = Calendar.getInstance();
+                    expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
+                    Calendar courseEndDate = Calendar.getInstance();
+                    courseEndDate.setTime(dateUtil.addDays(courseUpdateRequest.getCourseEndDate(), 180));
+                    Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
+                            courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
+                    if (sameDay != true )
                         throw new BadRequestException("ExpiredPlacementDate bad request.");
                 }
             }
@@ -290,7 +303,13 @@ public class CourseServiceImpl implements CourseService {
             if(coursePatch!= null && coursePatch.getPlacementList()!= null && !coursePatch.getPlacementList().isEmpty()) {
                 for (PlacementCourse placement : coursePatch.getPlacementList()) {
                     if (placement.getExpiredPlacementDate() != null && coursePatch.getCourseEndDate() != null) {
-                        if (placement.getExpiredPlacementDate() != dateUtil.addDays(coursePatch.getCourseEndDate(), 180))
+                        Calendar expiredPlacementDate = Calendar.getInstance();
+                        expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
+                        Calendar courseEndDate = Calendar.getInstance();
+                        courseEndDate.setTime(dateUtil.addDays(coursePatch.getCourseEndDate(), 180));
+                        Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
+                                courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
+                        if (sameDay != true )
                             throw new BadRequestException("ExpiredPlacementDate bad request.");
                     }
                 }
