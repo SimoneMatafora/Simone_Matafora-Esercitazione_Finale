@@ -126,8 +126,7 @@ public class RecipientManagmentCourse implements Serializable {
         return specificationSsecurityExonerate;
     }
 
-    public void setSpecificationSsecurityExonerate(SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate) {
-        this.specificationSsecurityExonerate = specificationSsecurityExonerate;
+    public void setSpecificationSsecurityExonerate(SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate) { this.specificationSsecurityExonerate = specificationSsecurityExonerate;
     }
 
     public Boolean getAccepted() {
