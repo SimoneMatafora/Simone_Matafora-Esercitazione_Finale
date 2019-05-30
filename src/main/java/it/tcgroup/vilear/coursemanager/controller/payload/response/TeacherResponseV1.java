@@ -70,13 +70,19 @@ public class TeacherResponseV1 {
     @JsonProperty("curriculum_vitae")
     private Attachment curriculumVitae;
 
-    @JsonProperty("address")
-    private AddressResponse address;
+    @JsonProperty("residential_address")
+    private AddressResponse residentialAddress;
+
+    @JsonProperty("domicile_address")
+    private AddressResponse domicileAddress;
+
+    @JsonProperty("domicile_equals_residential")
+    private Boolean domicileEqualsResidential;
 
     public TeacherResponseV1() {
     }
 
-    public TeacherResponseV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressResponse address) {
+    public TeacherResponseV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressResponse residentialAddress, AddressResponse domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -97,7 +103,9 @@ public class TeacherResponseV1 {
         this.sector = sector;
         this.note = note;
         this.curriculumVitae = curriculumVitae;
-        this.address = address;
+        this.residentialAddress = residentialAddress;
+        this.domicileAddress = domicileAddress;
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     public String getId() {
@@ -260,17 +268,34 @@ public class TeacherResponseV1 {
         this.curriculumVitae = curriculumVitae;
     }
 
-    public AddressResponse getAddress() {
-        return address;
+    public AddressResponse getResidentialAddress() {
+        return residentialAddress;
     }
 
-    public void setAddress(AddressResponse address) {
-        this.address = address;
+    public void setResidentialAddress(AddressResponse residentialAddress) {
+        this.residentialAddress = residentialAddress;
+    }
+
+    public AddressResponse getDomicileAddress() {
+        return domicileAddress;
+    }
+
+    public void setDomicileAddress(AddressResponse domicileAddress) {
+        this.domicileAddress = domicileAddress;
+    }
+
+    public Boolean getDomicileEqualsResidential() {
+        return domicileEqualsResidential;
+    }
+
+    public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     @Override
     public String toString() {
         return "TeacherResponseV1{" +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +
@@ -289,8 +314,10 @@ public class TeacherResponseV1 {
                 ", vatNumber='" + vatNumber + '\'' +
                 ", sector='" + sector + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
-                ", address=" + address +
+                ", curriculumVitae=" + curriculumVitae +
+                ", residentialAddress=" + residentialAddress +
+                ", domicileAddress=" + domicileAddress +
+                ", domicileEqualsResidential=" + domicileEqualsResidential +
                 '}';
     }
 

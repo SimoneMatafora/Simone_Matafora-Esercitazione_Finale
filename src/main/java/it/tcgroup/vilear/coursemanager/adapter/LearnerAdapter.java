@@ -44,9 +44,13 @@ public class LearnerAdapter {
 
             LearnerEntity learner = new LearnerEntity();
 
-            Address address = null;
-            if (learnerInsertRequest.getAddress() != null)
-                address = addressAdapter.adptAddressRequestToAddress(learnerInsertRequest.getAddress());
+            Address residentialAddress = null;
+            if (learnerInsertRequest.getResidentialAddress() != null)
+                residentialAddress = addressAdapter.adptAddressRequestToAddress(learnerInsertRequest.getResidentialAddress());
+
+            Address domicileAddress = null;
+            if (learnerInsertRequest.getDomicileAddress() != null)
+                domicileAddress = addressAdapter.adptAddressRequestToAddress(learnerInsertRequest.getDomicileAddress());
 
             List<Attachment> attachmentList = new LinkedList<>();
             if(learnerInsertRequest.getAttachments() != null && !learnerInsertRequest.getAttachments().isEmpty()){
@@ -70,8 +74,13 @@ public class LearnerAdapter {
             learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
             learner.setNote(learnerInsertRequest.getNote());
             learner.setPhone(learnerInsertRequest.getPhone());
-            learner.setAddress(address);
-            learner.setId(UUID.fromString(learnerInsertRequest.getId()));
+            if(learnerInsertRequest.getId() != null)
+                learner.setId(UUID.fromString(learnerInsertRequest.getId()));
+            learner.setResidentialAddress(residentialAddress);
+
+            learner.setDomicileEqualsResidential(learnerInsertRequest.getDomicileEqualsResidential());
+
+            learner.setDomicileAddress(domicileAddress);
 
             return learner;
 
@@ -88,9 +97,13 @@ public class LearnerAdapter {
 
         LearnerDto learner = new LearnerDto();
 
-        AddressDto address = null;
-        if (learnerInsertRequest.getAddress() != null)
-            address = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getAddress());
+        AddressDto residentialAddress = null;
+        if (learnerInsertRequest.getResidentialAddress() != null)
+            residentialAddress = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getResidentialAddress());
+
+        AddressDto domicileAddress = null;
+        if (learnerInsertRequest.getDomicileAddress() != null)
+            domicileAddress = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getDomicileAddress());
 
         learner.setId(learnerInsertRequest.getId());
         learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
@@ -103,7 +116,11 @@ public class LearnerAdapter {
         learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
         learner.setNote(learnerInsertRequest.getNote());
         learner.setPhone(learnerInsertRequest.getPhone());
-        learner.setAddress(address);
+        learner.setResidentialAddress(residentialAddress);
+
+        learner.setDomicileEqualsResidential(learnerInsertRequest.getDomicileEqualsResidential());
+
+        learner.setDomicileAddress(domicileAddress);
 
         return learner;
     }
@@ -115,9 +132,13 @@ public class LearnerAdapter {
 
         LearnerDto learner = new LearnerDto();
 
-        AddressDto address = null;
-        if (learnerInsertRequest.getAddress() != null)
-            address = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getAddress());
+        AddressDto residentialAddress = null;
+        if (learnerInsertRequest.getResidentialAddress() != null)
+            residentialAddress = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getResidentialAddress());
+
+        AddressDto domicileAddress = null;
+        if (learnerInsertRequest.getDomicileAddress() != null)
+            domicileAddress = addressAdapter.adptAddressRequestToAddressDto(learnerInsertRequest.getDomicileAddress());
 
         learner.setId(learnerInsertRequest.getId());
         learner.setFiscalCode(learnerInsertRequest.getFiscalCode());
@@ -131,7 +152,11 @@ public class LearnerAdapter {
         learner.setNote(learnerInsertRequest.getNote());
         learner.setPhone(learnerInsertRequest.getPhone());
         learner.setAttachemnts(learnerInsertRequest.getAttachments());
-        learner.setAddress(address);
+        learner.setResidentialAddress(residentialAddress);
+
+        learner.setDomicileEqualsResidential(learnerInsertRequest.getDomicileEqualsResidential());
+
+        learner.setDomicileAddress(domicileAddress);
 
         return learner;
     }
@@ -143,9 +168,13 @@ public class LearnerAdapter {
 
         LearnerDto learnerDto = new LearnerDto();
 
-        AddressDto address = null;
-        if (learner.getAddress() != null)
-            address = addressAdapter.adptAddressToAddressDto(learner.getAddress());
+        AddressDto residentialAddress = null;
+        if (learner.getResidentialAddress() != null)
+            residentialAddress = addressAdapter.adptAddressToAddressDto(learner.getResidentialAddress());
+
+        AddressDto domicileAddress = null;
+        if (learner.getDomicileAddress() != null)
+            domicileAddress = addressAdapter.adptAddressToAddressDto(learner.getDomicileAddress());
 
         learnerDto.setId(learner.getId().toString());
         learnerDto.setFiscalCode(learner.getFiscalCode());
@@ -158,8 +187,13 @@ public class LearnerAdapter {
         learnerDto.setCourseOfStudy(learner.getCourseOfStudy());
         learnerDto.setNote(learner.getNote());
         learnerDto.setPhone(learner.getPhone());
-        learnerDto.setAddress(address);
         learnerDto.setAttachemnts(learner.getAttachments());
+        learnerDto.setResidentialAddress(residentialAddress);
+        learnerDto.setResidentialAddress(residentialAddress);
+
+        learnerDto.setDomicileEqualsResidential(learner.getDomicileEqualsResidential());
+
+        learnerDto.setDomicileAddress(domicileAddress);
 
         return learnerDto;
     }
@@ -171,9 +205,13 @@ public class LearnerAdapter {
 
         LearnerResponseV1 learnerResponse = new LearnerResponseV1();
 
-        AddressResponse addressResponse = null;
-        if (learnerDto.getAddress() != null)
-            addressResponse = addressAdapter.adptAddressDtoToAddressResponse(learnerDto.getAddress());
+        AddressResponse residentialAddressResponse = null;
+        if (learnerDto.getResidentialAddress() != null)
+            residentialAddressResponse = addressAdapter.adptAddressDtoToAddressResponse(learnerDto.getResidentialAddress());
+
+        AddressResponse domicileAddressResponse = null;
+        if (learnerDto.getDomicileAddress() != null)
+            domicileAddressResponse = addressAdapter.adptAddressDtoToAddressResponse(learnerDto.getDomicileAddress());
 
         learnerResponse.setId(learnerDto.getId());
         learnerResponse.setFiscalCode(learnerDto.getFiscalCode());
@@ -187,7 +225,11 @@ public class LearnerAdapter {
         learnerResponse.setCourseOfStudy(learnerDto.getCourseOfStudy());
         learnerResponse.setNote(learnerDto.getNote());
         learnerResponse.setPhone(learnerDto.getPhone());
-        learnerResponse.setAddress(addressResponse);
+        learnerResponse.setResidentialAddress(residentialAddressResponse);
+
+        learnerResponse.setDomicileEqualsResidential(learnerDto.getDomicileEqualsResidential());
+
+        learnerResponse.setDomicileAddress(domicileAddressResponse);
 
         return learnerResponse;
     }
@@ -223,7 +265,9 @@ public class LearnerAdapter {
         learnerResponse.setNote(learner.getNote());
         learnerResponse.setPhone(learner.getPhone());
 
-        learnerResponse.setAddress(addressAdapter.adptAddressToAddressResponse(learner.getAddress()));
+        learnerResponse.setResidentialAddress(addressAdapter.adptAddressToAddressResponse(learner.getResidentialAddress()));
+        learnerResponse.setDomicileAddress(addressAdapter.adptAddressToAddressResponse(learner.getDomicileAddress()));
+        learnerResponse.setDomicileEqualsResidential(learner.getDomicileEqualsResidential());
 
         return learnerResponse;
     }

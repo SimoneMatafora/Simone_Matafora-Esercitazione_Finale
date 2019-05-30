@@ -71,13 +71,19 @@ public class TeacherDto implements Serializable {
     @JsonProperty("curriculum_vitae")
     private Attachment curriculumVitae;
 
-    @JsonProperty("address")
-    private AddressDto address;
+    @JsonProperty("residential_address")
+    private AddressDto residentialAddress;
+
+    @JsonProperty("domicile_address")
+    private AddressDto domicileAddress;
+
+    @JsonProperty("domicile_equals_residential")
+    private Boolean domicileEqualsResidential ;
 
     public TeacherDto() {
     }
 
-    public TeacherDto(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressDto address) {
+    public TeacherDto(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, AddressDto residentialAddress, AddressDto domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -98,7 +104,9 @@ public class TeacherDto implements Serializable {
         this.sector = sector;
         this.note = note;
         this.curriculumVitae = curriculumVitae;
-        this.address = address;
+        this.residentialAddress = residentialAddress;
+        this.domicileAddress = domicileAddress;
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     public String getId() {
@@ -261,12 +269,28 @@ public class TeacherDto implements Serializable {
         this.curriculumVitae = curriculumVitae;
     }
 
-    public AddressDto getAddress() {
-        return address;
+    public AddressDto getResidentialAddress() {
+        return residentialAddress;
     }
 
-    public void setAddress(AddressDto address) {
-        this.address = address;
+    public void setResidentialAddress(AddressDto residentialAddress) {
+        this.residentialAddress = residentialAddress;
+    }
+
+    public AddressDto getDomicileAddress() {
+        return domicileAddress;
+    }
+
+    public void setDomicileAddress(AddressDto domicileAddress) {
+        this.domicileAddress = domicileAddress;
+    }
+
+    public Boolean getDomicileEqualsResidential() {
+        return domicileEqualsResidential;
+    }
+
+    public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     @Override
@@ -291,8 +315,10 @@ public class TeacherDto implements Serializable {
                 ", vatNumber='" + vatNumber + '\'' +
                 ", sector='" + sector + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
-                ", address=" + address +
+                ", curriculumVitae=" + curriculumVitae +
+                ", residentialAddress=" + residentialAddress +
+                ", domicileAddress=" + domicileAddress +
+                ", domicileEqualsResidential=" + domicileEqualsResidential +
                 '}';
     }
 }

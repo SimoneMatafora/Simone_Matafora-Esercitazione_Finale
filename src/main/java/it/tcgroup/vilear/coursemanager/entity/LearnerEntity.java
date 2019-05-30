@@ -69,13 +69,20 @@ public class LearnerEntity implements Serializable {
     private List<Attachment> attachments;
 
     @Type(type = "JsonDataAddressType")
-    @Column(name = "address")
-    private Address address;
+    @Column(name = "residential_address")
+    private Address residentialAddress;
+
+    @Type(type = "JsonDataAddressType")
+    @Column(name = "domicile_address")
+    private Address domicileAddress;
+
+    @Column(name = "domicile_equals_residential")
+    private Boolean domicileEqualsResidential ;
 
     public LearnerEntity() {
     }
 
-    public LearnerEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, Address address) {
+    public LearnerEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, Address residentialAddress, Address domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -88,7 +95,9 @@ public class LearnerEntity implements Serializable {
         this.courseOfStudy = courseOfStudy;
         this.note = note;
         this.attachments = attachments;
-        this.address = address;
+        this.residentialAddress = residentialAddress;
+        this.domicileAddress = domicileAddress;
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     public UUID getId() {
@@ -187,12 +196,28 @@ public class LearnerEntity implements Serializable {
         this.attachments = attachments;
     }
 
-    public Address getAddress() {
-        return address;
+    public Address getResidentialAddress() {
+        return residentialAddress;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setResidentialAddress(Address residentialAddress) {
+        this.residentialAddress = residentialAddress;
+    }
+
+    public Address getDomicileAddress() {
+        return domicileAddress;
+    }
+
+    public void setDomicileAddress(Address domicileAddress) {
+        this.domicileAddress = domicileAddress;
+    }
+
+    public Boolean getDomicileEqualsResidential() {
+        return domicileEqualsResidential;
+    }
+
+    public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     @Override
@@ -210,7 +235,9 @@ public class LearnerEntity implements Serializable {
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
                 ", attachments=" + attachments +
-                ", address=" + address +
+                ", residentialAddress=" + residentialAddress +
+                ", domicileAddress=" + domicileAddress +
+                ", domicileEqualsResidential='" + domicileEqualsResidential + '\'' +
                 '}';
     }
 
@@ -231,11 +258,13 @@ public class LearnerEntity implements Serializable {
                 Objects.equals(courseOfStudy, that.courseOfStudy) &&
                 Objects.equals(note, that.note) &&
                 Objects.equals(attachments, that.attachments) &&
-                Objects.equals(address, that.address);
+                Objects.equals(residentialAddress, that.residentialAddress) &&
+                Objects.equals(domicileAddress, that.domicileAddress) &&
+                Objects.equals(domicileEqualsResidential, that.domicileEqualsResidential);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, attachments, address);
+        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, attachments, residentialAddress, domicileAddress, domicileEqualsResidential);
     }
 }

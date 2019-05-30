@@ -173,15 +173,16 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("where", addressPartner);
                                         }
@@ -367,15 +368,16 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("address", addressPartner);
                                         }
@@ -442,15 +444,16 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("address", addressPartner);
                                         }
@@ -518,15 +521,16 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("address", addressPartner);
                                         }
@@ -580,15 +584,16 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("project_location", addressPartner);
                                         }

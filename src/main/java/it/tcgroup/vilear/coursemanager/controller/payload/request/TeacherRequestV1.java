@@ -79,13 +79,19 @@ public class TeacherRequestV1 {
     private UploadRequestV1 curriculum;
 
     @NotNull
-    @JsonProperty("address")
-    private AddressRequest address;
+    @JsonProperty("residential_address")
+    private AddressRequest residentialAddress;
+
+    @JsonProperty("domicile_address")
+    private AddressRequest domicileAddress;
+
+    @JsonProperty("domicile_equals_residential")
+    private Boolean domicileEqualsResidential;
 
     public TeacherRequestV1() {
     }
 
-    public TeacherRequestV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, @NotNull UploadRequestV1 curriculum, @NotNull AddressRequest address) {
+    public TeacherRequestV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, @NotNull UploadRequestV1 curriculum, @NotNull AddressRequest residentialAddress, AddressRequest domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -106,7 +112,9 @@ public class TeacherRequestV1 {
         this.sector = sector;
         this.note = note;
         this.curriculum = curriculum;
-        this.address = address;
+        this.residentialAddress = residentialAddress;
+        this.domicileAddress = domicileAddress;
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     public String getId() {
@@ -269,12 +277,28 @@ public class TeacherRequestV1 {
         this.curriculum = curriculum;
     }
 
-    public AddressRequest getAddress() {
-        return address;
+    public AddressRequest getResidentialAddress() {
+        return residentialAddress;
     }
 
-    public void setAddress(AddressRequest address) {
-        this.address = address;
+    public void setResidentialAddress(AddressRequest residentialAddress) {
+        this.residentialAddress = residentialAddress;
+    }
+
+    public AddressRequest getDomicileAddress() {
+        return domicileAddress;
+    }
+
+    public void setDomicileAddress(AddressRequest domicileAddress) {
+        this.domicileAddress = domicileAddress;
+    }
+
+    public Boolean getDomicileEqualsResidential() {
+        return domicileEqualsResidential;
+    }
+
+    public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     @Override
@@ -300,7 +324,9 @@ public class TeacherRequestV1 {
                 ", sector='" + sector + '\'' +
                 ", note='" + note + '\'' +
                 ", curriculum=" + curriculum +
-                ", address=" + address +
+                ", residentialAddress=" + residentialAddress +
+                ", domicileAddress=" + domicileAddress +
+                ", domicileEqualsResidential=" + domicileEqualsResidential +
                 '}';
     }
 

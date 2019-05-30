@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class CourseRequestV1 {
 
@@ -545,10 +548,13 @@ public class CourseRequestV1 {
         @JsonProperty("withdrawn_form")
         private UploadRequestV1 withdrawnForm;
 
+        @JsonProperty("num_issued_tickets")
+        private Integer numIssuedTickets;
+
         public RecipientManagmentCourseRequestV1() {
         }
 
-        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, UploadRequestV1 withdrawnForm) {
+        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, UploadRequestV1 withdrawnForm, Integer numIssuedTickets) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -563,6 +569,7 @@ public class CourseRequestV1 {
             this.withdrawnReason = withdrawnReason;
             this.withdrawnDate = withdrawnDate;
             this.withdrawnForm = withdrawnForm;
+            this.numIssuedTickets = numIssuedTickets;
         }
 
         public LearnerRequestDtoV1 getLearner() {
@@ -677,6 +684,14 @@ public class CourseRequestV1 {
             this.specificSecurityModule = specificSecurityModule;
         }
 
+        public Integer getNumIssuedTickets() {
+            return numIssuedTickets;
+        }
+
+        public void setNumIssuedTickets(Integer numIssuedTickets) {
+            this.numIssuedTickets = numIssuedTickets;
+        }
+
         @Override
         public String toString() {
             return "RecipientManagmentCourseRequestV1{" +
@@ -693,7 +708,8 @@ public class CourseRequestV1 {
                     ", withdrawn=" + withdrawn +
                     ", withdrawnReason=" + withdrawnReason +
                     ", withdrawnDate=" + withdrawnDate +
-                    ", withdrawnForm='" + withdrawnForm + '\'' +
+                    ", withdrawnForm=" + withdrawnForm +
+                    ", numIssuedTickets=" + numIssuedTickets +
                     '}';
         }
 
@@ -745,13 +761,19 @@ public class CourseRequestV1 {
             private List<Attachment> attachments;
 
             @NotNull
-            @JsonProperty("address")
-            private TeacherRequestV1.AddressRequest address;
+            @JsonProperty("residential_address")
+            private  TeacherRequestV1.AddressRequest residentialAddress;
+
+            @JsonProperty("domicile_address")
+            private  TeacherRequestV1.AddressRequest domicileAddress;
+
+            @JsonProperty("domicile_equals_residential")
+            private Boolean domicileEqualsResidential;
 
             public LearnerRequestDtoV1() {
             }
 
-            public LearnerRequestDtoV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, @NotNull List<Attachment> attachments, @NotNull TeacherRequestV1.AddressRequest address) {
+            public LearnerRequestDtoV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, @NotNull List<Attachment> attachments, @NotNull TeacherRequestV1.AddressRequest residentialAddress, TeacherRequestV1.AddressRequest domicileAddress, Boolean domicileEqualsResidential) {
                 this.id = id;
                 this.name = name;
                 this.surname = surname;
@@ -764,7 +786,9 @@ public class CourseRequestV1 {
                 this.courseOfStudy = courseOfStudy;
                 this.note = note;
                 this.attachments = attachments;
-                this.address = address;
+                this.residentialAddress = residentialAddress;
+                this.domicileAddress = domicileAddress;
+                this.domicileEqualsResidential = domicileEqualsResidential;
             }
 
             public String getId() {
@@ -863,17 +887,33 @@ public class CourseRequestV1 {
                 this.attachments = attachments;
             }
 
-            public TeacherRequestV1.AddressRequest getAddress() {
-                return address;
+            public TeacherRequestV1.AddressRequest getResidentialAddress() {
+                return residentialAddress;
             }
 
-            public void setAddress(TeacherRequestV1.AddressRequest address) {
-                this.address = address;
+            public void setResidentialAddress(TeacherRequestV1.AddressRequest residentialAddress) {
+                this.residentialAddress = residentialAddress;
+            }
+
+            public TeacherRequestV1.AddressRequest getDomicileAddress() {
+                return domicileAddress;
+            }
+
+            public void setDomicileAddress(TeacherRequestV1.AddressRequest domicileAddress) {
+                this.domicileAddress = domicileAddress;
+            }
+
+            public Boolean getDomicileEqualsResidential() {
+                return domicileEqualsResidential;
+            }
+
+            public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+                this.domicileEqualsResidential = domicileEqualsResidential;
             }
 
             @Override
             public String toString() {
-                return "LearnerRequestV1{" +
+                return "LearnerRequestDtoV1{" +
                         "id='" + id + '\'' +
                         ", name='" + name + '\'' +
                         ", surname='" + surname + '\'' +
@@ -886,7 +926,9 @@ public class CourseRequestV1 {
                         ", courseOfStudy='" + courseOfStudy + '\'' +
                         ", note='" + note + '\'' +
                         ", attachments=" + attachments +
-                        ", address=" + address +
+                        ", residentialAddress=" + residentialAddress +
+                        ", domicileAddress=" + domicileAddress +
+                        ", domicileEqualsResidential=" + domicileEqualsResidential +
                         '}';
             }
         }
@@ -898,11 +940,8 @@ public class CourseRequestV1 {
         @JsonProperty("supplier")
         private PartnerRequestV1 supplier;
 
-        @JsonProperty("suplly_service")
-        private List<SupplyServicePartnerCourseEnum> supplierService;
-
-        @JsonProperty("services_costs")
-        private Double servicesCosts;
+        @JsonProperty("supply_services")
+        private List<SupplierServiceRequestV1> supplyServices;
 
         @JsonProperty("first_payment_date")
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
@@ -927,6 +966,61 @@ public class CourseRequestV1 {
 
         @JsonProperty("sub_suppliers_list")
         private List<SubSupplierRequestV1> subSupplierList;
+
+        public static class SupplierServiceRequestV1{
+
+            @JsonProperty("supplier_service")
+            private SupplyServicePartnerCourseEnum supplierService;
+
+            @JsonProperty("service_cost")
+            private Double serviceCost;
+
+            public SupplierServiceRequestV1() {
+            }
+
+            public SupplierServiceRequestV1(SupplyServicePartnerCourseEnum supplierService, Double serviceCost) {
+                this.supplierService = supplierService;
+                this.serviceCost = serviceCost;
+            }
+
+            public SupplyServicePartnerCourseEnum getSupplierService() {
+                return supplierService;
+            }
+
+            public void setSupplierService(SupplyServicePartnerCourseEnum supplierService) {
+                this.supplierService = supplierService;
+            }
+
+            public Double getServiceCost() {
+                return serviceCost;
+            }
+
+            public void setServiceCost(Double serviceCost) {
+                this.serviceCost = serviceCost;
+            }
+
+            @Override
+            public String toString() {
+                return "SupplierServiceRequestV1{" +
+                        "supplierService=" + supplierService +
+                        ", serviceCost=" + serviceCost +
+                        '}';
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof SupplierServiceRequestV1)) return false;
+                SupplierServiceRequestV1 that = (SupplierServiceRequestV1) o;
+                return supplierService == that.supplierService &&
+                        Objects.equals(serviceCost, that.serviceCost);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(supplierService, serviceCost);
+            }
+        }
 
         public static class SubSupplierRequestV1{
 
@@ -973,10 +1067,9 @@ public class CourseRequestV1 {
         public PartnerCourseRequestV1() {
         }
 
-        public PartnerCourseRequestV1(PartnerRequestV1 supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierRequestV1> subSupplierList) {
+        public PartnerCourseRequestV1(PartnerRequestV1 supplier, List<SupplierServiceRequestV1> supplyServices, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierRequestV1> subSupplierList) {
             this.supplier = supplier;
-            this.supplierService = supplierService;
-            this.servicesCosts = servicesCosts;
+            this.supplyServices = supplyServices;
             this.firstPaymentDate = firstPaymentDate;
             this.amountFirstPaymen = amountFirstPaymen;
             this.secondPaymentDate = secondPaymentDate;
@@ -994,20 +1087,12 @@ public class CourseRequestV1 {
             this.supplier = supplier;
         }
 
-        public List<SupplyServicePartnerCourseEnum> getSupplierService() {
-            return supplierService;
+        public List<SupplierServiceRequestV1> getSupplyServices() {
+            return supplyServices;
         }
 
-        public void setSupplierService(List<SupplyServicePartnerCourseEnum> supplierService) {
-            this.supplierService = supplierService;
-        }
-
-        public Double getServicesCosts() {
-            return servicesCosts;
-        }
-
-        public void setServicesCosts(Double servicesCosts) {
-            this.servicesCosts = servicesCosts;
+        public void setSupplyServices(List<SupplierServiceRequestV1> supplyServices) {
+            this.supplyServices = supplyServices;
         }
 
         public Date getFirstPaymentDate() {
@@ -1070,8 +1155,7 @@ public class CourseRequestV1 {
         public String toString() {
             return "PartnerCourseRequestV1{" +
                     "supplier=" + supplier +
-                    ", supplierService=" + supplierService +
-                    ", servicesCosts=" + servicesCosts +
+                    ", supplyServices=" + supplyServices +
                     ", firstPaymentDate=" + firstPaymentDate +
                     ", amountFirstPaymen=" + amountFirstPaymen +
                     ", secondPaymentDate=" + secondPaymentDate +
@@ -1348,13 +1432,19 @@ public class CourseRequestV1 {
             private Attachment curriculum;
 
             @NotNull
-            @JsonProperty("address")
-            private TeacherRequestV1.AddressRequest address;
+            @JsonProperty("residential_address")
+            private  TeacherRequestV1.AddressRequest residentialAddress;
+
+            @JsonProperty("domicile_address")
+            private  TeacherRequestV1.AddressRequest domicileAddress;
+
+            @JsonProperty("domicile_equals_residential")
+            private Boolean domicileEqualsResidential;
 
             public TeacherRequestDtoV1() {
             }
 
-            public TeacherRequestDtoV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, @NotNull Attachment curriculum, @NotNull TeacherRequestV1.AddressRequest address) {
+            public TeacherRequestDtoV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, @NotNull Attachment curriculum, @NotNull TeacherRequestV1.AddressRequest residentialAddress, TeacherRequestV1.AddressRequest domicileAddress, Boolean domicileEqualsResidential) {
                 this.id = id;
                 this.name = name;
                 this.surname = surname;
@@ -1375,7 +1465,9 @@ public class CourseRequestV1 {
                 this.sector = sector;
                 this.note = note;
                 this.curriculum = curriculum;
-                this.address = address;
+                this.residentialAddress = residentialAddress;
+                this.domicileAddress = domicileAddress;
+                this.domicileEqualsResidential = domicileEqualsResidential;
             }
 
             public String getId() {
@@ -1538,12 +1630,28 @@ public class CourseRequestV1 {
                 this.curriculum = curriculum;
             }
 
-            public TeacherRequestV1.AddressRequest getAddress() {
-                return address;
+            public TeacherRequestV1.AddressRequest getResidentialAddress() {
+                return residentialAddress;
             }
 
-            public void setAddress(TeacherRequestV1.AddressRequest address) {
-                this.address = address;
+            public void setResidentialAddress(TeacherRequestV1.AddressRequest residentialAddress) {
+                this.residentialAddress = residentialAddress;
+            }
+
+            public TeacherRequestV1.AddressRequest getDomicileAddress() {
+                return domicileAddress;
+            }
+
+            public void setDomicileAddress(TeacherRequestV1.AddressRequest domicileAddress) {
+                this.domicileAddress = domicileAddress;
+            }
+
+            public Boolean getDomicileEqualsResidential() {
+                return domicileEqualsResidential;
+            }
+
+            public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+                this.domicileEqualsResidential = domicileEqualsResidential;
             }
 
             @Override
@@ -1569,7 +1677,9 @@ public class CourseRequestV1 {
                         ", sector='" + sector + '\'' +
                         ", note='" + note + '\'' +
                         ", curriculum=" + curriculum +
-                        ", address=" + address +
+                        ", residentialAddress=" + residentialAddress +
+                        ", domicileAddress=" + domicileAddress +
+                        ", domicileEqualsResidential=" + domicileEqualsResidential +
                         '}';
             }
         }

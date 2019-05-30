@@ -63,10 +63,13 @@ public class RecipientManagmentCourse implements Serializable {
     @JsonProperty("withdrawn_form")
     private Attachment withdrawnForm;
 
+    @JsonProperty("num_issued_tickets")
+    private Integer numIssuedTickets;
+
     public RecipientManagmentCourse() {
     }
 
-    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm) {
+    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets) {
         this.learner = learner;
         this.recipientType = recipientType;
         this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -81,6 +84,7 @@ public class RecipientManagmentCourse implements Serializable {
         this.withdrawnReason = withdrawnReason;
         this.withdrawnDate = withdrawnDate;
         this.withdrawnForm = withdrawnForm;
+        this.numIssuedTickets = numIssuedTickets;
     }
 
     public LearnerDto getLearner() {
@@ -194,6 +198,14 @@ public class RecipientManagmentCourse implements Serializable {
         this.specificSecurityModule = specificSecurityModule;
     }
 
+    public Integer getNumIssuedTickets() {
+        return numIssuedTickets;
+    }
+
+    public void setNumIssuedTickets(Integer numIssuedTickets) {
+        this.numIssuedTickets = numIssuedTickets;
+    }
+
     @Override
     public String toString() {
         return "RecipientManagmentCourse{" +
@@ -210,7 +222,8 @@ public class RecipientManagmentCourse implements Serializable {
                 ", withdrawn=" + withdrawn +
                 ", withdrawnReason=" + withdrawnReason +
                 ", withdrawnDate=" + withdrawnDate +
-                ", withdrawnForm='" + withdrawnForm + '\'' +
+                ", withdrawnForm=" + withdrawnForm +
+                ", numIssuedTickets=" + numIssuedTickets +
                 '}';
     }
 }

@@ -24,28 +24,28 @@ public class ValidateServiceImpl implements ValidateService {
     public void requestValidatorLearner(LearnerRequestV1 learnerRequest){
 
         requestValidator.validateRequest(learnerRequest, MessageCode.E00X_1000);
-        requestValidator.validateRequest(learnerRequest.getAddress(), MessageCode.E00X_1000);
+        requestValidator.validateRequest(learnerRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override
     public void requestValidatorPatchLearner(LearnerRequestV1 learnerRequest){
 
-        if(learnerRequest.getAddress() != null)
-            requestValidator.validateRequest(learnerRequest.getAddress(), MessageCode.E00X_1000);
+        if(learnerRequest.getResidentialAddress() != null)
+            requestValidator.validateRequest(learnerRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override
     public void requestValidatorTeacher(TeacherRequestV1 teacherRequest){
 
         requestValidator.validateRequest(teacherRequest, MessageCode.E00X_1000);
-        requestValidator.validateRequest(teacherRequest.getAddress(), MessageCode.E00X_1000);
+        requestValidator.validateRequest(teacherRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override
     public void requestValidatorPatchTeacher(TeacherRequestV1 teacherRequest){
 
-        if(teacherRequest.getAddress() != null)
-            requestValidator.validateRequest(teacherRequest.getAddress(), MessageCode.E00X_1000);
+        if(teacherRequest.getResidentialAddress() != null)
+            requestValidator.validateRequest(teacherRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override
@@ -71,28 +71,36 @@ public class ValidateServiceImpl implements ValidateService {
         for (PartnerRequestV1.AddressPartnerRequestV1 att : partnerRequest.getAddressList()){
 
             requestValidator.validateRequest(att, MessageCode.E00X_1000);
-            if(att.getType().equals(TypeAddressPartnerEnum.FATTURAZIONE))
+            if(att.getLegalAddress()) {
+                if(mainAddress)
+                    throw new BadParametersException("There are two or more legal addresses");
                 mainAddress = true;
+            }
         }
 
         if(!mainAddress)
-            throw new BadParametersException("There is no billing office address");
+            throw new BadParametersException("There is no legal address");
     }
 
     @Override
     public void requestValidatorPatchPartner(PartnerRequestV1 partnerRequest){
 
         Boolean mainAddress = false;
-        for (PartnerRequestV1.AddressPartnerRequestV1 att : partnerRequest.getAddressList()){
 
-            requestValidator.validateRequest(att, MessageCode.E00X_1000);
-            if(att.getType().equals(TypeAddressPartnerEnum.FATTURAZIONE))
-                mainAddress = true;
+        if(partnerRequest.getAddressList() != null) {
+            for (PartnerRequestV1.AddressPartnerRequestV1 att : partnerRequest.getAddressList()) {
+
+                requestValidator.validateRequest(att, MessageCode.E00X_1000);
+                if (att.getLegalAddress()) {
+                    if (mainAddress)
+                        throw new BadParametersException("There are two or more legal addresses");
+                    mainAddress = true;
+                }
+            }
+
+            if (!mainAddress)
+                throw new BadParametersException("There is no legal address");
         }
-
-        if(!mainAddress)
-            throw new BadParametersException("There is no billing office address");
-
     }
 
 

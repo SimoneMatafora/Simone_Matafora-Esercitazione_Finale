@@ -88,13 +88,20 @@ public class TeacherEntity implements Serializable {
     private Attachment curriculumVitae;
 
     @Type(type = "JsonDataAddressType")
-    @Column(name = "address")
-    private Address address;
+    @Column(name = "residential_address")
+    private Address residenzialAddress;
+
+    @Type(type = "JsonDataAddressType")
+    @Column(name = "domicile_address")
+    private Address domicileAddress;
+
+    @Column(name = "domicile_equals_residential")
+    private Boolean domicileEqualsResidential ;
 
     public TeacherEntity() {
     }
 
-    public TeacherEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, Address address) {
+    public TeacherEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, Attachment curriculumVitae, Address residenzialAddress, Address domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -115,7 +122,9 @@ public class TeacherEntity implements Serializable {
         this.sector = sector;
         this.note = note;
         this.curriculumVitae = curriculumVitae;
-        this.address = address;
+        this.residenzialAddress = residenzialAddress;
+        this.domicileAddress = domicileAddress;
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     public UUID getId() {
@@ -278,12 +287,28 @@ public class TeacherEntity implements Serializable {
         this.curriculumVitae = curriculumVitae;
     }
 
-    public Address getAddress() {
-        return address;
+    public Address getResidentialAddress() {
+        return residenzialAddress;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setResidentialAddress(Address residenzialAddress) {
+        this.residenzialAddress = residenzialAddress;
+    }
+
+    public Address getDomicileAddress() {
+        return domicileAddress;
+    }
+
+    public void setDomicileAddress(Address domicileAddress) {
+        this.domicileAddress = domicileAddress;
+    }
+
+    public Boolean getDomicileEqualsResidential() {
+        return domicileEqualsResidential;
+    }
+
+    public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
+        this.domicileEqualsResidential = domicileEqualsResidential;
     }
 
     @Override
@@ -308,8 +333,10 @@ public class TeacherEntity implements Serializable {
                 ", vatNumber='" + vatNumber + '\'' +
                 ", sector='" + sector + '\'' +
                 ", note='" + note + '\'' +
-                ", curriculumVitae='" + curriculumVitae + '\'' +
-                ", address=" + address +
+                ", curriculumVitae=" + curriculumVitae +
+                ", residenzialAddress=" + residenzialAddress +
+                ", domicileAddress=" + domicileAddress +
+                ", domicileEqualsResidential='" + domicileEqualsResidential + '\'' +
                 '}';
     }
 
@@ -338,12 +365,14 @@ public class TeacherEntity implements Serializable {
                 Objects.equals(sector, that.sector) &&
                 Objects.equals(note, that.note) &&
                 Objects.equals(curriculumVitae, that.curriculumVitae) &&
-                Objects.equals(address, that.address);
+                Objects.equals(residenzialAddress, that.residenzialAddress) &&
+                Objects.equals(domicileAddress, that.domicileAddress) &&
+                Objects.equals(domicileEqualsResidential, that.domicileEqualsResidential);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized, professionalOrderRegistration, register, vatHolder, vatNumber, sector, note, curriculumVitae, address);
+        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, professionalArea, publicEmployee, accreditedFt, accreditedFtCode, authorized, professionalOrderRegistration, register, vatHolder, vatNumber, sector, note, curriculumVitae, residenzialAddress, domicileAddress, domicileEqualsResidential);
     }
 }
 

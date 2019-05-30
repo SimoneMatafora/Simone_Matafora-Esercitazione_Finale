@@ -14,15 +14,15 @@ public class AddressPartner  implements Serializable {
     @JsonProperty("address")
     private AddressDto address;
 
-    @JsonProperty("type")
-    private TypeAddressPartnerEnum type;
+    @JsonProperty("is_legal_address")
+    private Boolean isLegalAddress;
 
     public AddressPartner() {
     }
 
-    public AddressPartner(AddressDto address, TypeAddressPartnerEnum type) {
+    public AddressPartner(AddressDto address, Boolean isLegalAddress) {
         this.address = address;
-        this.type = type;
+        this.isLegalAddress = isLegalAddress;
     }
 
     public AddressDto getAddress() {
@@ -33,33 +33,33 @@ public class AddressPartner  implements Serializable {
         this.address = address;
     }
 
-    public TypeAddressPartnerEnum getType() {
-        return type;
+    public Boolean getLegalAddress() {
+        return isLegalAddress;
     }
 
-    public void setType(TypeAddressPartnerEnum type) {
-        this.type = type;
+    public void setLegalAddress(Boolean legalAddress) {
+        isLegalAddress = legalAddress;
     }
 
     @Override
     public String toString() {
         return "AddressPartner{" +
                 "address=" + address +
-                ", type=" + type +
+                ", isLegalAddress=" + isLegalAddress +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof AddressPartner)) return false;
         AddressPartner that = (AddressPartner) o;
         return Objects.equals(address, that.address) &&
-                type == that.type;
+                Objects.equals(isLegalAddress, that.isLegalAddress);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(address, type);
+        return Objects.hash(address, isLegalAddress);
     }
 }

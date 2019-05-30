@@ -59,6 +59,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourse.setWithdrawnReason(recipientManagmentCourseRequest.getWithdrawnReason());
         recipientManagmentCourse.setGeneralSecurityModule(recipientManagmentCourseRequest.getGeneralSecurityModule());
         recipientManagmentCourse.setSpecificSecurityModule(recipientManagmentCourseRequest.getSpecificSecurityModule());
+        recipientManagmentCourse.setNumIssuedTickets(recipientManagmentCourseRequest.getNumIssuedTickets());
 
         return recipientManagmentCourse;
     }
@@ -99,6 +100,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourseResponse.setGeneralSecurityModule(recipientManagmentCourse.getGeneralSecurityModule());
         recipientManagmentCourseResponse.setSpecificSecurityModule(recipientManagmentCourse.getSpecificSecurityModule());
 
+        recipientManagmentCourseResponse.setNumIssuedTickets(recipientManagmentCourse.getNumIssuedTickets());
 
         return recipientManagmentCourseResponse;
 

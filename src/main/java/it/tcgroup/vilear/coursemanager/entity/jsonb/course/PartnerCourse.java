@@ -15,11 +15,8 @@ public class PartnerCourse implements Serializable {
     @JsonProperty("supplier")
     private PartnerDto supplier;
 
-    @JsonProperty("suplly_service")
-    private List<SupplyServicePartnerCourseEnum> supplierService;
-
-    @JsonProperty("services_costs")
-    private Double servicesCosts;
+    @JsonProperty("supply_services")
+    private List<SupplierService> supplyServices;
 
     @JsonProperty("first_payment_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -48,10 +45,9 @@ public class PartnerCourse implements Serializable {
     public PartnerCourse() {
     }
 
-    public PartnerCourse(PartnerDto supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplier> subSupplierList) {
+    public PartnerCourse(PartnerDto supplier, List<SupplierService> supplyServices, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplier> subSupplierList) {
         this.supplier = supplier;
-        this.supplierService = supplierService;
-        this.servicesCosts = servicesCosts;
+        this.supplyServices = supplyServices;
         this.firstPaymentDate = firstPaymentDate;
         this.amountFirstPaymen = amountFirstPaymen;
         this.secondPaymentDate = secondPaymentDate;
@@ -69,19 +65,12 @@ public class PartnerCourse implements Serializable {
         this.supplier = supplier;
     }
 
-    public List<SupplyServicePartnerCourseEnum> getSupplierService() {
-        return supplierService;
+    public List<SupplierService> getSupplyServices() {
+        return supplyServices;
     }
 
-    public void setSupplierService(List<SupplyServicePartnerCourseEnum> supplierService) { this.supplierService = supplierService;
-    }
-
-    public Double getServicesCosts() {
-        return servicesCosts;
-    }
-
-    public void setServicesCosts(Double servicesCosts) {
-        this.servicesCosts = servicesCosts;
+    public void setSupplyServices(List<SupplierService> supplyServices) {
+        this.supplyServices = supplyServices;
     }
 
     public Date getFirstPaymentDate() {
@@ -141,29 +130,12 @@ public class PartnerCourse implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "PartnerCourse{" +
-                "supplier=" + supplier +
-                ", supplierService=" + supplierService +
-                ", servicesCosts=" + servicesCosts +
-                ", firstPaymentDate=" + firstPaymentDate +
-                ", amountFirstPaymen=" + amountFirstPaymen +
-                ", secondPaymentDate=" + secondPaymentDate +
-                ", amountSecondPaymen=" + amountSecondPaymen +
-                ", thirdPaymentDate=" + thirdPaymentDate +
-                ", amountThirdPaymen=" + amountThirdPaymen +
-                ", subSupplierList=" + subSupplierList +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof PartnerCourse)) return false;
         PartnerCourse that = (PartnerCourse) o;
         return Objects.equals(supplier, that.supplier) &&
-                Objects.equals(supplierService, that.supplierService) &&
-                Objects.equals(servicesCosts, that.servicesCosts) &&
+                Objects.equals(supplyServices, that.supplyServices) &&
                 Objects.equals(firstPaymentDate, that.firstPaymentDate) &&
                 Objects.equals(amountFirstPaymen, that.amountFirstPaymen) &&
                 Objects.equals(secondPaymentDate, that.secondPaymentDate) &&
@@ -175,9 +147,63 @@ public class PartnerCourse implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(supplier, supplierService, servicesCosts, firstPaymentDate, amountFirstPaymen, secondPaymentDate, amountSecondPaymen, thirdPaymentDate, amountThirdPaymen, subSupplierList);
+        return Objects.hash(supplier, supplyServices, firstPaymentDate, amountFirstPaymen, secondPaymentDate, amountSecondPaymen, thirdPaymentDate, amountThirdPaymen, subSupplierList);
     }
 
+    public static class SupplierService implements Serializable {
+
+        @JsonProperty("supplier_service")
+        private SupplyServicePartnerCourseEnum supplierService;
+
+        @JsonProperty("service_cost")
+        private Double serviceCost;
+
+        public SupplierService() {
+        }
+
+        public SupplierService(SupplyServicePartnerCourseEnum supplierService, Double serviceCost) {
+            this.supplierService = supplierService;
+            this.serviceCost = serviceCost;
+        }
+
+        public SupplyServicePartnerCourseEnum getSupplierService() {
+            return supplierService;
+        }
+
+        public void setSupplierService(SupplyServicePartnerCourseEnum supplierService) {
+            this.supplierService = supplierService;
+        }
+
+        public Double getServiceCost() {
+            return serviceCost;
+        }
+
+        public void setServiceCost(Double serviceCost) {
+            this.serviceCost = serviceCost;
+        }
+
+        @Override
+        public String toString() {
+            return "SupplierService{" +
+                    "supplierService=" + supplierService +
+                    ", serviceCost=" + serviceCost +
+                    '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof SupplierService)) return false;
+            SupplierService that = (SupplierService) o;
+            return supplierService == that.supplierService &&
+                    Objects.equals(serviceCost, that.serviceCost);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(supplierService, serviceCost);
+        }
+    }
 
     public static class SubSupplier implements Serializable {
 

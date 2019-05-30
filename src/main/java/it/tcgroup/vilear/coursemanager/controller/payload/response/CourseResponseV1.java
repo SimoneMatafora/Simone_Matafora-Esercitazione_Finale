@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class CourseResponseV1 {
 
@@ -344,10 +345,13 @@ public class CourseResponseV1 {
         @JsonProperty("withdrawn_form")
         private Attachment withdrawnForm;
 
+        @JsonProperty("num_issued_tickets")
+        private Integer numIssuedTickets;
+
         public RecipientManagmentCourseResponseV1() {
         }
 
-        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm) {
+        public RecipientManagmentCourseResponseV1(LearnerResponseV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -362,6 +366,7 @@ public class CourseResponseV1 {
             this.withdrawnReason = withdrawnReason;
             this.withdrawnDate = withdrawnDate;
             this.withdrawnForm = withdrawnForm;
+            this.numIssuedTickets = numIssuedTickets;
         }
 
         public LearnerResponseV1 getLearner() {
@@ -476,15 +481,22 @@ public class CourseResponseV1 {
             this.specificSecurityModule = specificSecurityModule;
         }
 
+        public Integer getNumIssuedTickets() {
+            return numIssuedTickets;
+        }
+
+        public void setNumIssuedTickets(Integer numIssuedTickets) {
+            this.numIssuedTickets = numIssuedTickets;
+        }
+
+
         @Override
         public String toString() {
-            return "RecipientManagmentCourseResponseV1{" +
+            return "RecipientManagmentCourseRequestV1{" +
                     "learner=" + learner +
-                    ", recipientType=" + Arrays.toString(recipientType) +
+                    ", recipientType=" + recipientType +
                     ", exonerationGeneralSecurity=" + exonerationGeneralSecurity +
                     ", exonerationRightsAndDuties=" + exonerationRightsAndDuties +
-                    ", generalSecurityModule=" + generalSecurityModule +
-                    ", specificSecurityModule=" + specificSecurityModule +
                     ", necessaryHours=" + necessaryHours +
                     ", specificationSsecurityExonerate=" + specificationSsecurityExonerate +
                     ", accepted=" + accepted +
@@ -502,11 +514,8 @@ public class CourseResponseV1 {
         @JsonProperty("supplier")
         private PartnerResponseV1 supplier;
 
-        @JsonProperty("suplly_service")
-        private List<SupplyServicePartnerCourseEnum> supplierService;
-
-        @JsonProperty("services_costs")
-        private Double servicesCosts;
+        @JsonProperty("supply_services")
+        private List<SupplierServiceResponseV1> supplyServices;
 
         @JsonProperty("first_payment_date")
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
@@ -531,6 +540,63 @@ public class CourseResponseV1 {
 
         @JsonProperty("sub_suppliers_list")
         private List<SubSupplierResponseV1> subSupplierList;
+
+
+        public static class SupplierServiceResponseV1 implements Serializable{
+
+            @JsonProperty("supplier_service")
+            private SupplyServicePartnerCourseEnum supplierService;
+
+            @JsonProperty("service_cost")
+            private Double serviceCost;
+
+            public SupplierServiceResponseV1() {
+            }
+
+            public SupplierServiceResponseV1(SupplyServicePartnerCourseEnum supplierService, Double serviceCost) {
+                this.supplierService = supplierService;
+                this.serviceCost = serviceCost;
+            }
+
+            public SupplyServicePartnerCourseEnum getSupplierService() {
+                return supplierService;
+            }
+
+            public void setSupplierService(SupplyServicePartnerCourseEnum supplierService) {
+                this.supplierService = supplierService;
+            }
+
+            public Double getServiceCost() {
+                return serviceCost;
+            }
+
+            public void setServiceCost(Double serviceCost) {
+                this.serviceCost = serviceCost;
+            }
+
+            @Override
+            public String toString() {
+                return "SupplierServiceRequestV1{" +
+                        "supplierService=" + supplierService +
+                        ", serviceCost=" + serviceCost +
+                        '}';
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof SupplierServiceResponseV1)) return false;
+                SupplierServiceResponseV1 that = (SupplierServiceResponseV1) o;
+                return supplierService == that.supplierService &&
+                        Objects.equals(serviceCost, that.serviceCost);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(supplierService, serviceCost);
+            }
+        }
+
 
         public static class SubSupplierResponseV1 implements Serializable {
 
@@ -577,10 +643,9 @@ public class CourseResponseV1 {
         public PartnerCourseResponseV1() {
         }
 
-        public PartnerCourseResponseV1(PartnerResponseV1 supplier, List<SupplyServicePartnerCourseEnum> supplierService, Double servicesCosts, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierResponseV1> subSupplierList) {
+        public PartnerCourseResponseV1(PartnerResponseV1 supplier, List<SupplierServiceResponseV1> supplyServices, Date firstPaymentDate, Double amountFirstPaymen, Date secondPaymentDate, Double amountSecondPaymen, Date thirdPaymentDate, Double amountThirdPaymen, List<SubSupplierResponseV1> subSupplierList) {
             this.supplier = supplier;
-            this.supplierService = supplierService;
-            this.servicesCosts = servicesCosts;
+            this.supplyServices = supplyServices;
             this.firstPaymentDate = firstPaymentDate;
             this.amountFirstPaymen = amountFirstPaymen;
             this.secondPaymentDate = secondPaymentDate;
@@ -598,20 +663,12 @@ public class CourseResponseV1 {
             this.supplier = supplier;
         }
 
-        public List<SupplyServicePartnerCourseEnum> getSupplierService() {
-            return supplierService;
+        public List<SupplierServiceResponseV1> getSupplyServices() {
+            return supplyServices;
         }
 
-        public void setSupplierService(List<SupplyServicePartnerCourseEnum> supplierService) {
-            this.supplierService = supplierService;
-        }
-
-        public Double getServicesCosts() {
-            return servicesCosts;
-        }
-
-        public void setServicesCosts(Double servicesCosts) {
-            this.servicesCosts = servicesCosts;
+        public void setSupplyServices(List<SupplierServiceResponseV1> supplyServices) {
+            this.supplyServices = supplyServices;
         }
 
         public Date getFirstPaymentDate() {
@@ -672,10 +729,9 @@ public class CourseResponseV1 {
 
         @Override
         public String toString() {
-            return "PartnerCourseRequestV1{" +
+            return "PartnerCourseResponseV1{" +
                     "supplier=" + supplier +
-                    ", supplierService=" + supplierService +
-                    ", servicesCosts=" + servicesCosts +
+                    ", supplyServices=" + supplyServices +
                     ", firstPaymentDate=" + firstPaymentDate +
                     ", amountFirstPaymen=" + amountFirstPaymen +
                     ", secondPaymentDate=" + secondPaymentDate +

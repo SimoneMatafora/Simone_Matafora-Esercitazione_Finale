@@ -1,5 +1,7 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.TeacherCourseRequestV1.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
@@ -44,9 +46,13 @@ public class TeacherAdapter {
 
             TeacherEntity teacher = new TeacherEntity();
 
-            Address address = null;
-            if (teacherInsertRequest.getAddress() != null)
-                address = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getAddress());
+            Address residentialAddress = null;
+            if (teacherInsertRequest.getResidentialAddress() != null)
+                residentialAddress = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getResidentialAddress());
+
+            Address domicileAddress = null;
+            if (teacherInsertRequest.getDomicileAddress() != null)
+                domicileAddress = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getDomicileAddress());
 
             Attachment curriculum = null;
             if (teacherInsertRequest.getCurriculum() != null) {
@@ -72,7 +78,11 @@ public class TeacherAdapter {
             teacher.setVatNumber(teacherInsertRequest.getVatNumber());
             teacher.setSector(teacherInsertRequest.getSector());
             teacher.setPhone(teacherInsertRequest.getPhone());
-            teacher.setAddress(address);
+            teacher.setResidentialAddress(residentialAddress);
+
+            teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
+
+            teacher.setDomicileAddress(domicileAddress);
 
             if (teacherInsertRequest.getVatHolder() == null)
                 teacher.setVatHolder(false);
@@ -113,9 +123,13 @@ public class TeacherAdapter {
 
         TeacherDto teacher = new TeacherDto();
 
-        AddressDto address = null;
-        if (teacherInsertRequest.getAddress() != null)
-            address = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getAddress());
+        AddressDto residentialAddress = null;
+        if (teacherInsertRequest.getResidentialAddress() != null)
+            residentialAddress = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getResidentialAddress());
+
+        AddressDto domicileAddress = null;
+        if (teacherInsertRequest.getDomicileAddress() != null)
+            domicileAddress = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getDomicileAddress());
 
         teacher.setId(teacherInsertRequest.getId());
         teacher.setRegister(teacherInsertRequest.getRegister());
@@ -131,7 +145,11 @@ public class TeacherAdapter {
         teacher.setVatNumber(teacherInsertRequest.getVatNumber());
         teacher.setSector(teacherInsertRequest.getSector());
         teacher.setPhone(teacherInsertRequest.getPhone());
-        teacher.setAddress(address);
+        teacher.setResidentialAddress(residentialAddress);
+
+        teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
+
+        teacher.setDomicileAddress(domicileAddress);
 
         if(teacherInsertRequest.getVatHolder() == null)
             teacher.setVatHolder(false);
@@ -168,9 +186,13 @@ public class TeacherAdapter {
 
         TeacherDto teacher = new TeacherDto();
 
-        AddressDto address = null;
-        if (teacherInsertRequest.getAddress() != null)
-            address = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getAddress());
+        AddressDto residentialAddress = null;
+        if (teacherInsertRequest.getResidentialAddress() != null)
+            residentialAddress = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getResidentialAddress());
+
+        AddressDto domicileAddress = null;
+        if (teacherInsertRequest.getDomicileAddress() != null)
+            domicileAddress = addressAdapter.adptAddressRequestToAddressDto(teacherInsertRequest.getDomicileAddress());
 
         teacher.setId(teacherInsertRequest.getId());
         teacher.setRegister(teacherInsertRequest.getRegister());
@@ -187,7 +209,12 @@ public class TeacherAdapter {
         teacher.setSector(teacherInsertRequest.getSector());
         teacher.setPhone(teacherInsertRequest.getPhone());
         teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
-        teacher.setAddress(address);
+        teacher.setResidentialAddress(residentialAddress);
+
+        teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
+
+        teacher.setDomicileAddress(domicileAddress);
+
 
         if(teacherInsertRequest.getVatHolder() == null)
             teacher.setVatHolder(false);
@@ -256,7 +283,9 @@ public class TeacherAdapter {
         teacherResponse.setPhone(teacher.getPhone());
         teacherResponse.setVatHolder(teacher.getVatHolder());
 
-        teacherResponse.setAddress(addressAdapter.adptAddressToAddressResponse(teacher.getAddress()));
+        teacherResponse.setResidentialAddress(addressAdapter.adptAddressToAddressResponse(teacher.getResidentialAddress()));
+        teacherResponse.setDomicileAddress(addressAdapter.adptAddressToAddressResponse(teacher.getDomicileAddress()));
+        teacherResponse.setDomicileEqualsResidential(teacher.getDomicileEqualsResidential());
 
         return  teacherResponse;
     }
@@ -289,7 +318,9 @@ public class TeacherAdapter {
         teacherResponse.setPhone(teacherDto.getPhone());
         teacherResponse.setVatHolder(teacherDto.getVatHolder());
 
-        teacherResponse.setAddress(addressAdapter.adptAddressDtoToAddressResponse(teacherDto.getAddress()));
+        teacherResponse.setResidentialAddress(addressAdapter.adptAddressDtoToAddressResponse(teacherDto.getResidentialAddress()));
+        teacherResponse.setDomicileAddress(addressAdapter.adptAddressDtoToAddressResponse(teacherDto.getDomicileAddress()));
+        teacherResponse.setDomicileEqualsResidential(teacherDto.getDomicileEqualsResidential());
 
         return  teacherResponse;
     }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum ReasonWithdrawnLearnerCourseEnum {
-    MOTIVI_MALATTIA("motivi_malattia"),
+    INIZIO_RAPPORTO_LAVORO("inizio_rapporto_lavoro"),
     MALATTIA("malattia");
 
     private String reasonWithdrawn;

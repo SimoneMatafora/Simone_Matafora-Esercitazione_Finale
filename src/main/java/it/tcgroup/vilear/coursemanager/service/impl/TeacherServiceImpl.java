@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.TeacherAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
@@ -60,6 +61,16 @@ public class TeacherServiceImpl implements TeacherService {
         teacherInsertRequest.setId(idTeacher.toString());
 
         TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherInsertRequest);
+
+        if (teacher.getDomicileEqualsResidential() == null)
+            teacher.setDomicileEqualsResidential(false);
+
+        if(!teacher.getDomicileEqualsResidential() && teacher.getDomicileAddress()==null)
+            throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+
+        if(teacher.getDomicileEqualsResidential())
+            teacher.setDomicileAddress(teacher.getResidentialAddress());
+
         teacherRepository.save(teacher);
 
         return teacherAdapter.adptTeacherIdToTeacherIdResponse(teacher);
@@ -109,7 +120,23 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setSector(teacherUpdate.getSector());
         teacher.setPhone(teacherUpdate.getPhone());
         teacher.setVatHolder(teacherUpdate.getVatHolder());
-        teacher.setAddress(teacherUpdate.getAddress());
+
+        if(teacherUpdate.getResidentialAddress()==null)
+            throw new BadRequestException("'Bad Request': ['residentialAddress': must not be null]");
+        teacher.setResidentialAddress(teacherUpdate.getResidentialAddress());
+
+        if(teacherUpdate.getDomicileEqualsResidential() == null)
+            teacher.setDomicileEqualsResidential(false);
+        else
+            teacher.setDomicileEqualsResidential(teacherUpdate.getDomicileEqualsResidential());
+
+        if(!teacher.getDomicileEqualsResidential() && teacherUpdate.getDomicileAddress()==null)
+            throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+
+        if(teacher.getDomicileEqualsResidential())
+            teacher.setDomicileAddress(teacherUpdate.getResidentialAddress());
+        else
+            teacher.setDomicileAddress(teacherUpdate.getDomicileAddress());
 
         teacherRepository.save(teacher);
 
@@ -185,8 +212,26 @@ public class TeacherServiceImpl implements TeacherService {
         if( teacherPatch.getVatHolder() != null)
             teacher.setVatHolder(teacherPatch.getVatHolder());
 
-        if( teacherPatch.getAddress() != null)
-            teacher.setAddress(addressService.patchAddress(teacher.getAddress(),teacherPatch.getAddress()));
+        if( teacherPatch.getResidentialAddress() != null)
+            teacher.setResidentialAddress(addressService.patchAddress(teacher.getResidentialAddress(),teacherPatch.getResidentialAddress()));
+
+        if( teacherPatch.getDomicileAddress() != null) {
+            if(teacher.getDomicileEqualsResidential())
+                teacher.setDomicileAddress(teacherPatch.getDomicileAddress());
+            else
+                teacher.setDomicileAddress(addressService.patchAddress(teacher.getDomicileAddress(), teacherPatch.getDomicileAddress()));
+            teacher.setDomicileEqualsResidential(false);
+        }
+
+        if( teacherPatch.getDomicileEqualsResidential() != null) {
+            if(!teacherPatch.getDomicileEqualsResidential() && teacherPatch.getDomicileAddress() == null && teacher.getDomicileEqualsResidential())
+                throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+            if( teacherPatch.getDomicileAddress() == null)
+                teacher.setDomicileEqualsResidential(teacherPatch.getDomicileEqualsResidential());
+        }
+
+        if(teacher.getDomicileEqualsResidential())
+            teacher.setDomicileAddress(teacher.getResidentialAddress());
 
         teacherRepository.save(teacher);
 

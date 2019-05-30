@@ -5,6 +5,7 @@ import it.tcgroup.vilear.coursemanager.adapter.CourseAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
@@ -18,12 +19,12 @@ import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
 import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
-import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -83,6 +84,30 @@ public class CourseServiceImpl implements CourseService {
                 if(!course.getAmountFinSecurityCapital().equals(total))
                     throw new BadRequestException("AmountFinSecurityCapital error. ");
             }
+
+            boolean found;
+            if(course.getPartnerList() != null){
+                for(PartnerCourse partnerCourse : course.getPartnerList()){
+                    for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
+                        for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
+                            found = false;
+
+                            if(partnerCourse.getSupplyServices() != null){
+
+                                for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                                    if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if(!found)
+                                    throw new BadRequestException("The sub supplier can only have the services of the partner");
+                            }
+                        }
+                    }
+                }
+            }
+
 
             courseRepository.save(course);
 
@@ -216,6 +241,29 @@ public class CourseServiceImpl implements CourseService {
         course.setTotalPartnerCostOnPercent(courseUpdate.getTotalPartnerCostOnPercent());
         course.setTradeUnionTeachingRequest(courseUpdate.getTradeUnionTeachingRequest());
         course.setVisitHours(courseUpdate.getVisitHours());
+
+            boolean found;
+            if(course.getPartnerList() != null){
+                for(PartnerCourse partnerCourse : course.getPartnerList()){
+                    for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
+                        for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
+                            found = false;
+
+                            if(partnerCourse.getSupplyServices() != null){
+
+                                for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                                    if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if(!found)
+                                    throw new BadRequestException("The sub supplier can only have the services of the partner");
+                            }
+                        }
+                    }
+                }
+            }
 
         courseRepository.save(course);
 
@@ -411,7 +459,30 @@ public class CourseServiceImpl implements CourseService {
         if(coursePatch.getVisitHours() != null)
             course.setVisitHours(coursePatch.getVisitHours());
 
-            courseRepository.save(course);
+        boolean found;
+        if(course.getPartnerList() != null){
+            for(PartnerCourse partnerCourse : course.getPartnerList()){
+                for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
+                    for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
+                        found = false;
+
+                        if(partnerCourse.getSupplyServices() != null){
+
+                            for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                                if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if(!found)
+                                throw new BadRequestException("The sub supplier can only have the services of the partner");
+                        }
+                    }
+                }
+            }
+        }
+
+        courseRepository.save(course);
 
             return courseAdapter.adptCourseToCourseResponse(course);
 

@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.LearnerAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
@@ -62,6 +63,15 @@ public class LearnerServiceImpl implements LearnerService {
 
         LearnerEntity learner = learnerAdapter.adptLearnerRequestToLearner(learnerInsertRequest);
 
+        if (learner.getDomicileEqualsResidential() == null)
+            learner.setDomicileEqualsResidential(false);
+
+        if(!learner.getDomicileEqualsResidential() && learner.getDomicileAddress()==null)
+            throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+
+        if(learner.getDomicileEqualsResidential())
+            learner.setDomicileAddress(learner.getResidentialAddress());
+
         learnerRepository.save(learner);
 
         return learnerAdapter.adptLearnerIdToLearnerIdResponse(learner);
@@ -90,7 +100,23 @@ public class LearnerServiceImpl implements LearnerService {
         learner.setName(learnerUpdate.getName());
         learner.setNote(learnerUpdate.getNote());
         learner.setPhone(learnerUpdate.getPhone());
-        learner.setAddress(learnerUpdate.getAddress());
+
+        if(learnerUpdate.getResidentialAddress()==null)
+            throw new BadRequestException("'Bad Request': ['residentialAddress': must not be null]");
+        learner.setResidentialAddress(learnerUpdate.getResidentialAddress());
+
+        if(learnerUpdate.getDomicileEqualsResidential() == null)
+            learner.setDomicileEqualsResidential(false);
+        else
+            learner.setDomicileEqualsResidential(learnerUpdate.getDomicileEqualsResidential());
+
+        if(!learner.getDomicileEqualsResidential() && learnerUpdate.getDomicileAddress()==null)
+            throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+
+        if(learner.getDomicileEqualsResidential())
+            learner.setDomicileAddress(learnerUpdate.getResidentialAddress());
+        else
+            learner.setDomicileAddress(learnerUpdate.getDomicileAddress());
 
         learnerRepository.save(learner);
 
@@ -154,8 +180,26 @@ public class LearnerServiceImpl implements LearnerService {
         if( learnerPatch.getCourseOfStudy() != null)
             learner.setCourseOfStudy(learnerPatch.getCourseOfStudy());
 
-        if( learnerPatch.getAddress() != null)
-            learner.setAddress(addressService.patchAddress(learner.getAddress(), learnerPatch.getAddress()));
+        if( learnerPatch.getResidentialAddress() != null)
+            learner.setResidentialAddress(addressService.patchAddress(learner.getResidentialAddress(),learnerPatch.getResidentialAddress()));
+
+        if( learnerPatch.getDomicileAddress() != null) {
+            if(learner.getDomicileEqualsResidential())
+                learner.setDomicileAddress(learnerPatch.getDomicileAddress());
+            else
+                learner.setDomicileAddress(addressService.patchAddress(learner.getDomicileAddress(), learnerPatch.getDomicileAddress()));
+            learner.setDomicileEqualsResidential(false);
+        }
+
+        if( learnerPatch.getDomicileEqualsResidential() != null) {
+            if(!learnerPatch.getDomicileEqualsResidential() && learnerPatch.getDomicileAddress() == null && learner.getDomicileEqualsResidential())
+                throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+            if( learnerPatch.getDomicileAddress() == null)
+                learner.setDomicileEqualsResidential(learnerPatch.getDomicileEqualsResidential());
+        }
+
+        if(learner.getDomicileEqualsResidential())
+            learner.setDomicileAddress(learner.getResidentialAddress());
 
         learnerRepository.save(learner);
 
@@ -273,7 +317,7 @@ public class LearnerServiceImpl implements LearnerService {
         System.out.println("sono qui");
         if(learner.getName() != null && learner.getSurname() != null && learner.getDateOfBirth() != null &&
         learner.getBirthPlace() != null && learner.getFiscalCode() != null && learner.getEmail() != null &&
-        learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getAddress() != null &&
+        learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getResidentialAddress() != null &&
         learner.getAttachments() != null) {
             System.out.println("sono qua");
             Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
