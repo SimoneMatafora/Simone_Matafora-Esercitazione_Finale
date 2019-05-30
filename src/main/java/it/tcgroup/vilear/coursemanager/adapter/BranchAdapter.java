@@ -71,7 +71,6 @@ public class BranchAdapter {
         for (BranchEntity att : branchList){
             branchResponseList.add(this.adptBranchToBranchResponse(att));
         }
-
         return branchResponseList;
     }
 
