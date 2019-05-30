@@ -60,20 +60,21 @@ public class CourseServiceImpl implements CourseService {
         try{
 
             CourseEntity course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
-            if(course!= null && course.getPlacementList()!= null && !course.getPlacementList().isEmpty()) {
-                for (PlacementCourse placement : course.getPlacementList()) {
-                    if (placement.getExpiredPlacementDate() != null && course.getCourseEndDate() != null) {
-                        Calendar expiredPlacementDate = Calendar.getInstance();
-                        expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
-                        Calendar courseEndDate = Calendar.getInstance();
-                        courseEndDate.setTime(dateUtil.addDays(course.getCourseEndDate(), 180));
-                        Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
-                                courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
-                        if (sameDay != true )
+            if(course!=null){
+                if(course.getPlacementList()!= null) {
+                    for (PlacementCourse placement : course.getPlacementList()) {
+                        if (!this.checkDateDifference(placement.getExpiredPlacementDate(),course.getCourseEndDate(),180))
                             throw new BadRequestException("ExpiredPlacementDate bad request.");
                     }
                 }
+                if (!this.checkDateDifference(course.getSendedPaperReportingDate(),course.getCourseEndDate(),74))
+                    throw new BadRequestException("SendedPaperReportingDate bad request.");
+                if (!this.checkDateDifference(course.getSendedEletronicReportingDate(),course.getDeliveryDateInAdministration(),60))
+                    throw new BadRequestException("SendedEletronicReportingDate bad request.");
+                if (!this.checkDateDifference(course.getExpiredReportingDate(),course.getCourseEndDate(),60))
+                    throw new BadRequestException("SendedEletronicReportingDate bad request.");
             }
+
             courseRepository.save(course);
 
             return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -102,19 +103,19 @@ public class CourseServiceImpl implements CourseService {
 
         try {
 
-            if(courseUpdateRequest!= null && courseUpdateRequest.getPlacementList()!= null && !courseUpdateRequest.getPlacementList().isEmpty()) {
-                for (PlacementCourseRequestV1 placement : courseUpdateRequest.getPlacementList()) {
-                    if (placement.getExpiredPlacementDate() != null && courseUpdateRequest.getCourseEndDate() != null) {
-                        Calendar expiredPlacementDate = Calendar.getInstance();
-                        expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
-                        Calendar courseEndDate = Calendar.getInstance();
-                        courseEndDate.setTime(dateUtil.addDays(courseUpdateRequest.getCourseEndDate(), 180));
-                        Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
-                                courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
-                        if (sameDay != true )
+            if(courseUpdateRequest!=null){
+                if(courseUpdateRequest.getPlacementList()!= null) {
+                    for (PlacementCourseRequestV1 placement : courseUpdateRequest.getPlacementList()) {
+                        if (!this.checkDateDifference(placement.getExpiredPlacementDate(),courseUpdateRequest.getCourseEndDate(),180))
                             throw new BadRequestException("ExpiredPlacementDate bad request.");
                     }
                 }
+                if (!this.checkDateDifference(courseUpdateRequest.getSendedPaperReportingDate(),courseUpdateRequest.getCourseEndDate(),74))
+                    throw new BadRequestException("SendedPaperReportingDate bad request.");
+                if (!this.checkDateDifference(courseUpdateRequest.getSendedEletronicReportingDate(),courseUpdateRequest.getDeliveryDateInAdministration(),60))
+                    throw new BadRequestException("SendedEletronicReportingDate bad request.");
+                if (!this.checkDateDifference(courseUpdateRequest.getExpiredReportingDate(),courseUpdateRequest.getCourseEndDate(),60))
+                    throw new BadRequestException("SendedEletronicReportingDate bad request.");
             }
 
             Optional<CourseEntity> courseOpt = courseRepository.findById(courseId);
@@ -286,8 +287,11 @@ public class CourseServiceImpl implements CourseService {
             course.setEducationalTargetDescription(coursePatch.getEducationalTargetDescription());
         if(coursePatch.getEntourageHours() != null)
             course.setEntourageHours(coursePatch.getEntourageHours());
-        if(coursePatch.getExpiredReportingDate() != null)
+        if(coursePatch.getExpiredReportingDate() != null){
+            if (!this.checkDateDifference(coursePatch.getExpiredReportingDate(),coursePatch.getCourseEndDate(),60))
+                throw new BadRequestException("SendedEletronicReportingDate bad request.");
             course.setExpiredReportingDate(coursePatch.getExpiredReportingDate());
+        }
         if(coursePatch.getExternalReferenceCode() != null)
             course.setExternalReferenceCode(coursePatch.getExternalReferenceCode());
         if(coursePatch.getFoundsTypeCourse() != null)
@@ -319,16 +323,8 @@ public class CourseServiceImpl implements CourseService {
         if(coursePatch.getPlacementList() != null){
             if(!coursePatch.getPlacementList().isEmpty()) {
                 for (PlacementCourse placement : coursePatch.getPlacementList()) {
-                    if (placement.getExpiredPlacementDate() != null && coursePatch.getCourseEndDate() != null) {
-                        Calendar expiredPlacementDate = Calendar.getInstance();
-                        expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
-                        Calendar courseEndDate = Calendar.getInstance();
-                        courseEndDate.setTime(dateUtil.addDays(coursePatch.getCourseEndDate(), 180));
-                        Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
-                                courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
-                        if (sameDay != true )
-                            throw new BadRequestException("ExpiredPlacementDate bad request.");
-                    }
+                    if (!this.checkDateDifference(placement.getExpiredPlacementDate(),coursePatch.getCourseEndDate(),180))
+                        throw new BadRequestException("ExpiredPlacementDate bad request.");
                 }
             }
             course.setPlacementList(coursePatch.getPlacementList());
@@ -345,12 +341,18 @@ public class CourseServiceImpl implements CourseService {
             course.setReportNote(coursePatch.getReportNote());
         if(coursePatch.getSendedCanceledProjectDate() != null)
             course.setSendedCanceledProjectDate(coursePatch.getSendedCanceledProjectDate());
-        if(coursePatch.getSendedEletronicReportingDate() != null)
+        if(coursePatch.getSendedEletronicReportingDate() != null){
+            if (!this.checkDateDifference(coursePatch.getSendedEletronicReportingDate(),coursePatch.getDeliveryDateInAdministration(),60))
+                throw new BadRequestException("SendedEletronicReportingDate bad request.");
             course.setSendedEletronicReportingDate(coursePatch.getSendedEletronicReportingDate());
+        }
         if(coursePatch.getSendedLearnersFTDate() != null)
             course.setSendedLearnersFTDate(coursePatch.getSendedLearnersFTDate());
-        if(coursePatch.getSendedPaperReportingDate() != null)
+        if(coursePatch.getSendedPaperReportingDate() != null){
+            if (!this.checkDateDifference(coursePatch.getSendedPaperReportingDate(),coursePatch.getCourseEndDate(),74))
+                throw new BadRequestException("SendedPaperReportingDate bad request.");
             course.setSendedPaperReportingDate(coursePatch.getSendedPaperReportingDate());
+        }
         if(coursePatch.getSendedProjectDate() != null)
             course.setSendedProjectDate(coursePatch.getSendedProjectDate());
         if(coursePatch.getSkilsAnalysisHours() != null)
@@ -547,7 +549,20 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
-
+    public boolean checkDateDifference(Date date, Date dateToAddDays, Integer days){
+        if(date!=null && dateToAddDays!=null) {
+            Calendar dateCalendar = Calendar.getInstance();
+            dateCalendar.setTime(date);
+            Calendar dateToAddDaysCalendar = Calendar.getInstance();
+            dateToAddDaysCalendar.setTime(dateUtil.addDays(dateToAddDays, days));
+            Boolean sameDay = (dateCalendar.get(Calendar.YEAR) == dateToAddDaysCalendar.get(Calendar.YEAR) &&
+                    dateCalendar.get(Calendar.MONTH) == dateToAddDaysCalendar.get(Calendar.MONTH) &&
+                    dateCalendar.get(Calendar.DAY_OF_MONTH) == dateToAddDaysCalendar.get(Calendar.DAY_OF_MONTH));
+            if(sameDay)
+                return true;
+            else return false;
+        } else throw new BadRequestException("Bad request: missing argument");
+    }
 
 
 }
