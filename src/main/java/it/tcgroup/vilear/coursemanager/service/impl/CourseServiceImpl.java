@@ -3,8 +3,12 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.CourseAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
+import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.PlacementCourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -14,6 +18,7 @@ import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
 import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
@@ -46,13 +51,29 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private AttachmentAdapter attachmentAdapter;
 
+    @Autowired
+    private DateUtil dateUtil;
+
 
     @Override
     public IdResponseV1 insertCourse(CourseRequestV1 courseInsertRequest) {
+        try{
 
-        CourseEntity course = null;
-        try {
-            course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
+            CourseEntity course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
+            if(course!= null && course.getPlacementList()!= null && !course.getPlacementList().isEmpty()) {
+                for (PlacementCourse placement : course.getPlacementList()) {
+                    if (placement.getExpiredPlacementDate() != null && course.getCourseEndDate() != null) {
+                        Calendar expiredPlacementDate = Calendar.getInstance();
+                        expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
+                        Calendar courseEndDate = Calendar.getInstance();
+                        courseEndDate.setTime(dateUtil.addDays(course.getCourseEndDate(), 180));
+                        Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
+                                courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
+                        if (sameDay != true )
+                            throw new BadRequestException("ExpiredPlacementDate bad request.");
+                    }
+                }
+            }
             courseRepository.save(course);
 
             return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -81,91 +102,104 @@ public class CourseServiceImpl implements CourseService {
 
         try {
 
-            Optional<CourseEntity> courseOpt = courseRepository.findById(courseId);
-
-            if(!courseOpt.isPresent()){
-                throw new NotFoundException("Course with id " + courseId+ " not found");
+            if(courseUpdateRequest!= null && courseUpdateRequest.getPlacementList()!= null && !courseUpdateRequest.getPlacementList().isEmpty()) {
+                for (PlacementCourseRequestV1 placement : courseUpdateRequest.getPlacementList()) {
+                    if (placement.getExpiredPlacementDate() != null && courseUpdateRequest.getCourseEndDate() != null) {
+                        Calendar expiredPlacementDate = Calendar.getInstance();
+                        expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
+                        Calendar courseEndDate = Calendar.getInstance();
+                        courseEndDate.setTime(dateUtil.addDays(courseUpdateRequest.getCourseEndDate(), 180));
+                        Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
+                                courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
+                        if (sameDay != true )
+                            throw new BadRequestException("ExpiredPlacementDate bad request.");
+                    }
+                }
             }
 
-            CourseEntity course = courseOpt.get();
+            Optional<CourseEntity> courseOpt = courseRepository.findById(courseId);
 
-            CourseEntity courseUpdate = null;
+        if(!courseOpt.isPresent()){
+            throw new NotFoundException("Course with id " + courseId+ " not found");
+        }
 
-            courseUpdate = courseAdapter.adptCourseRequestToCourse(courseUpdateRequest);
+        CourseEntity course = courseOpt.get();
 
-            course.setActuatorSubject(courseUpdate.getActuatorSubject());
-            course.setAfternoonEndHour(courseUpdate.getAfternoonEndHour());
-            course.setAfternoonStartHour(courseUpdate.getAfternoonStartHour());
-            course.setAmountFinSecurityCapital(courseUpdate.getAmountFinSecurityCapital ());
-            course.setAmountAttendanceBenefits(courseUpdate.getAmountAttendanceBenefits());
-            course.setAmountAutorizedFT(courseUpdate.getAmountAutorizedFT());
-            course.setAmountAutorizedFTDate(courseUpdate.getAmountAutorizedFTDate());
-            course.setAmountReportFT(courseUpdate.getAmountReportFT());
-            course.setAttendanceBenefits(courseUpdate.getAttendanceBenefits());
-            course.setAutProgetctFTRealizedDate(courseUpdate.getAutProgetctFTRealizedDate());
-            course.setBusinessEmail(courseUpdate.getBusinessEmail());
-            course.setBusinessName(courseUpdate.getBusinessName());
-            course.setCertificateTypeCourse(courseUpdate.getCertificateTypeCourse());
-            course.setCoachingHours(courseUpdate.getCoachingHours());
-            course.setCommercialTaxableCommunicationDate(courseUpdate.getCommercialTaxableCommunicationDate());
-            course.setContentsArea(courseUpdate.getContentsArea());
-            course.setCosts(courseUpdate.getCosts());
-            course.setCourseCode(courseUpdate.getCourseCode());
-            course.setCourseDescription(courseUpdate.getCourseDescription());
-            course.setCourseEndDate(courseUpdate.getCourseEndDate());
-            //course.setCourseLogo(courseUpdate.getCourseLogo());
-            course.setCourseStartDate(courseUpdate.getCourseStartDate());
-            course.setCourseTitle(courseUpdate.getCourseTitle());
-            course.setCourseType(courseUpdate.getCourseType());
-            course.setDailyHours(courseUpdate.getDailyHours());
-            course.setDailyRegister(courseUpdate.getDailyRegister());
-            course.setDeliveryDateInAdministration(courseUpdate.getDeliveryDateInAdministration());
-            course.setDisabled(courseUpdate.getDisabled());
-            //course.setDocumentAttachment(courseUpdate.getDocumentAttachment());
-            course.setEducationalTargetDescription(courseUpdate.getEducationalTargetDescription());
-            course.setEntourageHours(courseUpdate.getEntourageHours());
-            course.setExpiredReportingDate(courseUpdate.getExpiredReportingDate());
-            course.setExternalReferenceCode(courseUpdate.getExternalReferenceCode());
-            course.setFoundsTypeCourse(courseUpdate.getFoundsTypeCourse());
-            course.setHeadquatersCourse(courseUpdate.getHeadquatersCourse());
-            course.setInvoiceAuthorizationDate(courseUpdate.getInvoiceAuthorizationDate());
-            course.setIssueTicket(courseUpdate.getIssueTicket());
-            course.setLearnerType(courseUpdate.getLearnerType());
-            course.setMinimumNumericOfParticipants(courseUpdate.getMinimumNumericOfParticipants());
-            course.setMorningEndHour(courseUpdate.getMorningEndHour());
-            course.setMorningStartHour(courseUpdate.getMorningStartHour());
-            course.setNote(courseUpdate.getNote());
-            course.setOrenatationHours(courseUpdate.getOrenatationHours());
-            course.setPartFullTimeCourse(courseUpdate.getPartFullTimeCourse());
-            course.setPartnerList(courseUpdate.getPartnerList());
-            course.setPaymentModality(courseUpdate.getPaymentModality());
-            course.setPlacementList(courseUpdate.getPlacementList());
-            course.setPracticeHours(courseUpdate.getPracticeHours());
-            course.setReceiptFTConfirmationDate(courseUpdate.getReceiptFTConfirmationDate());
-            course.setRecipient(courseUpdate.getRecipient());
-            course.setRecipientManagment(courseUpdate.getRecipientManagment());
-            course.setReportNote(courseUpdate.getReportNote());
-            course.setSendedCanceledProjectDate(courseUpdate.getSendedCanceledProjectDate());
-            course.setSendedEletronicReportingDate(courseUpdate.getSendedEletronicReportingDate());
-            course.setSendedLearnersFTDate(courseUpdate.getSendedLearnersFTDate());
-            course.setSendedPaperReportingDate(courseUpdate.getSendedPaperReportingDate());
-            course.setSendedProjectDate(courseUpdate.getSendedProjectDate());
-            course.setSkilsAnalysisHours(courseUpdate.getSkilsAnalysisHours());
-            course.setSpecialInitiatives(courseUpdate.getSpecialInitiatives());
-            course.setSupplyModality(courseUpdate.getSupplyModality());
-            course.setTeacherList(courseUpdate.getTeacherList());
-            course.setTheoryHours(courseUpdate.getTheoryHours());
-            course.setTicketAmount(courseUpdate.getTicketAmount());
-            course.setNumberOfTickets(courseUpdate.getNumberOfTickets());
-            course.setTotalAmountWithoutFS(courseUpdate.getTotalAmountWithoutFS());
-            course.setTotalHours(courseUpdate.getTotalHours());
-            course.setTotalHoursTraining(courseUpdate.getTotalHoursTraining());
-            course.setTotalPartnerCost(courseUpdate.getTotalPartnerCost());
-            course.setTotalPartnerCostOnPercent(courseUpdate.getTotalPartnerCostOnPercent());
-            course.setTradeUnionTeachingRequest(courseUpdate.getTradeUnionTeachingRequest());
-            course.setVisitHours(courseUpdate.getVisitHours());
+        CourseEntity courseUpdate = courseAdapter.adptCourseRequestToCourse(courseUpdateRequest);
 
-            courseRepository.save(course);
+        course.setActuatorSubject(courseUpdate.getActuatorSubject());
+        course.setAfternoonEndHour(courseUpdate.getAfternoonEndHour());
+        course.setAfternoonStartHour(courseUpdate.getAfternoonStartHour());
+        course.setAmountFinSecurityCapital(courseUpdate.getAmountFinSecurityCapital ());
+        course.setAmountAttendanceBenefits(courseUpdate.getAmountAttendanceBenefits());
+        course.setAmountAutorizedFT(courseUpdate.getAmountAutorizedFT());
+        course.setAmountAutorizedFTDate(courseUpdate.getAmountAutorizedFTDate());
+        course.setAmountReportFT(courseUpdate.getAmountReportFT());
+        course.setAttendanceBenefits(courseUpdate.getAttendanceBenefits());
+        course.setAutProgetctFTRealizedDate(courseUpdate.getAutProgetctFTRealizedDate());
+        course.setBusinessEmail(courseUpdate.getBusinessEmail());
+        course.setBusinessName(courseUpdate.getBusinessName());
+        course.setCertificateTypeCourse(courseUpdate.getCertificateTypeCourse());
+        course.setCoachingHours(courseUpdate.getCoachingHours());
+        course.setCommercialTaxableCommunicationDate(courseUpdate.getCommercialTaxableCommunicationDate());
+        course.setContentsArea(courseUpdate.getContentsArea());
+        course.setCosts(courseUpdate.getCosts());
+        course.setCourseCode(courseUpdate.getCourseCode());
+        course.setCourseDescription(courseUpdate.getCourseDescription());
+        course.setCourseEndDate(courseUpdate.getCourseEndDate());
+        //course.setCourseLogo(courseUpdate.getCourseLogo());
+        course.setCourseStartDate(courseUpdate.getCourseStartDate());
+        course.setCourseTitle(courseUpdate.getCourseTitle());
+        course.setCourseType(courseUpdate.getCourseType());
+        course.setDailyHours(courseUpdate.getDailyHours());
+        course.setDailyRegister(courseUpdate.getDailyRegister());
+        course.setDeliveryDateInAdministration(courseUpdate.getDeliveryDateInAdministration());
+        course.setDisabled(courseUpdate.getDisabled());
+        //course.setDocumentAttachment(courseUpdate.getDocumentAttachment());
+        course.setEducationalTargetDescription(courseUpdate.getEducationalTargetDescription());
+        course.setEntourageHours(courseUpdate.getEntourageHours());
+        course.setExpiredReportingDate(courseUpdate.getExpiredReportingDate());
+        course.setExternalReferenceCode(courseUpdate.getExternalReferenceCode());
+        course.setFoundsTypeCourse(courseUpdate.getFoundsTypeCourse());
+        course.setHeadquatersCourse(courseUpdate.getHeadquatersCourse());
+        course.setInvoiceAuthorizationDate(courseUpdate.getInvoiceAuthorizationDate());
+        course.setIssueTicket(courseUpdate.getIssueTicket());
+        course.setLearnerType(courseUpdate.getLearnerType());
+        course.setMinimumNumericOfParticipants(courseUpdate.getMinimumNumericOfParticipants());
+        course.setMorningEndHour(courseUpdate.getMorningEndHour());
+        course.setMorningStartHour(courseUpdate.getMorningStartHour());
+        course.setNote(courseUpdate.getNote());
+        course.setOrenatationHours(courseUpdate.getOrenatationHours());
+        course.setPartFullTimeCourse(courseUpdate.getPartFullTimeCourse());
+        course.setPartnerList(courseUpdate.getPartnerList());
+        course.setPaymentModality(courseUpdate.getPaymentModality());
+        course.setPlacementList(courseUpdate.getPlacementList());
+        course.setPracticeHours(courseUpdate.getPracticeHours());
+        course.setReceiptFTConfirmationDate(courseUpdate.getReceiptFTConfirmationDate());
+        course.setRecipient(courseUpdate.getRecipient());
+        course.setRecipientManagment(courseUpdate.getRecipientManagment());
+        course.setReportNote(courseUpdate.getReportNote());
+        course.setSendedCanceledProjectDate(courseUpdate.getSendedCanceledProjectDate());
+        course.setSendedEletronicReportingDate(courseUpdate.getSendedEletronicReportingDate());
+        course.setSendedLearnersFTDate(courseUpdate.getSendedLearnersFTDate());
+        course.setSendedPaperReportingDate(courseUpdate.getSendedPaperReportingDate());
+        course.setSendedProjectDate(courseUpdate.getSendedProjectDate());
+        course.setSkilsAnalysisHours(courseUpdate.getSkilsAnalysisHours());
+        course.setSpecialInitiatives(courseUpdate.getSpecialInitiatives());
+        course.setSupplyModality(courseUpdate.getSupplyModality());
+        course.setTeacherList(courseUpdate.getTeacherList());
+        course.setTheoryHours(courseUpdate.getTheoryHours());
+        course.setTicketAmount(courseUpdate.getTicketAmount());
+        course.setNumberOfTickets(courseUpdate.getNumberOfTickets());
+        course.setTotalAmountWithoutFS(courseUpdate.getTotalAmountWithoutFS());
+        course.setTotalHours(courseUpdate.getTotalHours());
+        course.setTotalHoursTraining(courseUpdate.getTotalHoursTraining());
+        course.setTotalPartnerCost(courseUpdate.getTotalPartnerCost());
+        course.setTotalPartnerCostOnPercent(courseUpdate.getTotalPartnerCostOnPercent());
+        course.setTradeUnionTeachingRequest(courseUpdate.getTradeUnionTeachingRequest());
+        course.setVisitHours(courseUpdate.getVisitHours());
+
+        courseRepository.save(course);
 
             return courseAdapter.adptCourseToCourseResponse(course);
 
@@ -248,90 +282,105 @@ public class CourseServiceImpl implements CourseService {
                 course.setDisabled(coursePatch.getDisabled());
         /*if(coursePatch.getDocumentAttachment() != null)
             course.setDocumentAttachment(coursePatch.getDocumentAttachment());*/
-            if (coursePatch.getEducationalTargetDescription() != null)
-                course.setEducationalTargetDescription(coursePatch.getEducationalTargetDescription());
-            if (coursePatch.getEntourageHours() != null)
-                course.setEntourageHours(coursePatch.getEntourageHours());
-            if (coursePatch.getExpiredReportingDate() != null)
-                course.setExpiredReportingDate(coursePatch.getExpiredReportingDate());
-            if (coursePatch.getExternalReferenceCode() != null)
-                course.setExternalReferenceCode(coursePatch.getExternalReferenceCode());
-            if (coursePatch.getFoundsTypeCourse() != null)
-                course.setFoundsTypeCourse(coursePatch.getFoundsTypeCourse());
-            if (coursePatch.getHeadquatersCourse() != null)
-                course.setHeadquatersCourse(coursePatch.getHeadquatersCourse());
-            if (coursePatch.getInvoiceAuthorizationDate() != null)
-                course.setInvoiceAuthorizationDate(coursePatch.getInvoiceAuthorizationDate());
-            if (coursePatch.getIssueTicket() != null)
-                course.setIssueTicket(coursePatch.getIssueTicket());
-            if (coursePatch.getLearnerType() != null)
-                course.setLearnerType(coursePatch.getLearnerType());
-            if (coursePatch.getMinimumNumericOfParticipants() != null)
-                course.setMinimumNumericOfParticipants(coursePatch.getMinimumNumericOfParticipants());
-            if (coursePatch.getMorningEndHour() != null)
-                course.setMorningEndHour(coursePatch.getMorningEndHour());
-            if (coursePatch.getMorningStartHour() != null)
-                course.setMorningStartHour(coursePatch.getMorningStartHour());
-            if (coursePatch.getNote() != null)
-                course.setNote(coursePatch.getNote());
-            if (coursePatch.getOrenatationHours() != null)
-                course.setOrenatationHours(coursePatch.getOrenatationHours());
-            if (coursePatch.getPartFullTimeCourse() != null)
-                course.setPartFullTimeCourse(coursePatch.getPartFullTimeCourse());
-            if (coursePatch.getPartnerList() != null)
-                course.setPartnerList(coursePatch.getPartnerList());
-            if (coursePatch.getPaymentModality() != null)
-                course.setPaymentModality(coursePatch.getPaymentModality());
-            if (coursePatch.getPlacementList() != null)
-                course.setPlacementList(coursePatch.getPlacementList());
-            if (coursePatch.getPracticeHours() != null)
-                course.setPracticeHours(coursePatch.getPracticeHours());
-            if (coursePatch.getReceiptFTConfirmationDate() != null)
-                course.setReceiptFTConfirmationDate(coursePatch.getReceiptFTConfirmationDate());
-            if (coursePatch.getRecipient() != null)
-                course.setRecipient(coursePatch.getRecipient());
-            if (coursePatch.getRecipientManagment() != null)
-                course.setRecipientManagment(coursePatch.getRecipientManagment());
-            if (coursePatch.getReportNote() != null)
-                course.setReportNote(coursePatch.getReportNote());
-            if (coursePatch.getSendedCanceledProjectDate() != null)
-                course.setSendedCanceledProjectDate(coursePatch.getSendedCanceledProjectDate());
-            if (coursePatch.getSendedEletronicReportingDate() != null)
-                course.setSendedEletronicReportingDate(coursePatch.getSendedEletronicReportingDate());
-            if (coursePatch.getSendedLearnersFTDate() != null)
-                course.setSendedLearnersFTDate(coursePatch.getSendedLearnersFTDate());
-            if (coursePatch.getSendedPaperReportingDate() != null)
-                course.setSendedPaperReportingDate(coursePatch.getSendedPaperReportingDate());
-            if (coursePatch.getSendedProjectDate() != null)
-                course.setSendedProjectDate(coursePatch.getSendedProjectDate());
-            if (coursePatch.getSkilsAnalysisHours() != null)
-                course.setSkilsAnalysisHours(coursePatch.getSkilsAnalysisHours());
-            if (coursePatch.getSpecialInitiatives() != null)
-                course.setSpecialInitiatives(coursePatch.getSpecialInitiatives());
-            if (coursePatch.getSupplyModality() != null)
-                course.setSupplyModality(coursePatch.getSupplyModality());
-            if (coursePatch.getTeacherList() != null)
-                course.setTeacherList(coursePatch.getTeacherList());
-            if (coursePatch.getTheoryHours() != null)
-                course.setTheoryHours(coursePatch.getTheoryHours());
-            if (coursePatch.getTicketAmount() != null)
-                course.setTicketAmount(coursePatch.getTicketAmount());
-            if (coursePatch.getNumberOfTickets() != null)
-                course.setNumberOfTickets(coursePatch.getNumberOfTickets());
-            if (coursePatch.getTotalAmountWithoutFS() != null)
-                course.setTotalAmountWithoutFS(coursePatch.getTotalAmountWithoutFS());
-            if (coursePatch.getTotalHours() != null)
-                course.setTotalHours(coursePatch.getTotalHours());
-            if (coursePatch.getTotalHoursTraining() != null)
-                course.setTotalHoursTraining(coursePatch.getTotalHoursTraining());
-            if (coursePatch.getTotalPartnerCost() != null)
-                course.setTotalPartnerCost(coursePatch.getTotalPartnerCost());
-            if (coursePatch.getTotalPartnerCostOnPercent() != null)
-                course.setTotalPartnerCostOnPercent(coursePatch.getTotalPartnerCostOnPercent());
-            if (coursePatch.getTradeUnionTeachingRequest() != null)
-                course.setTradeUnionTeachingRequest(coursePatch.getTradeUnionTeachingRequest());
-            if (coursePatch.getVisitHours() != null)
-                course.setVisitHours(coursePatch.getVisitHours());
+        if(coursePatch.getEducationalTargetDescription() != null)
+            course.setEducationalTargetDescription(coursePatch.getEducationalTargetDescription());
+        if(coursePatch.getEntourageHours() != null)
+            course.setEntourageHours(coursePatch.getEntourageHours());
+        if(coursePatch.getExpiredReportingDate() != null)
+            course.setExpiredReportingDate(coursePatch.getExpiredReportingDate());
+        if(coursePatch.getExternalReferenceCode() != null)
+            course.setExternalReferenceCode(coursePatch.getExternalReferenceCode());
+        if(coursePatch.getFoundsTypeCourse() != null)
+            course.setFoundsTypeCourse(coursePatch.getFoundsTypeCourse());
+        if(coursePatch.getHeadquatersCourse() != null)
+            course.setHeadquatersCourse(coursePatch.getHeadquatersCourse());
+        if(coursePatch.getInvoiceAuthorizationDate() != null)
+            course.setInvoiceAuthorizationDate(coursePatch.getInvoiceAuthorizationDate());
+        if(coursePatch.getIssueTicket() != null)
+            course.setIssueTicket(coursePatch.getIssueTicket());
+        if(coursePatch.getLearnerType() != null)
+            course.setLearnerType(coursePatch.getLearnerType());
+        if(coursePatch.getMinimumNumericOfParticipants() != null)
+            course.setMinimumNumericOfParticipants(coursePatch.getMinimumNumericOfParticipants());
+        if(coursePatch.getMorningEndHour() != null)
+            course.setMorningEndHour(coursePatch.getMorningEndHour());
+        if(coursePatch.getMorningStartHour() != null)
+            course.setMorningStartHour(coursePatch.getMorningStartHour());
+        if(coursePatch.getNote() != null)
+            course.setNote(coursePatch.getNote());
+        if(coursePatch.getOrenatationHours() != null)
+            course.setOrenatationHours(coursePatch.getOrenatationHours());
+        if(coursePatch.getPartFullTimeCourse() != null)
+            course.setPartFullTimeCourse(coursePatch.getPartFullTimeCourse());
+        if(coursePatch.getPartnerList() != null)
+            course.setPartnerList(coursePatch.getPartnerList());
+        if(coursePatch.getPaymentModality() != null)
+            course.setPaymentModality(coursePatch.getPaymentModality());
+        if(coursePatch.getPlacementList() != null){
+            if(!coursePatch.getPlacementList().isEmpty()) {
+                for (PlacementCourse placement : coursePatch.getPlacementList()) {
+                    if (placement.getExpiredPlacementDate() != null && coursePatch.getCourseEndDate() != null) {
+                        Calendar expiredPlacementDate = Calendar.getInstance();
+                        expiredPlacementDate.setTime(placement.getExpiredPlacementDate());
+                        Calendar courseEndDate = Calendar.getInstance();
+                        courseEndDate.setTime(dateUtil.addDays(coursePatch.getCourseEndDate(), 180));
+                        Boolean sameDay = courseEndDate.get(Calendar.DAY_OF_YEAR) == expiredPlacementDate.get(Calendar.DAY_OF_YEAR) &&
+                                courseEndDate.get(Calendar.YEAR) == expiredPlacementDate.get(Calendar.YEAR);
+                        if (sameDay != true )
+                            throw new BadRequestException("ExpiredPlacementDate bad request.");
+                    }
+                }
+            }
+            course.setPlacementList(coursePatch.getPlacementList());
+        }
+        if(coursePatch.getPracticeHours() != null)
+            course.setPracticeHours(coursePatch.getPracticeHours());
+        if(coursePatch.getReceiptFTConfirmationDate() != null)
+            course.setReceiptFTConfirmationDate(coursePatch.getReceiptFTConfirmationDate());
+        if(coursePatch.getRecipient() != null)
+            course.setRecipient(coursePatch.getRecipient());
+        if(coursePatch.getRecipientManagment() != null)
+            course.setRecipientManagment(coursePatch.getRecipientManagment());
+        if(coursePatch.getReportNote() != null)
+            course.setReportNote(coursePatch.getReportNote());
+        if(coursePatch.getSendedCanceledProjectDate() != null)
+            course.setSendedCanceledProjectDate(coursePatch.getSendedCanceledProjectDate());
+        if(coursePatch.getSendedEletronicReportingDate() != null)
+            course.setSendedEletronicReportingDate(coursePatch.getSendedEletronicReportingDate());
+        if(coursePatch.getSendedLearnersFTDate() != null)
+            course.setSendedLearnersFTDate(coursePatch.getSendedLearnersFTDate());
+        if(coursePatch.getSendedPaperReportingDate() != null)
+            course.setSendedPaperReportingDate(coursePatch.getSendedPaperReportingDate());
+        if(coursePatch.getSendedProjectDate() != null)
+            course.setSendedProjectDate(coursePatch.getSendedProjectDate());
+        if(coursePatch.getSkilsAnalysisHours() != null)
+            course.setSkilsAnalysisHours(coursePatch.getSkilsAnalysisHours());
+        if(coursePatch.getSpecialInitiatives() != null)
+            course.setSpecialInitiatives(coursePatch.getSpecialInitiatives());
+        if(coursePatch.getSupplyModality() != null)
+            course.setSupplyModality(coursePatch.getSupplyModality());
+        if(coursePatch.getTeacherList() != null)
+            course.setTeacherList(coursePatch.getTeacherList());
+        if(coursePatch.getTheoryHours() != null)
+            course.setTheoryHours(coursePatch.getTheoryHours());
+        if(coursePatch.getTicketAmount() != null)
+            course.setTicketAmount(coursePatch.getTicketAmount());
+        if(coursePatch.getNumberOfTickets() != null)
+            course.setNumberOfTickets(coursePatch.getNumberOfTickets());
+        if(coursePatch.getTotalAmountWithoutFS() != null)
+            course.setTotalAmountWithoutFS(coursePatch.getTotalAmountWithoutFS());
+        if(coursePatch.getTotalHours() != null)
+            course.setTotalHours(coursePatch.getTotalHours());
+        if(coursePatch.getTotalHoursTraining() != null)
+            course.setTotalHoursTraining(coursePatch.getTotalHoursTraining());
+        if(coursePatch.getTotalPartnerCost() != null)
+            course.setTotalPartnerCost(coursePatch.getTotalPartnerCost());
+        if(coursePatch.getTotalPartnerCostOnPercent() != null)
+            course.setTotalPartnerCostOnPercent(coursePatch.getTotalPartnerCostOnPercent());
+        if(coursePatch.getTradeUnionTeachingRequest() != null)
+            course.setTradeUnionTeachingRequest(coursePatch.getTradeUnionTeachingRequest());
+        if(coursePatch.getVisitHours() != null)
+            course.setVisitHours(coursePatch.getVisitHours());
 
             courseRepository.save(course);
 
