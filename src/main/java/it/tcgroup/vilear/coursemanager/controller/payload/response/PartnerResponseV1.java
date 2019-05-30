@@ -1,5 +1,6 @@
 package it.tcgroup.vilear.coursemanager.controller.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.StatusTeacherPartnerEnum;
@@ -102,15 +103,15 @@ public class PartnerResponseV1 {
         @JsonProperty("address")
         private TeacherResponseV1.AddressResponse address;
 
-        @JsonProperty("type")
-        private TypeAddressPartnerEnum type;
+        @JsonProperty("is_legal_address")
+        private Boolean isLegalAddress;
 
         public AddressPartnerResponseV1() {
         }
 
-        public AddressPartnerResponseV1(TeacherResponseV1.AddressResponse address, TypeAddressPartnerEnum type) {
+        public AddressPartnerResponseV1(TeacherResponseV1.AddressResponse address, Boolean isLegalAddress) {
             this.address = address;
-            this.type = type;
+            this.isLegalAddress = isLegalAddress;
         }
 
         public TeacherResponseV1.AddressResponse getAddress() {
@@ -121,19 +122,20 @@ public class PartnerResponseV1 {
             this.address = address;
         }
 
-        public TypeAddressPartnerEnum getType() {
-            return type;
+        @JsonIgnore
+        public Boolean getLegalAddress() {
+            return isLegalAddress;
         }
 
-        public void setType(TypeAddressPartnerEnum type) {
-            this.type = type;
+        public void setLegalAddress(Boolean legalAddress) {
+            isLegalAddress = legalAddress;
         }
 
         @Override
         public String toString() {
-            return "AddressPartnerRequestV1{" +
+            return "AddressPartnerResponseV1{" +
                     "address=" + address +
-                    ", type=" + type +
+                    ", isLegalAddress=" + isLegalAddress +
                     '}';
         }
     }

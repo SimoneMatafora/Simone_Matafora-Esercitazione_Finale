@@ -182,7 +182,7 @@ public class DogeServiceImpl implements DogeService {
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("where", addressPartner);
                                         }
@@ -377,7 +377,7 @@ public class DogeServiceImpl implements DogeService {
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("address", addressPartner);
                                         }
@@ -453,7 +453,7 @@ public class DogeServiceImpl implements DogeService {
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("address", addressPartner);
                                         }
@@ -530,7 +530,7 @@ public class DogeServiceImpl implements DogeService {
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("address", addressPartner);
                                         }
@@ -593,7 +593,7 @@ public class DogeServiceImpl implements DogeService {
                                 if(partnerCourse.getSupplier().getAddressList() != null)
                                 {
                                     for(AddressPartner addressPartner1 : partnerCourse.getSupplier().getAddressList()){
-                                        if(addressPartner1.getType().equals(TypeAddressPartnerEnum.OPERATIVO)){
+                                        if(!addressPartner1.getLegalAddress()){
                                             addressPartner+=", "+addressPartner1.getAddress().getFormattedAddress();
                                             requestMap.put("project_location", addressPartner);
                                         }

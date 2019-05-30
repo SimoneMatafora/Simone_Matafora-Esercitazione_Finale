@@ -125,6 +125,8 @@ public class PartnerController {
 
         authorizationService.checkAlive(userId);
 
+        validateService.requestValidatorPartner(partnerUpdateRequest);
+
         return new ResponseEntity<>(partnerService.updatePartner(partnerUpdateRequest, UUID.fromString(idPartner)) ,HttpStatus.OK);
     }
 

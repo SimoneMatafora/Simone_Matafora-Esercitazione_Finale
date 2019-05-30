@@ -71,28 +71,36 @@ public class ValidateServiceImpl implements ValidateService {
         for (PartnerRequestV1.AddressPartnerRequestV1 att : partnerRequest.getAddressList()){
 
             requestValidator.validateRequest(att, MessageCode.E00X_1000);
-            if(att.getType().equals(TypeAddressPartnerEnum.FATTURAZIONE))
+            if(att.getLegalAddress()) {
+                if(mainAddress)
+                    throw new BadParametersException("There are two or more legal addresses");
                 mainAddress = true;
+            }
         }
 
         if(!mainAddress)
-            throw new BadParametersException("There is no billing office address");
+            throw new BadParametersException("There is no legal address");
     }
 
     @Override
     public void requestValidatorPatchPartner(PartnerRequestV1 partnerRequest){
 
         Boolean mainAddress = false;
-        for (PartnerRequestV1.AddressPartnerRequestV1 att : partnerRequest.getAddressList()){
 
-            requestValidator.validateRequest(att, MessageCode.E00X_1000);
-            if(att.getType().equals(TypeAddressPartnerEnum.FATTURAZIONE))
-                mainAddress = true;
+        if(partnerRequest.getAddressList() != null) {
+            for (PartnerRequestV1.AddressPartnerRequestV1 att : partnerRequest.getAddressList()) {
+
+                requestValidator.validateRequest(att, MessageCode.E00X_1000);
+                if (att.getLegalAddress()) {
+                    if (mainAddress)
+                        throw new BadParametersException("There are two or more legal addresses");
+                    mainAddress = true;
+                }
+            }
+
+            if (!mainAddress)
+                throw new BadParametersException("There is no legal address");
         }
-
-        if(!mainAddress)
-            throw new BadParametersException("There is no billing office address");
-
     }
 
 

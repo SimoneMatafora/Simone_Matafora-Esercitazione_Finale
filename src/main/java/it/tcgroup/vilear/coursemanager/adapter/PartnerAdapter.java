@@ -280,7 +280,7 @@ public class PartnerAdapter {
             AddressPartnerResponseV1 addressPartnerResponse =  new AddressPartnerResponseV1();
 
             addressPartnerResponse.setAddress(addressAdapter.adptAddressDtoToAddressResponse(addressPartner.getAddress()));
-            addressPartnerResponse.setType(addressPartner.getType());
+            addressPartnerResponse.setLegalAddress(addressPartner.getLegalAddress());
 
             return addressPartnerResponse;
         }
@@ -307,7 +307,7 @@ public class PartnerAdapter {
             AddressPartner addressPartner = new AddressPartner();
 
             addressPartner.setAddress(addressAdapter.adptAddressRequestToAddressDto(addressPartnerRequest.getAddress()));
-            addressPartner.setType(addressPartnerRequest.getType());
+            addressPartner.setLegalAddress(addressPartnerRequest.getLegalAddress());
 
             return addressPartner;
         }

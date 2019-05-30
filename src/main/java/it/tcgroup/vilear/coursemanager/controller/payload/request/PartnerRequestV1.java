@@ -107,15 +107,15 @@ public class PartnerRequestV1 {
         private TeacherRequestV1.AddressRequest address;
 
         @NotNull
-        @JsonProperty("type")
-        private TypeAddressPartnerEnum type;
+        @JsonProperty("is_legal_address")
+        private Boolean isLegalAddress;
 
         public AddressPartnerRequestV1() {
         }
 
-        public AddressPartnerRequestV1(TeacherRequestV1.AddressRequest address, TypeAddressPartnerEnum type) {
+        public AddressPartnerRequestV1(@NotNull TeacherRequestV1.AddressRequest address, @NotNull Boolean isLegalAddress) {
             this.address = address;
-            this.type = type;
+            this.isLegalAddress = isLegalAddress;
         }
 
         public TeacherRequestV1.AddressRequest getAddress() {
@@ -126,19 +126,19 @@ public class PartnerRequestV1 {
             this.address = address;
         }
 
-        public TypeAddressPartnerEnum getType() {
-            return type;
+        public Boolean getLegalAddress() {
+            return isLegalAddress;
         }
 
-        public void setType(TypeAddressPartnerEnum type) {
-            this.type = type;
+        public void setLegalAddress(Boolean legalAddress) {
+            isLegalAddress = legalAddress;
         }
 
         @Override
         public String toString() {
             return "AddressPartnerRequestV1{" +
                     "address=" + address +
-                    ", type=" + type +
+                    ", isLegalAddress=" + isLegalAddress +
                     '}';
         }
     }
