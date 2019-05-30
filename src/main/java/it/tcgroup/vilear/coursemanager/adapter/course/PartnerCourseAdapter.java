@@ -21,6 +21,9 @@ public class PartnerCourseAdapter {
 
     @Autowired
     private  SubSupplierAdapter subSupplierAdapter;
+    
+    @Autowired
+    private  SupplyServiceAdapter supplyServiceAdapter;
 
     public PartnerCourse adptPartnerCourseRequestToPartnerCourse(PartnerCourseRequestV1 partnerCourseRequest){
 
@@ -35,10 +38,9 @@ public class PartnerCourseAdapter {
         partnerCourse.setFirstPaymentDate(partnerCourseRequest.getFirstPaymentDate());
         partnerCourse.setSecondPaymentDate(partnerCourseRequest.getSecondPaymentDate());
         partnerCourse.setThirdPaymentDate(partnerCourseRequest.getThirdPaymentDate());
-        partnerCourse.setServicesCosts(partnerCourseRequest.getServicesCosts());
+        partnerCourse.setSupplyServices(supplyServiceAdapter.adptSupplierServiceRequestToSupplierService(partnerCourseRequest.getSupplyServices()));
         partnerCourse.setSubSupplierList(subSupplierAdapter.adptSubSupplierRequestToSubSupplier(partnerCourseRequest.getSubSupplierList()));
         partnerCourse.setSupplier(partnerAdapter.adptPartnerRequestToPartnerDto(partnerCourseRequest.getSupplier()));
-        partnerCourse.setSupplierService(partnerCourseRequest.getSupplierService());
 
         return  partnerCourse;
     }
@@ -70,10 +72,9 @@ public class PartnerCourseAdapter {
         partnerCourseResponse.setFirstPaymentDate(partnerCourse.getFirstPaymentDate());
         partnerCourseResponse.setSecondPaymentDate(partnerCourse.getSecondPaymentDate());
         partnerCourseResponse.setThirdPaymentDate(partnerCourse.getThirdPaymentDate());
-        partnerCourseResponse.setServicesCosts(partnerCourse.getServicesCosts());
+        partnerCourseResponse.setSupplyServices(supplyServiceAdapter.adptSupplierServiceToSupplierServiceResponse(partnerCourse.getSupplyServices()));
         partnerCourseResponse.setSubSupplierList(subSupplierAdapter.adptSubSupplierToSubSupplierResponse(partnerCourse.getSubSupplierList()));
         partnerCourseResponse.setSupplier(partnerAdapter.adptPartnerDtoToPartnerResponse(partnerCourse.getSupplier()));
-        partnerCourseResponse.setSupplierService(partnerCourse.getSupplierService());
 
         return  partnerCourseResponse;
 
@@ -91,6 +92,64 @@ public class PartnerCourseAdapter {
         }
 
         return partnerCourseResponseList;
+    }
+
+    @Component
+    public class SupplyServiceAdapter{
+
+        public SupplierService adptSupplierServiceRequestToSupplierService(SupplierServiceRequestV1 supplierServiceRequest){
+
+            if(supplierServiceRequest == null)
+                return null;
+
+            SupplierService supplierService = new SupplierService();
+
+            supplierService.setSupplierService(supplierServiceRequest.getSupplierService());
+            supplierService.setServiceCost(supplierServiceRequest.getServiceCost());
+
+            return supplierService;
+        }
+
+        public List<SupplierService> adptSupplierServiceRequestToSupplierService(List<SupplierServiceRequestV1> supplierServiceRequestList){
+
+            if(supplierServiceRequestList == null)
+                return null;
+
+            List<SupplierService> supplierServiceList = new LinkedList<>();
+
+            for (SupplierServiceRequestV1 att : supplierServiceRequestList){
+                supplierServiceList.add(this.adptSupplierServiceRequestToSupplierService(att));
+            }
+
+            return supplierServiceList;
+        }
+
+        public SupplierServiceResponseV1 adptSupplierServiceToSupplierServiceResponse(SupplierService supplierService){
+
+            if(supplierService == null)
+                return null;
+
+            SupplierServiceResponseV1 supplierServiceResponse = new SupplierServiceResponseV1();
+
+            supplierServiceResponse.setServiceCost(supplierService.getServiceCost());
+            supplierServiceResponse.setSupplierService(supplierService.getSupplierService());
+
+            return supplierServiceResponse;
+        }
+
+        public List<SupplierServiceResponseV1> adptSupplierServiceToSupplierServiceResponse(List<SupplierService> supplierServiceRequestList){
+
+            if(supplierServiceRequestList == null)
+                return null;
+
+            List<SupplierServiceResponseV1> supplierServiceResponseList = new LinkedList<>();
+
+            for (SupplierService att : supplierServiceRequestList){
+                supplierServiceResponseList.add(this.adptSupplierServiceToSupplierServiceResponse(att));
+            }
+
+            return supplierServiceResponseList;
+        }
     }
 
     @Component
@@ -153,7 +212,5 @@ public class PartnerCourseAdapter {
             return subSupplierResponseList;
         }
     }
-
-
 
 }

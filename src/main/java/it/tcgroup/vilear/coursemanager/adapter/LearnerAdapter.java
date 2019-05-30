@@ -228,12 +228,12 @@ public class LearnerAdapter {
 
         if (learnerDto.getDomicileEqualsResidential() == null)
             learnerResponse.setDomicileEqualsResidential(false);
-
+        /*
         if(learnerResponse.getDomicileEqualsResidential())
             learnerResponse.setDomicileAddress(residentialAddressResponse);
         else
             learnerResponse.setDomicileAddress(domicileAddressResponse);
-
+*/
         return learnerResponse;
     }
 

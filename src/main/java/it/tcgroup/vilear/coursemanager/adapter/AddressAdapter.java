@@ -109,6 +109,8 @@ public class AddressAdapter {
 
     public AddressResponse adptAddressDtoToAddressResponse(AddressDto address){
 
+        if(address==null)
+            return null;
 
         AddressResponse indirizzoResponse = new AddressResponse();
 

@@ -173,8 +173,9 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
@@ -367,8 +368,9 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
@@ -442,8 +444,9 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
@@ -518,8 +521,9 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();
@@ -580,8 +584,9 @@ public class DogeServiceImpl implements DogeService {
         if(courseEntity.getPartnerList() != null){
             for(PartnerCourse partnerCourse : courseEntity.getPartnerList())
             {
-                if(partnerCourse.getSupplierService() != null){
-                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : partnerCourse.getSupplierService()){
+                if(partnerCourse.getSupplyServices() != null){
+                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum = supplierService.getSupplierService();
                         if(supplyServicePartnerCourseEnum.equals(SupplyServicePartnerCourseEnum.AULA)){
                             if(partnerCourse.getSupplier() != null) {
                                 String addressPartner = partnerCourse.getSupplier().getBusinessName();

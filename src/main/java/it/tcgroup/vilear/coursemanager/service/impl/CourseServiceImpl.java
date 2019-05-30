@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 
 import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.CourseAdapter;
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
@@ -13,6 +14,7 @@ import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
@@ -49,6 +51,24 @@ public class CourseServiceImpl implements CourseService {
     public IdResponseV1 insertCourse(CourseRequestV1 courseInsertRequest) {
 
         CourseEntity course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
+
+        boolean found;
+        for(PartnerCourse partnerCourse : course.getPartnerList()){
+            for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
+                for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
+                    found = false;
+                    for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found)
+                        throw new BadRequestException("The sub supplier can only have the services of the partner");
+                }
+            }
+        }
+
         courseRepository.save(course);
 
         return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -151,6 +171,23 @@ public class CourseServiceImpl implements CourseService {
         course.setTotalPartnerCostOnPercent(courseUpdate.getTotalPartnerCostOnPercent());
         course.setTradeUnionTeachingRequest(courseUpdate.getTradeUnionTeachingRequest());
         course.setVisitHours(courseUpdate.getVisitHours());
+
+        boolean found;
+        for(PartnerCourse partnerCourse : course.getPartnerList()){
+            for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
+                for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
+                    found = false;
+                    for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found)
+                        throw new BadRequestException("The sub supplier can only have the services of the partner");
+                }
+            }
+        }
 
         courseRepository.save(course);
 
@@ -312,6 +349,23 @@ public class CourseServiceImpl implements CourseService {
             course.setTradeUnionTeachingRequest(coursePatch.getTradeUnionTeachingRequest());
         if(coursePatch.getVisitHours() != null)
             course.setVisitHours(coursePatch.getVisitHours());
+
+        boolean found;
+        for(PartnerCourse partnerCourse : course.getPartnerList()){
+            for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
+                for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
+                    found = false;
+                    for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                        if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found)
+                        throw new BadRequestException("The sub supplier can only have the services of the partner");
+                }
+            }
+        }
 
         courseRepository.save(course);
 
