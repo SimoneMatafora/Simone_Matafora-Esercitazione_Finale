@@ -230,6 +230,12 @@ public class CourseResponseV1 {
     @JsonProperty( "report_note")
     private String reportNote;
 
+    @JsonProperty("invoice_authorization")
+    private Boolean invoiceAuthorization;
+
+    @JsonProperty("accounting_code")
+    private String accountingCode;
+
     @JsonProperty( "daily_register")
     private String dailyRegister;
 
@@ -969,7 +975,7 @@ public class CourseResponseV1 {
     public CourseResponseV1() {
     }
 
-    public CourseResponseV1(String id, String courseTitle, CourseStatusEnum status, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, List<Attachment> documentAttachment) {
+    public CourseResponseV1(String id, String courseTitle, CourseStatusEnum status, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerResponseV1 actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, Boolean invoiceAuthorization, String accountingCode, String dailyRegister, List<AddressCourseResponseV1> headquatersCourse, List<RecipientManagmentCourseResponseV1> recipientManagment, List<PartnerCourseResponseV1> partnerList, List<TeacherCourseResponseV1> teacherList, List<PlacementCourseResponseV1> placementList, List<Attachment> documentAttachment) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.status = status;
@@ -1036,6 +1042,8 @@ public class CourseResponseV1 {
         this.deliveryDateInAdministration = deliveryDateInAdministration;
         this.commercialTaxableCommunicationDate = commercialTaxableCommunicationDate;
         this.reportNote = reportNote;
+        this.invoiceAuthorization = invoiceAuthorization;
+        this.accountingCode = accountingCode;
         this.dailyRegister = dailyRegister;
         this.headquatersCourse = headquatersCourse;
         this.recipientManagment = recipientManagment;
@@ -1629,11 +1637,28 @@ public class CourseResponseV1 {
         this.status = status;
     }
 
+    public Boolean getInvoiceAuthorization() {
+        return invoiceAuthorization;
+    }
+
+    public void setInvoiceAuthorization(Boolean invoiceAuthorization) {
+        this.invoiceAuthorization = invoiceAuthorization;
+    }
+
+    public String getAccountingCode() {
+        return accountingCode;
+    }
+
+    public void setAccountingCode(String accountingCode) {
+        this.accountingCode = accountingCode;
+    }
+
     @Override
     public String toString() {
         return "CourseResponseV1{" +
                 "id='" + id + '\'' +
                 ", courseTitle='" + courseTitle + '\'' +
+                ", status=" + status +
                 ", contentsArea=" + contentsArea +
                 ", learnerType=" + learnerType +
                 ", supplyModality=" + supplyModality +
@@ -1697,6 +1722,8 @@ public class CourseResponseV1 {
                 ", deliveryDateInAdministration=" + deliveryDateInAdministration +
                 ", commercialTaxableCommunicationDate=" + commercialTaxableCommunicationDate +
                 ", reportNote='" + reportNote + '\'' +
+                ", invoiceAuthorization=" + invoiceAuthorization +
+                ", accountingCode='" + accountingCode + '\'' +
                 ", dailyRegister='" + dailyRegister + '\'' +
                 ", headquatersCourse=" + headquatersCourse +
                 ", recipientManagment=" + recipientManagment +
