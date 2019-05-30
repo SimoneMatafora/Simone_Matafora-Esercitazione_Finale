@@ -75,6 +75,15 @@ public class CourseServiceImpl implements CourseService {
                     throw new BadRequestException("SendedEletronicReportingDate bad request.");
             }
 
+            if(course != null && course.getAmountFinSecurityCapital()!=null && course.getAmountAutorizedFT()!=null && course.getTotalHours()!=null){
+                if(course.getTotalHours().equals(0.0))
+                    throw new BadRequestException("Total hours is zero. Impossibile to divide");
+
+                Double total = ((course.getAmountAutorizedFT()-140)/course.getTotalHours())*4;
+                if(!course.getAmountFinSecurityCapital().equals(total))
+                    throw new BadRequestException("AmountFinSecurityCapital error. ");
+            }
+
             courseRepository.save(course);
 
             return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -118,6 +127,14 @@ public class CourseServiceImpl implements CourseService {
                     throw new BadRequestException("SendedEletronicReportingDate bad request.");
             }
 
+            if(courseUpdateRequest != null && courseUpdateRequest.getAmountFinSecurityCapital()!=null && courseUpdateRequest.getAmountAutorizedFT()!=null && courseUpdateRequest.getTotalHours()!=null){
+                if(courseUpdateRequest.getTotalHours().equals(0.0))
+                    throw new BadRequestException("Total hours is zero. Impossibile to divide");
+
+                Double total = ((courseUpdateRequest.getAmountAutorizedFT()-140)/courseUpdateRequest.getTotalHours())*4;
+                if(!courseUpdateRequest.getAmountFinSecurityCapital().equals(total))
+                    throw new BadRequestException("AmountFinSecurityCapital error. ");
+            }
             Optional<CourseEntity> courseOpt = courseRepository.findById(courseId);
 
         if(!courseOpt.isPresent()){
@@ -225,46 +242,56 @@ public class CourseServiceImpl implements CourseService {
 
             CourseEntity coursePatch = courseAdapter.adptCourseRequestToCourse(courseUpdateRequest);
 
-            if (coursePatch.getActuatorSubject() != null)
-                course.setActuatorSubject(coursePatch.getActuatorSubject());
-            if (coursePatch.getAfternoonEndHour() != null)
-                course.setAfternoonEndHour(coursePatch.getAfternoonEndHour());
-            if (coursePatch.getAfternoonStartHour() != null)
-                course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
-            if (coursePatch.getAmountFinSecurityCapital() != null)
-                course.setAmountFinSecurityCapital(coursePatch.getAmountFinSecurityCapital());
-            if (coursePatch.getAmountAttendanceBenefits() != null)
-                course.setAmountAttendanceBenefits(coursePatch.getAmountAttendanceBenefits());
-            if (coursePatch.getAmountAutorizedFT() != null)
-                course.setAmountAutorizedFT(coursePatch.getAmountAutorizedFT());
-            if (coursePatch.getAmountAutorizedFTDate() != null)
-                course.setAmountAutorizedFTDate(coursePatch.getAmountAutorizedFTDate());
-            if (coursePatch.getAmountReportFT() != null)
-                course.setAmountReportFT(coursePatch.getAmountReportFT());
-            if (coursePatch.getAttendanceBenefits() != null)
-                course.setAttendanceBenefits(coursePatch.getAttendanceBenefits());
-            if (coursePatch.getAutProgetctFTRealizedDate() != null)
-                course.setAutProgetctFTRealizedDate(coursePatch.getAutProgetctFTRealizedDate());
-            if (coursePatch.getBusinessEmail() != null)
-                course.setBusinessEmail(coursePatch.getBusinessEmail());
-            if (coursePatch.getBusinessName() != null)
-                course.setBusinessName(coursePatch.getBusinessName());
-            if (coursePatch.getCertificateTypeCourse() != null)
-                course.setCertificateTypeCourse(coursePatch.getCertificateTypeCourse());
-            if (coursePatch.getCoachingHours() != null)
-                course.setCoachingHours(coursePatch.getCoachingHours());
-            if (coursePatch.getCommercialTaxableCommunicationDate() != null)
-                course.setCommercialTaxableCommunicationDate(coursePatch.getCommercialTaxableCommunicationDate());
-            if (coursePatch.getContentsArea() != null)
-                course.setContentsArea(coursePatch.getContentsArea());
-            if (coursePatch.getCosts() != null)
-                course.setCosts(coursePatch.getCosts());
-            if (coursePatch.getCourseCode() != null)
-                course.setCourseCode(coursePatch.getCourseCode());
-            if (coursePatch.getCourseDescription() != null)
-                course.setCourseDescription(coursePatch.getCourseDescription());
-            if (coursePatch.getCourseEndDate() != null)
-                course.setCourseEndDate(coursePatch.getCourseEndDate());
+        if(coursePatch.getActuatorSubject() != null)
+            course.setActuatorSubject(coursePatch.getActuatorSubject());
+        if(coursePatch.getAfternoonEndHour() != null)
+            course.setAfternoonEndHour(coursePatch.getAfternoonEndHour());
+        if(coursePatch.getAfternoonStartHour() != null)
+            course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
+        if(coursePatch.getAmountFinSecurityCapital () != null){
+            if(coursePatch.getAmountAutorizedFT()!=null && coursePatch.getTotalHours()!=null){
+                if(coursePatch.getTotalHours().equals(0.0))
+                    throw new BadRequestException("Total hours is zero. Impossibile to divide");
+
+                Double total = ((coursePatch.getAmountAutorizedFT()-140)/coursePatch.getTotalHours())*4;
+                if(!coursePatch.getAmountFinSecurityCapital().equals(total))
+                    throw new BadRequestException("AmountFinSecurityCapital error. ");
+            }
+            course.setAmountFinSecurityCapital (coursePatch.getAmountFinSecurityCapital ());
+        }
+
+        if(coursePatch.getAmountAttendanceBenefits() != null)
+            course.setAmountAttendanceBenefits(coursePatch.getAmountAttendanceBenefits());
+        if(coursePatch.getAmountAutorizedFT() != null)
+            course.setAmountAutorizedFT(coursePatch.getAmountAutorizedFT());
+        if(coursePatch.getAmountAutorizedFTDate() != null)
+            course.setAmountAutorizedFTDate(coursePatch.getAmountAutorizedFTDate());
+        if(coursePatch.getAmountReportFT() != null)
+            course.setAmountReportFT(coursePatch.getAmountReportFT());
+        if(coursePatch.getAttendanceBenefits() != null)
+            course.setAttendanceBenefits(coursePatch.getAttendanceBenefits());
+        if(coursePatch.getAutProgetctFTRealizedDate() != null)
+            course.setAutProgetctFTRealizedDate(coursePatch.getAutProgetctFTRealizedDate());
+        if(coursePatch.getBusinessEmail() != null)
+            course.setBusinessEmail(coursePatch.getBusinessEmail());
+        if(coursePatch.getBusinessName() != null)
+            course.setBusinessName(coursePatch.getBusinessName());
+        if(coursePatch.getCertificateTypeCourse() != null)
+            course.setCertificateTypeCourse(coursePatch.getCertificateTypeCourse());
+        if(coursePatch.getCoachingHours() != null)
+            course.setCoachingHours(coursePatch.getCoachingHours());
+        if(coursePatch.getCommercialTaxableCommunicationDate() != null)
+            course.setCommercialTaxableCommunicationDate(coursePatch.getCommercialTaxableCommunicationDate());
+        if(coursePatch.getContentsArea() != null)
+            course.setContentsArea(coursePatch.getContentsArea());
+        if(coursePatch.getCosts() != null)
+            course.setCosts(coursePatch.getCosts());
+        if(coursePatch.getCourseCode() != null)
+            course.setCourseCode(coursePatch.getCourseCode());
+        if(coursePatch.getCourseDescription() != null)
+            course.setCourseDescription(coursePatch.getCourseDescription());
+        if(coursePatch.getCourseEndDate() != null)
+            course.setCourseEndDate(coursePatch.getCourseEndDate());
         /*if(coursePatch.getCourseLogo() != null)
             course.setCourseLogo(coursePatch.getCourseLogo());*/
             if (coursePatch.getCourseStartDate() != null)
