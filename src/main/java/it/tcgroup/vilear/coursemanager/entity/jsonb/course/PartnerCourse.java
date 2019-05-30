@@ -73,8 +73,7 @@ public class PartnerCourse implements Serializable {
         return supplierService;
     }
 
-    public void setSupplierService(List<SupplyServicePartnerCourseEnum> supplierService) {
-        this.supplierService = supplierService;
+    public void setSupplierService(List<SupplyServicePartnerCourseEnum> supplierService) { this.supplierService = supplierService;
     }
 
     public Double getServicesCosts() {
