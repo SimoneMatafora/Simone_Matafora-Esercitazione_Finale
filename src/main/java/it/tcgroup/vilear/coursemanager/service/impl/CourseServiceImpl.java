@@ -648,19 +648,25 @@ public class CourseServiceImpl implements CourseService {
     }
 
     public boolean checkDateDifference(Date date, Date dateToAddDays, Integer days){
-        if(date!=null && dateToAddDays!=null) {
-            Calendar dateCalendar = Calendar.getInstance();
-            dateCalendar.setTime(date);
-            Calendar dateToAddDaysCalendar = Calendar.getInstance();
-            dateToAddDaysCalendar.setTime(dateUtil.addDays(dateToAddDays, days));
-            Boolean sameDay = (dateCalendar.get(Calendar.YEAR) == dateToAddDaysCalendar.get(Calendar.YEAR) &&
-                    dateCalendar.get(Calendar.MONTH) == dateToAddDaysCalendar.get(Calendar.MONTH) &&
-                    dateCalendar.get(Calendar.DAY_OF_MONTH) == dateToAddDaysCalendar.get(Calendar.DAY_OF_MONTH));
-            if(sameDay)
-                return true;
-            else return false;
-        } else throw new BadRequestException("Bad request: missing argument");
+
+        if(date!=null) {
+            if (dateToAddDays != null) {
+
+                Calendar dateCalendar = Calendar.getInstance();
+                dateCalendar.setTime(date);
+                Calendar dateToAddDaysCalendar = Calendar.getInstance();
+                dateToAddDaysCalendar.setTime(dateUtil.addDays(dateToAddDays, days));
+                Boolean sameDay = (dateCalendar.get(Calendar.YEAR) == dateToAddDaysCalendar.get(Calendar.YEAR) &&
+                        dateCalendar.get(Calendar.MONTH) == dateToAddDaysCalendar.get(Calendar.MONTH) &&
+                        dateCalendar.get(Calendar.DAY_OF_MONTH) == dateToAddDaysCalendar.get(Calendar.DAY_OF_MONTH));
+                if (sameDay)
+                    return true;
+                else return false;
+
+            } else
+                throw new BadRequestException("Bad request: La data per effettuare i controlli è null");
+
+        }
+        return true;
     }
-
-
 }
