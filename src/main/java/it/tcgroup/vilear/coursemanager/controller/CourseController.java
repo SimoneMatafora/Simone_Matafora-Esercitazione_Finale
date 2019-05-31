@@ -53,7 +53,7 @@ public class CourseController {
             @ApiParam(value = "Body of the Course to be created", required = true)
             @RequestBody CourseRequestV1 courseInsertRequestV1) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( courseService.insertCourse(courseInsertRequestV1), HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class CourseController {
             @ApiParam(value = "UUID of the Course to be found", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.getCourse(UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -102,7 +102,7 @@ public class CourseController {
             @ApiParam(value = "Updated body of the course", required = true)
             @RequestBody CourseRequestV1 courseUpdateRequest) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.updateCourse(courseUpdateRequest, UUID.fromString(idCourse)) ,HttpStatus.OK);
     }
@@ -128,7 +128,7 @@ public class CourseController {
             @ApiParam(value = "Some attributes of the body of the Course to be modified", required = true)
             @RequestBody CourseRequestV1 coursePatchRequestV1) throws Exception {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.patchCourse(coursePatchRequestV1, UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -150,7 +150,7 @@ public class CourseController {
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         courseService.deleteCourse(UUID.fromString(idCourse));
 
@@ -201,7 +201,7 @@ public class CourseController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "special_initiatives", required = false) String specialInitiatives) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.getCoursePagination(page, pageSize, courseTitle,
                 contentsArea,
@@ -238,7 +238,7 @@ public class CourseController {
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( courseService.addCourseLogo(uploadRequest, UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -262,7 +262,7 @@ public class CourseController {
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         courseService.deleteCourseLogo(UUID.fromString(idCourse));
         return new ResponseEntity(HttpStatus.OK);
@@ -289,7 +289,7 @@ public class CourseController {
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( courseService.addCourseAttachments(uploadRequestList, UUID.fromString(idCourse)), HttpStatus.OK);
     }
@@ -313,7 +313,7 @@ public class CourseController {
             @ApiParam(value = "List of UUID Attacments", required = true)
             @PathVariable(name = "LIST_OF_ID_ATTACHMENT") String[] idStringAttachmentList) {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         List<UUID> idAttachmentList = new LinkedList<>();
         for (String att : idStringAttachmentList){
@@ -343,7 +343,7 @@ public class CourseController {
             @ApiParam(value = "UUID of the Course", required = true)
             @PathVariable(name = "UUID_COURSE") String idCourse) throws IOException {
 
-        //authorizationService.checkAlive(userId);
+        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.patchCourseStatus(UUID.fromString(idCourse)), HttpStatus.OK);
     }
