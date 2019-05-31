@@ -21,6 +21,7 @@ import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCourse;
 import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
@@ -85,29 +86,44 @@ public class CourseServiceImpl implements CourseService {
                     throw new BadRequestException("AmountFinSecurityCapital error. ");
             }
 
-            boolean found;
-            if(course.getPartnerList() != null){
-                for(PartnerCourse partnerCourse : course.getPartnerList()){
-                    for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
-                        for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
-                            found = false;
+            if(course!=null) {
+                boolean found;
+                if (course.getPartnerList() != null) {
+                    for (PartnerCourse partnerCourse : course.getPartnerList()) {
+                        for (PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()) {
+                            for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : subSupplier.getSubSupplierService()) {
+                                found = false;
+                                if (partnerCourse.getSupplyServices() != null) {
 
-                            if(partnerCourse.getSupplyServices() != null){
-
-                                for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
-                                    if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
-                                        found = true;
-                                        break;
+                                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()) {
+                                        if (supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum) == 0) {
+                                            found = true;
+                                            break;
+                                        }
                                     }
+                                    if (!found)
+                                        throw new BadRequestException("The sub supplier can only have the services of the partner");
                                 }
-                                if(!found)
-                                    throw new BadRequestException("The sub supplier can only have the services of the partner");
                             }
                         }
                     }
                 }
+                //check if null subpartner
+                if(course.getRecipientManagment() != null){
+                    double necessaryHours;
+                    for (RecipientManagmentCourse recipient : course.getRecipientManagment()) {
+                        if(recipient.getNecessaryHours() != null){
+                            if(course.getTotalHours() == null)
+                                throw new BadRequestException("NecessaryHours bad request. ");
+                            necessaryHours = course.getTotalHours() * 0.7;
+                            if(recipient.getExonerationGeneralSecurity() != null && recipient.getExonerationGeneralSecurity())
+                                necessaryHours += 2.8;
+                            if(recipient.getExonerationRightsAndDuties() != null && recipient.getExonerationRightsAndDuties())
+                                necessaryHours += 2.8;
+                        }
+                    }
+                }
             }
-
 
             courseRepository.save(course);
 
