@@ -90,36 +90,55 @@ public class CourseServiceImpl implements CourseService {
                 boolean found;
                 if (course.getPartnerList() != null) {
                     for (PartnerCourse partnerCourse : course.getPartnerList()) {
-                        for (PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()) {
-                            for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : subSupplier.getSubSupplierService()) {
-                                found = false;
-                                if (partnerCourse.getSupplyServices() != null) {
-
-                                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()) {
-                                        if (supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum) == 0) {
-                                            found = true;
-                                            break;
+                        if(partnerCourse.getSubSupplierList() != null) {
+                            for (PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()) {
+                                if(subSupplier.getSubSupplierService() != null) {
+                                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : subSupplier.getSubSupplierService()) {
+                                        found = false;
+                                        if (partnerCourse.getSupplyServices() != null) {
+                                            for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()) {
+                                                if (supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum) == 0) {
+                                                    found = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!found)
+                                                throw new BadRequestException("The sub supplier can only have the services of the partner");
                                         }
                                     }
-                                    if (!found)
-                                        throw new BadRequestException("The sub supplier can only have the services of the partner");
                                 }
                             }
                         }
                     }
                 }
-                //check if null subpartner
                 if(course.getRecipientManagment() != null){
-                    double necessaryHours;
+                    double necessaryHours, specSecHours;
                     for (RecipientManagmentCourse recipient : course.getRecipientManagment()) {
                         if(recipient.getNecessaryHours() != null){
                             if(course.getTotalHours() == null)
-                                throw new BadRequestException("NecessaryHours bad request. ");
+                                throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
                             necessaryHours = course.getTotalHours() * 0.7;
+                            //se discente ha l'esonero sicurezza generale allora si sottraggono le 4 ore (2.8 = 70% di 4)
                             if(recipient.getExonerationGeneralSecurity() != null && recipient.getExonerationGeneralSecurity())
-                                necessaryHours += 2.8;
+                                necessaryHours -= 2.8;
+                            //se discente ha l'esonero diritti e doveri allora si sottraggono le 4 ore (2.8 = 70% di 4)
                             if(recipient.getExonerationRightsAndDuties() != null && recipient.getExonerationRightsAndDuties())
-                                necessaryHours += 2.8;
+                                necessaryHours -= 2.8;
+                            //se discente ha modulo sicurezza generale allora si sottraggono le 4 ore al 70% (2.8 = 70% di 4)
+                            //e si aggiungono le 4 ore al 90% (3.6 = 90% di 4)
+                            if(recipient.getGeneralSecurityModule() != null && recipient.getGeneralSecurityModule())
+                                necessaryHours = necessaryHours - 2.8 + 3.6;
+                            //se discente ha modulo sicurezza specifica allora si sottraggono le ore di sicurezza specifica al 70%
+                            //e si aggiungono al 90%
+                            if(recipient.getSpecificSecurityModule() != null && recipient.getSpecificSecurityModule()) {
+                                if(recipient.getSpecificationSsecurityExonerate() != null){
+                                    specSecHours = Double.valueOf(recipient.getSpecificationSsecurityExonerate().getValue());
+                                    necessaryHours = necessaryHours - (specSecHours*0.7) + (specSecHours*0.9);
+                                }else
+                                    necessaryHours = necessaryHours - 2.8 + 3.6;
+                            }
+                            if(recipient.getNecessaryHours() != necessaryHours)
+                                throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");;
                         }
                     }
                 }
@@ -258,28 +277,62 @@ public class CourseServiceImpl implements CourseService {
         course.setTradeUnionTeachingRequest(courseUpdate.getTradeUnionTeachingRequest());
         course.setVisitHours(courseUpdate.getVisitHours());
 
-            boolean found;
-            if(course.getPartnerList() != null){
-                for(PartnerCourse partnerCourse : course.getPartnerList()){
-                    for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
-                        for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
-                            found = false;
-
-                            if(partnerCourse.getSupplyServices() != null){
-
-                                for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
-                                    if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
-                                        found = true;
-                                        break;
+        boolean found;
+        if (course.getPartnerList() != null) {
+            for (PartnerCourse partnerCourse : course.getPartnerList()) {
+                if(partnerCourse.getSubSupplierList() != null) {
+                    for (PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()) {
+                        if(subSupplier.getSubSupplierService() != null) {
+                            for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : subSupplier.getSubSupplierService()) {
+                                found = false;
+                                if (partnerCourse.getSupplyServices() != null) {
+                                    for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()) {
+                                        if (supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum) == 0) {
+                                            found = true;
+                                            break;
+                                        }
                                     }
+                                    if (!found)
+                                        throw new BadRequestException("The sub supplier can only have the services of the partner");
                                 }
-                                if(!found)
-                                    throw new BadRequestException("The sub supplier can only have the services of the partner");
                             }
                         }
                     }
                 }
             }
+        }
+
+        if(course.getRecipientManagment() != null){
+            double necessaryHours, specSecHours;
+            for (RecipientManagmentCourse recipient : course.getRecipientManagment()) {
+                if(recipient.getNecessaryHours() != null){
+                    if(course.getTotalHours() == null)
+                        throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
+                    necessaryHours = course.getTotalHours() * 0.7;
+                    //se discente ha l'esonero sicurezza generale allora si sottraggono le 4 ore (2.8 = 70% di 4)
+                    if(recipient.getExonerationGeneralSecurity() != null && recipient.getExonerationGeneralSecurity())
+                        necessaryHours -= 2.8;
+                    //se discente ha l'esonero diritti e doveri allora si sottraggono le 4 ore (2.8 = 70% di 4)
+                    if(recipient.getExonerationRightsAndDuties() != null && recipient.getExonerationRightsAndDuties())
+                        necessaryHours -= 2.8;
+                    //se discente ha modulo sicurezza generale allora si sottraggono le 4 ore al 70% (2.8 = 70% di 4)
+                    //e si aggiungono le 4 ore al 90% (3.6 = 90% di 4)
+                    if(recipient.getGeneralSecurityModule() != null && recipient.getGeneralSecurityModule())
+                        necessaryHours = necessaryHours - 2.8 + 3.6;
+                    //se discente ha modulo sicurezza specifica allora si sottraggono le ore di sicurezza specifica al 70%
+                    //e si aggiungono al 90%
+                    if(recipient.getSpecificSecurityModule() != null && recipient.getSpecificSecurityModule()) {
+                        if(recipient.getSpecificationSsecurityExonerate() != null){
+                            specSecHours = Double.valueOf(recipient.getSpecificationSsecurityExonerate().getValue());
+                            necessaryHours = necessaryHours - (specSecHours*0.7) + (specSecHours*0.9);
+                        }else
+                            necessaryHours = necessaryHours - 2.8 + 3.6;
+                    }
+                    if(recipient.getNecessaryHours() != necessaryHours)
+                        throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
+                }
+            }
+        }
 
         courseRepository.save(course);
 
@@ -306,58 +359,58 @@ public class CourseServiceImpl implements CourseService {
 
             CourseEntity coursePatch = courseAdapter.adptCourseRequestToCourse(courseUpdateRequest);
 
-        if(coursePatch.getActuatorSubject() != null)
-            course.setActuatorSubject(coursePatch.getActuatorSubject());
-        if(coursePatch.getAfternoonEndHour() != null)
-            course.setAfternoonEndHour(coursePatch.getAfternoonEndHour());
-        if(coursePatch.getAfternoonStartHour() != null)
-            course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
-        if(coursePatch.getAmountFinSecurityCapital () != null){
-            if(coursePatch.getAmountAutorizedFT()!=null && coursePatch.getTotalHours()!=null){
-                if(coursePatch.getTotalHours().equals(0.0))
-                    throw new BadRequestException("Total hours is zero. Impossibile to divide");
+            if(coursePatch.getActuatorSubject() != null)
+                course.setActuatorSubject(coursePatch.getActuatorSubject());
+            if(coursePatch.getAfternoonEndHour() != null)
+                course.setAfternoonEndHour(coursePatch.getAfternoonEndHour());
+            if(coursePatch.getAfternoonStartHour() != null)
+                course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
+            if(coursePatch.getAmountFinSecurityCapital () != null){
+                if(coursePatch.getAmountAutorizedFT()!=null && coursePatch.getTotalHours()!=null){
+                    if(coursePatch.getTotalHours().equals(0.0))
+                        throw new BadRequestException("Total hours is zero. Impossibile to divide");
 
-                Double total = ((coursePatch.getAmountAutorizedFT()-140)/coursePatch.getTotalHours())*4;
-                if(!coursePatch.getAmountFinSecurityCapital().equals(total))
-                    throw new BadRequestException("AmountFinSecurityCapital error. ");
+                    Double total = ((coursePatch.getAmountAutorizedFT()-140)/coursePatch.getTotalHours())*4;
+                    if(!coursePatch.getAmountFinSecurityCapital().equals(total))
+                        throw new BadRequestException("AmountFinSecurityCapital error. ");
+                }
+                course.setAmountFinSecurityCapital (coursePatch.getAmountFinSecurityCapital ());
             }
-            course.setAmountFinSecurityCapital (coursePatch.getAmountFinSecurityCapital ());
-        }
 
-        if(coursePatch.getAmountAttendanceBenefits() != null)
-            course.setAmountAttendanceBenefits(coursePatch.getAmountAttendanceBenefits());
-        if(coursePatch.getAmountAutorizedFT() != null)
-            course.setAmountAutorizedFT(coursePatch.getAmountAutorizedFT());
-        if(coursePatch.getAmountAutorizedFTDate() != null)
-            course.setAmountAutorizedFTDate(coursePatch.getAmountAutorizedFTDate());
-        if(coursePatch.getAmountReportFT() != null)
-            course.setAmountReportFT(coursePatch.getAmountReportFT());
-        if(coursePatch.getAttendanceBenefits() != null)
-            course.setAttendanceBenefits(coursePatch.getAttendanceBenefits());
-        if(coursePatch.getAutProgetctFTRealizedDate() != null)
-            course.setAutProgetctFTRealizedDate(coursePatch.getAutProgetctFTRealizedDate());
-        if(coursePatch.getBusinessEmail() != null)
-            course.setBusinessEmail(coursePatch.getBusinessEmail());
-        if(coursePatch.getBusinessName() != null)
-            course.setBusinessName(coursePatch.getBusinessName());
-        if(coursePatch.getCertificateTypeCourse() != null)
-            course.setCertificateTypeCourse(coursePatch.getCertificateTypeCourse());
-        if(coursePatch.getCoachingHours() != null)
-            course.setCoachingHours(coursePatch.getCoachingHours());
-        if(coursePatch.getCommercialTaxableCommunicationDate() != null)
-            course.setCommercialTaxableCommunicationDate(coursePatch.getCommercialTaxableCommunicationDate());
-        if(coursePatch.getContentsArea() != null)
-            course.setContentsArea(coursePatch.getContentsArea());
-        if(coursePatch.getCosts() != null)
-            course.setCosts(coursePatch.getCosts());
-        if(coursePatch.getCourseCode() != null)
-            course.setCourseCode(coursePatch.getCourseCode());
-        if(coursePatch.getCourseDescription() != null)
-            course.setCourseDescription(coursePatch.getCourseDescription());
-        if(coursePatch.getCourseEndDate() != null)
-            course.setCourseEndDate(coursePatch.getCourseEndDate());
-        /*if(coursePatch.getCourseLogo() != null)
-            course.setCourseLogo(coursePatch.getCourseLogo());*/
+            if(coursePatch.getAmountAttendanceBenefits() != null)
+                course.setAmountAttendanceBenefits(coursePatch.getAmountAttendanceBenefits());
+            if(coursePatch.getAmountAutorizedFT() != null)
+                course.setAmountAutorizedFT(coursePatch.getAmountAutorizedFT());
+            if(coursePatch.getAmountAutorizedFTDate() != null)
+                course.setAmountAutorizedFTDate(coursePatch.getAmountAutorizedFTDate());
+            if(coursePatch.getAmountReportFT() != null)
+                course.setAmountReportFT(coursePatch.getAmountReportFT());
+            if(coursePatch.getAttendanceBenefits() != null)
+                course.setAttendanceBenefits(coursePatch.getAttendanceBenefits());
+            if(coursePatch.getAutProgetctFTRealizedDate() != null)
+                course.setAutProgetctFTRealizedDate(coursePatch.getAutProgetctFTRealizedDate());
+            if(coursePatch.getBusinessEmail() != null)
+                course.setBusinessEmail(coursePatch.getBusinessEmail());
+            if(coursePatch.getBusinessName() != null)
+                course.setBusinessName(coursePatch.getBusinessName());
+            if(coursePatch.getCertificateTypeCourse() != null)
+                course.setCertificateTypeCourse(coursePatch.getCertificateTypeCourse());
+            if(coursePatch.getCoachingHours() != null)
+                course.setCoachingHours(coursePatch.getCoachingHours());
+            if(coursePatch.getCommercialTaxableCommunicationDate() != null)
+                course.setCommercialTaxableCommunicationDate(coursePatch.getCommercialTaxableCommunicationDate());
+            if(coursePatch.getContentsArea() != null)
+                course.setContentsArea(coursePatch.getContentsArea());
+            if(coursePatch.getCosts() != null)
+                course.setCosts(coursePatch.getCosts());
+            if(coursePatch.getCourseCode() != null)
+                course.setCourseCode(coursePatch.getCourseCode());
+            if(coursePatch.getCourseDescription() != null)
+                course.setCourseDescription(coursePatch.getCourseDescription());
+            if(coursePatch.getCourseEndDate() != null)
+                course.setCourseEndDate(coursePatch.getCourseEndDate());
+            /*if(coursePatch.getCourseLogo() != null)
+                course.setCourseLogo(coursePatch.getCourseLogo());*/
             if (coursePatch.getCourseStartDate() != null)
                 course.setCourseStartDate(coursePatch.getCourseStartDate());
             if (coursePatch.getCourseTitle() != null)
@@ -372,133 +425,165 @@ public class CourseServiceImpl implements CourseService {
                 course.setDeliveryDateInAdministration(coursePatch.getDeliveryDateInAdministration());
             if (coursePatch.getDisabled() != null)
                 course.setDisabled(coursePatch.getDisabled());
-        /*if(coursePatch.getDocumentAttachment() != null)
-            course.setDocumentAttachment(coursePatch.getDocumentAttachment());*/
-        if(coursePatch.getEducationalTargetDescription() != null)
-            course.setEducationalTargetDescription(coursePatch.getEducationalTargetDescription());
-        if(coursePatch.getEntourageHours() != null)
-            course.setEntourageHours(coursePatch.getEntourageHours());
-        if(coursePatch.getExpiredReportingDate() != null){
-            if (!this.checkDateDifference(coursePatch.getExpiredReportingDate(),coursePatch.getCourseEndDate(),60))
-                throw new BadRequestException("SendedEletronicReportingDate bad request.");
-            course.setExpiredReportingDate(coursePatch.getExpiredReportingDate());
-        }
-        if(coursePatch.getExternalReferenceCode() != null)
-            course.setExternalReferenceCode(coursePatch.getExternalReferenceCode());
-        if(coursePatch.getFoundsTypeCourse() != null)
-            course.setFoundsTypeCourse(coursePatch.getFoundsTypeCourse());
-        if(coursePatch.getHeadquatersCourse() != null)
-            course.setHeadquatersCourse(coursePatch.getHeadquatersCourse());
-        if(coursePatch.getInvoiceAuthorizationDate() != null)
-            course.setInvoiceAuthorizationDate(coursePatch.getInvoiceAuthorizationDate());
-        if(coursePatch.getIssueTicket() != null)
-            course.setIssueTicket(coursePatch.getIssueTicket());
-        if(coursePatch.getLearnerType() != null)
-            course.setLearnerType(coursePatch.getLearnerType());
-        if(coursePatch.getMinimumNumericOfParticipants() != null)
-            course.setMinimumNumericOfParticipants(coursePatch.getMinimumNumericOfParticipants());
-        if(coursePatch.getMorningEndHour() != null)
-            course.setMorningEndHour(coursePatch.getMorningEndHour());
-        if(coursePatch.getMorningStartHour() != null)
-            course.setMorningStartHour(coursePatch.getMorningStartHour());
-        if(coursePatch.getNote() != null)
-            course.setNote(coursePatch.getNote());
-        if(coursePatch.getOrenatationHours() != null)
-            course.setOrenatationHours(coursePatch.getOrenatationHours());
-        if(coursePatch.getPartFullTimeCourse() != null)
-            course.setPartFullTimeCourse(coursePatch.getPartFullTimeCourse());
-        if(coursePatch.getPartnerList() != null)
-            course.setPartnerList(coursePatch.getPartnerList());
-        if(coursePatch.getPaymentModality() != null)
-            course.setPaymentModality(coursePatch.getPaymentModality());
-        if(coursePatch.getPlacementList() != null){
-            if(!coursePatch.getPlacementList().isEmpty()) {
-                for (PlacementCourse placement : coursePatch.getPlacementList()) {
-                    if (!this.checkDateDifference(placement.getExpiredPlacementDate(),coursePatch.getCourseEndDate(),180))
-                        throw new BadRequestException("ExpiredPlacementDate bad request.");
-                }
+            /*if(coursePatch.getDocumentAttachment() != null)
+                course.setDocumentAttachment(coursePatch.getDocumentAttachment());*/
+            if(coursePatch.getEducationalTargetDescription() != null)
+                course.setEducationalTargetDescription(coursePatch.getEducationalTargetDescription());
+            if(coursePatch.getEntourageHours() != null)
+                course.setEntourageHours(coursePatch.getEntourageHours());
+            if(coursePatch.getExpiredReportingDate() != null){
+                if (!this.checkDateDifference(coursePatch.getExpiredReportingDate(),coursePatch.getCourseEndDate(),60))
+                    throw new BadRequestException("SendedEletronicReportingDate bad request.");
+                course.setExpiredReportingDate(coursePatch.getExpiredReportingDate());
             }
-            course.setPlacementList(coursePatch.getPlacementList());
-        }
-        if(coursePatch.getPracticeHours() != null)
-            course.setPracticeHours(coursePatch.getPracticeHours());
-        if(coursePatch.getReceiptFTConfirmationDate() != null)
-            course.setReceiptFTConfirmationDate(coursePatch.getReceiptFTConfirmationDate());
-        if(coursePatch.getRecipient() != null)
-            course.setRecipient(coursePatch.getRecipient());
-        if(coursePatch.getRecipientManagment() != null)
-            course.setRecipientManagment(coursePatch.getRecipientManagment());
-        if(coursePatch.getReportNote() != null)
-            course.setReportNote(coursePatch.getReportNote());
-        if(coursePatch.getSendedCanceledProjectDate() != null)
-            course.setSendedCanceledProjectDate(coursePatch.getSendedCanceledProjectDate());
-        if(coursePatch.getSendedEletronicReportingDate() != null){
-            if (!this.checkDateDifference(coursePatch.getSendedEletronicReportingDate(),coursePatch.getDeliveryDateInAdministration(),60))
-                throw new BadRequestException("SendedEletronicReportingDate bad request.");
-            course.setSendedEletronicReportingDate(coursePatch.getSendedEletronicReportingDate());
-        }
-        if(coursePatch.getSendedLearnersFTDate() != null)
-            course.setSendedLearnersFTDate(coursePatch.getSendedLearnersFTDate());
-        if(coursePatch.getSendedPaperReportingDate() != null){
-            if (!this.checkDateDifference(coursePatch.getSendedPaperReportingDate(),coursePatch.getCourseEndDate(),74))
-                throw new BadRequestException("SendedPaperReportingDate bad request.");
-            course.setSendedPaperReportingDate(coursePatch.getSendedPaperReportingDate());
-        }
-        if(coursePatch.getSendedProjectDate() != null)
-            course.setSendedProjectDate(coursePatch.getSendedProjectDate());
-        if(coursePatch.getSkilsAnalysisHours() != null)
-            course.setSkilsAnalysisHours(coursePatch.getSkilsAnalysisHours());
-        if(coursePatch.getSpecialInitiatives() != null)
-            course.setSpecialInitiatives(coursePatch.getSpecialInitiatives());
-        if(coursePatch.getSupplyModality() != null)
-            course.setSupplyModality(coursePatch.getSupplyModality());
-        if(coursePatch.getTeacherList() != null)
-            course.setTeacherList(coursePatch.getTeacherList());
-        if(coursePatch.getTheoryHours() != null)
-            course.setTheoryHours(coursePatch.getTheoryHours());
-        if(coursePatch.getTicketAmount() != null)
-            course.setTicketAmount(coursePatch.getTicketAmount());
-        if(coursePatch.getNumberOfTickets() != null)
-            course.setNumberOfTickets(coursePatch.getNumberOfTickets());
-        if(coursePatch.getTotalAmountWithoutFS() != null)
-            course.setTotalAmountWithoutFS(coursePatch.getTotalAmountWithoutFS());
-        if(coursePatch.getTotalHours() != null)
-            course.setTotalHours(coursePatch.getTotalHours());
-        if(coursePatch.getTotalHoursTraining() != null)
-            course.setTotalHoursTraining(coursePatch.getTotalHoursTraining());
-        if(coursePatch.getTotalPartnerCost() != null)
-            course.setTotalPartnerCost(coursePatch.getTotalPartnerCost());
-        if(coursePatch.getTotalPartnerCostOnPercent() != null)
-            course.setTotalPartnerCostOnPercent(coursePatch.getTotalPartnerCostOnPercent());
-        if(coursePatch.getTradeUnionTeachingRequest() != null)
-            course.setTradeUnionTeachingRequest(coursePatch.getTradeUnionTeachingRequest());
-        if(coursePatch.getVisitHours() != null)
-            course.setVisitHours(coursePatch.getVisitHours());
+            if(coursePatch.getExternalReferenceCode() != null)
+                course.setExternalReferenceCode(coursePatch.getExternalReferenceCode());
+            if(coursePatch.getFoundsTypeCourse() != null)
+                course.setFoundsTypeCourse(coursePatch.getFoundsTypeCourse());
+            if(coursePatch.getHeadquatersCourse() != null)
+                course.setHeadquatersCourse(coursePatch.getHeadquatersCourse());
+            if(coursePatch.getInvoiceAuthorizationDate() != null)
+                course.setInvoiceAuthorizationDate(coursePatch.getInvoiceAuthorizationDate());
+            if(coursePatch.getIssueTicket() != null)
+                course.setIssueTicket(coursePatch.getIssueTicket());
+            if(coursePatch.getLearnerType() != null)
+                course.setLearnerType(coursePatch.getLearnerType());
+            if(coursePatch.getMinimumNumericOfParticipants() != null)
+                course.setMinimumNumericOfParticipants(coursePatch.getMinimumNumericOfParticipants());
+            if(coursePatch.getMorningEndHour() != null)
+                course.setMorningEndHour(coursePatch.getMorningEndHour());
+            if(coursePatch.getMorningStartHour() != null)
+                course.setMorningStartHour(coursePatch.getMorningStartHour());
+            if(coursePatch.getNote() != null)
+                course.setNote(coursePatch.getNote());
+            if(coursePatch.getOrenatationHours() != null)
+                course.setOrenatationHours(coursePatch.getOrenatationHours());
+            if(coursePatch.getPartFullTimeCourse() != null)
+                course.setPartFullTimeCourse(coursePatch.getPartFullTimeCourse());
+            if(coursePatch.getPartnerList() != null)
+                course.setPartnerList(coursePatch.getPartnerList());
+            if(coursePatch.getPaymentModality() != null)
+                course.setPaymentModality(coursePatch.getPaymentModality());
+            if(coursePatch.getPlacementList() != null){
+                if(!coursePatch.getPlacementList().isEmpty()) {
+                    for (PlacementCourse placement : coursePatch.getPlacementList()) {
+                        if (!this.checkDateDifference(placement.getExpiredPlacementDate(),coursePatch.getCourseEndDate(),180))
+                            throw new BadRequestException("ExpiredPlacementDate bad request.");
+                    }
+                }
+                course.setPlacementList(coursePatch.getPlacementList());
+            }
+            if(coursePatch.getPracticeHours() != null)
+                course.setPracticeHours(coursePatch.getPracticeHours());
+            if(coursePatch.getReceiptFTConfirmationDate() != null)
+                course.setReceiptFTConfirmationDate(coursePatch.getReceiptFTConfirmationDate());
+            if(coursePatch.getRecipient() != null)
+                course.setRecipient(coursePatch.getRecipient());
+            if(coursePatch.getRecipientManagment() != null)
+                course.setRecipientManagment(coursePatch.getRecipientManagment());
+            if(coursePatch.getReportNote() != null)
+                course.setReportNote(coursePatch.getReportNote());
+            if(coursePatch.getSendedCanceledProjectDate() != null)
+                course.setSendedCanceledProjectDate(coursePatch.getSendedCanceledProjectDate());
+            if(coursePatch.getSendedEletronicReportingDate() != null){
+                if (!this.checkDateDifference(coursePatch.getSendedEletronicReportingDate(),coursePatch.getDeliveryDateInAdministration(),60))
+                    throw new BadRequestException("SendedEletronicReportingDate bad request.");
+                course.setSendedEletronicReportingDate(coursePatch.getSendedEletronicReportingDate());
+            }
+            if(coursePatch.getSendedLearnersFTDate() != null)
+                course.setSendedLearnersFTDate(coursePatch.getSendedLearnersFTDate());
+            if(coursePatch.getSendedPaperReportingDate() != null){
+                if (!this.checkDateDifference(coursePatch.getSendedPaperReportingDate(),coursePatch.getCourseEndDate(),74))
+                    throw new BadRequestException("SendedPaperReportingDate bad request.");
+                course.setSendedPaperReportingDate(coursePatch.getSendedPaperReportingDate());
+            }
+            if(coursePatch.getSendedProjectDate() != null)
+                course.setSendedProjectDate(coursePatch.getSendedProjectDate());
+            if(coursePatch.getSkilsAnalysisHours() != null)
+                course.setSkilsAnalysisHours(coursePatch.getSkilsAnalysisHours());
+            if(coursePatch.getSpecialInitiatives() != null)
+                course.setSpecialInitiatives(coursePatch.getSpecialInitiatives());
+            if(coursePatch.getSupplyModality() != null)
+                course.setSupplyModality(coursePatch.getSupplyModality());
+            if(coursePatch.getTeacherList() != null)
+                course.setTeacherList(coursePatch.getTeacherList());
+            if(coursePatch.getTheoryHours() != null)
+                course.setTheoryHours(coursePatch.getTheoryHours());
+            if(coursePatch.getTicketAmount() != null)
+                course.setTicketAmount(coursePatch.getTicketAmount());
+            if(coursePatch.getNumberOfTickets() != null)
+                course.setNumberOfTickets(coursePatch.getNumberOfTickets());
+            if(coursePatch.getTotalAmountWithoutFS() != null)
+                course.setTotalAmountWithoutFS(coursePatch.getTotalAmountWithoutFS());
+            if(coursePatch.getTotalHours() != null)
+                course.setTotalHours(coursePatch.getTotalHours());
+            if(coursePatch.getTotalHoursTraining() != null)
+                course.setTotalHoursTraining(coursePatch.getTotalHoursTraining());
+            if(coursePatch.getTotalPartnerCost() != null)
+                course.setTotalPartnerCost(coursePatch.getTotalPartnerCost());
+            if(coursePatch.getTotalPartnerCostOnPercent() != null)
+                course.setTotalPartnerCostOnPercent(coursePatch.getTotalPartnerCostOnPercent());
+            if(coursePatch.getTradeUnionTeachingRequest() != null)
+                course.setTradeUnionTeachingRequest(coursePatch.getTradeUnionTeachingRequest());
+            if(coursePatch.getVisitHours() != null)
+                course.setVisitHours(coursePatch.getVisitHours());
 
-        boolean found;
-        if(course.getPartnerList() != null){
-            for(PartnerCourse partnerCourse : course.getPartnerList()){
-                for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
-                    for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
-                        found = false;
+            boolean found;
+            if(course.getPartnerList() != null){
+                for(PartnerCourse partnerCourse : course.getPartnerList()){
+                    for(PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()){
+                        for(SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum :  subSupplier.getSubSupplierService()){
+                            found = false;
 
-                        if(partnerCourse.getSupplyServices() != null){
+                            if(partnerCourse.getSupplyServices() != null){
 
-                            for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
-                                if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
-                                    found = true;
-                                    break;
+                                for(PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()){
+                                    if(supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum)==0){
+                                        found = true;
+                                        break;
+                                    }
                                 }
+                                if(!found)
+                                    throw new BadRequestException("The sub supplier can only have the services of the partner");
                             }
-                            if(!found)
-                                throw new BadRequestException("The sub supplier can only have the services of the partner");
                         }
                     }
                 }
             }
-        }
 
-        courseRepository.save(course);
+            if(course.getRecipientManagment() != null){
+                double necessaryHours, specSecHours;
+                for (RecipientManagmentCourse recipient : course.getRecipientManagment()) {
+                    if(recipient.getNecessaryHours() != null){
+                        if(course.getTotalHours() == null)
+                            throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
+                        necessaryHours = course.getTotalHours() * 0.7;
+                        //se discente ha l'esonero sicurezza generale allora si sottraggono le 4 ore (2.8 = 70% di 4)
+                        if(recipient.getExonerationGeneralSecurity() != null && recipient.getExonerationGeneralSecurity())
+                            necessaryHours -= 2.8;
+                        //se discente ha l'esonero diritti e doveri allora si sottraggono le 4 ore (2.8 = 70% di 4)
+                        if(recipient.getExonerationRightsAndDuties() != null && recipient.getExonerationRightsAndDuties())
+                            necessaryHours -= 2.8;
+                        //se discente ha modulo sicurezza generale allora si sottraggono le 4 ore al 70% (2.8 = 70% di 4)
+                        //e si aggiungono le 4 ore al 90% (3.6 = 90% di 4)
+                        if(recipient.getGeneralSecurityModule() != null && recipient.getGeneralSecurityModule())
+                            necessaryHours = necessaryHours - 2.8 + 3.6;
+                        //se discente ha modulo sicurezza specifica allora si sottraggono le ore di sicurezza specifica al 70%
+                        //e si aggiungono al 90%
+                        if(recipient.getSpecificSecurityModule() != null && recipient.getSpecificSecurityModule()) {
+                            if(recipient.getSpecificationSsecurityExonerate() != null){
+                                specSecHours = Double.valueOf(recipient.getSpecificationSsecurityExonerate().getValue());
+                                necessaryHours = necessaryHours - (specSecHours*0.7) + (specSecHours*0.9);
+                            }else
+                                necessaryHours = necessaryHours - 2.8 + 3.6;
+                        }
+                        if(recipient.getNecessaryHours() != necessaryHours)
+                            throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
+                    }
+                }
+            }
+
+            courseRepository.save(course);
 
             return courseAdapter.adptCourseToCourseResponse(course);
 
