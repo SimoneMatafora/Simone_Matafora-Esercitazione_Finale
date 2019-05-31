@@ -63,7 +63,7 @@ public class TeacherServiceImpl implements TeacherService {
         TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherInsertRequest);
 
         if (teacher.getDomicileEqualsResidential() == null)
-            teacher.setDomicileEqualsResidential(false);
+            teacher.setDomicileEqualsResidential(true);
 
         if(!teacher.getDomicileEqualsResidential() && teacher.getDomicileAddress()==null)
             throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
@@ -126,7 +126,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setResidentialAddress(teacherUpdate.getResidentialAddress());
 
         if(teacherUpdate.getDomicileEqualsResidential() == null)
-            teacher.setDomicileEqualsResidential(false);
+            teacher.setDomicileEqualsResidential(true);
         else
             teacher.setDomicileEqualsResidential(teacherUpdate.getDomicileEqualsResidential());
 

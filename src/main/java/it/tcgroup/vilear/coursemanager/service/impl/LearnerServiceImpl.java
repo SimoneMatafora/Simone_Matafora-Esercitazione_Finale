@@ -64,7 +64,7 @@ public class LearnerServiceImpl implements LearnerService {
         LearnerEntity learner = learnerAdapter.adptLearnerRequestToLearner(learnerInsertRequest);
 
         if (learner.getDomicileEqualsResidential() == null)
-            learner.setDomicileEqualsResidential(false);
+            learner.setDomicileEqualsResidential(true);
 
         if(!learner.getDomicileEqualsResidential() && learner.getDomicileAddress()==null)
             throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
@@ -106,7 +106,7 @@ public class LearnerServiceImpl implements LearnerService {
         learner.setResidentialAddress(learnerUpdate.getResidentialAddress());
 
         if(learnerUpdate.getDomicileEqualsResidential() == null)
-            learner.setDomicileEqualsResidential(false);
+            learner.setDomicileEqualsResidential(true);
         else
             learner.setDomicileEqualsResidential(learnerUpdate.getDomicileEqualsResidential());
 
