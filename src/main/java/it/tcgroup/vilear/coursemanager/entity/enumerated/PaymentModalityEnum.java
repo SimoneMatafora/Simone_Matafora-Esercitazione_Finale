@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum PaymentModalityEnum {
+    BONIFICO("bonifico"),
+    CONTANTI("contanti"),
     CON_RITENUTA_DI_ACCONTO("con_ritenuta_di_acconto"),
     FATTURA("fattura");
 
