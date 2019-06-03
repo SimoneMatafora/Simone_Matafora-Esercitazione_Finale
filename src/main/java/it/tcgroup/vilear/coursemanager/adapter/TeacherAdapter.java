@@ -55,6 +55,8 @@ public class TeacherAdapter {
                 domicileAddress = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getDomicileAddress());
 
             Attachment curriculum = null;
+
+
             if (teacherInsertRequest.getCurriculum() != null) {
 
                 UploadRequestV1 request = teacherInsertRequest.getCurriculum();
@@ -111,8 +113,8 @@ public class TeacherAdapter {
 
             return teacher;
 
-        }catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+        }catch (Exception e) {
+            throw new RuntimeException("On filemanager: " + e.getMessage());
         }
     }
 

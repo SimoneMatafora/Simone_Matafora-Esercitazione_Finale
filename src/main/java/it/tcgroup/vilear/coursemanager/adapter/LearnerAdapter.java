@@ -84,9 +84,8 @@ public class LearnerAdapter {
 
             return learner;
 
-        } catch (IOException e) {
-
-            throw new RuntimeException(e.getMessage());
+        }catch (Exception e) {
+            throw new RuntimeException("On filemanager: " + e.getMessage());
         }
     }
 
