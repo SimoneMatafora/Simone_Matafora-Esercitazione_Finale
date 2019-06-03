@@ -217,8 +217,7 @@ public class TeacherDto implements Serializable {
         return professionalOrderRegistration;
     }
 
-    public void setProfessionalOrderRegistration(Boolean professionalOrderRegistration) {
-        this.professionalOrderRegistration = professionalOrderRegistration;
+    public void setProfessionalOrderRegistration(Boolean professionalOrderRegistration) { this.professionalOrderRegistration = professionalOrderRegistration;
     }
 
     public String getRegister() {
