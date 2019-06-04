@@ -44,12 +44,6 @@ public class RecipientManagmentCourse implements Serializable {
     @JsonProperty("specification_security_exonerate")
     private SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate;
 
-    @JsonProperty("accepted")
-    private Boolean accepted;
-
-    @JsonProperty("rejected")
-    private Boolean rejected;
-
     @JsonProperty("withdrawn")
     private Boolean withdrawn;
 
@@ -69,7 +63,7 @@ public class RecipientManagmentCourse implements Serializable {
     public RecipientManagmentCourse() {
     }
 
-    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets) {
+    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets) {
         this.learner = learner;
         this.recipientType = recipientType;
         this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -78,8 +72,6 @@ public class RecipientManagmentCourse implements Serializable {
         this.specificSecurityModule = specificSecurityModule;
         this.necessaryHours = necessaryHours;
         this.specificationSsecurityExonerate = specificationSsecurityExonerate;
-        this.accepted = accepted;
-        this.rejected = rejected;
         this.withdrawn = withdrawn;
         this.withdrawnReason = withdrawnReason;
         this.withdrawnDate = withdrawnDate;
@@ -132,22 +124,6 @@ public class RecipientManagmentCourse implements Serializable {
     }
 
     public void setSpecificationSsecurityExonerate(SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate) { this.specificationSsecurityExonerate = specificationSsecurityExonerate;
-    }
-
-    public Boolean getAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(Boolean accepted) {
-        this.accepted = accepted;
-    }
-
-    public Boolean getRejected() {
-        return rejected;
-    }
-
-    public void setRejected(Boolean rejected) {
-        this.rejected = rejected;
     }
 
     public Boolean getWithdrawn() {
@@ -217,8 +193,6 @@ public class RecipientManagmentCourse implements Serializable {
                 ", specificSecurityModule=" + specificSecurityModule +
                 ", necessaryHours=" + necessaryHours +
                 ", specificationSsecurityExonerate=" + specificationSsecurityExonerate +
-                ", accepted=" + accepted +
-                ", rejected=" + rejected +
                 ", withdrawn=" + withdrawn +
                 ", withdrawnReason=" + withdrawnReason +
                 ", withdrawnDate=" + withdrawnDate +

@@ -9,11 +9,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class CourseRequestV1 {
 
@@ -248,6 +244,9 @@ public class CourseRequestV1 {
 
     @JsonProperty( "headquaters_course")
     private List<AddressCourseRequestV1> headquatersCourse;
+
+    @JsonProperty( "candidates")
+    private List<CandidateCourseRequestV1> candidateList;
 
     @JsonProperty( "recipient_managment")
     private List<RecipientManagmentCourseRequestV1> recipientManagment;
@@ -503,6 +502,73 @@ public class CourseRequestV1 {
 
     }
 
+    public static class CandidateCourseRequestV1{
+
+        @JsonProperty("id")
+        private UUID id;
+
+        @JsonProperty("name")
+        private String name;
+
+        @JsonProperty("surname")
+        private String surname;
+
+        @JsonProperty("accepted")
+        private Boolean accepted;
+
+        public CandidateCourseRequestV1() {
+        }
+
+        public CandidateCourseRequestV1(UUID id, String name, String surname, Boolean accepted) {
+            this.id = id;
+            this.name = name;
+            this.surname = surname;
+            this.accepted = accepted;
+        }
+
+        public UUID getId() {
+            return id;
+        }
+
+        public void setId(UUID id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getSurname() {
+            return surname;
+        }
+
+        public void setSurname(String surname) {
+            this.surname = surname;
+        }
+
+        public Boolean getAccepted() {
+            return accepted;
+        }
+
+        public void setAccepted(Boolean accepted) {
+            this.accepted = accepted;
+        }
+
+        @Override
+        public String toString() {
+            return "CandidateCourseRequestV1{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", surname='" + surname + '\'' +
+                    ", accepted=" + accepted +
+                    '}';
+        }
+    }
+
     public static class RecipientManagmentCourseRequestV1{
 
         @JsonProperty("learner")
@@ -529,12 +595,6 @@ public class CourseRequestV1 {
         @JsonProperty("specification_security_exonerate")
         private SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate;
 
-        @JsonProperty("accepted")
-        private Boolean accepted;
-
-        @JsonProperty("rejected")
-        private Boolean rejected;
-
         @JsonProperty("withdrawn")
         private Boolean withdrawn;
 
@@ -554,7 +614,7 @@ public class CourseRequestV1 {
         public RecipientManagmentCourseRequestV1() {
         }
 
-        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean accepted, Boolean rejected, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, UploadRequestV1 withdrawnForm, Integer numIssuedTickets) {
+        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, UploadRequestV1 withdrawnForm, Integer numIssuedTickets) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -563,8 +623,6 @@ public class CourseRequestV1 {
             this.specificSecurityModule = specificSecurityModule;
             this.necessaryHours = necessaryHours;
             this.specificationSsecurityExonerate = specificationSsecurityExonerate;
-            this.accepted = accepted;
-            this.rejected = rejected;
             this.withdrawn = withdrawn;
             this.withdrawnReason = withdrawnReason;
             this.withdrawnDate = withdrawnDate;
@@ -618,22 +676,6 @@ public class CourseRequestV1 {
 
         public void setSpecificationSsecurityExonerate(SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate) {
             this.specificationSsecurityExonerate = specificationSsecurityExonerate;
-        }
-
-        public Boolean getAccepted() {
-            return accepted;
-        }
-
-        public void setAccepted(Boolean accepted) {
-            this.accepted = accepted;
-        }
-
-        public Boolean getRejected() {
-            return rejected;
-        }
-
-        public void setRejected(Boolean rejected) {
-            this.rejected = rejected;
         }
 
         public Boolean getWithdrawn() {
@@ -703,8 +745,6 @@ public class CourseRequestV1 {
                     ", specificSecurityModule=" + specificSecurityModule +
                     ", necessaryHours=" + necessaryHours +
                     ", specificationSsecurityExonerate=" + specificationSsecurityExonerate +
-                    ", accepted=" + accepted +
-                    ", rejected=" + rejected +
                     ", withdrawn=" + withdrawn +
                     ", withdrawnReason=" + withdrawnReason +
                     ", withdrawnDate=" + withdrawnDate +
@@ -1175,7 +1215,7 @@ public class CourseRequestV1 {
         @JsonProperty("role")
         private RoleTeacherCourseEnum role;
 
-        @JsonProperty("working_position")
+        @JsonProperty("status")
         private WorkingPositionEnum workingPosition;
 
         @JsonProperty("gross_hourly_cost")
@@ -1810,7 +1850,7 @@ public class CourseRequestV1 {
     public CourseRequestV1() {
     }
 
-    public CourseRequestV1(@NotNull String courseTitle, CourseStatusEnum status, @NotNull ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, @NotNull FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, @NotNull Date courseStartDate, @NotNull Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerRequestV1 actuatorSubject, @NotNull String courseCode, String businessName, String businessEmail, String externalReferenceCode, @NotNull CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, Boolean invoiceAuthorization, String accountingCode, String dailyRegister, List<AddressCourseRequestV1> headquatersCourse, List<RecipientManagmentCourseRequestV1> recipientManagment, List<PartnerCourseRequestV1> partnerList, List<TeacherCourseRequestV1> teacherList, List<PlacementCourseRequestV1> placementList, String documentAttachment) {
+    public CourseRequestV1(@NotNull String courseTitle, CourseStatusEnum status, @NotNull ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, @NotNull FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, @NotNull Date courseStartDate, @NotNull Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, String courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerRequestV1 actuatorSubject, @NotNull String courseCode, String businessName, String businessEmail, String externalReferenceCode, @NotNull CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, Boolean invoiceAuthorization, String accountingCode, String dailyRegister, List<AddressCourseRequestV1> headquatersCourse, List<CandidateCourseRequestV1> candidateList, List<RecipientManagmentCourseRequestV1> recipientManagment, List<PartnerCourseRequestV1> partnerList, List<TeacherCourseRequestV1> teacherList, List<PlacementCourseRequestV1> placementList, String documentAttachment) {
         this.courseTitle = courseTitle;
         this.status = status;
         this.contentsArea = contentsArea;
@@ -1880,6 +1920,7 @@ public class CourseRequestV1 {
         this.accountingCode = accountingCode;
         this.dailyRegister = dailyRegister;
         this.headquatersCourse = headquatersCourse;
+        this.candidateList = candidateList;
         this.recipientManagment = recipientManagment;
         this.partnerList = partnerList;
         this.teacherList = teacherList;
@@ -2415,6 +2456,14 @@ public class CourseRequestV1 {
         this.headquatersCourse = headquatersCourse;
     }
 
+    public List<CandidateCourseRequestV1> getCandidateList() {
+        return candidateList;
+    }
+
+    public void setCandidateList(List<CandidateCourseRequestV1> candidateList) {
+        this.candidateList = candidateList;
+    }
+
     public List<RecipientManagmentCourseRequestV1> getRecipientManagment() {
         return recipientManagment;
     }
@@ -2551,6 +2600,7 @@ public class CourseRequestV1 {
                 ", accountingCode='" + accountingCode + '\'' +
                 ", dailyRegister='" + dailyRegister + '\'' +
                 ", headquatersCourse=" + headquatersCourse +
+                ", candidateList=" + candidateList +
                 ", recipientManagment=" + recipientManagment +
                 ", partnerList=" + partnerList +
                 ", teacherList=" + teacherList +

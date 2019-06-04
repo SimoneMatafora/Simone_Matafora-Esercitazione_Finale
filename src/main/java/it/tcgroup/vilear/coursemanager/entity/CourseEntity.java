@@ -33,6 +33,7 @@ import java.util.*;
         @TypeDef(name = "JavaDataPartnerDtoType", typeClass = JavaDataPartnerDtoType.class),
         @TypeDef(name = "JsonDataAttachmentType", typeClass = JsonDataAttachmentType.class),
         @TypeDef(name = "JsonDataAttachmentListType", typeClass = JsonDataAttachmentListType.class),
+        @TypeDef(name = "JsonDataCandidateCourseType", typeClass = JsonDataCandidateCourseType.class),
 })
 public class CourseEntity implements Serializable {
 
@@ -284,6 +285,10 @@ public class CourseEntity implements Serializable {
     @Column(name = "headquaters_course")
     private List<AddressCourse> headquatersCourse;
 
+    @Type(type = "JsonDataCandidateCourseType")
+    @Column(name = "candidates")
+    private List<CandidateCourse> candidateCourseList;
+
     @Type(type = "JsonDataRecipientManagmentCourseType")
     @Column(name = "recipient_managment")
     private List<RecipientManagmentCourse> recipientManagment;
@@ -307,7 +312,7 @@ public class CourseEntity implements Serializable {
     public CourseEntity() {
     }
 
-    public CourseEntity(UUID id, String courseTitle, CourseStatusEnum status, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerDto actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, Boolean invoiceAuthorization, String accountingCode, String dailyRegister, List<AddressCourse> headquatersCourse, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, List<Attachment> documentsAttachment) {
+    public CourseEntity(UUID id, String courseTitle, CourseStatusEnum status, ContentsAreaCourseEnum contentsArea, LearnerTypeCourseEnum learnerType, SupplyModalityCourseEnum supplyModality, PaymentModalityEnum paymentModality, Double costs, FoundsTypeCourseEnum foundsTypeCourse, String educationalTargetDescription, String courseDescription, Date courseStartDate, Date courseEndDate, Double theoryHours, Double practiceHours, Double coachingHours, Double visitHours, Double skilsAnalysisHours, Double totalHours, Double totalHoursTraining, Double dailyHours, CertificateTypeCourseEnum certificateTypeCourse, Integer minimumNumericOfParticipants, Boolean disabled, Attachment courseLogo, PartFullTimeCourseEnum partFullTimeCourse, Date morningStartHour, Date morningEndHour, Date afternoonStartHour, Date afternoonEndHour, PartnerDto actuatorSubject, String courseCode, String businessName, String businessEmail, String externalReferenceCode, CourseTypeEnum courseType, Date sendedProjectDate, Date receiptFTConfirmationDate, Date sendedCanceledProjectDate, Date autProgetctFTRealizedDate, Date sendedLearnersFTDate, Double entourageHours, Double orenatationHours, SpecialInitiativesCourseEnum specialInitiatives, Boolean tradeUnionTeachingRequest, String note, RecipientTypeLearnerCourseEnum recipient, Boolean issueTicket, Double ticketAmount, Integer numberOfTickets, Boolean attendanceBenefits, Double amountAttendanceBenefits, Double amountReportFT, Double amountFinSecurityCapital, Date amountAutorizedFTDate, Double amountAutorizedFT, Double totalPartnerCost, Double totalPartnerCostOnPercent, Double totalAmountWithoutFS, Date sendedPaperReportingDate, Date sendedEletronicReportingDate, Date expiredReportingDate, Date invoiceAuthorizationDate, Date deliveryDateInAdministration, Date commercialTaxableCommunicationDate, String reportNote, Boolean invoiceAuthorization, String accountingCode, String dailyRegister, List<AddressCourse> headquatersCourse, List<CandidateCourse> candidateCourseList, List<RecipientManagmentCourse> recipientManagment, List<PartnerCourse> partnerList, List<TeacherCourse> teacherList, List<PlacementCourse> placementList, List<Attachment> documentsAttachment) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.status = status;
@@ -378,6 +383,7 @@ public class CourseEntity implements Serializable {
         this.accountingCode = accountingCode;
         this.dailyRegister = dailyRegister;
         this.headquatersCourse = headquatersCourse;
+        this.candidateCourseList = candidateCourseList;
         this.recipientManagment = recipientManagment;
         this.partnerList = partnerList;
         this.teacherList = teacherList;
@@ -985,6 +991,14 @@ public class CourseEntity implements Serializable {
         this.accountingCode = accountingCode;
     }
 
+    public List<CandidateCourse> getCandidateCourseList() {
+        return candidateCourseList;
+    }
+
+    public void setCandidateCourseList(List<CandidateCourse> candidateCourseList) {
+        this.candidateCourseList = candidateCourseList;
+    }
+
     @Override
     public String toString() {
         return "CourseEntity{" +
@@ -1058,6 +1072,7 @@ public class CourseEntity implements Serializable {
                 ", accountingCode='" + accountingCode + '\'' +
                 ", dailyRegister='" + dailyRegister + '\'' +
                 ", headquatersCourse=" + headquatersCourse +
+                ", candidateCourseList=" + candidateCourseList +
                 ", recipientManagment=" + recipientManagment +
                 ", partnerList=" + partnerList +
                 ", teacherList=" + teacherList +
@@ -1141,6 +1156,7 @@ public class CourseEntity implements Serializable {
                 Objects.equals(accountingCode, that.accountingCode) &&
                 Objects.equals(dailyRegister, that.dailyRegister) &&
                 Objects.equals(headquatersCourse, that.headquatersCourse) &&
+                Objects.equals(candidateCourseList, that.candidateCourseList) &&
                 Objects.equals(recipientManagment, that.recipientManagment) &&
                 Objects.equals(partnerList, that.partnerList) &&
                 Objects.equals(teacherList, that.teacherList) &&
@@ -1150,6 +1166,6 @@ public class CourseEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, courseTitle, status, contentsArea, learnerType, supplyModality, paymentModality, costs, foundsTypeCourse, educationalTargetDescription, courseDescription, courseStartDate, courseEndDate, theoryHours, practiceHours, coachingHours, visitHours, skilsAnalysisHours, totalHours, totalHoursTraining, dailyHours, certificateTypeCourse, minimumNumericOfParticipants, disabled, courseLogo, partFullTimeCourse, morningStartHour, morningEndHour, afternoonStartHour, afternoonEndHour, actuatorSubject, courseCode, businessName, businessEmail, externalReferenceCode, courseType, sendedProjectDate, receiptFTConfirmationDate, sendedCanceledProjectDate, autProgetctFTRealizedDate, sendedLearnersFTDate, entourageHours, orenatationHours, specialInitiatives, tradeUnionTeachingRequest, note, recipient, issueTicket, ticketAmount, numberOfTickets, attendanceBenefits, amountAttendanceBenefits, amountReportFT, amountFinSecurityCapital, amountAutorizedFTDate, amountAutorizedFT, totalPartnerCost, totalPartnerCostOnPercent, totalAmountWithoutFS, sendedPaperReportingDate, sendedEletronicReportingDate, expiredReportingDate, invoiceAuthorizationDate, deliveryDateInAdministration, commercialTaxableCommunicationDate, reportNote, invoiceAuthorization, accountingCode, dailyRegister, headquatersCourse, recipientManagment, partnerList, teacherList, placementList, documentsAttachment);
+        return Objects.hash(id, courseTitle, status, contentsArea, learnerType, supplyModality, paymentModality, costs, foundsTypeCourse, educationalTargetDescription, courseDescription, courseStartDate, courseEndDate, theoryHours, practiceHours, coachingHours, visitHours, skilsAnalysisHours, totalHours, totalHoursTraining, dailyHours, certificateTypeCourse, minimumNumericOfParticipants, disabled, courseLogo, partFullTimeCourse, morningStartHour, morningEndHour, afternoonStartHour, afternoonEndHour, actuatorSubject, courseCode, businessName, businessEmail, externalReferenceCode, courseType, sendedProjectDate, receiptFTConfirmationDate, sendedCanceledProjectDate, autProgetctFTRealizedDate, sendedLearnersFTDate, entourageHours, orenatationHours, specialInitiatives, tradeUnionTeachingRequest, note, recipient, issueTicket, ticketAmount, numberOfTickets, attendanceBenefits, amountAttendanceBenefits, amountReportFT, amountFinSecurityCapital, amountAutorizedFTDate, amountAutorizedFT, totalPartnerCost, totalPartnerCostOnPercent, totalAmountWithoutFS, sendedPaperReportingDate, sendedEletronicReportingDate, expiredReportingDate, invoiceAuthorizationDate, deliveryDateInAdministration, commercialTaxableCommunicationDate, reportNote, invoiceAuthorization, accountingCode, dailyRegister, headquatersCourse, candidateCourseList, recipientManagment, partnerList, teacherList, placementList, documentsAttachment);
     }
 }

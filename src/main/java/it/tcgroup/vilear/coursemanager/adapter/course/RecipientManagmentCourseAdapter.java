@@ -47,13 +47,11 @@ public class RecipientManagmentCourseAdapter {
             }
         }
 
-        recipientManagmentCourse.setAccepted(recipientManagmentCourseRequest.getAccepted());
         recipientManagmentCourse.setExonerationGeneralSecurity(recipientManagmentCourseRequest.getExonerationGeneralSecurity());
         recipientManagmentCourse.setExonerationRightsAndDuties(recipientManagmentCourseRequest.getExonerationRightsAndDuties());
         recipientManagmentCourse.setLearner(learnerAdapter.adptLearnerRequestDtoToLearnerDto(recipientManagmentCourseRequest.getLearner()));
         recipientManagmentCourse.setNecessaryHours(recipientManagmentCourseRequest.getNecessaryHours());
         recipientManagmentCourse.setRecipientType(recipientManagmentCourseRequest.getRecipientType());
-        recipientManagmentCourse.setRejected(recipientManagmentCourseRequest.getRejected());
         recipientManagmentCourse.setSpecificationSsecurityExonerate(recipientManagmentCourseRequest.getSpecificationSsecurityExonerate());
         recipientManagmentCourse.setWithdrawn(recipientManagmentCourseRequest.getWithdrawn());
         recipientManagmentCourse.setWithdrawnDate(recipientManagmentCourseRequest.getWithdrawnDate());
@@ -87,13 +85,11 @@ public class RecipientManagmentCourseAdapter {
 
         RecipientManagmentCourseResponseV1 recipientManagmentCourseResponse = new RecipientManagmentCourseResponseV1();
 
-        recipientManagmentCourseResponse.setAccepted(recipientManagmentCourse.getAccepted());
         recipientManagmentCourseResponse.setExonerationGeneralSecurity(recipientManagmentCourse.getExonerationGeneralSecurity());
         recipientManagmentCourseResponse.setExonerationRightsAndDuties(recipientManagmentCourse.getExonerationRightsAndDuties());
         recipientManagmentCourseResponse.setLearner(learnerAdapter.adptLearnerDtoToLearnerResponse(recipientManagmentCourse.getLearner()));
         recipientManagmentCourseResponse.setNecessaryHours(recipientManagmentCourse.getNecessaryHours());
         recipientManagmentCourseResponse.setRecipientType(recipientManagmentCourse.getRecipientType());
-        recipientManagmentCourseResponse.setRejected(recipientManagmentCourse.getRejected());
         recipientManagmentCourseResponse.setSpecificationSsecurityExonerate(recipientManagmentCourse.getSpecificationSsecurityExonerate());
         recipientManagmentCourseResponse.setWithdrawn(recipientManagmentCourse.getWithdrawn());
         recipientManagmentCourseResponse.setWithdrawnDate(recipientManagmentCourse.getWithdrawnDate());

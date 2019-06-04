@@ -325,7 +325,7 @@ public class LearnerController {
     @PostMapping(value = "/learner/candidate/{UUID_LEARNER}/{UUID_COURSE}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperation(value="Candidate Learner", notes = "Candidate Learner using info passed in the request")
+    @ApiOperation(value="CandidateCourse Learner", notes = "CandidateCourse Learner using info passed in the request")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad Request"),

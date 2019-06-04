@@ -253,7 +253,7 @@ public class TeacherController {
     }
 
     /*SEARCH CANDIDATE TEACHER */
-    @ApiOperation(value="Search Candidate Teacher", notes = "It retrieves teacher data through parameters for candidacy")
+    @ApiOperation(value="Search CandidateCourse Teacher", notes = "It retrieves teacher data through parameters for candidacy")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = TeacherResponseV1.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Bad Request"),
