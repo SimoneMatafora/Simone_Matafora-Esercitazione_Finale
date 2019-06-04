@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.service;
 
 import com.itextpdf.text.DocumentException;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.DogeResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.IdentifierResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
@@ -16,6 +17,9 @@ import java.util.UUID;
 
 @Service
 public interface DogeService {
+
+    List<IdentifierResponseV1> generateCertificate(UUID idCourse) throws Exception;
+
     DogeResponseV1 learnerCertificate(CourseEntity course, LearnerDto learner) throws Exception;
 
     DogeResponseV1 inailComunication(UUID idCourse) throws Exception;

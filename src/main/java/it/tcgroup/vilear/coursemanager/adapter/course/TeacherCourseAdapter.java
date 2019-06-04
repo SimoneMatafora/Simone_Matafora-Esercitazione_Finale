@@ -40,18 +40,22 @@ public class TeacherCourseAdapter {
         if (teacherCourseRequest.getLearnerJudgementForm() != null) {
 
             UploadRequestV1 request = teacherCourseRequest.getLearnerJudgementForm();
-            request.setResourceId(UUID.randomUUID().toString());
-            UploadResponseV1 response = filemanagerService.uploadFile(request);
-            learnerJudgementForm = attachmentAdapter.adptUploadResponseToAttachment(response);
+            if(request.getFileContent() != null && !request.getFileContent().isEmpty()) {
+                request.setResourceId(UUID.randomUUID().toString());
+                UploadResponseV1 response = filemanagerService.uploadFile(request);
+                learnerJudgementForm = attachmentAdapter.adptUploadResponseToAttachment(response);
+            }
         }
 
         Attachment tradeUninoTeachingLetter = null;
         if (teacherCourseRequest.getTradeUninoTeachingLetter() != null) {
 
             UploadRequestV1 request = teacherCourseRequest.getTradeUninoTeachingLetter();
-            request.setResourceId(UUID.randomUUID().toString());
-            UploadResponseV1 response = filemanagerService.uploadFile(request);
-            tradeUninoTeachingLetter = attachmentAdapter.adptUploadResponseToAttachment(response);
+            if(request.getFileContent() != null && !request.getFileContent().isEmpty()) {
+                request.setResourceId(UUID.randomUUID().toString());
+                UploadResponseV1 response = filemanagerService.uploadFile(request);
+                tradeUninoTeachingLetter = attachmentAdapter.adptUploadResponseToAttachment(response);
+            }
         }
 
 

@@ -732,7 +732,7 @@ public class CourseRequestV1 {
 
             @NotNull
             @JsonProperty("date_of_birth")
-            @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
+            @JsonFormat(pattern = "yyyy-MM-dd")
             private Date dateOfBirth;
 
             @NotNull
@@ -1378,7 +1378,7 @@ public class CourseRequestV1 {
 
             @NotNull
             @JsonProperty("date_of_birth")
-            @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssX")
+            @JsonFormat(pattern = "yyyy-MM-dd")
             private Date dateOfBirth;
 
             @NotNull

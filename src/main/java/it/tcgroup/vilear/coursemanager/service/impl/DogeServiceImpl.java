@@ -6,23 +6,29 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
+import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
+import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.common.util.HttpUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.DogeRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.DogeResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.IdentifierResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
+import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.PaymentModalityTradeUnionEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.SupplyServicePartnerCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
+import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
 import it.tcgroup.vilear.coursemanager.service.DogeService;
 import okhttp3.Response;
 import org.apache.pdfbox.cos.COSDocument;
@@ -52,17 +58,24 @@ import java.util.List;
 
 @Service
 public class DogeServiceImpl implements DogeService {
+
     @Autowired
     private HttpUtil httpUtil;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private LearnerRepository learnerRepository;
+
+    @Autowired
+    private DateUtil dateUtil;
 
     @Value("${doge.api.endpoint}")
     private String dogeAPIEndpoint;
 
     @Value("${doge.api.enqueue}")
     private String dogeAPIEnqueue;
-
-    @Autowired
-    private CourseRepository courseRepository;
 
     private static Logger LOGGER = LoggerFactory.getLogger(DogeServiceImpl.class);
 
@@ -102,53 +115,116 @@ public class DogeServiceImpl implements DogeService {
         return mapper.readValue(response, outclass);
     }
 
+
+    @Override
+    public List<IdentifierResponseV1> generateCertificate(UUID idCourse) throws Exception {
+
+        Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
+        if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
+
+        CourseEntity courseEntity = courseEntityOptional.get();
+        List<IdentifierResponseV1> identifierResponseV1s = new ArrayList<>();
+
+        if(courseEntity.getPlacementList() != null)
+        {
+            for(PlacementCourse placementCourse : courseEntity.getPlacementList())
+            {
+                if(placementCourse.getLearner() != null) {
+
+                    DogeResponseV1 dogeResponseV1 = this.learnerCertificate(courseEntity, placementCourse.getLearner());
+                    identifierResponseV1s.add(new IdentifierResponseV1(dogeResponseV1.getDocumentId()));
+
+                    Attachment certificate = new Attachment();
+                    certificate.setFileManagerId(dogeResponseV1.getDocumentId());
+                    certificate.setCreatedAt(dateUtil.getNowDate());
+                    certificate.setResourceType("attestato_di_frequenza");
+                    certificate.setDescription("attestato_di_frequenza");
+                    certificate.setMimeType("application/pdf");
+                    certificate.setBlobName(dogeResponseV1.getDocumentId()+".pdf");
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                    certificate.setFileManagerName("attestato_di_frequenza_corso_"+ courseEntity.getCourseTitle()+"_del_"+format.format(courseEntity.getCourseStartDate())+".pdf");
+                    Optional<LearnerEntity> optLearner = learnerRepository.findById(UUID.fromString(placementCourse.getLearner().getId()));
+                    if(optLearner.isPresent()){
+                        LearnerEntity learnerEntity = optLearner.get();
+                        learnerEntity.getAttachments().add(certificate);
+                        learnerRepository.save(learnerEntity);
+                    }
+
+                    certificate.setFileManagerName("attestato_di_frequenza_"+placementCourse.getLearner().getSurname()+"_"+placementCourse.getLearner().getName()+"_"+format.format(courseEntity.getCourseStartDate())+".pdf" );
+                    if(courseEntity.getDocumentsAttachment() == null)
+                        courseEntity.setDocumentsAttachment(new LinkedList<Attachment>());
+                    courseEntity.getDocumentsAttachment().add(certificate);
+
+
+                }
+            }
+        }
+
+        courseRepository.save(courseEntity);
+
+        return identifierResponseV1s;
+
+    }
+
     @Override
     public DogeResponseV1 learnerCertificate(CourseEntity course, LearnerDto learner) throws Exception
     {
-        DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
-        Map<String, Object> requestMap = new HashMap<>();
 
-        requestMap.put("name_and_surname", learner.getSurname()+" "+learner.getName());
-        requestMap.put("city", learner.getBirthPlace());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String birthday = simpleDateFormat.format(learner.getDateOfBirth());
-        requestMap.put("birthday", birthday);
-        requestMap.put("fiscal_code", learner.getFiscalCode());
-        String courseName = "Corso "+course.getCourseType().getValue().toLowerCase();
-        requestMap.put("project_name", courseName);
-        requestMap.put("project_code", course.getCourseCode());
-        requestMap.put("project_description", course.getCourseTitle());
-        String start_date = simpleDateFormat.format(course.getCourseStartDate());
-        requestMap.put("date", start_date);
-        requestMap.put("hours", course.getTotalHours().toString());
-        String date = simpleDateFormat.format(new Date());
-        requestMap.put("date_done", date);
+        try{
+
+            DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
+            Map<String, Object> requestMap = new HashMap<>();
+
+            requestMap.put("name_and_surname", learner.getSurname()+" "+learner.getName());
+            requestMap.put("city", learner.getBirthPlace());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String birthday = simpleDateFormat.format(learner.getDateOfBirth());
+            requestMap.put("birthday", birthday);
+            requestMap.put("fiscal_code", learner.getFiscalCode());
+            String courseName = "Corso "+course.getCourseType().getValue().toLowerCase();
+            requestMap.put("project_name", courseName);
+            requestMap.put("project_code", course.getCourseCode());
+            requestMap.put("project_description", course.getCourseTitle());
+            String start_date = simpleDateFormat.format(course.getCourseStartDate());
+            requestMap.put("date", start_date);
+            requestMap.put("hours", course.getTotalHours().toString());
+            String date = simpleDateFormat.format(new Date());
+            requestMap.put("date_done", date);
 
 
-        dogeRequestV1.setData(requestMap);
-        dogeRequestV1.setFilename("Attestato_"+learner.getSurname()+"_"+learner.getName()+".pdf");
-        dogeRequestV1.setTemplate("Attestato");
-        DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
-        String uuid = UUID.randomUUID().toString();
-        fileManager.setUuid(uuid);
-        fileManager.setResourceId("1");
-        fileManager.setResourceType("doge");
-        fileManager.setBlobType("pdf");
-        dogeRequestV1.setFileManager(fileManager);
-        DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
-        if(response.getCode() == 1){
-            response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
+            dogeRequestV1.setData(requestMap);
+            dogeRequestV1.setFilename("Attestato_"+learner.getSurname()+"_"+learner.getName()+".pdf");
+            dogeRequestV1.setTemplate("Attestato");
+            DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
+            String uuid = UUID.randomUUID().toString();
+            fileManager.setUuid(uuid);
+            fileManager.setResourceId("1");
+            fileManager.setResourceType("doge");
+            fileManager.setBlobType("pdf");
+            dogeRequestV1.setFileManager(fileManager);
+            DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
+            if(response.getCode() == 1){
+                response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
+            }
+            DogeResponseV1 dogeResponse = new DogeResponseV1();
+            dogeResponse.setDocumentId(uuid);
+            dogeResponse.setActionResult(response);
+            return dogeResponse;
+
+        }catch (NullPointerException e){
+            throw new BadParametersException("Non sono presenti tutti i parametri necessari per effettuare la generazione degli attestati");
         }
-        DogeResponseV1 dogeResponse = new DogeResponseV1();
-        dogeResponse.setDocumentId(uuid);
-        dogeResponse.setActionResult(response);
-        return dogeResponse;
+
+
     }
 
     @Override
     public DogeResponseV1 inailComunication(UUID idCourse) throws Exception {
+
         Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
         if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
+
         CourseEntity courseEntity = courseEntityOptional.get();
         DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
         Map<String, Object> requestMap = new HashMap<>();
@@ -231,19 +307,38 @@ public class DogeServiceImpl implements DogeService {
         fileManager.setBlobType("pdf");
         dogeRequestV1.setFileManager(fileManager);
         DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
+
         if(response.getCode() == 1){
             response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
         }
         DogeResponseV1 dogeResponse = new DogeResponseV1();
         dogeResponse.setDocumentId(uuid);
         dogeResponse.setActionResult(response);
+
+        Attachment certificate = new Attachment();
+        certificate.setFileManagerId(dogeResponse.getDocumentId());
+        certificate.setCreatedAt(dateUtil.getNowDate());
+        certificate.setResourceType("comunicazione-inail");
+        certificate.setDescription("comunicazione-inail");
+        certificate.setMimeType("application/pdf");
+        certificate.setBlobName(dogeResponse.getDocumentId()+".pdf");
+        certificate.setFileManagerName("Comunicazione-Inail"+courseEntity.getCourseCode()+".pdf");
+
+        if(courseEntity.getDocumentsAttachment() == null)
+            courseEntity.setDocumentsAttachment(new LinkedList<Attachment>());
+        courseEntity.getDocumentsAttachment().add(certificate);
+
+        courseRepository.save(courseEntity);
+
         return dogeResponse;
     }
 
     @Override
     public DogeResponseV1 ticketDelivery(UUID idCourse) throws Exception {
+
         Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
         if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
+
         CourseEntity courseEntity = courseEntityOptional.get();
         DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
         Map<String, Object> requestMap = new HashMap<>();
@@ -291,62 +386,105 @@ public class DogeServiceImpl implements DogeService {
         DogeResponseV1 dogeResponse = new DogeResponseV1();
         dogeResponse.setDocumentId(uuid);
         dogeResponse.setActionResult(response);
+
+        Attachment certificate = new Attachment();
+        certificate.setFileManagerId(dogeResponse.getDocumentId());
+        certificate.setCreatedAt(dateUtil.getNowDate());
+        certificate.setResourceType("consegna_ticket");
+        certificate.setDescription("consegna_ticket");
+        certificate.setMimeType("application/pdf");
+        certificate.setBlobName(dogeResponse.getDocumentId()+".pdf");
+        certificate.setFileManagerName("consegna-ticket-2260-"+courseEntity.getCourseCode()+".pdf");
+
+        if(courseEntity.getDocumentsAttachment() == null)
+            courseEntity.setDocumentsAttachment(new LinkedList<Attachment>());
+        courseEntity.getDocumentsAttachment().add(certificate);
+
+        courseRepository.save(courseEntity);
+
         return dogeResponse;
     }
 
     @Override
     public DogeResponseV1 learnesEvaluation(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception{
+
         if(teacherCourse == null) throw new BadRequestException("Teacher not found");
-            DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
-            Map<String, Object> requestMap = new HashMap<>();
-            List<Map<String, String>> request = new ArrayList<>();
-            requestMap.put("project_code", courseEntity.getCourseCode());
-            if (teacherCourse.getTeacher() != null) {
-                String teacher = teacherCourse.getTeacher().getSurname() + " " + teacherCourse.getTeacher().getName();
-                requestMap.put("docente", teacher);
-            }
-            if (courseEntity.getPlacementList() != null) {
-                for (PlacementCourse placementCourse : courseEntity.getPlacementList()) {
-                    LearnerDto learnerDto = placementCourse.getLearner();
-                    if (learnerDto != null) {
-                        Map<String, String> requestInnerMap = new HashMap<>();
-                        requestInnerMap.put("surname", learnerDto.getSurname());
-                        requestInnerMap.put("name", learnerDto.getName());
-                        request.add(requestInnerMap);
-                    }
 
+        DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
+        Map<String, Object> requestMap = new HashMap<>();
+        List<Map<String, String>> request = new ArrayList<>();
+        requestMap.put("project_code", courseEntity.getCourseCode());
+
+        if (teacherCourse.getTeacher() != null) {
+
+            String teacher = teacherCourse.getTeacher().getSurname() + " " + teacherCourse.getTeacher().getName();
+            requestMap.put("docente", teacher);
+        }
+
+        if (courseEntity.getPlacementList() != null) {
+
+            for (PlacementCourse placementCourse : courseEntity.getPlacementList()) {
+
+                LearnerDto learnerDto = placementCourse.getLearner();
+                if (learnerDto != null) {
+
+                    Map<String, String> requestInnerMap = new HashMap<>();
+                    requestInnerMap.put("surname", learnerDto.getSurname());
+                    requestInnerMap.put("name", learnerDto.getName());
+                    request.add(requestInnerMap);
                 }
-            }
-            requestMap.put("partecipanti", request);
 
-            dogeRequestV1.setData(requestMap);
-            dogeRequestV1.setFilename("Valutazione-discenti-" + courseEntity.getCourseCode() + ".pdf");
-            dogeRequestV1.setTemplate("ValutazioneDiscenti");
-            DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
-            String uuid = UUID.randomUUID().toString();
-            fileManager.setUuid(uuid);
-            fileManager.setResourceId("1");
-            fileManager.setResourceType("doge");
-            fileManager.setBlobType("xlsx");
-            dogeRequestV1.setFileManager(fileManager);
-            DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
-            if (response.getCode() == 1) {
-                response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
             }
-            DogeResponseV1 dogeResponse = new DogeResponseV1();
-            dogeResponse.setDocumentId(uuid);
-            dogeResponse.setActionResult(response);
+        }
+        requestMap.put("partecipanti", request);
+
+        dogeRequestV1.setData(requestMap);
+        dogeRequestV1.setFilename("Valutazione-discenti-" + courseEntity.getCourseCode() + ".xlsx");
+        dogeRequestV1.setTemplate("ValutazioneDiscenti");
+        DogeRequestV1.FileManager fileManager = new DogeRequestV1.FileManager();
+        String uuid = UUID.randomUUID().toString();
+        fileManager.setUuid(uuid);
+        fileManager.setResourceId("1");
+        fileManager.setResourceType("doge");
+        fileManager.setBlobType("xlsx");
+        dogeRequestV1.setFileManager(fileManager);
+        DogeResponseV1.ActionResult response = callWithoutCert(dogeAPIEndpoint + dogeAPIEnqueue, HttpMethod.POST, dogeRequestV1, new HashMap<>(), DogeResponseV1.ActionResult.class);
+
+        if (response.getCode() == 1) {
+            response = new DogeResponseV1.ActionResult(response.getCode(), response.getMessage(), response.getDetails());
+        }
+        DogeResponseV1 dogeResponse = new DogeResponseV1();
+        dogeResponse.setDocumentId(uuid);
+        dogeResponse.setActionResult(response);
+
+        Attachment certificate = new Attachment();
+        certificate.setFileManagerId(dogeResponse.getDocumentId());
+        certificate.setCreatedAt(dateUtil.getNowDate());
+        certificate.setResourceType("valutazione_discenti");
+        certificate.setDescription("valutazione_discenti");
+        certificate.setMimeType("xlsx");
+        certificate.setBlobName(dogeResponse.getDocumentId()+".xlsx");
+        certificate.setFileManagerName("Valutazione-discenti-" + courseEntity.getCourseCode() + ".xlsx");
+
+        if(courseEntity.getDocumentsAttachment() == null)
+            courseEntity.setDocumentsAttachment(new LinkedList<Attachment>());
+        courseEntity.getDocumentsAttachment().add(certificate);
+
+        courseRepository.save(courseEntity);
 
         return dogeResponse;
     }
 
     @Override
     public DogeResponseV1 teacherEmployee(CourseEntity courseEntity, TeacherCourse teacherCourse) throws Exception{
+
         if(teacherCourse == null) throw new BadRequestException("Teacher not found");
+
         DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("project_code", courseEntity.getCourseCode());
         requestMap.put("course_title", courseEntity.getCourseTitle());
+
         if(courseEntity.getTotalHours() != null) {
             requestMap.put("tot_hours", courseEntity.getTotalHours().toString());
             requestMap.put("total_hours", courseEntity.getTotalHours().toString());

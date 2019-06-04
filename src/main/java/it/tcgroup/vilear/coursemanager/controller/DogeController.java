@@ -3,15 +3,16 @@ package it.tcgroup.vilear.coursemanager.controller;
 import com.itextpdf.text.DocumentException;
 import io.swagger.annotations.Api;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
+import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.DogeResponseV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.DownloadResponseV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.IdentifierResponseV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.*;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
+import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
+import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
 import it.tcgroup.vilear.coursemanager.service.DogeService;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import org.apache.pdfbox.io.MemoryUsageSetting;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -30,6 +32,7 @@ import java.util.*;
 @RequestMapping(value = "/api/v1")
 @Api("Doge")
 public class DogeController {
+
     @Autowired
     private DogeService dogeService;
 
@@ -39,24 +42,16 @@ public class DogeController {
     @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
+    private LearnerRepository learnerRepository;
+
+    @Autowired
+    private DateUtil dateUtil;
+
     @GetMapping(value = "/pdf/certificate/{UUID}")
     public ResponseEntity<List<IdentifierResponseV1>> getCertificates(@PathVariable("UUID") UUID idCourse) throws Exception{
-        Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
-        if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
-        CourseEntity courseEntity = courseEntityOptional.get();
-        List<IdentifierResponseV1> identifierResponseV1s = new ArrayList<>();
-        if(courseEntity.getPlacementList() != null)
-        {
-            for(PlacementCourse placementCourse : courseEntity.getPlacementList())
-            {
-                if(placementCourse.getLearner() != null) {
-                    DogeResponseV1 dogeResponseV1 = dogeService.learnerCertificate(courseEntity, placementCourse.getLearner());
-                    identifierResponseV1s.add(new IdentifierResponseV1(dogeResponseV1.getDocumentId()));
-                }
-            }
-        }
-
-        return new ResponseEntity<>(identifierResponseV1s, HttpStatus.OK);
+        List<IdentifierResponseV1> identifierResponseV1List = dogeService.generateCertificate(idCourse);
+        return new ResponseEntity<>(identifierResponseV1List, HttpStatus.OK);
     }
 
     @GetMapping(value = "/pdf/inailcomunication/{UUID}")

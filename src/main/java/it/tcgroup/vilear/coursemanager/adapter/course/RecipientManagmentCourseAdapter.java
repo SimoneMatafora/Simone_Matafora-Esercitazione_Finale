@@ -40,9 +40,11 @@ public class RecipientManagmentCourseAdapter {
         if (recipientManagmentCourseRequest.getWithdrawnForm() != null) {
 
             UploadRequestV1 request = recipientManagmentCourseRequest.getWithdrawnForm();
-            request.setResourceId(UUID.randomUUID().toString());
-            UploadResponseV1 response = filemanagerService.uploadFile(request);
-            withdrawnForm = attachmentAdapter.adptUploadResponseToAttachment(response);
+            if(request.getFileContent() != null && !request.getFileContent().isEmpty()) {
+                request.setResourceId(UUID.randomUUID().toString());
+                UploadResponseV1 response = filemanagerService.uploadFile(request);
+                withdrawnForm = attachmentAdapter.adptUploadResponseToAttachment(response);
+            }
         }
 
         recipientManagmentCourse.setAccepted(recipientManagmentCourseRequest.getAccepted());
