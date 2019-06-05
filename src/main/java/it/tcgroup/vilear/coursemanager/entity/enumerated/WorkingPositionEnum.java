@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum WorkingPositionEnum {
-    DIPENDENTE("Fatturazione"),
+    DIPENDENTE("Dipendente"),
     COLLABORATORE("Collaboratore");
 
     private String workingPositionType;
