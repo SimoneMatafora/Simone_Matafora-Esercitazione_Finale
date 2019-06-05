@@ -4,8 +4,6 @@ import it.tcgroup.vilear.coursemanager.adapter.AttachmentAdapter;
 import it.tcgroup.vilear.coursemanager.adapter.CourseAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
-import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
-import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
@@ -61,23 +59,41 @@ public class CourseServiceImpl implements CourseService {
     public IdResponseV1 insertCourse(CourseRequestV1 courseInsertRequest) {
         try{
 
+            UUID idCourse = UUID.randomUUID();
+
             CourseEntity course = courseAdapter.adptCourseRequestToCourse(courseInsertRequest);
-            if(course!=null){
-                if(course.getPlacementList()!= null) {
-                    for (PlacementCourse placement : course.getPlacementList()) {
-                        if (!this.checkDateDifference(placement.getExpiredPlacementDate(),course.getCourseEndDate(),180))
-                            throw new BadRequestException("ExpiredPlacementDate bad request.");
-                    }
-                }
-                if (!this.checkDateDifference(course.getSendedPaperReportingDate(),course.getCourseEndDate(),74))
-                    throw new BadRequestException("SendedPaperReportingDate bad request.");
-                if (!this.checkDateDifference(course.getSendedEletronicReportingDate(),course.getDeliveryDateInAdministration(),60))
-                    throw new BadRequestException("SendedEletronicReportingDate bad request.");
-                if (!this.checkDateDifference(course.getExpiredReportingDate(),course.getCourseEndDate(),60))
-                    throw new BadRequestException("ExpiredReportingDate bad request.");
+
+            if(course == null)
+                return null;
+
+            course.setId(idCourse);
+
+            if(courseInsertRequest.getCourseLogo() != null &&
+               courseInsertRequest.getCourseLogo().getFileContent() != null &&
+               !courseInsertRequest.getCourseLogo().getFileContent().isEmpty()){
+
+                UploadRequestV1 request = courseInsertRequest.getCourseLogo();
+                request.setResourceId(idCourse.toString());
+                UploadResponseV1 response = filemanagerService.uploadFile(request);
+                course.setCourseLogo(attachmentAdapter.adptUploadResponseToAttachment(response));
             }
 
-            if(course != null && course.getAmountFinSecurityCapital()!=null && course.getAmountAutorizedFT()!=null && course.getTotalHours()!=null){
+
+            if(course.getPlacementList()!= null) {
+                for (PlacementCourse placement : course.getPlacementList()) {
+                    if (!this.checkDateDifference(placement.getExpiredPlacementDate(),course.getCourseEndDate(),180))
+                        throw new BadRequestException("ExpiredPlacementDate bad request.");
+                }
+            }
+            if (!this.checkDateDifference(course.getSendedPaperReportingDate(),course.getCourseEndDate(),74))
+                throw new BadRequestException("SendedPaperReportingDate bad request.");
+            if (!this.checkDateDifference(course.getSendedEletronicReportingDate(),course.getDeliveryDateInAdministration(),60))
+                throw new BadRequestException("SendedEletronicReportingDate bad request.");
+            if (!this.checkDateDifference(course.getExpiredReportingDate(),course.getCourseEndDate(),60))
+                throw new BadRequestException("ExpiredReportingDate bad request.");
+
+
+            if( course.getAmountFinSecurityCapital()!=null && course.getAmountAutorizedFT()!=null && course.getTotalHours()!=null){
                 if(course.getTotalHours().equals(0.0))
                     throw new BadRequestException("Total hours is zero. Impossibile to divide");
 
@@ -86,82 +102,85 @@ public class CourseServiceImpl implements CourseService {
                     throw new BadRequestException("AmountFinSecurityCapital error.");
             }
 
-            if(course!=null) {
-                boolean found;
-                if (course.getPartnerList() != null) {
-                    for (PartnerCourse partnerCourse : course.getPartnerList()) {
-                        if(partnerCourse.getSubSupplierList() != null) {
-                            for (PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()) {
-                                if(subSupplier.getSubSupplierService() != null) {
-                                    for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : subSupplier.getSubSupplierService()) {
-                                        found = false;
-                                        if (partnerCourse.getSupplyServices() != null) {
-                                            for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()) {
-                                                if (supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum) == 0) {
-                                                    found = true;
-                                                    break;
-                                                }
+            boolean found;
+            if (course.getPartnerList() != null) {
+                for (PartnerCourse partnerCourse : course.getPartnerList()) {
+                    if(partnerCourse.getSubSupplierList() != null) {
+                        for (PartnerCourse.SubSupplier subSupplier : partnerCourse.getSubSupplierList()) {
+                            if(subSupplier.getSubSupplierService() != null) {
+                                for (SupplyServicePartnerCourseEnum supplyServicePartnerCourseEnum : subSupplier.getSubSupplierService()) {
+                                    found = false;
+                                    if (partnerCourse.getSupplyServices() != null) {
+                                        for (PartnerCourse.SupplierService supplierService : partnerCourse.getSupplyServices()) {
+                                            if (supplierService.getSupplierService().compareTo(supplyServicePartnerCourseEnum) == 0) {
+                                                found = true;
+                                                break;
                                             }
-                                            if (!found)
-                                                throw new BadRequestException("The sub supplier can only have the services of the partner");
                                         }
+                                        if (!found)
+                                            throw new BadRequestException("The sub supplier can only have the services of the partner");
                                     }
                                 }
                             }
                         }
                     }
                 }
-                if(course.getRecipientManagment() != null){
-                    double necessaryHours, specSecHours;
-                    for (RecipientManagmentCourse recipient : course.getRecipientManagment()) {
-                        if(recipient.getNecessaryHours() != null){
-                            if(course.getTotalHours() == null)
-                                throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
-                            necessaryHours = course.getTotalHours() * 0.7;
-                            //se discente ha l'esonero sicurezza generale allora si sottraggono le 4 ore (2.8 = 70% di 4)
-                            if(recipient.getExonerationGeneralSecurity() != null && recipient.getExonerationGeneralSecurity())
-                                necessaryHours -= 2.8;
-                            //se discente ha l'esonero diritti e doveri allora si sottraggono le 4 ore (2.8 = 70% di 4)
-                            if(recipient.getExonerationRightsAndDuties() != null && recipient.getExonerationRightsAndDuties())
-                                necessaryHours -= 2.8;
-                            //se discente ha modulo sicurezza generale allora si sottraggono le 4 ore al 70% (2.8 = 70% di 4)
-                            //e si aggiungono le 4 ore al 90% (3.6 = 90% di 4)
-                            if(recipient.getGeneralSecurityModule() != null && recipient.getGeneralSecurityModule())
+            }
+
+            if(course.getRecipientManagment() != null){
+                double necessaryHours, specSecHours;
+                for (RecipientManagmentCourse recipient : course.getRecipientManagment()) {
+                    if(recipient.getNecessaryHours() != null){
+                        if(course.getTotalHours() == null)
+                            throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
+                        necessaryHours = course.getTotalHours() * 0.7;
+                        //se discente ha l'esonero sicurezza generale allora si sottraggono le 4 ore (2.8 = 70% di 4)
+                        if(recipient.getExonerationGeneralSecurity() != null && recipient.getExonerationGeneralSecurity())
+                            necessaryHours -= 2.8;
+                        //se discente ha l'esonero diritti e doveri allora si sottraggono le 4 ore (2.8 = 70% di 4)
+                        if(recipient.getExonerationRightsAndDuties() != null && recipient.getExonerationRightsAndDuties())
+                            necessaryHours -= 2.8;
+                        //se discente ha modulo sicurezza generale allora si sottraggono le 4 ore al 70% (2.8 = 70% di 4)
+                        //e si aggiungono le 4 ore al 90% (3.6 = 90% di 4)
+                        if(recipient.getGeneralSecurityModule() != null && recipient.getGeneralSecurityModule())
+                            necessaryHours = necessaryHours - 2.8 + 3.6;
+                        //se discente ha modulo sicurezza specifica allora si sottraggono le ore di sicurezza specifica al 70%
+                        //e si aggiungono al 90%
+                        if(recipient.getSpecificSecurityModule() != null && recipient.getSpecificSecurityModule()) {
+                            if(recipient.getSpecificationSsecurityExonerate() != null){
+                                specSecHours = Double.valueOf(recipient.getSpecificationSsecurityExonerate().getValue());
+                                necessaryHours = necessaryHours - (specSecHours*0.7) + (specSecHours*0.9);
+                            }else
                                 necessaryHours = necessaryHours - 2.8 + 3.6;
-                            //se discente ha modulo sicurezza specifica allora si sottraggono le ore di sicurezza specifica al 70%
-                            //e si aggiungono al 90%
-                            if(recipient.getSpecificSecurityModule() != null && recipient.getSpecificSecurityModule()) {
-                                if(recipient.getSpecificationSsecurityExonerate() != null){
-                                    specSecHours = Double.valueOf(recipient.getSpecificationSsecurityExonerate().getValue());
-                                    necessaryHours = necessaryHours - (specSecHours*0.7) + (specSecHours*0.9);
-                                }else
-                                    necessaryHours = necessaryHours - 2.8 + 3.6;
-                            }
-                            if(Math.abs(recipient.getNecessaryHours() - necessaryHours) >= 0.01)
-                                throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");;
                         }
+                        if(Math.abs(recipient.getNecessaryHours() - necessaryHours) >= 0.01)
+                            throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");;
                     }
                 }
-                if(course.getTotalHours() != null){
-                    double totalHours;
-                    if(course.getTheoryHours() == null || course.getPracticeHours() == null
-                            || course.getCoachingHours() == null || course.getVisitHours() == null ||
-                            course.getSkilsAnalysisHours() == null)
+            }
+
+            if(course.getTotalHours() != null){
+
+                double totalHours;
+                if(course.getTheoryHours() == null || course.getPracticeHours() == null
+                        || course.getCoachingHours() == null || course.getVisitHours() == null ||
+                        course.getSkilsAnalysisHours() == null)
+                    throw new BadRequestException("TotalHours bad request. Incorrect total hours");
+                else{
+                    totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
+                            + course.getVisitHours() + course.getSkilsAnalysisHours();
+                    if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
                         throw new BadRequestException("TotalHours bad request. Incorrect total hours");
-                    else{
-                        totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
-                                + course.getVisitHours() + course.getSkilsAnalysisHours();
-                        if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
-                            throw new BadRequestException("TotalHours bad request. Incorrect total hours");
-                    }
                 }
-                if(course.getTotalHoursTraining() != null){
+            }
+
+            if(course.getTotalHoursTraining() != null){
+
                     if(course.getTotalHours() == null || (course.getRecipientManagment() == null && course.getTotalHoursTraining()!=0))
                         throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
                     if(Math.abs(course.getTotalHoursTraining() - course.getTotalHours() * course.getRecipientManagment().size()) >= 0.01)
                         throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
                 }
-            }
 
             courseRepository.save(course);
 
@@ -701,7 +720,6 @@ public class CourseServiceImpl implements CourseService {
 
         CourseEntity course = courseOpt.get();
         logo.setResourceId(idCourse.toString());
-        logo.setResourceType("course's logo");
         UploadResponseV1 response = filemanagerService.uploadFile(logo);
         course.setCourseLogo(attachmentAdapter.adptUploadResponseToAttachment(response));
         courseRepository.save(course);
