@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum ContentsAreaCourseEnum {
-    AMMINISTRATIVO_CONTABILE("amministrativo_contabile"),
-    FINANZA_MANAGEMENT("finanza_management"),
-    IT("it"),
-    LINGUE("lingue"),
-    LOGISTICA_E_MAGAZZINO("logistica_e_magazzino"),
-    MARKETING_COMUNICAZIONE("marketing_comunicazione"),
-    QUALITÀ("qualità"),
-    RISORSE_UMANE("risorse_umane"),
-    SERVIZI_SOCIO_EDUCATIVI("servizi_socio_educativi"),
-    SICUREZZA("sicurezza");
+    AMMINISTRATIVO_CONTABILE("Amministrativo contabile"),
+    FINANZA_MANAGEMENT("Finanza management"),
+    IT("It"),
+    LINGUE("Lingue"),
+    LOGISTICA_E_MAGAZZINO("Logistica e magazzino"),
+    MARKETING_COMUNICAZIONE("Marketing comunicazione"),
+    QUALITÀ("Qualità"),
+    RISORSE_UMANE("Risorse umane"),
+    SERVIZI_SOCIO_EDUCATIVI("Servizi socio educativi"),
+    SICUREZZA("Sicurezza");
 
     private String contestArea;
 
@@ -23,7 +23,7 @@ public enum ContentsAreaCourseEnum {
     }
 
     public String getValue() {
-        return this.contestArea.toUpperCase();
+        return this.contestArea;
     }
 
     @JsonCreator

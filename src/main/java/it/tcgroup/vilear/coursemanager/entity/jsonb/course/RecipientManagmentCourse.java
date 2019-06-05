@@ -61,6 +61,12 @@ public class RecipientManagmentCourse implements Serializable {
     private Integer numIssuedTickets;
 
     public RecipientManagmentCourse() {
+
+        this.exonerationGeneralSecurity = false;
+        this.exonerationRightsAndDuties = false;
+        this.generalSecurityModule = false;
+        this.specificSecurityModule = false;
+        this.withdrawn = false;
     }
 
     public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets) {

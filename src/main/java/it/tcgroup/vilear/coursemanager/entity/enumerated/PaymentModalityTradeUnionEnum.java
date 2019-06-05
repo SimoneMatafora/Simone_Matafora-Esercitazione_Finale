@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum PaymentModalityTradeUnionEnum {
-    CON_DELEGA_DI_INCASSO("con_delega_di_incasso"),
-    SENZA_CON_DELEGA_DI_INCASSO("senza_con_delega_di_incasso");
+    CON_DELEGA_DI_INCASSO("Con delega di incasso"),
+    SENZA_CON_DELEGA_DI_INCASSO("Senza con delega di incasso");
 
     private String paymentModalityTradeUnion;
 
@@ -15,7 +15,7 @@ public enum PaymentModalityTradeUnionEnum {
     }
 
     public String getValue() {
-        return this.paymentModalityTradeUnion.toUpperCase();
+        return this.paymentModalityTradeUnion;
     }
 
     @JsonCreator

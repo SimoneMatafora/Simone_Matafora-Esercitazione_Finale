@@ -17,7 +17,7 @@ public enum SecurityExonerateLearnerCourseEnum {
     }
 
     public String getValue() {
-        return this.securityExonerate.toUpperCase();
+        return this.securityExonerate;
     }
 
     @JsonCreator

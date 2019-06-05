@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum SupplyModalityCourseEnum {
-    GRATUITA("gratuita"),
-    PAGAMENTO("pagamento");
+    GRATUITA("Gratuita"),
+    PAGAMENTO("Pagamento");
 
     private String supplyModality;
 
@@ -15,7 +15,7 @@ public enum SupplyModalityCourseEnum {
     }
 
     public String getValue() {
-        return this.supplyModality.toUpperCase();
+        return this.supplyModality;
     }
 
     @JsonCreator

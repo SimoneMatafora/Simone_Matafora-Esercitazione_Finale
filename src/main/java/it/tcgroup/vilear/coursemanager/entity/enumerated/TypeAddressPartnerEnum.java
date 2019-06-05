@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum TypeAddressPartnerEnum {
-    FATTURAZIONE("fatturazione"),
-    OPERATIVO("operativo");
+    FATTURAZIONE("Fatturazione"),
+    OPERATIVO("Operativo");
 
     private String addressType;
 
@@ -15,7 +15,7 @@ public enum TypeAddressPartnerEnum {
     }
 
     public String getValue() {
-        return this.addressType.toUpperCase();
+        return this.addressType;
     }
 
     @JsonCreator

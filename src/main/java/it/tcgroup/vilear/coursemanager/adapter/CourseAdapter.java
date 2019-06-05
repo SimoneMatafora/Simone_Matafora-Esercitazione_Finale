@@ -69,7 +69,6 @@ public class CourseAdapter {
         course.setCourseCode(courseRequest.getCourseCode());
         course.setCourseDescription(courseRequest.getCourseDescription());
         course.setCourseEndDate(courseRequest.getCourseEndDate());
-        //course.setCourseLogo(courseRequest.getCourseLogo());
         course.setCourseStartDate(courseRequest.getCourseStartDate());
         course.setCourseTitle(courseRequest.getCourseTitle());
         course.setCourseType(courseRequest.getCourseType());

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum CertificateTypeCourseEnum {
-    ATTESTATO_DI_FREQUENZA("attestato_di_frequenza"),
-    ATTESTATO_REGIONALE("attestato_regionale");
+    ATTESTATO_DI_FREQUENZA("Attestato di frequenza"),
+    ATTESTATO_REGIONALE("Attestato regionale");
 
     private String certificateType;
 
@@ -15,7 +15,7 @@ public enum CertificateTypeCourseEnum {
     }
 
     public String getValue() {
-        return this.certificateType.toUpperCase();
+        return this.certificateType;
     }
 
     @JsonCreator

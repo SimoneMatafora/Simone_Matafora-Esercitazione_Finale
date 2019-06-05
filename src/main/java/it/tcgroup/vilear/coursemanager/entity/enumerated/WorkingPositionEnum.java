@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum WorkingPositionEnum {
-    DIPENDENTE("fatturazione"),
-    COLLABORATORE("collaboratore");
+    DIPENDENTE("Fatturazione"),
+    COLLABORATORE("Collaboratore");
 
     private String workingPositionType;
 
@@ -15,7 +15,7 @@ public enum WorkingPositionEnum {
     }
 
     public String getValue() {
-        return this.workingPositionType.toUpperCase();
+        return this.workingPositionType;
     }
 
     @JsonCreator

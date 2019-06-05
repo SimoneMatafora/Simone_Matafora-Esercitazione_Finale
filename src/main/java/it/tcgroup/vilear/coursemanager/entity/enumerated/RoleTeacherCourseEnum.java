@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum RoleTeacherCourseEnum {
-    CODOCENTE("codocente"),
-    DOCENTE("docente"),
-    DOCENTE_SINDACALE("docente_sindacale"),
-    DOCENZA_INTERNA("docenza_interna"),
-    MENTOR("mentor"),
-    TUTOR("tutor");
+    CODOCENTE("Codocente"),
+    DOCENTE("Docente"),
+    DOCENTE_SINDACALE("Docente sindacale"),
+    DOCENZA_INTERNA("Docenza interna"),
+    MENTOR("Mentor"),
+    TUTOR("Tutor");
 
     private String role;
 
@@ -19,7 +19,7 @@ public enum RoleTeacherCourseEnum {
     }
 
     public String getValue() {
-        return this.role.toUpperCase();
+        return this.role;
     }
 
     @JsonCreator

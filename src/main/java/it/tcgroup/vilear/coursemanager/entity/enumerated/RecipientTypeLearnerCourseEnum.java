@@ -5,39 +5,39 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum RecipientTypeLearnerCourseEnum {
-    A("a"),
-    B("b"),
-    B1("b1"),
-    B2("b2"),
-    B3("b3"),
-    C("c"),
-    C1("c1"),
-    C2("c2"),
-    C3("c3"),
-    D("d"),
-    E("e"),
-    F1("f1"),
-    F2("f2"),
-    F3("f3"),
-    F4("f4"),
-    F5("f5"),
-    F6("f6"),
-    FIORISA_BRUZZESE("fiorisa_bruzzese"),
-    IA("ia"),
-    IB("ib"),
-    IC("ic"),
-    ID("id"),
-    IE("ie"),
-    IF("if"),
-    O1("o1"),
-    OG("og"),
-    PA("pa"),
-    PB("pb"),
-    PC("pc"),
-    PD("pd"),
-    PE("pe"),
-    PF("pf"),
-    TI("ti");
+    A("A"),
+    B("B"),
+    B1("B1"),
+    B2("B2"),
+    B3("B3"),
+    C("C"),
+    C1("C1"),
+    C2("C2"),
+    C3("C3"),
+    D("D"),
+    E("E"),
+    F1("F1"),
+    F2("F2"),
+    F3("F3"),
+    F4("F4"),
+    F5("F5"),
+    F6("F6"),
+    FIORISA_BRUZZESE("Fiorisa bruzzese"),
+    IA("Ia"),
+    IB("Ib"),
+    IC("Ic"),
+    ID("Id"),
+    IE("Ie"),
+    IF("If"),
+    O1("O1"),
+    OG("Og"),
+    PA("PA"),
+    PB("PB"),
+    PC("PC"),
+    PD("PD"),
+    PE("PE"),
+    PF("PF"),
+    TI("TI");
 
     private String recipientCode;
 
@@ -46,7 +46,7 @@ public enum RecipientTypeLearnerCourseEnum {
     }
 
     public String getValue() {
-        return this.recipientCode.toUpperCase();
+        return this.recipientCode;
     }
 
     @JsonCreator

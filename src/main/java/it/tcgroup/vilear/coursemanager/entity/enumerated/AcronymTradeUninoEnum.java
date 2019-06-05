@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum AcronymTradeUninoEnum {
-    SVOLTA_DA_APL_DISD_OOSS("svolta da ApL/Disd. OOSS"),
-    SVOLTA_DA_APL_DISD_APL("svolta da ApL/Disd. ApL"),
-    FELSA_CISL("felsa cisl"),
-    NIDIL_CGIL("nidil cgil"),
-    UILTEMP("uiltemp");
+    SVOLTA_DA_APL_DISD_OOSS("Svolta da ApL/Disd. OOSS"),
+    SVOLTA_DA_APL_DISD_APL("Svolta da ApL/Disd. ApL"),
+    FELSA_CISL("Felsa CISL"),
+    NIDIL_CGIL("Nidil CGIL"),
+    UILTEMP("Uiltemp");
 
     private String acronymTradeUnino;
 

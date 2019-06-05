@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum DegreeOfStudiesEnum {
-    ELEMENTARI("elementari"),
-    MEDIE("medie"),
-    DIPLOMA("diploma"),
-    LAUREA_PRIMO_LIVELLO("laurea_primo_livello"),
-    LAUREA_MAGISTRALE("laurea_magistrale"),
-    DOTTORATO("dottorato"),
-    MASTER("master");
+    ELEMENTARI("Elementari"),
+    MEDIE("Medie"),
+    DIPLOMA("Diploma"),
+    LAUREA_PRIMO_LIVELLO("Laurea primo livello"),
+    LAUREA_MAGISTRALE("Laurea magistrale"),
+    DOTTORATO("Dottorato"),
+    MASTER("Master");
 
     private String tipoDiStudio;
 
     DegreeOfStudiesEnum(String tipoDiStudio){ this.tipoDiStudio = tipoDiStudio;}
 
     public String getValue() {
-        return this.tipoDiStudio.toUpperCase();
+        return this.tipoDiStudio;
     }
 
     @JsonCreator

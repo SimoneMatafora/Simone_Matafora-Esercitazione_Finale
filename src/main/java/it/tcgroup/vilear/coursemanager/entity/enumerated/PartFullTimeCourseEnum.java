@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum PartFullTimeCourseEnum {
-    PART_TIME("part_time"),
-    FULL_TIME("full_time");
+    PART_TIME("Part time"),
+    FULL_TIME("Full time");
 
     private String partFullTime;
 
@@ -15,7 +15,7 @@ public enum PartFullTimeCourseEnum {
     }
 
     public String getValue() {
-        return this.partFullTime.toUpperCase();
+        return this.partFullTime;
     }
 
     @JsonCreator

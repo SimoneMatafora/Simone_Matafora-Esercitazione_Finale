@@ -15,7 +15,7 @@ public enum PaymentModalityEnum {
     }
 
     public String getValue() {
-        return this.paymentModality.toUpperCase();
+        return this.paymentModality;
     }
 
     @JsonCreator

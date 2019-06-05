@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum StatusTeacherPartnerEnum {
-    DIPENDENTE("dipendente"),
-    COLLABORATORE("collaboratore"),
-    SOMMINISTRATO("somministrato");
+    DIPENDENTE("Dipendente"),
+    COLLABORATORE("Collaboratore"),
+    SOMMINISTRATO("Somministrato");
 
     private String status;
 
@@ -16,7 +16,7 @@ public enum StatusTeacherPartnerEnum {
     }
 
     public String getValue() {
-        return this.status.toUpperCase();
+        return this.status;
     }
 
     @JsonCreator

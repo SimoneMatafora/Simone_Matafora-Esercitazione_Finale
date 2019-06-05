@@ -18,7 +18,7 @@ public enum LearnerTypeCourseEnum {
     }
 
     public String getValue() {
-        return this.learnerType.toUpperCase();
+        return this.learnerType;
     }
 
     @JsonCreator

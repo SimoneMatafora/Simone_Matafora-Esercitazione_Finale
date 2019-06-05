@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum SupplyServicePartnerCourseEnum {
-    DOCENZA("docenza"),
-    AULA("aula"),
-    MANUALE_DIDATTICO("manuale_didattico"),
-    PROGETTAZIONE("progettazione"),
-    PREPARAZIONE("preparazione"),
-    SEGRETERIA("segreteria"),
-    TUTORAGGIO("tutoraggio"),
-    MONITORAGGIO("monitoraggio");
+    DOCENZA("Docenza"),
+    AULA("Aula"),
+    MANUALE_DIDATTICO("Manuale didattico"),
+    PROGETTAZIONE("Progettazione"),
+    PREPARAZIONE("Preparazione"),
+    SEGRETERIA("Segreteria"),
+    TUTORAGGIO("Tutoraggio"),
+    MONITORAGGIO("Monitoraggio");
 
     private String supplyService;
 
@@ -21,7 +21,7 @@ public enum SupplyServicePartnerCourseEnum {
     }
 
     public String getValue() {
-        return this.supplyService.toUpperCase();
+        return this.supplyService;
     }
 
     @JsonCreator

@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum FoundsTypeCourseEnum {
-    FONDI_EUROPEI("fondi_europei"),
-    FONDI_INTERPROFESSIONALI("fondi_interprofessionali"),
-    FONDI_PROVINCIALI("fondi_provinciali"),
-    FONDI_REGIONALI("fondi_regionali"),
-    FORMATEMP("formatemp");
+    FONDI_EUROPEI("Fondi europei"),
+    FONDI_INTERPROFESSIONALI("Fondi interprofessionali"),
+    FONDI_PROVINCIALI("Fondi provinciali"),
+    FONDI_REGIONALI("Fondi regionali"),
+    FORMATEMP("Formatemp");
 
     private String foundsType;
 
@@ -18,7 +18,7 @@ public enum FoundsTypeCourseEnum {
     }
 
     public String getValue() {
-        return this.foundsType.toUpperCase();
+        return this.foundsType;
     }
 
     @JsonCreator

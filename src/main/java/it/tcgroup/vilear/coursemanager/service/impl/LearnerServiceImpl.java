@@ -15,6 +15,7 @@ import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.CandidateCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCourse;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerEMRepository;
@@ -315,21 +316,38 @@ public class LearnerServiceImpl implements LearnerService {
 
         LearnerEntity learner = optLearner.get();
         System.out.println("sono qui");
+
         if(learner.getName() != null && learner.getSurname() != null && learner.getDateOfBirth() != null &&
         learner.getBirthPlace() != null && learner.getFiscalCode() != null && learner.getEmail() != null &&
         learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getResidentialAddress() != null &&
         learner.getAttachments() != null) {
+
             System.out.println("sono qua");
             Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
             if (!courseOpt.isPresent())
                 throw new NotFoundException("Course with id " + idCourse + " not found");
+
             CourseEntity course = courseOpt.get();
-            if(course.getRecipientManagment() == null)
+
+            /*if(course.getRecipientManagment() == null)
                 course.setRecipientManagment(new ArrayList<>());
+
             RecipientManagmentCourse recipientManagmentCourse = new RecipientManagmentCourse();
             recipientManagmentCourse.setLearner(learnerAdapter.adptLearnerToLearnerDto(learner));
-            course.getRecipientManagment().add(recipientManagmentCourse);
+            course.getRecipientManagment().add(recipientManagmentCourse);*/
+
+            if(course.getCandidateCourseList() == null)
+                course.setCandidateCourseList(new ArrayList<>());
+
+            CandidateCourse candidate = new CandidateCourse();
+            candidate.setId(learner.getId());
+            candidate.setName(learner.getName());
+            candidate.setSurname(learner.getSurname());
+            candidate.setAccepted(false);
+            course.getCandidateCourseList().add(candidate);
+
             courseRepository.save(course);
+
             return true;
         }
         return false;
