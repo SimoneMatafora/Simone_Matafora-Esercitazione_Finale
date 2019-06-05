@@ -248,7 +248,7 @@ public class CourseRequestV1 {
     @JsonProperty( "candidates")
     private List<CandidateCourseRequestV1> candidateList;
 
-    @JsonProperty( "recipient_managment")
+    @JsonProperty( "learners")
     private List<RecipientManagmentCourseRequestV1> recipientManagment;
 
     @JsonProperty( "partners")
@@ -571,7 +571,7 @@ public class CourseRequestV1 {
 
     public static class RecipientManagmentCourseRequestV1{
 
-        @JsonProperty("learner")
+        @JsonProperty("learner_info")
         private LearnerRequestDtoV1 learner;
 
         @JsonProperty("recipient_code")

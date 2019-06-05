@@ -39,6 +39,9 @@ public class CourseAdapter {
     @Autowired
     private TeacherCourseAdapter teacherCourseAdapter;
 
+    @Autowired
+    private CandidateCourseAdapter candidateCourseAdapter;
+
     public CourseEntity adptCourseRequestToCourse(CourseRequestV1 courseRequest) throws IOException {
 
         if(courseRequest == null)
@@ -120,6 +123,7 @@ public class CourseAdapter {
         course.setStatus(courseRequest.getStatus());
         course.setInvoiceAuthorization(courseRequest.getInvoiceAuthorization());
         course.setAccountingCode(courseRequest.getAccountingCode());
+        course.setCandidateCourseList(candidateCourseAdapter.adptCandidateCourseRequestToCandidateCourse(courseRequest.getCandidateList()));
 
         return course;
     }
@@ -217,6 +221,7 @@ public class CourseAdapter {
         courseResponse.setStatus(course.getStatus());
         courseResponse.setInvoiceAuthorization(course.getInvoiceAuthorization());
         courseResponse.setAccountingCode(course.getAccountingCode());
+        courseResponse.setCandidateList(candidateCourseAdapter.adptCandidateCourseToCandidateCourseResponse(course.getCandidateCourseList()));
 
         return courseResponse;
     }
