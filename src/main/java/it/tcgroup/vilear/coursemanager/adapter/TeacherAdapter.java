@@ -56,8 +56,11 @@ public class TeacherAdapter {
 
             Attachment curriculum = null;
 
+            if (teacherInsertRequest.getCurriculum() != null &&
+                teacherInsertRequest.getCurriculum().getFileContent() != null &&
+                !teacherInsertRequest.getCurriculum().getFileContent().isEmpty()) {
 
-            if (teacherInsertRequest.getCurriculum() != null) {
+                System.out.println("sono qui");
 
                 UploadRequestV1 request = teacherInsertRequest.getCurriculum();
                 request.setResourceId(teacherInsertRequest.getId());

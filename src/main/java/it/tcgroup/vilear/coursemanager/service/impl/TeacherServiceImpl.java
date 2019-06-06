@@ -108,7 +108,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacher.setAccreditedFtCode(teacherUpdate.getAccreditedFtCode());
         teacher.setFiscalCode(teacherUpdate.getFiscalCode());
         teacher.setSurname(teacherUpdate.getSurname());
-        //teacher.setCurriculumVitae(teacherUpdate.getCurriculumVitae());
+        teacher.setCurriculumVitae(teacherUpdate.getCurriculumVitae());
         teacher.setDateOfBirth(teacherUpdate.getDateOfBirth());
         teacher.setPublicEmployee(teacherUpdate.getPublicEmployee());
         teacher.setEmail(teacherUpdate.getEmail());

@@ -57,9 +57,13 @@ public class LearnerAdapter {
 
                 for (UploadRequestV1 att : learnerInsertRequest.getAttachments() ) {
 
-                    att.setResourceId(learnerInsertRequest.getId());
-                    UploadResponseV1 response = filemanagerService.uploadFile(att);
-                    attachmentList.add(attachmentAdapter.adptUploadResponseToAttachment(response));
+                    if (att.getFileContent() != null &&
+                        !att.getFileContent().isEmpty()) {
+
+                        att.setResourceId(learnerInsertRequest.getId());
+                        UploadResponseV1 response = filemanagerService.uploadFile(att);
+                        attachmentList.add(attachmentAdapter.adptUploadResponseToAttachment(response));
+                    }
                 }
             }
 
@@ -74,6 +78,7 @@ public class LearnerAdapter {
             learner.setCourseOfStudy(learnerInsertRequest.getCourseOfStudy());
             learner.setNote(learnerInsertRequest.getNote());
             learner.setPhone(learnerInsertRequest.getPhone());
+
             if(learnerInsertRequest.getId() != null)
                 learner.setId(UUID.fromString(learnerInsertRequest.getId()));
             learner.setResidentialAddress(residentialAddress);
