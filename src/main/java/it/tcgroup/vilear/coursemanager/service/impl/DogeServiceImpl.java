@@ -25,6 +25,7 @@ import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PartnerCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.PlacementCourse;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.TeacherCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.partner.AddressPartner;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
@@ -705,14 +706,19 @@ public class DogeServiceImpl implements DogeService {
 
 
     public DogeResponseV1 firstRegister(CourseEntity courseEntity, String numPages) throws Exception{
+
         DogeRequestV1 dogeRequestV1 = new DogeRequestV1();
         Map<String, Object> requestMap = new HashMap<>();
+
         if(courseEntity.getCourseTitle() != null)
             requestMap.put("project_title", courseEntity.getCourseTitle());
+
         if(courseEntity.getCourseType() != null)
             requestMap.put("project_type", courseEntity.getCourseType().getValue());
+
         if(courseEntity.getTotalHours() != null)
-        requestMap.put("project_hour", courseEntity.getTotalHours().toString());
+            requestMap.put("project_hour", courseEntity.getTotalHours().toString());
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null) {
             String period = "dal " + simpleDateFormat.format(courseEntity.getCourseStartDate()) + " al " + simpleDateFormat.format(courseEntity.getCourseEndDate());
@@ -749,6 +755,7 @@ public class DogeServiceImpl implements DogeService {
                 }
             }
         }
+
         if(courseEntity.getCourseCode() != null) {
             requestMap.put("project_code", courseEntity.getCourseCode());
             requestMap.put("project_code_2", courseEntity.getCourseCode());
@@ -770,7 +777,8 @@ public class DogeServiceImpl implements DogeService {
                 i++;
             }
         }
-        if(courseEntity.getPlacementList() != null){
+
+        /*if(courseEntity.getPlacementList() != null){
             int i=1;
             for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
                 if(placementCourse.getLearner() != null) {
@@ -781,12 +789,32 @@ public class DogeServiceImpl implements DogeService {
                     requestMap.put(surname, learnerSurname);
                     String name = "s_name_" + i;
                     requestMap.put(name, learnerName);
-                    String fiscal_code = "fiscal_code" + i;
+                    String fiscal_code = "fiscal_code_" + i;
                     requestMap.put(fiscal_code, learnerFiscalCode);
                     i++;
                 }
             }
         }
+*/
+        if(courseEntity.getRecipientManagment() != null){
+            int i=1;
+            for(RecipientManagmentCourse recipientManagment : courseEntity.getRecipientManagment()){
+                if(recipientManagment.getLearner() != null) {
+                    String learnerSurname = recipientManagment.getLearner().getSurname();
+                    String learnerName = recipientManagment.getLearner().getName();
+                    String learnerFiscalCode = recipientManagment.getLearner().getFiscalCode();
+                    String surname = "s_surname_" + i;
+                    requestMap.put(surname, learnerSurname);
+                    String name = "s_name_" + i;
+                    requestMap.put(name, learnerName);
+                    String fiscal_code = "fiscal_code_" + i;
+                    requestMap.put(fiscal_code, learnerFiscalCode);
+                    i++;
+                }
+            }
+        }
+
+
         requestMap.put("num_pages", numPages);
         dogeRequestV1.setData(requestMap);
         dogeRequestV1.setFilename("Registro-Didattico-"+courseEntity.getCourseCode()+"-First.pdf");
@@ -970,12 +998,16 @@ public class DogeServiceImpl implements DogeService {
 
     @Override
     public List<DogeResponseV1> register(UUID idCourse) throws Exception{
+
         List<DogeResponseV1> dogeResponseV1List = new LinkedList<>();
         Optional<CourseEntity> courseEntityOptional = courseRepository.findById(idCourse);
+
         if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
         CourseEntity courseEntity = courseEntityOptional.get();
+
         int numPages = 11;
         if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null) {
+
             boolean finish = false;
             String start = courseEntity.getCourseStartDate().toString();
             Date endDate = courseEntity.getCourseEndDate();
@@ -987,6 +1019,7 @@ public class DogeServiceImpl implements DogeService {
             Integer numPage = 4;
 
             while(!finish) {
+
                 List<String> holidays = holidays(calendar.get(Calendar.YEAR));
                     if(!simpleDateFormat2.format(calendar.getTime()).equalsIgnoreCase("sab") && !simpleDateFormat2.format(calendar.getTime()).equalsIgnoreCase("dom") && !holidays.contains(sdf.format(calendar.getTime()))) {
                     int giorno = calendar.get(Calendar.DAY_OF_MONTH);
