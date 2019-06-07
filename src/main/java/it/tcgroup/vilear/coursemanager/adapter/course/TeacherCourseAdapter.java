@@ -45,6 +45,7 @@ public class TeacherCourseAdapter {
                 UploadResponseV1 response = filemanagerService.uploadFile(request);
                 learnerJudgementForm = attachmentAdapter.adptUploadResponseToAttachment(response);
             }
+
         }
 
         Attachment tradeUninoTeachingLetter = null;
@@ -59,7 +60,7 @@ public class TeacherCourseAdapter {
         }
 
 
-        teacherCourse.setAcronymTradeUnino(teacherCourseRequest.getAcronymTradeUnino());
+        teacherCourse.setAcronymTradeUnino(teacherCourseRequest.getAcronymTradeUnion());
         teacherCourse.setGrossHourlyCost(teacherCourseRequest.getGrossHourlyCost());
         teacherCourse.setHoursTeachingLetterAssignment(teacherCourseRequest.getHoursTeachingLetterAssignment());
         teacherCourse.setLearnerJudgementForm(learnerJudgementForm);

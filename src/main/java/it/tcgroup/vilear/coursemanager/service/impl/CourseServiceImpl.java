@@ -102,7 +102,6 @@ public class CourseServiceImpl implements CourseService {
             if (!this.checkDateDifference(course.getExpiredReportingDate(),course.getCourseEndDate(),60))
                 throw new BadRequestException("ExpiredReportingDate bad request.");
 
-
             if( course.getAmountFinSecurityCapital()!=null && course.getAmountAutorizedFT()!=null && course.getTotalHours()!=null){
                 if(course.getTotalHours().equals(0.0))
                     throw new BadRequestException("Total hours is zero. Impossibile to divide");
@@ -154,7 +153,7 @@ public class CourseServiceImpl implements CourseService {
                     totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
                             + course.getVisitHours() + course.getSkilsAnalysisHours();
                     if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
-                        throw new BadRequestException("TotalHours bad request. Incorrect total hours");
+                        throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
                 }
             }
 
@@ -234,7 +233,6 @@ public class CourseServiceImpl implements CourseService {
                 throw new BadRequestException("SendedEletronicReportingDate bad request.");
             if (!this.checkDateDifference(courseUpdateRequest.getExpiredReportingDate(),courseUpdateRequest.getCourseEndDate(),60))
                 throw new BadRequestException("ExpiredReportingDate bad request.");
-
 
             if( courseUpdateRequest.getAmountFinSecurityCapital()!=null && courseUpdateRequest.getAmountAutorizedFT()!=null && courseUpdateRequest.getTotalHours()!=null){
                 if(courseUpdateRequest.getTotalHours().equals(0.0))
@@ -377,7 +375,7 @@ public class CourseServiceImpl implements CourseService {
                 totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
                         + course.getVisitHours() + course.getSkilsAnalysisHours();
                 if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
-                    throw new BadRequestException("TotalHours bad request. Incorrect total hours");
+                    throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
             }
         }
 
@@ -653,7 +651,7 @@ public class CourseServiceImpl implements CourseService {
                     totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
                             + course.getVisitHours() + course.getSkilsAnalysisHours();
                     if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
-                        throw new BadRequestException("TotalHours bad request. Incorrect total hours");
+                        throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
                 }
             }
 
@@ -904,6 +902,7 @@ public class CourseServiceImpl implements CourseService {
                 } else
                     necessaryHours = necessaryHours - 2.8 + 3.6;
             }
+            System.out.println("ore necessarie = " + necessaryHours);
             if (Math.abs(recipient.getNecessaryHours() - necessaryHours) >= 0.01)
                 throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
 

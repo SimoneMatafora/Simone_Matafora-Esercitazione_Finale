@@ -820,7 +820,7 @@ public class CourseResponseV1 {
         private Attachment learnerJudgementForm;
 
         @JsonProperty("acronym_trade_unino")
-        private String acronymTradeUnino;
+        private AcronymTradeUninoEnum acronymTradeUnino;
 
         @JsonProperty("payment_modality_trade_union_teaching")
         private PaymentModalityTradeUnionEnum paymentModalityTradeUnion;
@@ -829,7 +829,7 @@ public class CourseResponseV1 {
         public TeacherCourseResponseV1() {
         }
 
-        public TeacherCourseResponseV1(TeacherResponseV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, Attachment tradeUninoTeachingLetter, Attachment learnerJudgementForm, String acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
+        public TeacherCourseResponseV1(TeacherResponseV1 teacher, RoleTeacherCourseEnum role, WorkingPositionEnum workingPosition, Double grossHourlyCost, PaymentModalityEnum paymentModality, Double netHourlyCost, Boolean main, Double hoursTeachingLetterAssignment, Double totalHoursPerformed, Attachment tradeUninoTeachingLetter, Attachment learnerJudgementForm, AcronymTradeUninoEnum acronymTradeUnino, PaymentModalityTradeUnionEnum paymentModalityTradeUnion) {
             this.teacher = teacher;
             this.role = role;
             this.workingPosition = workingPosition;
@@ -925,12 +925,8 @@ public class CourseResponseV1 {
             this.learnerJudgementForm = learnerJudgementForm;
         }
 
-        public String getAcronymTradeUnino() {
+        public AcronymTradeUninoEnum getAcronymTradeUnino() {
             return acronymTradeUnino;
-        }
-
-        public void setAcronymTradeUnino(AcronymTradeUninoEnum acronymTradeUnino) {
-            this.acronymTradeUnino = acronymTradeUnino.getValue();
         }
 
         public PaymentModalityTradeUnionEnum getPaymentModalityTradeUnion() {
@@ -949,7 +945,7 @@ public class CourseResponseV1 {
             this.workingPosition = workingPosition;
         }
 
-        public void setAcronymTradeUnino(String acronymTradeUnino) {
+        public void setAcronymTradeUnino(AcronymTradeUninoEnum acronymTradeUnino) {
             this.acronymTradeUnino = acronymTradeUnino;
         }
 

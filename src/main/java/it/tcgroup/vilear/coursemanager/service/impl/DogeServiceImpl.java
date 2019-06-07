@@ -778,24 +778,6 @@ public class DogeServiceImpl implements DogeService {
             }
         }
 
-        /*if(courseEntity.getPlacementList() != null){
-            int i=1;
-            for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
-                if(placementCourse.getLearner() != null) {
-                    String learnerSurname = placementCourse.getLearner().getSurname();
-                    String learnerName = placementCourse.getLearner().getName();
-                    String learnerFiscalCode = placementCourse.getLearner().getFiscalCode();
-                    String surname = "s_surname_" + i;
-                    requestMap.put(surname, learnerSurname);
-                    String name = "s_name_" + i;
-                    requestMap.put(name, learnerName);
-                    String fiscal_code = "fiscal_code_" + i;
-                    requestMap.put(fiscal_code, learnerFiscalCode);
-                    i++;
-                }
-            }
-        }
-*/
         if(courseEntity.getRecipientManagment() != null){
             int i=1;
             for(RecipientManagmentCourse recipientManagment : courseEntity.getRecipientManagment()){
