@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum LearnerTypeCourseEnum {
-    DIPENDENTI("dipendenti"),
-    DISOCCUPATI("disoccupati"),
-    SOMMINISTRATO("somministrato"),
-    INOCCUPATO("inoccupato"),
-    MISTO("misto");
+    DIPENDENTI("Dipendenti"),
+    DISOCCUPATI("Disoccupati"),
+    SOMMINISTRATO("Somministrato"),
+    INOCCUPATO("Inoccupato"),
+    MISTO("Misto");
 
     private String learnerType;
 

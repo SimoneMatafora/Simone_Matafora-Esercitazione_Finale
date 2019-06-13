@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 
 public enum PaymentModalityEnum {
-    BONIFICO("bonifico"),
-    CONTANTI("contanti");
+    BONIFICO("Bonifico"),
+    CONTANTI("Contanti");
 
     private String paymentModality;
 
