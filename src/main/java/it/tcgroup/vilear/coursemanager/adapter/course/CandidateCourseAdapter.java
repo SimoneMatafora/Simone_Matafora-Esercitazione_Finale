@@ -21,6 +21,8 @@ public class CandidateCourseAdapter {
         candidateCourse.setName(candidateCourseRequest.getName());
         candidateCourse.setSurname(candidateCourseRequest.getSurname());
         candidateCourse.setAccepted(candidateCourseRequest.getAccepted());
+        candidateCourse.setFiscalCode(candidateCourseRequest.getFiscalCode());
+        candidateCourse.setCandidated(candidateCourseRequest.getCandidated());
 
         return candidateCourse;
     }
@@ -50,6 +52,8 @@ public class CandidateCourseAdapter {
         candidateCourseResponse.setName(candidateCourse.getName());
         candidateCourseResponse.setSurname(candidateCourse.getSurname());
         candidateCourseResponse.setAccepted(candidateCourse.getAccepted());
+        candidateCourseResponse.setFiscalCode(candidateCourse.getFiscalCode());
+        candidateCourseResponse.setCandidated(candidateCourse.getCandidated());
 
         return candidateCourseResponse;
     }

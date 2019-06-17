@@ -189,6 +189,7 @@ public class CourseServiceImpl implements CourseService {
                 course.setRecipientManagment(recipientList);
             }
 
+            course.setStatus(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE);
             courseRepository.save(course);
 
             return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -264,6 +265,7 @@ public class CourseServiceImpl implements CourseService {
                 course.setCourseLogo(attachmentAdapter.adptUploadResponseToAttachment(response));
             }
         }
+
         course.setActuatorSubject(courseUpdate.getActuatorSubject());
         course.setAfternoonEndHour(courseUpdate.getAfternoonEndHour());
         course.setAfternoonStartHour(courseUpdate.getAfternoonStartHour());
@@ -386,16 +388,19 @@ public class CourseServiceImpl implements CourseService {
                 throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
         }
 
-        if(course.getCandidateCourseList() != null && !course.getCandidateCourseList().isEmpty()){
 
-            List<RecipientManagmentCourse> recipientList = course.getRecipientManagment();
+        course.setRecipientManagment(courseUpdate.getRecipientManagment());
+
+        if(courseUpdate.getCandidateCourseList() != null && !courseUpdate.getCandidateCourseList().isEmpty()){
+
+            List<RecipientManagmentCourse> recipientList = courseUpdate.getRecipientManagment();
 
             if(recipientList == null)
                 recipientList = new ArrayList<>();
 
-            for(CandidateCourse att : course.getCandidateCourseList()){
+            for(CandidateCourse att : courseUpdate.getCandidateCourseList()){
 
-                if(att.getAccepted()){
+                if(att.getAccepted() && !att.getCandidated()){
 
                     Optional<LearnerEntity> optLearner = learnerRepository.findById(att.getId());
                     if(optLearner.isPresent()){
@@ -403,10 +408,14 @@ public class CourseServiceImpl implements CourseService {
                         RecipientManagmentCourse recipient = new RecipientManagmentCourse();
                         recipient.setLearner(learnerAdapter.adptLearnerToLearnerDto(optLearner.get()));
                         recipientList.add(recipient);
+                        att.setCandidated(true);
 
                     }
                 }
             }
+
+            course.setCandidateCourseList(courseUpdate.getCandidateCourseList());
+            course.setRecipientManagment((recipientList));
         }
 
         courseRepository.save(course);

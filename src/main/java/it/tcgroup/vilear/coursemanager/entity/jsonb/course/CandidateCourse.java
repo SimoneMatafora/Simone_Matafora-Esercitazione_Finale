@@ -16,8 +16,14 @@ public class CandidateCourse implements Serializable {
     @JsonProperty("surname")
     private String surname;
 
+    @JsonProperty("fiscal_code")
+    private String fiscalCode;
+
     @JsonProperty("accepted")
     private Boolean accepted;
+
+    @JsonProperty("candidated")
+    private Boolean candidated;
 
     public CandidateCourse() {
     }
@@ -61,13 +67,35 @@ public class CandidateCourse implements Serializable {
         this.accepted = accepted;
     }
 
+    public String getFiscalCode() {
+        return fiscalCode;
+    }
+
+    public void setFiscalCode(String fiscalCode) {
+        this.fiscalCode = fiscalCode;
+    }
+
+    public Boolean getCandidated() {
+        return candidated;
+    }
+
+    public void setCandidated(Boolean candidated) {
+
+        if(candidated == null)
+            candidated = false;
+
+        this.candidated = candidated;
+    }
+
     @Override
     public String toString() {
         return "CandidateCourse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", fiscalCode='" + fiscalCode + '\'' +
                 ", accepted=" + accepted +
+                ", candidated=" + candidated +
                 '}';
     }
 }

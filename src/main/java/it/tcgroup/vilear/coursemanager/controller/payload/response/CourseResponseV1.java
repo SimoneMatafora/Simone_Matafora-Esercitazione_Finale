@@ -311,17 +311,25 @@ public class CourseResponseV1 {
         @JsonProperty("surname")
         private String surname;
 
+        @JsonProperty("fiscal_code")
+        private String fiscalCode;
+
         @JsonProperty("accepted")
         private Boolean accepted;
+
+        @JsonProperty("candidated")
+        private Boolean candidated;
 
         public CandidateCourseResponseV1() {
         }
 
-        public CandidateCourseResponseV1(UUID id, String name, String surname, Boolean accepted) {
+        public CandidateCourseResponseV1(UUID id, String name, String surname, String fiscalCode, Boolean accepted, Boolean candidated) {
             this.id = id;
             this.name = name;
             this.surname = surname;
+            this.fiscalCode = fiscalCode;
             this.accepted = accepted;
+            this.candidated = candidated;
         }
 
         public UUID getId() {
@@ -356,13 +364,31 @@ public class CourseResponseV1 {
             this.accepted = accepted;
         }
 
+        public String getFiscalCode() {
+            return fiscalCode;
+        }
+
+        public void setFiscalCode(String fiscalCode) {
+            this.fiscalCode = fiscalCode;
+        }
+
+        public Boolean getCandidated() {
+            return candidated;
+        }
+
+        public void setCandidated(Boolean candidated) {
+            this.candidated = candidated;
+        }
+
         @Override
         public String toString() {
             return "CandidateCourseResponseV1{" +
                     "id=" + id +
                     ", name='" + name + '\'' +
                     ", surname='" + surname + '\'' +
+                    ", fiscalCode='" + fiscalCode + '\'' +
                     ", accepted=" + accepted +
+                    ", candidated=" + candidated +
                     '}';
         }
     }
