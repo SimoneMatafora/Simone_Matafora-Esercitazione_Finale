@@ -165,7 +165,7 @@ public class CourseServiceImpl implements CourseService {
                         throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
                 }
 
-            if(course.getCandidateCourseList() != null && !course.getCandidateCourseList().isEmpty()){
+           /* if(course.getCandidateCourseList() != null && !course.getCandidateCourseList().isEmpty()){
 
                 List<RecipientManagmentCourse> recipientList = course.getRecipientManagment();
 
@@ -187,7 +187,7 @@ public class CourseServiceImpl implements CourseService {
                     }
                 }
                 course.setRecipientManagment(recipientList);
-            }
+            }*/
 
             course.setStatus(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE);
             courseRepository.save(course);
@@ -411,16 +411,47 @@ public class CourseServiceImpl implements CourseService {
                         att.setCandidated(true);
 
                     }
+                }else if(!att.getAccepted() && att.getCandidated()){
+
+                    course.getRecipientManagment().removeIf(learner -> learner.getLearner().getId().equalsIgnoreCase(att.getId().toString()));
+                    att.setCandidated(false);
+
                 }
             }
 
             course.setCandidateCourseList(courseUpdate.getCandidateCourseList());
             course.setRecipientManagment((recipientList));
+
+            for(CandidateCourse att : course.getCandidateCourseList()){
+
+                if(att.getCandidated() && att.getAccepted()){
+
+                    boolean idDeleted = true;
+
+                    Iterator<RecipientManagmentCourse> iterator = course.getRecipientManagment().iterator();
+
+                    while(iterator.hasNext() && idDeleted){
+
+                        RecipientManagmentCourse recipientManagment = iterator.next();
+
+                        if(recipientManagment.getLearner().getId().equalsIgnoreCase(att.getId().toString()))
+                            idDeleted = false;
+
+                    }
+
+                    if(idDeleted){
+                        att.setAccepted(false);
+                        att.setCandidated(false);
+                    }
+
+                }
+            }
+
         }
 
         courseRepository.save(course);
 
-            return courseAdapter.adptCourseToCourseResponse(course);
+        return courseAdapter.adptCourseToCourseResponse(course);
 
         } catch (IOException e) {
             throw new BadParametersException("ERROR Upload file");
@@ -445,10 +476,13 @@ public class CourseServiceImpl implements CourseService {
 
             if(coursePatch.getActuatorSubject() != null)
                 course.setActuatorSubject(coursePatch.getActuatorSubject());
+
             if(coursePatch.getAfternoonEndHour() != null)
                 course.setAfternoonEndHour(coursePatch.getAfternoonEndHour());
+
             if(coursePatch.getAfternoonStartHour() != null)
                 course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
+
             if(coursePatch.getAmountFinSecurityCapital () != null){
                 if(coursePatch.getAmountAutorizedFT()!=null && coursePatch.getTotalHours()!=null){
                     if(coursePatch.getTotalHours().equals(0.0))
@@ -463,36 +497,52 @@ public class CourseServiceImpl implements CourseService {
 
             if(coursePatch.getAmountAttendanceBenefits() != null)
                 course.setAmountAttendanceBenefits(coursePatch.getAmountAttendanceBenefits());
+
             if(coursePatch.getAmountAutorizedFT() != null)
                 course.setAmountAutorizedFT(coursePatch.getAmountAutorizedFT());
+
             if(coursePatch.getAmountAutorizedFTDate() != null)
                 course.setAmountAutorizedFTDate(coursePatch.getAmountAutorizedFTDate());
+
             if(coursePatch.getAmountReportFT() != null)
                 course.setAmountReportFT(coursePatch.getAmountReportFT());
+
             if(coursePatch.getAttendanceBenefits() != null)
                 course.setAttendanceBenefits(coursePatch.getAttendanceBenefits());
+
             if(coursePatch.getAutProgetctFTRealizedDate() != null)
                 course.setAutProgetctFTRealizedDate(coursePatch.getAutProgetctFTRealizedDate());
+
             if(coursePatch.getBusinessEmail() != null)
                 course.setBusinessEmail(coursePatch.getBusinessEmail());
+
             if(coursePatch.getBusinessName() != null)
                 course.setBusinessName(coursePatch.getBusinessName());
+
             if(coursePatch.getCertificateTypeCourse() != null)
                 course.setCertificateTypeCourse(coursePatch.getCertificateTypeCourse());
+
             if(coursePatch.getCoachingHours() != null)
                 course.setCoachingHours(coursePatch.getCoachingHours());
+
             if(coursePatch.getCommercialTaxableCommunicationDate() != null)
                 course.setCommercialTaxableCommunicationDate(coursePatch.getCommercialTaxableCommunicationDate());
+
             if(coursePatch.getContentsArea() != null)
                 course.setContentsArea(coursePatch.getContentsArea());
+
             if(coursePatch.getCosts() != null)
                 course.setCosts(coursePatch.getCosts());
+
             if(coursePatch.getCourseCode() != null)
                 course.setCourseCode(coursePatch.getCourseCode());
+
             if(coursePatch.getCourseDescription() != null)
                 course.setCourseDescription(coursePatch.getCourseDescription());
+
             if(coursePatch.getCourseEndDate() != null)
                 course.setCourseEndDate(coursePatch.getCourseEndDate());
+
             if(coursePatch.getCourseLogo() != null&&
                courseUpdateRequest.getCourseLogo().getFileContent() != null &&
                !courseUpdateRequest.getCourseLogo().getFileContent().isEmpty()) {
@@ -502,59 +552,87 @@ public class CourseServiceImpl implements CourseService {
                 UploadResponseV1 response = filemanagerService.uploadFile(request);
                 course.setCourseLogo(attachmentAdapter.adptUploadResponseToAttachment(response));
             }
+
             if (coursePatch.getCourseStartDate() != null)
                 course.setCourseStartDate(coursePatch.getCourseStartDate());
+
             if (coursePatch.getCourseTitle() != null)
                 course.setCourseTitle(coursePatch.getCourseTitle());
+
             if (coursePatch.getCourseType() != null)
                 course.setCourseType(coursePatch.getCourseType());
+
             if (coursePatch.getDailyHours() != null)
                 course.setDailyHours(coursePatch.getDailyHours());
+
             if (coursePatch.getDailyRegister() != null)
                 course.setDailyRegister(coursePatch.getDailyRegister());
+
             if (coursePatch.getDeliveryDateInAdministration() != null)
                 course.setDeliveryDateInAdministration(coursePatch.getDeliveryDateInAdministration());
+
             if (coursePatch.getDisabled() != null)
                 course.setDisabled(coursePatch.getDisabled());
+
             /*if(coursePatch.getDocumentAttachment() != null)
                 course.setDocumentAttachment(coursePatch.getDocumentAttachment());*/
+
             if(coursePatch.getEducationalTargetDescription() != null)
                 course.setEducationalTargetDescription(coursePatch.getEducationalTargetDescription());
+
             if(coursePatch.getEntourageHours() != null)
                 course.setEntourageHours(coursePatch.getEntourageHours());
+
             if(coursePatch.getExpiredReportingDate() != null){
+
                 if (!this.checkDateDifference(coursePatch.getExpiredReportingDate(),coursePatch.getCourseEndDate(),60))
                     throw new BadRequestException("ExpiredReportingDate bad request.");
+
                 course.setExpiredReportingDate(coursePatch.getExpiredReportingDate());
             }
+
             if(coursePatch.getExternalReferenceCode() != null)
                 course.setExternalReferenceCode(coursePatch.getExternalReferenceCode());
+
             if(coursePatch.getFoundsTypeCourse() != null)
                 course.setFoundsTypeCourse(coursePatch.getFoundsTypeCourse());
+
             if(coursePatch.getHeadquatersCourse() != null)
                 course.setHeadquatersCourse(coursePatch.getHeadquatersCourse());
+
             if(coursePatch.getInvoiceAuthorizationDate() != null)
                 course.setInvoiceAuthorizationDate(coursePatch.getInvoiceAuthorizationDate());
+
             if(coursePatch.getIssueTicket() != null)
                 course.setIssueTicket(coursePatch.getIssueTicket());
+
             if(coursePatch.getLearnerType() != null)
                 course.setLearnerType(coursePatch.getLearnerType());
+
             if(coursePatch.getMinimumNumericOfParticipants() != null)
                 course.setMinimumNumericOfParticipants(coursePatch.getMinimumNumericOfParticipants());
+
             if(coursePatch.getMorningEndHour() != null)
                 course.setMorningEndHour(coursePatch.getMorningEndHour());
+
             if(coursePatch.getMorningStartHour() != null)
                 course.setMorningStartHour(coursePatch.getMorningStartHour());
+
             if(coursePatch.getNote() != null)
                 course.setNote(coursePatch.getNote());
+
             if(coursePatch.getOrenatationHours() != null)
                 course.setOrenatationHours(coursePatch.getOrenatationHours());
+
             if(coursePatch.getPartFullTimeCourse() != null)
                 course.setPartFullTimeCourse(coursePatch.getPartFullTimeCourse());
+
             if(coursePatch.getPartnerList() != null)
                 course.setPartnerList(coursePatch.getPartnerList());
+
             if(coursePatch.getPaymentModality() != null)
                 course.setPaymentModality(coursePatch.getPaymentModality());
+
             if(coursePatch.getPlacementList() != null){
                 if(!coursePatch.getPlacementList().isEmpty()) {
                     for (PlacementCourse placement : coursePatch.getPlacementList()) {
@@ -564,58 +642,86 @@ public class CourseServiceImpl implements CourseService {
                 }
                 course.setPlacementList(coursePatch.getPlacementList());
             }
+
             if(coursePatch.getPracticeHours() != null)
                 course.setPracticeHours(coursePatch.getPracticeHours());
+
             if(coursePatch.getReceiptFTConfirmationDate() != null)
                 course.setReceiptFTConfirmationDate(coursePatch.getReceiptFTConfirmationDate());
+
             if(coursePatch.getRecipient() != null)
                 course.setRecipient(coursePatch.getRecipient());
+
             if(coursePatch.getRecipientManagment() != null)
                 course.setRecipientManagment(coursePatch.getRecipientManagment());
+
             if(coursePatch.getReportNote() != null)
                 course.setReportNote(coursePatch.getReportNote());
+
             if(coursePatch.getSendedCanceledProjectDate() != null)
                 course.setSendedCanceledProjectDate(coursePatch.getSendedCanceledProjectDate());
+
             if(coursePatch.getSendedEletronicReportingDate() != null){
+
                 if (!this.checkDateDifference(coursePatch.getSendedEletronicReportingDate(),coursePatch.getDeliveryDateInAdministration(),60))
                     throw new BadRequestException("SendedEletronicReportingDate bad request.");
+
                 course.setSendedEletronicReportingDate(coursePatch.getSendedEletronicReportingDate());
             }
+
             if(coursePatch.getSendedLearnersFTDate() != null)
                 course.setSendedLearnersFTDate(coursePatch.getSendedLearnersFTDate());
+
             if(coursePatch.getSendedPaperReportingDate() != null){
+
                 if (!this.checkDateDifference(coursePatch.getSendedPaperReportingDate(),coursePatch.getCourseEndDate(),74))
                     throw new BadRequestException("SendedPaperReportingDate bad request.");
+
                 course.setSendedPaperReportingDate(coursePatch.getSendedPaperReportingDate());
             }
+
             if(coursePatch.getSendedProjectDate() != null)
                 course.setSendedProjectDate(coursePatch.getSendedProjectDate());
+
             if(coursePatch.getSkilsAnalysisHours() != null)
                 course.setSkilsAnalysisHours(coursePatch.getSkilsAnalysisHours());
+
             if(coursePatch.getSpecialInitiatives() != null)
                 course.setSpecialInitiatives(coursePatch.getSpecialInitiatives());
+
             if(coursePatch.getSupplyModality() != null)
                 course.setSupplyModality(coursePatch.getSupplyModality());
+
             if(coursePatch.getTeacherList() != null)
                 course.setTeacherList(coursePatch.getTeacherList());
+
             if(coursePatch.getTheoryHours() != null)
                 course.setTheoryHours(coursePatch.getTheoryHours());
+
             if(coursePatch.getTicketAmount() != null)
                 course.setTicketAmount(coursePatch.getTicketAmount());
+
             if(coursePatch.getNumberOfTickets() != null)
                 course.setNumberOfTickets(coursePatch.getNumberOfTickets());
+
             if(coursePatch.getTotalAmountWithoutFS() != null)
                 course.setTotalAmountWithoutFS(coursePatch.getTotalAmountWithoutFS());
+
             if(coursePatch.getTotalHours() != null)
                 course.setTotalHours(coursePatch.getTotalHours());
+
             if(coursePatch.getTotalHoursTraining() != null)
                 course.setTotalHoursTraining(coursePatch.getTotalHoursTraining());
+
             if(coursePatch.getTotalPartnerCost() != null)
                 course.setTotalPartnerCost(coursePatch.getTotalPartnerCost());
+
             if(coursePatch.getTotalPartnerCostOnPercent() != null)
                 course.setTotalPartnerCostOnPercent(coursePatch.getTotalPartnerCostOnPercent());
+
             if(coursePatch.getTradeUnionTeachingRequest() != null)
                 course.setTradeUnionTeachingRequest(coursePatch.getTradeUnionTeachingRequest());
+
             if(coursePatch.getVisitHours() != null)
                 course.setVisitHours(coursePatch.getVisitHours());
 
@@ -651,36 +757,44 @@ public class CourseServiceImpl implements CourseService {
             }
 
             if(course.getTotalHours() != null){
+
                 double totalHours;
+
                 if(course.getTheoryHours() == null || course.getPracticeHours() == null
                         || course.getCoachingHours() == null || course.getVisitHours() == null ||
                         course.getSkilsAnalysisHours() == null)
+
                     throw new BadRequestException("TotalHours bad request. Incorrect total hours");
+
                 else{
+
                     totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
                             + course.getVisitHours() + course.getSkilsAnalysisHours();
+
                     if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
                         throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
                 }
             }
 
             if(course.getTotalHoursTraining() != null){
+
                 if(course.getTotalHours() == null || (course.getRecipientManagment() == null && course.getTotalHoursTraining()!=0))
                     throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
+
                 if(Math.abs(course.getTotalHoursTraining() - course.getTotalHours() * course.getRecipientManagment().size()) >= 0.01)
                     throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
             }
 
-            if(course.getCandidateCourseList() != null && !course.getCandidateCourseList().isEmpty()){
+            if(coursePatch.getCandidateCourseList() != null && !coursePatch.getCandidateCourseList().isEmpty()){
 
-                List<RecipientManagmentCourse> recipientList = course.getRecipientManagment();
+                List<RecipientManagmentCourse> recipientList = coursePatch.getRecipientManagment();
 
                 if(recipientList == null)
                     recipientList = new ArrayList<>();
 
-                for(CandidateCourse att : course.getCandidateCourseList()){
+                for(CandidateCourse att : coursePatch.getCandidateCourseList()){
 
-                    if(att.getAccepted()){
+                    if(att.getAccepted() && !att.getCandidated()){
 
                         Optional<LearnerEntity> optLearner = learnerRepository.findById(att.getId());
                         if(optLearner.isPresent()){
@@ -688,10 +802,18 @@ public class CourseServiceImpl implements CourseService {
                             RecipientManagmentCourse recipient = new RecipientManagmentCourse();
                             recipient.setLearner(learnerAdapter.adptLearnerToLearnerDto(optLearner.get()));
                             recipientList.add(recipient);
+                            att.setCandidated(true);
 
                         }
+                    }else if(!att.getAccepted() && att.getCandidated()){
+
+                        course.getRecipientManagment().removeIf(learner -> learner.getLearner().getId().equalsIgnoreCase(att.getId().toString()));
+                        att.setCandidated(false);
                     }
                 }
+
+                course.setCandidateCourseList(coursePatch.getCandidateCourseList());
+                course.setRecipientManagment((recipientList));
             }
 
             courseRepository.save(course);
@@ -889,7 +1011,7 @@ public class CourseServiceImpl implements CourseService {
         if(recipient.getNecessaryHours() != null) {
 
             if (course.getTotalHours() == null)
-                throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
+                throw new BadRequestException("NecessaryHours bad request. Incorrect course total_hours");
 
             necessaryHours = course.getTotalHours() * 0.7;
             //se discente ha l'esonero sicurezza generale allora si sottraggono le 4 ore (2.8 = 70% di 4)
@@ -913,10 +1035,72 @@ public class CourseServiceImpl implements CourseService {
             }
             System.out.println("ore necessarie = " + necessaryHours);
             if (Math.abs(recipient.getNecessaryHours() - necessaryHours) >= 0.01)
-                throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours");
+                throw new BadRequestException("NecessaryHours bad request. Incorrect total necessaryHours, for learner with id:" + recipient.getLearner().getId() +", the necessary_hours must be equals to " + necessaryHours);
 
         }
 
         return true;
+    }
+
+    private CourseEntity checkCandidateLearner(CourseEntity course, CourseEntity courseUpdate){
+
+        if(courseUpdate.getCandidateCourseList() != null && !courseUpdate.getCandidateCourseList().isEmpty()){
+
+            List<RecipientManagmentCourse> recipientList = courseUpdate.getRecipientManagment();
+
+            if(recipientList == null)
+                recipientList = new ArrayList<>();
+
+            for(CandidateCourse att : courseUpdate.getCandidateCourseList()){
+
+                if(att.getAccepted() && !att.getCandidated()){
+
+                    Optional<LearnerEntity> optLearner = learnerRepository.findById(att.getId());
+                    if(optLearner.isPresent()){
+
+                        RecipientManagmentCourse recipient = new RecipientManagmentCourse();
+                        recipient.setLearner(learnerAdapter.adptLearnerToLearnerDto(optLearner.get()));
+                        recipientList.add(recipient);
+                        att.setCandidated(true);
+
+                    }
+                }else if(!att.getAccepted() && att.getCandidated()){
+
+                    course.getRecipientManagment().removeIf(learner -> learner.getLearner().getId().equalsIgnoreCase(att.getId().toString()));
+                    att.setCandidated(false);
+
+                }
+            }
+
+            course.setCandidateCourseList(courseUpdate.getCandidateCourseList());
+            course.setRecipientManagment((recipientList));
+
+            for(CandidateCourse att : course.getCandidateCourseList()){
+
+                if(att.getCandidated() && att.getAccepted()){
+
+                    boolean idDeleted = true;
+
+                    Iterator<RecipientManagmentCourse> iterator = course.getRecipientManagment().iterator();
+
+                    while(iterator.hasNext() && idDeleted){
+
+                        RecipientManagmentCourse recipientManagment = iterator.next();
+
+                        if(recipientManagment.getLearner().getId().equalsIgnoreCase(att.getId().toString()))
+                            idDeleted = false;
+
+                    }
+
+                    if(idDeleted){
+                        att.setAccepted(false);
+                        att.setCandidated(false);
+                    }
+
+                }
+            }
+        }
+
+        return course;
     }
 }

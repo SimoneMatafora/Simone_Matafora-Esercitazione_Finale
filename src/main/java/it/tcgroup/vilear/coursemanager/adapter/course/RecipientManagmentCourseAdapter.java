@@ -60,6 +60,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourse.setGeneralSecurityModule(recipientManagmentCourseRequest.getGeneralSecurityModule());
         recipientManagmentCourse.setSpecificSecurityModule(recipientManagmentCourseRequest.getSpecificSecurityModule());
         recipientManagmentCourse.setNumIssuedTickets(recipientManagmentCourseRequest.getNumIssuedTickets());
+        recipientManagmentCourse.setActualTrainingDays(recipientManagmentCourseRequest.getActualTrainingDays());
 
         return recipientManagmentCourse;
     }
@@ -99,6 +100,7 @@ public class RecipientManagmentCourseAdapter {
         recipientManagmentCourseResponse.setSpecificSecurityModule(recipientManagmentCourse.getSpecificSecurityModule());
 
         recipientManagmentCourseResponse.setNumIssuedTickets(recipientManagmentCourse.getNumIssuedTickets());
+        recipientManagmentCourseResponse.setActualTrainingDays(recipientManagmentCourse.getActualTrainingDays());
 
         return recipientManagmentCourseResponse;
 

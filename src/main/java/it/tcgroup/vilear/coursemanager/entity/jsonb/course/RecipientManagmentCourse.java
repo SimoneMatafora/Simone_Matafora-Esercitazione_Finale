@@ -60,6 +60,9 @@ public class RecipientManagmentCourse implements Serializable {
     @JsonProperty("num_issued_tickets")
     private Integer numIssuedTickets;
 
+    @JsonProperty("actual_training_days")
+    private Integer actualTrainingDays;
+
     public RecipientManagmentCourse() {
 
         this.exonerationGeneralSecurity = false;
@@ -69,7 +72,7 @@ public class RecipientManagmentCourse implements Serializable {
         this.withdrawn = false;
     }
 
-    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets) {
+    public RecipientManagmentCourse(LearnerDto learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, Attachment withdrawnForm, Integer numIssuedTickets, Integer actualTrainingDays) {
         this.learner = learner;
         this.recipientType = recipientType;
         this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -83,6 +86,7 @@ public class RecipientManagmentCourse implements Serializable {
         this.withdrawnDate = withdrawnDate;
         this.withdrawnForm = withdrawnForm;
         this.numIssuedTickets = numIssuedTickets;
+        this.actualTrainingDays = actualTrainingDays;
     }
 
     public LearnerDto getLearner() {
@@ -188,6 +192,14 @@ public class RecipientManagmentCourse implements Serializable {
         this.numIssuedTickets = numIssuedTickets;
     }
 
+    public Integer getActualTrainingDays() {
+        return actualTrainingDays;
+    }
+
+    public void setActualTrainingDays(Integer actualTrainingDays) {
+        this.actualTrainingDays = actualTrainingDays;
+    }
+
     @Override
     public String toString() {
         return "RecipientManagmentCourse{" +
@@ -204,6 +216,7 @@ public class RecipientManagmentCourse implements Serializable {
                 ", withdrawnDate=" + withdrawnDate +
                 ", withdrawnForm=" + withdrawnForm +
                 ", numIssuedTickets=" + numIssuedTickets +
+                ", actualTrainingDays=" + actualTrainingDays +
                 '}';
     }
 }

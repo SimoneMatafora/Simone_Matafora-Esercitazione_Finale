@@ -639,10 +639,13 @@ public class CourseRequestV1 {
         @JsonProperty("num_issued_tickets")
         private Integer numIssuedTickets;
 
+        @JsonProperty("actual_training_days")
+        private Integer actualTrainingDays;
+
         public RecipientManagmentCourseRequestV1() {
         }
 
-        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, UploadRequestV1 withdrawnForm, Integer numIssuedTickets) {
+        public RecipientManagmentCourseRequestV1(LearnerRequestDtoV1 learner, RecipientTypeLearnerCourseEnum[] recipientType, Boolean exonerationGeneralSecurity, Boolean exonerationRightsAndDuties, Boolean generalSecurityModule, Boolean specificSecurityModule, Double necessaryHours, SecurityExonerateLearnerCourseEnum specificationSsecurityExonerate, Boolean withdrawn, ReasonWithdrawnLearnerCourseEnum withdrawnReason, Date withdrawnDate, UploadRequestV1 withdrawnForm, Integer numIssuedTickets, Integer actualTrainingDays) {
             this.learner = learner;
             this.recipientType = recipientType;
             this.exonerationGeneralSecurity = exonerationGeneralSecurity;
@@ -656,6 +659,7 @@ public class CourseRequestV1 {
             this.withdrawnDate = withdrawnDate;
             this.withdrawnForm = withdrawnForm;
             this.numIssuedTickets = numIssuedTickets;
+            this.actualTrainingDays = actualTrainingDays;
         }
 
         public LearnerRequestDtoV1 getLearner() {
@@ -762,6 +766,14 @@ public class CourseRequestV1 {
             this.numIssuedTickets = numIssuedTickets;
         }
 
+        public Integer getActualTrainingDays() {
+            return actualTrainingDays;
+        }
+
+        public void setActualTrainingDays(Integer actualTrainingDays) {
+            this.actualTrainingDays = actualTrainingDays;
+        }
+
         @Override
         public String toString() {
             return "RecipientManagmentCourseRequestV1{" +
@@ -778,6 +790,7 @@ public class CourseRequestV1 {
                     ", withdrawnDate=" + withdrawnDate +
                     ", withdrawnForm=" + withdrawnForm +
                     ", numIssuedTickets=" + numIssuedTickets +
+                    ", actualTrainingDays=" + actualTrainingDays +
                     '}';
         }
 
