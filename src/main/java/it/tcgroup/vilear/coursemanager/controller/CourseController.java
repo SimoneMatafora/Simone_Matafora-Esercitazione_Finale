@@ -53,6 +53,7 @@ public class CourseController {
             @ApiParam(value = "Body of the Course to be created", required = true)
             @RequestBody CourseRequestV1 courseInsertRequestV1) {
 
+        System.out.println("POST");
         authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>( courseService.insertCourse(courseInsertRequestV1), HttpStatus.OK);
@@ -102,6 +103,7 @@ public class CourseController {
             @ApiParam(value = "Updated body of the course", required = true)
             @RequestBody CourseRequestV1 courseUpdateRequest) {
 
+        System.out.println("PUT");
         authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.updateCourse(courseUpdateRequest, UUID.fromString(idCourse)) ,HttpStatus.OK);
@@ -128,6 +130,7 @@ public class CourseController {
             @ApiParam(value = "Some attributes of the body of the Course to be modified", required = true)
             @RequestBody CourseRequestV1 coursePatchRequestV1) throws Exception {
 
+        System.out.println("PATCH");
         authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(courseService.patchCourse(coursePatchRequestV1, UUID.fromString(idCourse)), HttpStatus.OK);
