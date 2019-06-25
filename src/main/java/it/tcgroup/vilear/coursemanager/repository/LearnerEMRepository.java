@@ -76,4 +76,8 @@ public class LearnerEMRepository {
 
         return query.getResultList();
     }
+
+
+
+
 }

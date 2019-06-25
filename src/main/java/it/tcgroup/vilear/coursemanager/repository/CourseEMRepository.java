@@ -1,5 +1,6 @@
 package it.tcgroup.vilear.coursemanager.repository;
 
+import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.*;
 import org.springframework.stereotype.Repository;
@@ -81,4 +82,19 @@ public class CourseEMRepository {
         return query.getResultList();
 
     }
+
+
+
+    public void findLearnerIfAlreadyCandidated(UUID idCourse, UUID idLearner){
+
+        StringBuilder query = new StringBuilder("WITH CAND AS ( SELECT id, jsonb_array_elements(candidates) AS cand FROM course c) ");
+        query.append("SELECT * FROM course c LEFT JOIN CAND can using(id) WHERE c.id = '"+ idCourse +"' AND can.cand->>'id' = '"+idLearner+"'");
+
+        Query sql = em.createNativeQuery(query.toString(), CourseEntity.class);
+
+        if(sql.getResultList() != null)
+            throw new BadRequestException("You already candidate at this course");
+
+    }
+
 }

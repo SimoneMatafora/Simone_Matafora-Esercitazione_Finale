@@ -7,16 +7,14 @@ import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerResponseV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.*;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
 import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.CandidateCourse;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCourse;
+import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
@@ -55,6 +53,9 @@ public class LearnerServiceImpl implements LearnerService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private CourseEMRepository courseEMRepository;
 
     @Override
     public IdResponseV1 insertLearner(LearnerRequestV1 learnerInsertRequest) {
@@ -315,14 +316,12 @@ public class LearnerServiceImpl implements LearnerService {
             throw new NotFoundException("Learner with id " + idLearner+ " not found");
 
         LearnerEntity learner = optLearner.get();
-        System.out.println("sono qui");
 
         if(learner.getName() != null && learner.getSurname() != null && learner.getDateOfBirth() != null &&
         learner.getBirthPlace() != null && learner.getFiscalCode() != null && learner.getEmail() != null &&
         learner.getPhone() != null && learner.getDegreeOfStudies() != null && learner.getResidentialAddress() != null &&
         learner.getAttachments() != null) {
 
-            System.out.println("sono qua");
             Optional<CourseEntity> courseOpt = courseRepository.findById(idCourse);
             if (!courseOpt.isPresent())
                 throw new NotFoundException("Course with id " + idCourse + " not found");
@@ -335,6 +334,14 @@ public class LearnerServiceImpl implements LearnerService {
             RecipientManagmentCourse recipientManagmentCourse = new RecipientManagmentCourse();
             recipientManagmentCourse.setLearner(learnerAdapter.adptLearnerToLearnerDto(learner));
             course.getRecipientManagment().add(recipientManagmentCourse);*/
+
+            try{
+
+                courseEMRepository.findLearnerIfAlreadyCandidated(course.getId(),learner.getId());
+
+            }catch (BadRequestException e) {
+                throw e;
+            }
 
             if(course.getCandidateCourseList() == null)
                 course.setCandidateCourseList(new ArrayList<>());
