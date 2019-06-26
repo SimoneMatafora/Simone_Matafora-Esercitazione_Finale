@@ -144,17 +144,28 @@ public class CourseServiceImpl implements CourseService {
 
             if(course.getTotalHours() != null){
 
-                double totalHours;
-                if(course.getTheoryHours() == null || course.getPracticeHours() == null
-                        || course.getCoachingHours() == null || course.getVisitHours() == null ||
-                        course.getSkilsAnalysisHours() == null)
-                    throw new BadRequestException("TotalHours bad request. Incorrect total hours");
-                else{
-                    totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
-                            + course.getVisitHours() + course.getSkilsAnalysisHours();
-                    if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
-                        throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
-                }
+                double totalHours = 0.0;
+                if(course.getTheoryHours() == null)
+                    course.setTheoryHours(0.0);
+
+                if(course.getPracticeHours() == null)
+                    course.setPracticeHours(0.0);
+
+                if(course.getCoachingHours() == null)
+                    course.setCoachingHours(0.0);
+
+                if(course.getVisitHours() == null)
+                    course.setVisitHours(0.0);
+
+                if(course.getSkilsAnalysisHours() == null)
+                    course.setSkilsAnalysisHours(0.0);
+
+
+                totalHours = course.getTheoryHours() + course.getPracticeHours() + course.getCoachingHours()
+                        + course.getVisitHours() + course.getSkilsAnalysisHours();
+                if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
+                    throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
+
             }
 
             if(course.getTotalHoursTraining() != null){
@@ -165,7 +176,7 @@ public class CourseServiceImpl implements CourseService {
                         throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
                 }
 
-           /* if(course.getCandidateCourseList() != null && !course.getCandidateCourseList().isEmpty()){
+            if(course.getCandidateCourseList() != null && !course.getCandidateCourseList().isEmpty()){
 
                 List<RecipientManagmentCourse> recipientList = course.getRecipientManagment();
 
@@ -187,7 +198,7 @@ public class CourseServiceImpl implements CourseService {
                     }
                 }
                 course.setRecipientManagment(recipientList);
-            }*/
+            }
 
             course.setStatus(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE);
             courseRepository.save(course);

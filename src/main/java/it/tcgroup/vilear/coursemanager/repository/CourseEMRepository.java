@@ -93,7 +93,7 @@ public class CourseEMRepository {
         Query sql = em.createNativeQuery(query.toString(), CourseEntity.class);
 
         if(sql.getResultList() != null)
-            throw new BadRequestException("You already candidate at this course");
+            throw new BadRequestException("You're already candidates at this course");
 
     }
 
