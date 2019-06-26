@@ -351,6 +351,7 @@ public class LearnerServiceImpl implements LearnerService {
             candidate.setName(learner.getName());
             candidate.setSurname(learner.getSurname());
             candidate.setAccepted(false);
+            candidate.setCandidated(false);
             course.getCandidateCourseList().add(candidate);
 
             courseRepository.save(course);

@@ -818,7 +818,7 @@ public class CourseServiceImpl implements CourseService {
                         }
                     }else if(!att.getAccepted() && att.getCandidated()){
 
-                        course.getRecipientManagment().removeIf(learner -> learner.getLearner().getId().equalsIgnoreCase(att.getId().toString()));
+                        recipientList.removeIf(learner -> learner.getLearner().getId().equalsIgnoreCase(att.getId().toString()));
                         att.setCandidated(false);
                     }
                 }
