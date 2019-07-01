@@ -136,15 +136,10 @@ public class CourseServiceImpl implements CourseService {
                 }
             }
 
-            if(course.getRecipientManagment() != null){
-
-                for (RecipientManagmentCourse recipient : course.getRecipientManagment())
-                    this.checkNecessaryHours(recipient, course);
-            }
-
             if(course.getTotalHours() != null){
 
                 double totalHours = 0.0;
+
                 if(course.getTheoryHours() == null)
                     course.setTheoryHours(0.0);
 
@@ -166,11 +161,17 @@ public class CourseServiceImpl implements CourseService {
                 if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
                     throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
 
-                //Setto io automativamente il nuovo valore per le ore necessarie, di formazione, ricalcolandole in base al nuovo numero di discenti partecipanti al corso
-                if(course.getRecipientManagment() != null)
-                    course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
-
             }
+
+            if(course.getRecipientManagment() != null){
+
+                for (RecipientManagmentCourse recipient : course.getRecipientManagment())
+                    this.checkNecessaryHours(recipient, course);
+            }
+
+            //Setto io automativamente le ore necessarie di formazione, calcolandole in base al numero di discenti partecipanti al corso
+            if(course.getRecipientManagment() != null && course.getTotalHours() != null)
+                course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
 
             if(course.getTotalHoursTraining() != null){
 
