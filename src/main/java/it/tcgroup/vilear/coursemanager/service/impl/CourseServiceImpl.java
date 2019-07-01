@@ -791,9 +791,7 @@ public class CourseServiceImpl implements CourseService {
                     for (RecipientManagmentCourse recipient : coursePatch.getRecipientManagment()) {
 
                         this.checkNecessaryHours(recipient, course);
-                        System.out.println("sono qui");
                         lista.removeIf(att -> att.getLearner().getId().equalsIgnoreCase(recipient.getLearner().getId()));
-                        System.out.println("lista "+ lista);
                     }
 
                     for (RecipientManagmentCourse removLearner : lista) {
@@ -809,7 +807,6 @@ public class CourseServiceImpl implements CourseService {
 
                 course.setRecipientManagment(coursePatch.getRecipientManagment());
                 //Setto io automativamente il nuovo valore per le ore necessarie, di formazione, ricalcolandole in base al nuovo numero di discenti partecipanti al corso
-                System.out.println("siamo qui " + course.getTotalHours() * course.getRecipientManagment().size());
                 course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
                 course.setCandidateCourseList(candidateCourseList);
             }
@@ -837,7 +834,6 @@ public class CourseServiceImpl implements CourseService {
             if(course.getTotalHoursTraining() != null){
 
                 if(Math.abs(course.getTotalHoursTraining() - course.getTotalHours() * course.getRecipientManagment().size()) >= 0.01){
-                    System.out.println( course.getTotalHoursTraining() + "-" + "(" + course.getTotalHours() + "*" + course.getRecipientManagment().size() + ") = " + Math.abs(course.getTotalHoursTraining() - course.getTotalHours() * course.getRecipientManagment().size()) );
                     throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
 
                 }
