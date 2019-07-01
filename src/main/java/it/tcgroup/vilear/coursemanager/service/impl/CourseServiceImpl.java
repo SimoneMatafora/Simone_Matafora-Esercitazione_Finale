@@ -872,6 +872,7 @@ public class CourseServiceImpl implements CourseService {
                 }
 
                 course.setCandidateCourseList(coursePatch.getCandidateCourseList());
+                course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
                 course.setRecipientManagment((recipientList));
             }
 
