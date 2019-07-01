@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class LearnerDto implements Serializable {
 
@@ -217,5 +218,32 @@ public class LearnerDto implements Serializable {
                 ", domicileAddress=" + domicileAddress +
                 ", domicileEqualsResidential=" + domicileEqualsResidential +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LearnerDto that = (LearnerDto) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(fiscalCode, that.fiscalCode) &&
+                Objects.equals(dateOfBirth, that.dateOfBirth) &&
+                Objects.equals(birthPlace, that.birthPlace) &&
+                Objects.equals(phone, that.phone) &&
+                Objects.equals(email, that.email) &&
+                degreeOfStudies == that.degreeOfStudies &&
+                Objects.equals(courseOfStudy, that.courseOfStudy) &&
+                Objects.equals(note, that.note) &&
+                Objects.equals(attachemnts, that.attachemnts) &&
+                Objects.equals(residentialAddress, that.residentialAddress) &&
+                Objects.equals(domicileAddress, that.domicileAddress) &&
+                Objects.equals(domicileEqualsResidential, that.domicileEqualsResidential);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, attachemnts, residentialAddress, domicileAddress, domicileEqualsResidential);
     }
 }

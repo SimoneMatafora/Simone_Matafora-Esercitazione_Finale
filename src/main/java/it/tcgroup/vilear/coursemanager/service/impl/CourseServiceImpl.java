@@ -660,9 +660,6 @@ public class CourseServiceImpl implements CourseService {
             if(coursePatch.getReceiptFTConfirmationDate() != null)
                 course.setReceiptFTConfirmationDate(coursePatch.getReceiptFTConfirmationDate());
 
-            if(coursePatch.getRecipient() != null)
-                course.setRecipient(coursePatch.getRecipient());
-
             if(coursePatch.getRecipientManagment() != null)
                 course.setRecipientManagment(coursePatch.getRecipientManagment());
 
@@ -761,10 +758,47 @@ public class CourseServiceImpl implements CourseService {
                 }
             }
 
-            if(course.getRecipientManagment() != null){
-                for (RecipientManagmentCourse recipient : course.getRecipientManagment()) {
-                    this.checkNecessaryHours(recipient,course);
+            if(coursePatch.getRecipient() != null){
+                course.setRecipient(coursePatch.getRecipient());
+            }
+
+            if(coursePatch.getRecipientManagment() != null){
+
+                List<String> lernerRemoved = new ArrayList<>();
+                List<CandidateCourse> candidateCourseList = course.getCandidateCourseList();
+
+                if(coursePatch.getRecipientManagment().isEmpty()){
+                    for(CandidateCourse attCandidate : candidateCourseList){
+                            attCandidate.setAccepted(false);
+                            attCandidate.setCandidated(false);
+                    }
+
+                }else {
+
+                    List<RecipientManagmentCourse> lista = course.getRecipientManagment();
+
+                    for (RecipientManagmentCourse recipient : coursePatch.getRecipientManagment()) {
+
+                        this.checkNecessaryHours(recipient, course);
+                        System.out.println("sono qui");
+                        lista.removeIf(att -> att.getLearner().getId().equalsIgnoreCase(recipient.getLearner().getId()));
+                        System.out.println("lista "+ lista);
+                    }
+
+                    for (RecipientManagmentCourse removLearner : lista) {
+                        for (CandidateCourse attCandidate : candidateCourseList) {
+
+                            if (attCandidate.getId().toString().equalsIgnoreCase(removLearner.getLearner().getId())) {
+                                attCandidate.setAccepted(false);
+                                attCandidate.setCandidated(false);
+                            }
+                        }
+                    }
                 }
+                course.setRecipientManagment(coursePatch.getRecipientManagment());
+                //Setto io automativamente il nuovo valore per le ore necessarie, di formazione, ricalcolandole in base al nuovo numero di discenti partecipanti al corso
+                course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
+                course.setCandidateCourseList(candidateCourseList);
             }
 
             if(course.getTotalHours() != null){
@@ -795,6 +829,7 @@ public class CourseServiceImpl implements CourseService {
                 if(Math.abs(course.getTotalHoursTraining() - course.getTotalHours() * course.getRecipientManagment().size()) >= 0.01)
                     throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
             }
+
 
             if(coursePatch.getCandidateCourseList() != null && !coursePatch.getCandidateCourseList().isEmpty()){
 

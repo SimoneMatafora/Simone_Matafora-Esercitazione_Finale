@@ -16,6 +16,7 @@ import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecipientManagmentCourse implements Serializable {
@@ -219,4 +220,34 @@ public class RecipientManagmentCourse implements Serializable {
                 ", actualTrainingDays=" + actualTrainingDays +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RecipientManagmentCourse that = (RecipientManagmentCourse) o;
+        return Objects.equals(learner, that.learner) &&
+                Arrays.equals(recipientType, that.recipientType) &&
+                Objects.equals(exonerationGeneralSecurity, that.exonerationGeneralSecurity) &&
+                Objects.equals(exonerationRightsAndDuties, that.exonerationRightsAndDuties) &&
+                Objects.equals(generalSecurityModule, that.generalSecurityModule) &&
+                Objects.equals(specificSecurityModule, that.specificSecurityModule) &&
+                Objects.equals(necessaryHours, that.necessaryHours) &&
+                specificationSsecurityExonerate == that.specificationSsecurityExonerate &&
+                Objects.equals(withdrawn, that.withdrawn) &&
+                withdrawnReason == that.withdrawnReason &&
+                Objects.equals(withdrawnDate, that.withdrawnDate) &&
+                Objects.equals(withdrawnForm, that.withdrawnForm) &&
+                Objects.equals(numIssuedTickets, that.numIssuedTickets) &&
+                Objects.equals(actualTrainingDays, that.actualTrainingDays);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(learner, exonerationGeneralSecurity, exonerationRightsAndDuties, generalSecurityModule, specificSecurityModule, necessaryHours, specificationSsecurityExonerate, withdrawn, withdrawnReason, withdrawnDate, withdrawnForm, numIssuedTickets, actualTrainingDays);
+        result = 31 * result + Arrays.hashCode(recipientType);
+        return result;
+    }
+
+
 }

@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.entity.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class AddressDto implements Serializable {
 
@@ -120,5 +121,25 @@ public class AddressDto implements Serializable {
                 ", zipCode='" + zipCode + '\'' +
                 ", formattedAddress='" + formattedAddress + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddressDto that = (AddressDto) o;
+        return Objects.equals(nation, that.nation) &&
+                Objects.equals(region, that.region) &&
+                Objects.equals(province, that.province) &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(street, that.street) &&
+                Objects.equals(number, that.number) &&
+                Objects.equals(zipCode, that.zipCode) &&
+                Objects.equals(formattedAddress, that.formattedAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nation, region, province, city, street, number, zipCode, formattedAddress);
     }
 }
