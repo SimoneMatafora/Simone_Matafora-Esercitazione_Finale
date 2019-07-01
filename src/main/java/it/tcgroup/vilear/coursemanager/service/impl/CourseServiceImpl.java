@@ -166,6 +166,10 @@ public class CourseServiceImpl implements CourseService {
                 if (Math.abs(totalHours - course.getTotalHours()) >= 0.01)
                     throw new BadRequestException("Total hours must be equals to  theory_hours + practice_hours + coaching_hours + visit_hours + skils_analysis_hours");
 
+                //Setto io automativamente il nuovo valore per le ore necessarie, di formazione, ricalcolandole in base al nuovo numero di discenti partecipanti al corso
+                if(course.getRecipientManagment() != null)
+                    course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
+
             }
 
             if(course.getTotalHoursTraining() != null){
@@ -174,7 +178,9 @@ public class CourseServiceImpl implements CourseService {
                         throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
                     if(Math.abs(course.getTotalHoursTraining() - course.getTotalHours() * course.getRecipientManagment().size()) >= 0.01)
                         throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
-                }
+
+
+            }
 
             if(course.getCandidateCourseList() != null && !course.getCandidateCourseList().isEmpty()){
 
