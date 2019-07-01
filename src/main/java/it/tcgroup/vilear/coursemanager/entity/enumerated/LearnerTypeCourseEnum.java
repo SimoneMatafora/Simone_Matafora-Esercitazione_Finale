@@ -8,7 +8,7 @@ public enum LearnerTypeCourseEnum {
     DIPENDENTI("Dipendenti"),
     DISOCCUPATI("Disoccupati"),
     SOMMINISTRATO("Somministrato"),
-    INOCCUPATO("Inoccupato"),
+    INOCCUPATI("Inoccupati"),
     MISTO("Misto");
 
     private String learnerType;
