@@ -823,9 +823,6 @@ public class CourseServiceImpl implements CourseService {
 
             if(course.getTotalHoursTraining() != null){
 
-                if(course.getTotalHours() == null || (course.getRecipientManagment() == null && course.getTotalHoursTraining()!=0))
-                    throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
-
                 if(Math.abs(course.getTotalHoursTraining() - course.getTotalHours() * course.getRecipientManagment().size()) >= 0.01)
                     throw new BadRequestException("TotalHoursTraining bad request. Incorrect total training hours");
             }
