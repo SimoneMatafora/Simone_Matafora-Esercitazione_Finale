@@ -806,8 +806,10 @@ public class CourseServiceImpl implements CourseService {
                         }
                     }
                 }
+
                 course.setRecipientManagment(coursePatch.getRecipientManagment());
                 //Setto io automativamente il nuovo valore per le ore necessarie, di formazione, ricalcolandole in base al nuovo numero di discenti partecipanti al corso
+                System.out.println("siamo qui " + course.getTotalHours() * course.getRecipientManagment().size());
                 course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
                 course.setCandidateCourseList(candidateCourseList);
             }
