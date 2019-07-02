@@ -671,9 +671,6 @@ public class CourseServiceImpl implements CourseService {
             if(coursePatch.getReceiptFTConfirmationDate() != null)
                 course.setReceiptFTConfirmationDate(coursePatch.getReceiptFTConfirmationDate());
 
-            if(coursePatch.getRecipientManagment() != null)
-                course.setRecipientManagment(coursePatch.getRecipientManagment());
-
             if(coursePatch.getReportNote() != null)
                 course.setReportNote(coursePatch.getReportNote());
 
