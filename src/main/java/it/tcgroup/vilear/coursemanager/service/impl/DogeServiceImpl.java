@@ -1003,7 +1003,7 @@ public class DogeServiceImpl implements DogeService {
             while(!finish) {
 
                 List<String> holidays = holidays(calendar.get(Calendar.YEAR));
-                    if(!simpleDateFormat2.format(calendar.getTime()).equalsIgnoreCase("sab") && !simpleDateFormat2.format(calendar.getTime()).equalsIgnoreCase("dom") && !holidays.contains(sdf.format(calendar.getTime()))) {
+                    if( calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && !holidays.contains(sdf.format(calendar.getTime()))) {
                     int giorno = calendar.get(Calendar.DAY_OF_MONTH);
                     String day = "";
                     if(giorno < 10){
