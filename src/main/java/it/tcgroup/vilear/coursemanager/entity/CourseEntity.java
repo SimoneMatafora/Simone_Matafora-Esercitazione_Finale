@@ -308,7 +308,7 @@ public class CourseEntity implements Serializable {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
     public CourseEntity() {
