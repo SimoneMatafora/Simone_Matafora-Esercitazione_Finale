@@ -823,9 +823,9 @@ public class DogeServiceImpl implements DogeService {
         Map<String, Object> requestMap = new HashMap<>();
         if(courseEntity.getCourseCode() != null)
             requestMap.put("project_code", courseEntity.getCourseCode());
-        if(courseEntity.getPlacementList() != null){
+        if(courseEntity.getRecipientManagment() != null){
             int i=1;
-            for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
+            for(RecipientManagmentCourse placementCourse : courseEntity.getRecipientManagment()){
                 if(placementCourse.getLearner() != null) {
                     String learnerSurname = placementCourse.getLearner().getSurname();
                     String learnerName = placementCourse.getLearner().getName();
@@ -868,9 +868,9 @@ public class DogeServiceImpl implements DogeService {
         Map<String, Object> requestMap = new HashMap<>();
         if(courseEntity.getCourseCode() != null)
             requestMap.put("project_code_23", courseEntity.getCourseCode());
-        if(courseEntity.getPlacementList() != null){
+        if(courseEntity.getRecipientManagment() != null){
             int i=1;
-            for(PlacementCourse placementCourse : courseEntity.getPlacementList()){
+            for(RecipientManagmentCourse placementCourse : courseEntity.getRecipientManagment()){
                 if(placementCourse.getLearner() != null) {
                     String learnerSurname = placementCourse.getLearner().getSurname();
                     String learnerName = placementCourse.getLearner().getName();

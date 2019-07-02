@@ -160,7 +160,7 @@ public class HttpUtil {
 
         RequestBody body = RequestBody.create(JSON, "");
         if (StringUtils.isNotBlank(jsonBody)) {
-            LOGGER.info("Body Request: {}", jsonBody);
+            //LOGGER.info("Body Request: {}", jsonBody);
             body = RequestBody.create(JSON, jsonBody);
         }
 
