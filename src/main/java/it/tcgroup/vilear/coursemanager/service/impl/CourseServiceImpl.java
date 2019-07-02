@@ -796,6 +796,7 @@ public class CourseServiceImpl implements CourseService {
                         this.checkNecessaryHours(recipient, course);
 
                         System.out.println("l'id dell' studente è " + recipient.getLearner().getId());
+                        System.out.println("la lista prima del remove è : " + recipient.getLearner().getId());
 
                         lista.removeIf(att -> att.getLearner().getId().equalsIgnoreCase(recipient.getLearner().getId()));
 
