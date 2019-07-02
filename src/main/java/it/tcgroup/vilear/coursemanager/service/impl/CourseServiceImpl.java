@@ -658,7 +658,7 @@ public class CourseServiceImpl implements CourseService {
             if(coursePatch.getPlacementList() != null){
                 if(!coursePatch.getPlacementList().isEmpty()) {
                     for (PlacementCourse placement : coursePatch.getPlacementList()) {
-                        if (!this.checkDateDifference(placement.getExpiredPlacementDate(),coursePatch.getCourseEndDate(),180))
+                        if (!this.checkDateDifference(placement.getExpiredPlacementDate(),course.getCourseEndDate(),180))
                             throw new BadRequestException("ExpiredPlacementDate bad request.");
                     }
                 }
@@ -791,13 +791,8 @@ public class CourseServiceImpl implements CourseService {
                     for (RecipientManagmentCourse recipient : coursePatch.getRecipientManagment()) {
 
                         this.checkNecessaryHours(recipient, course);
-
-                        System.out.println("l'id dell' studente è " + recipient.getLearner().getId());
-                        System.out.println("la lista prima del remove è : " + recipient.getLearner().getId());
-
                         lista.removeIf(att -> att.getLearner().getId().equalsIgnoreCase(recipient.getLearner().getId()));
 
-                        System.out.println("la lista contiene : " + lista);
                     }
 
                     for (RecipientManagmentCourse removLearner : lista) {
@@ -858,6 +853,7 @@ public class CourseServiceImpl implements CourseService {
                     if(att.getAccepted() && !att.getCandidated()){
 
                         Optional<LearnerEntity> optLearner = learnerRepository.findById(att.getId());
+
                         if(optLearner.isPresent()){
 
                             RecipientManagmentCourse recipient = new RecipientManagmentCourse();
