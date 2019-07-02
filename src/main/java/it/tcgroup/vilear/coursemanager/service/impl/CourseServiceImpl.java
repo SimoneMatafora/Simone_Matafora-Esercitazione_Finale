@@ -779,6 +779,7 @@ public class CourseServiceImpl implements CourseService {
                 List<CandidateCourse> candidateCourseList = course.getCandidateCourseList();
 
                 if(coursePatch.getRecipientManagment().isEmpty()){
+
                     for(CandidateCourse attCandidate : candidateCourseList){
                             attCandidate.setAccepted(false);
                             attCandidate.setCandidated(false);
@@ -786,12 +787,19 @@ public class CourseServiceImpl implements CourseService {
 
                 }else {
 
+                    //Lista di studenti ammessi al corso vecchia(quella già presente nel corso, che dovrà essere aggiornata)
                     List<RecipientManagmentCourse> lista = course.getRecipientManagment();
 
+                    //Scorro tutta la lista degli ammessi al corso NUOVA(mandata con la patch)
                     for (RecipientManagmentCourse recipient : coursePatch.getRecipientManagment()) {
 
                         this.checkNecessaryHours(recipient, course);
+
+                        System.out.println("l'id dell' studente è " + recipient.getLearner().getId());
+
                         lista.removeIf(att -> att.getLearner().getId().equalsIgnoreCase(recipient.getLearner().getId()));
+
+                        System.out.println("la lista contiene : " + lista);
                     }
 
                     for (RecipientManagmentCourse removLearner : lista) {
