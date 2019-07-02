@@ -8,6 +8,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class CourseResponseV1 {
@@ -258,6 +259,12 @@ public class CourseResponseV1 {
     @JsonProperty( "document_attachment")
     private List<Attachment> documentAttachment;
 
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
+
     public static class AddressCourseResponseV1{
 
         @JsonProperty("address")
@@ -437,6 +444,7 @@ public class CourseResponseV1 {
 
         @JsonProperty("actual_training_days")
         private Integer actualTrainingDays;
+
 
         public RecipientManagmentCourseResponseV1() {
         }
@@ -1821,6 +1829,22 @@ public class CourseResponseV1 {
 
     public void setCandidateList(List<CandidateCourseResponseV1> candidateList) {
         this.candidateList = candidateList;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

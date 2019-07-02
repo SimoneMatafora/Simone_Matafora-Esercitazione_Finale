@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Transactional
@@ -214,6 +215,8 @@ public class CourseServiceImpl implements CourseService {
                 course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
 
             course.setStatus(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE);
+            course.setCreatedAt(LocalDateTime.now());
+            course.setUpdatedAt(course.getCreatedAt());
             courseRepository.save(course);
 
             return courseAdapter.adptCourseIdToCourseIdResponse(course);
@@ -473,6 +476,7 @@ public class CourseServiceImpl implements CourseService {
 
         }
 
+        course.setUpdatedAt(LocalDateTime.now());
         courseRepository.save(course);
 
         return courseAdapter.adptCourseToCourseResponse(course);
@@ -884,6 +888,7 @@ public class CourseServiceImpl implements CourseService {
                 course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
             }
 
+            course.setUpdatedAt(LocalDateTime.now());
             courseRepository.save(course);
 
             return courseAdapter.adptCourseToCourseResponse(course);

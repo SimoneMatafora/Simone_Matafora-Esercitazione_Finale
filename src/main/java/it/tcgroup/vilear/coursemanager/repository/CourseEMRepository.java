@@ -77,6 +77,11 @@ public class CourseEMRepository {
         }
 
         sql += where;
+
+        String orderBy = " ORDER BY c.update_at";
+
+        sql += orderBy;
+
         Query query = em.createNativeQuery(sql, CourseEntity.class);
 
         return query.getResultList();

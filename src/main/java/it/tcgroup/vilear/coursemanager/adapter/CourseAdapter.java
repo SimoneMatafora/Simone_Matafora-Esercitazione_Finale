@@ -221,6 +221,9 @@ public class CourseAdapter {
         courseResponse.setInvoiceAuthorization(course.getInvoiceAuthorization());
         courseResponse.setAccountingCode(course.getAccountingCode());
         courseResponse.setCandidateList(candidateCourseAdapter.adptCandidateCourseToCandidateCourseResponse(course.getCandidateCourseList()));
+        courseResponse.setCreatedAt(course.getCreatedAt());
+        courseResponse.setUpdatedAt(course.getUpdatedAt());
+
 
         return courseResponse;
     }
