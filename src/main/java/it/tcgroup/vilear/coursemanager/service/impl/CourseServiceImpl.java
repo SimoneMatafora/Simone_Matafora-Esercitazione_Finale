@@ -506,11 +506,18 @@ public class CourseServiceImpl implements CourseService {
                 course.setAfternoonStartHour(coursePatch.getAfternoonStartHour());
 
             if(coursePatch.getAmountFinSecurityCapital () != null){
-                if(coursePatch.getAmountAutorizedFT()!=null && coursePatch.getTotalHours()!=null){
-                    if(coursePatch.getTotalHours().equals(0.0))
+
+                if(coursePatch.getAmountAutorizedFT() != null)
+                    course.setAmountAutorizedFT(coursePatch.getAmountAutorizedFT());
+
+                if(coursePatch.getTotalHours()!=null)
+                    course.setTotalHours(coursePatch.getTotalHours());
+
+                if(course.getAmountAutorizedFT()!=null && course.getTotalHours()!=null){
+                    if(course.getTotalHours().equals(0.0))
                         throw new BadRequestException("Total hours is zero. Impossibile to divide");
 
-                    Double total = ((coursePatch.getAmountAutorizedFT()-140)/coursePatch.getTotalHours())*4;
+                    Double total = ((course.getAmountAutorizedFT()-140)/course.getTotalHours())*4;
                     if(Math.abs(coursePatch.getAmountFinSecurityCapital() - total) >= 0.01)
                         throw new BadRequestException("AmountFinSecurityCapital error. ");
                 }
@@ -607,7 +614,7 @@ public class CourseServiceImpl implements CourseService {
 
             if(coursePatch.getExpiredReportingDate() != null){
 
-                if (!this.checkDateDifference(coursePatch.getExpiredReportingDate(),coursePatch.getCourseEndDate(),60))
+                if (!this.checkDateDifference(coursePatch.getExpiredReportingDate(),course.getCourseEndDate(),60))
                     throw new BadRequestException("ExpiredReportingDate bad request.");
 
                 course.setExpiredReportingDate(coursePatch.getExpiredReportingDate());
@@ -679,7 +686,7 @@ public class CourseServiceImpl implements CourseService {
 
             if(coursePatch.getSendedEletronicReportingDate() != null){
 
-                if (!this.checkDateDifference(coursePatch.getSendedEletronicReportingDate(),coursePatch.getDeliveryDateInAdministration(),60))
+                if (!this.checkDateDifference(coursePatch.getSendedEletronicReportingDate(),course.getDeliveryDateInAdministration(),60))
                     throw new BadRequestException("SendedEletronicReportingDate bad request.");
 
                 course.setSendedEletronicReportingDate(coursePatch.getSendedEletronicReportingDate());
@@ -690,7 +697,7 @@ public class CourseServiceImpl implements CourseService {
 
             if(coursePatch.getSendedPaperReportingDate() != null){
 
-                if (!this.checkDateDifference(coursePatch.getSendedPaperReportingDate(),coursePatch.getCourseEndDate(),74))
+                if (!this.checkDateDifference(coursePatch.getSendedPaperReportingDate(),course.getCourseEndDate(),74))
                     throw new BadRequestException("SendedPaperReportingDate bad request.");
 
                 course.setSendedPaperReportingDate(coursePatch.getSendedPaperReportingDate());
