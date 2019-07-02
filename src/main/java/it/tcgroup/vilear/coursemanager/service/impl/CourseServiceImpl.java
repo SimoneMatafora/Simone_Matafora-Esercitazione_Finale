@@ -521,9 +521,6 @@ public class CourseServiceImpl implements CourseService {
 
                     Double total = ((course.getAmountAutorizedFT()-140)/course.getTotalHours())*4;
 
-                    System.out.println("AmountFinSecurityCapital = " + total);
-                    System.out.println("result = " + Math.abs(coursePatch.getAmountFinSecurityCapital() - total));
-
                     if(Math.abs(coursePatch.getAmountFinSecurityCapital() - total) >= 0.01)
                         throw new BadRequestException("AmountFinSecurityCapital error. ");
                 }
