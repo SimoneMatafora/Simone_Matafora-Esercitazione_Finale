@@ -78,7 +78,7 @@ public class CourseEMRepository {
 
         sql += where;
 
-        String orderBy = " ORDER BY c.update_at";
+        String orderBy = " ORDER BY c.update_at ASC";
 
         sql += orderBy;
 
