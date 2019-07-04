@@ -912,13 +912,13 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public PaginationResponseV1<CourseResponseV1> getCoursePagination(int page, int pageSize, String courseTitle, String contentsArea, String learnerType, String supplyModality,
                                                                       String paymentModality, String foundsType, String courseStartDate, String partFullTime, String courseCode, String businessName,
-                                                                      String courseType, String specialInitiatives){
+                                                                      String courseType, Boolean asc,String specialInitiatives){
 
         Pagination<CourseEntity> coursesPagination = new Pagination<>();
 
 
         List<CourseEntity> courseList = courseEMRepository.getCoursesForPagination(courseTitle, contentsArea, learnerType, supplyModality, paymentModality, foundsType,
-              courseStartDate, partFullTime, courseCode, businessName, courseType, specialInitiatives);
+              courseStartDate, partFullTime, courseCode, businessName, courseType, specialInitiatives, asc);
 
         coursesPagination.setStats(new PaginationResponseV1.InfoPagination(courseList.size(), page, pageSize));
 

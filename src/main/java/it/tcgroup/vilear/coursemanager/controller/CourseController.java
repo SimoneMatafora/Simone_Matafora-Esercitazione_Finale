@@ -202,7 +202,9 @@ public class CourseController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "course_type", required = false) String courseType,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "special_initiatives", required = false) String specialInitiatives) {
+            @RequestParam(value = "special_initiatives", required = false) String specialInitiatives,
+            @ApiParam(value = "", required = false)
+            @RequestParam(value = "asc", required = false, defaultValue = "false") Boolean asc) {
 
         authorizationService.checkAlive(userId);
 
@@ -217,6 +219,7 @@ public class CourseController {
                 courseCode,
                 businessName,
                 courseType,
+                asc,
                 specialInitiatives),HttpStatus.OK);
     }
 

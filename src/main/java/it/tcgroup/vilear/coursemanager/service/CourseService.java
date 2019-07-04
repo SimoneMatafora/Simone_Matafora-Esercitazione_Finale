@@ -20,7 +20,7 @@ public interface CourseService {
     void deleteCourse(UUID courseId);
     PaginationResponseV1<CourseResponseV1> getCoursePagination(int page, int pageSize, String courseTitle, String contentsArea, String learnerType, String supplyModality,
                                                                String paymentModality, String foundsType, String courseStartDate, String partFullTime, String courseCode, String businessName,
-                                                               String courseType, String specialInitiatives);
+                                                               String courseType, Boolean asc, String specialInitiatives);
 
     CourseResponseV1 addCourseLogo(UploadRequestV1 logo, UUID idCourse) throws IOException;
     List<Attachment> addCourseAttachments(List<UploadRequestV1> attachmentList, UUID idCourse) throws IOException;

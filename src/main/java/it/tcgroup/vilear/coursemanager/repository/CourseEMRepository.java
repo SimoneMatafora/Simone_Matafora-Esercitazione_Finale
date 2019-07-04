@@ -21,7 +21,7 @@ public class CourseEMRepository {
 
     public List<CourseEntity> getCoursesForPagination(String courseTitle, String contentsArea, String learnerType, String supplyModality,
                                                       String paymentModality, String foundsType, String courseStartDate, String partFullTime, String courseCode, String businessName,
-                                                      String courseType, String specialInitiatives){
+                                                      String courseType, String specialInitiatives, Boolean asc){
 
 
         String sql = "SELECT * FROM course c ";
@@ -78,7 +78,11 @@ public class CourseEMRepository {
 
         sql += where;
 
-        String orderBy = " ORDER BY c.update_at ASC";
+        String ascDesc = "DESC";
+        if(asc)
+            ascDesc = "ASC";
+
+        String orderBy = " ORDER BY c.update_at " + ascDesc;
 
         sql += orderBy;
 
