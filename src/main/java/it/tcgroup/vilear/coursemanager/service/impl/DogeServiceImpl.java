@@ -19,6 +19,7 @@ import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
 import it.tcgroup.vilear.coursemanager.entity.dto.LearnerDto;
 import it.tcgroup.vilear.coursemanager.entity.dto.PartnerDto;
 import it.tcgroup.vilear.coursemanager.entity.dto.TeacherDto;
+import it.tcgroup.vilear.coursemanager.entity.enumerated.PartFullTimeCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.PaymentModalityTradeUnionEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.SupplyServicePartnerCourseEnum;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
@@ -987,7 +988,10 @@ public class DogeServiceImpl implements DogeService {
         if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
         CourseEntity courseEntity = courseEntityOptional.get();
 
-        if(courseEntity.getCourseStartDate() == null || courseEntity.getCourseEndDate() == null || courseEntity.getMorningStartHour() == null  || courseEntity.getAfternoonEndHour() == null){
+        if(courseEntity.getCourseStartDate() == null || courseEntity.getCourseEndDate() == null ||
+           ( courseEntity.getPartFullTimeCourse().equals(PartFullTimeCourseEnum.PART_TIME) && ( courseEntity.getMorningStartHour() == null  || courseEntity.getMorningEndHour() == null) )  ||
+           ( courseEntity.getPartFullTimeCourse().equals(PartFullTimeCourseEnum.FULL_TIME) && ( courseEntity.getMorningStartHour() == null  || courseEntity.getMorningEndHour() == null || courseEntity.getAfternoonStartHour() == null  || courseEntity.getAfternoonEndHour() == null) )
+        ){
             throw new BadRequestException("Course with id "+idCourse+" not have all necessary parameters for generate the register");
         }
 
