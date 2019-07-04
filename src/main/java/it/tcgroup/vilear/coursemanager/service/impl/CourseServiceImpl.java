@@ -857,7 +857,7 @@ public class CourseServiceImpl implements CourseService {
 
             if(coursePatch.getCandidateCourseList() != null && !coursePatch.getCandidateCourseList().isEmpty()){
 
-                List<RecipientManagmentCourse> recipientList = coursePatch.getRecipientManagment();
+                List<RecipientManagmentCourse> recipientList = course.getRecipientManagment();
 
                 if(recipientList == null)
                     recipientList = new ArrayList<>();
