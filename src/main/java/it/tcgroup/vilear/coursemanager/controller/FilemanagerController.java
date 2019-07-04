@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 @RestController
 @CrossOrigin
@@ -71,36 +72,40 @@ public class FilemanagerController {
     })
     public ResponseEntity<Attachment> createFileRegistro (@PathVariable("UUID_COURSE") UUID idCorso ) throws Exception {
 
-        // chiamo Doge per la generazione del servizio di registro
-        ResponseEntity<IdentifierResponseV1> response =dogeController.getRegister(idCorso);
+        try{
+            // chiamo Doge per la generazione del servizio di registro
+            ResponseEntity<IdentifierResponseV1> response =dogeController.getRegister(idCorso);
 
-        IdentifierResponseV1 dogeParseResponse = response.getBody();
-        String idFileManager = dogeParseResponse.getId();
+            IdentifierResponseV1 dogeParseResponse = response.getBody();
+            String idFileManager = dogeParseResponse.getId();
 
 
-        DownloadResponseV1 downloadFileManager = filemanagerService.getFileDoge(idFileManager);
+            DownloadResponseV1 downloadFileManager = filemanagerService.getFileDoge(idFileManager);
 
-        Attachment attachment = new Attachment();
-        attachment.setBlobName(idFileManager + ".pdf");
-        attachment.setBlobSize(downloadFileManager.getFileSize());
-        attachment.setCreatedAt(new Date());
-        attachment.setFileManagerId(idFileManager);
-        attachment.setDescription(downloadFileManager.getDescription());
-        attachment.setFileManagerName(downloadFileManager.getFileName());
-        attachment.setResourceType("register");
-        attachment.setMimeType("application/pdf");
+            Attachment attachment = new Attachment();
+            attachment.setBlobName(idFileManager + ".pdf");
+            attachment.setBlobSize(downloadFileManager.getFileSize());
+            attachment.setCreatedAt(new Date());
+            attachment.setFileManagerId(idFileManager);
+            attachment.setDescription(downloadFileManager.getDescription());
+            attachment.setFileManagerName(downloadFileManager.getFileName());
+            attachment.setResourceType("register");
+            attachment.setMimeType("application/pdf");
 
-        CourseEntity courseEntity = courseRepository.getOne(idCorso);
+            CourseEntity courseEntity = courseRepository.getOne(idCorso);
 
-        List<Attachment> attachmentList = courseEntity.getDocumentsAttachment();
-        if(attachmentList == null){
-            attachmentList = new LinkedList<>();
+            List<Attachment> attachmentList = courseEntity.getDocumentsAttachment();
+            if(attachmentList == null){
+                attachmentList = new LinkedList<>();
+            }
+            attachmentList.add(attachment);
+            courseEntity.setDocumentsAttachment(attachmentList);
+
+            courseRepository.save(courseEntity);
+
+            return new ResponseEntity<>(attachment,HttpStatus.OK);
+        }catch (TimeoutException e){
+            throw e;
         }
-        attachmentList.add(attachment);
-        courseEntity.setDocumentsAttachment(attachmentList);
-
-        courseRepository.save(courseEntity);
-
-        return new ResponseEntity<>(attachment,HttpStatus.OK);
     }
 }

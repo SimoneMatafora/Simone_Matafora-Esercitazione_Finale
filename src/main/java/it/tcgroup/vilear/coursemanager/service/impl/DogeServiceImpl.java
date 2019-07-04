@@ -987,6 +987,10 @@ public class DogeServiceImpl implements DogeService {
         if(!courseEntityOptional.isPresent()) throw new NotFoundException("Course with id "+idCourse+" not found");
         CourseEntity courseEntity = courseEntityOptional.get();
 
+        if(courseEntity.getCourseStartDate() == null || courseEntity.getCourseEndDate() == null || courseEntity.getMorningStartHour() == null  || courseEntity.getAfternoonEndHour() == null){
+            throw new BadRequestException("Course with id "+idCourse+" not have all necessary parameters for generate the register");
+        }
+
         int numPages = 11;
         if(courseEntity.getCourseStartDate() != null && courseEntity.getCourseEndDate() != null) {
 
