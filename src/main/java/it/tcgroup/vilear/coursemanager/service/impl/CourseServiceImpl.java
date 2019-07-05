@@ -364,6 +364,13 @@ public class CourseServiceImpl implements CourseService {
         course.setTradeUnionTeachingRequest(courseUpdate.getTradeUnionTeachingRequest());
         course.setVisitHours(courseUpdate.getVisitHours());
 
+        if(courseUpdate.getStatus().equals(CourseStatusEnum.PUBBLICATO)){
+            this.patchCourseStatus(courseId);
+
+        }else{
+            course.setStatus(courseUpdate.getStatus());
+        }
+
         boolean found;
         if (course.getPartnerList() != null) {
             for (PartnerCourse partnerCourse : course.getPartnerList()) {
@@ -886,6 +893,16 @@ public class CourseServiceImpl implements CourseService {
                 course.setCandidateCourseList(coursePatch.getCandidateCourseList());
                 course.setRecipientManagment((recipientList));
                 course.setTotalHoursTraining(course.getTotalHours() * course.getRecipientManagment().size());
+            }
+
+            if(coursePatch.getStatus() != null){
+                if(coursePatch.getStatus().equals(CourseStatusEnum.PUBBLICATO)){
+                    this.patchCourseStatus(courseId);
+
+                }else{
+                    course.setStatus(coursePatch.getStatus());
+                }
+
             }
 
             course.setUpdatedAt(LocalDateTime.now());
