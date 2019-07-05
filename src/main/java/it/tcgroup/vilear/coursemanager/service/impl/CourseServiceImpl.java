@@ -1052,18 +1052,140 @@ public class CourseServiceImpl implements CourseService {
         CourseEntity course = courseOpt.get();
 
         if(course.getStatus().toValue().equalsIgnoreCase(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE.toValue()) &&
-            course.getCourseType() !=null  && course.getSupplyModality() != null && course.getContentsArea() != null &&
-            course.getActuatorSubject() != null  && course.getFoundsTypeCourse() != null &&
-            course.getCourseCode() != null && course.getCourseTitle() != null && course.getCourseDescription() != null &&
-            course.getEducationalTargetDescription() != null && course.getHeadquatersCourse() != null && !course.getHeadquatersCourse().isEmpty() &&
-            course.getCourseStartDate() != null && course.getCourseEndDate() != null && course.getTheoryHours() != null && course.getPracticeHours() != null &&
-            course.getOrenatationHours() != null && course.getCoachingHours() != null && course.getTotalHours() != null && course.getTotalHoursTraining() != null &&
-            course.getMorningStartHour() != null && course.getMorningEndHour() != null && course.getAfternoonStartHour() != null && course.getAfternoonEndHour() != null &&
-            course.getMinimumNumericOfParticipants() != null && course.getAmountReportFT() != null && course.getAmountAutorizedFT() != null && course.getTeacherList() != null &&
-            !course.getTeacherList().isEmpty() && course.getRecipientManagment() != null && !course.getRecipientManagment().isEmpty() && course.getPlacementList() != null &&
-            !course.getPlacementList().isEmpty() && course.getPlacementList().get(0).getHiringDate() != null &&
-            course.getPlacementList().get(0).getMissionHours() != null && course.getPlacementList().get(0).getBonusAmount() != null)
+            course.getCourseType() !=null  &&
+                course.getSupplyModality() != null &&
+                course.getContentsArea() != null &&
+            course.getActuatorSubject() != null  &&
+                course.getFoundsTypeCourse() != null &&
+            course.getCourseCode() != null &&
+                course.getCourseTitle() != null &&
+                course.getCourseDescription() != null &&
+            course.getEducationalTargetDescription() != null &&
+                course.getHeadquatersCourse() != null && !course.getHeadquatersCourse().isEmpty() &&
+            course.getCourseStartDate() != null &&
+                course.getCourseEndDate() != null &&
+                course.getTheoryHours() != null &&
+                course.getPracticeHours() != null &&
+            course.getOrenatationHours() != null &&
+                course.getCoachingHours() != null &&
+                course.getTotalHours() != null &&
+                course.getTotalHoursTraining() != null &&
+            course.getMorningStartHour() != null &&
+                course.getMorningEndHour() != null &&
+                course.getAfternoonStartHour() != null &&
+                course.getAfternoonEndHour() != null &&
+            course.getMinimumNumericOfParticipants() != null &&
+                course.getAmountReportFT() != null &&
+                course.getAmountAutorizedFT() != null &&
+                course.getTeacherList() != null && !course.getTeacherList().isEmpty() &&
+                course.getRecipientManagment() != null && !course.getRecipientManagment().isEmpty() &&
+                course.getPlacementList() != null && !course.getPlacementList().isEmpty() ) {
+
+            Boolean isOk = true;
+            for (PlacementCourse att : course.getPlacementList()){
+
+                if(att.getHiringDate() == null || att.getMissionHours() == null || att.getBonusAmount() == null)
+                    isOk = false;
+            }
+
+            if(isOk)
                 course.setStatus(CourseStatusEnum.PUBBLICATO);
+            else
+                throw new BadRequestException("In the placements some information is missing (hiring_date, mission_hours or bonus_amount )");
+        }
+        else{
+
+            String error = "the course lacks some essential information for publication: ";
+
+            if( !course.getStatus().equals(CourseStatusEnum.IN_ATTESA_DI_PUBBLICAZIONE) )
+                error += "status is different from IN_ATTESA_DI_PUBBLICAZIONE, ";
+
+            if( course.getCourseType() == null )
+                error += "type is empty, ";
+
+            if( course.getSupplyModality() == null )
+                error += "supply modality is empty, ";
+
+            if( course.getContentsArea() == null )
+                error += "contest area is empty, ";
+
+            if( course.getActuatorSubject() == null )
+                error += "actuator subject is empty, ";
+
+            if( course.getFoundsTypeCourse() == null )
+                error += "founds type is empty, ";
+
+            if( course.getCourseCode() == null )
+                error += "code is empty, ";
+
+            if( course.getCourseTitle() == null )
+                error += "course title is empty, ";
+
+            if( course.getCourseDescription() == null )
+                error += "course description is empty, ";
+
+            if( course.getEducationalTargetDescription() == null )
+                error += "educational target description is empty, ";
+
+            if( course.getHeadquatersCourse() == null || course.getHeadquatersCourse().isEmpty() )
+                error += "headquoters is empty, ";
+
+            if( course.getCourseStartDate() == null )
+                error += "course start date is empty, ";
+
+            if( course.getCourseEndDate() == null )
+                error += "course end date is empty, ";
+
+            if( course.getTheoryHours() ==null )
+                error += "theory hours is empty, ";
+
+            if( course.getPracticeHours() ==null )
+                error += "practice hours is empty, ";
+
+            if( course.getOrenatationHours() ==null )
+                error += "orientation hours is empty, ";
+
+            if( course.getCoachingHours() ==null )
+                error += "coaching hours is empty, ";
+
+            if( course.getTotalHours() ==null )
+                error += "total hours is empty, ";
+
+            if( course.getTotalHoursTraining() ==null )
+                error += "total hours training is empty, ";
+
+            if( course.getMorningStartHour() ==null )
+                error += "morning start hours is empty, ";
+
+            if( course.getMorningEndHour() ==null )
+                error += "morning end hours is empty, ";
+
+            if( course.getAfternoonStartHour() ==null )
+                error += "afternoon start hours is empty, ";
+
+            if( course.getAfternoonEndHour() ==null )
+                error += "afternoon end hours is empty, ";
+
+            if( course.getMinimumNumericOfParticipants() ==null )
+                error += "minimum numeric of participiants is empty, ";
+
+            if( course.getAmountReportFT() ==null )
+                error += "amount report FT is empty, ";
+
+            if( course.getAmountAutorizedFT() ==null )
+                error += "amount autorized FT is empty, ";
+
+            if( course.getTeacherList() == null || course.getTeacherList().isEmpty() )
+                error += "course has no teacher, ";
+
+            if( course.getRecipientManagment() == null || course.getRecipientManagment().isEmpty() )
+                error += "course has no learner, ";
+
+            if( course.getPlacementList() == null || course.getPlacementList().isEmpty() )
+                error += "course has no placement, ";
+
+            throw new BadRequestException(error);
+        }
             courseRepository.save(course);
 
         return courseAdapter.adptCourseToCourseResponse(course);
