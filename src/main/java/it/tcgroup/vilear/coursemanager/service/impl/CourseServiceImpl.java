@@ -334,7 +334,7 @@ public class CourseServiceImpl implements CourseService {
         course.setMorningEndHour(courseUpdate.getMorningEndHour());
         course.setMorningStartHour(courseUpdate.getMorningStartHour());
         course.setNote(courseUpdate.getNote());
-        course.setOrenatationHours(courseUpdate.getOrenatationHours());
+        course.setOrientationHours(courseUpdate.getOrientationHours());
         course.setPartFullTimeCourse(courseUpdate.getPartFullTimeCourse());
         course.setPartnerList(courseUpdate.getPartnerList());
         course.setPaymentModality(courseUpdate.getPaymentModality());
@@ -664,8 +664,8 @@ public class CourseServiceImpl implements CourseService {
             if(coursePatch.getNote() != null)
                 course.setNote(coursePatch.getNote());
 
-            if(coursePatch.getOrenatationHours() != null)
-                course.setOrenatationHours(coursePatch.getOrenatationHours());
+            if(coursePatch.getOrientationHours() != null)
+                course.setOrientationHours(coursePatch.getOrientationHours());
 
             if(coursePatch.getPartFullTimeCourse() != null)
                 course.setPartFullTimeCourse(coursePatch.getPartFullTimeCourse());
@@ -1066,7 +1066,6 @@ public class CourseServiceImpl implements CourseService {
                 course.getCourseEndDate() != null &&
                 course.getTheoryHours() != null &&
                 course.getPracticeHours() != null &&
-            course.getOrenatationHours() != null &&
                 course.getCoachingHours() != null &&
                 course.getTotalHours() != null &&
                 course.getTotalHoursTraining() != null &&
@@ -1141,9 +1140,6 @@ public class CourseServiceImpl implements CourseService {
 
             if( course.getPracticeHours() ==null )
                 error += "practice hours is empty, ";
-
-            if( course.getOrenatationHours() ==null )
-                error += "orientation hours is empty, ";
 
             if( course.getCoachingHours() ==null )
                 error += "coaching hours is empty, ";
