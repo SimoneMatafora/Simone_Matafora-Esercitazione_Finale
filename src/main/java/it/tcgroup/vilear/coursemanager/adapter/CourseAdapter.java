@@ -91,7 +91,7 @@ public class CourseAdapter {
         course.setMorningStartHour(courseRequest.getMorningStartHour());
         course.setNote(courseRequest.getNote());
         course.setNumberOfTickets(courseRequest.getNumberOfTickets());
-        course.setOrenatationHours(courseRequest.getOrenatationHours());
+        course.setOrientationHours(courseRequest.getOrenatationHours());
         course.setPartFullTimeCourse(courseRequest.getPartFullTimeCourse());
         course.setPartnerList(partnerCourseAdapter.adptPartnerCourseRequestToPartnerCourse(courseRequest.getPartnerList()));
         course.setPaymentModality(courseRequest.getPaymentModality());
@@ -189,7 +189,7 @@ public class CourseAdapter {
         courseResponse.setMorningStartHour(course.getMorningStartHour());
         courseResponse.setNote(course.getNote());
         courseResponse.setNumberOfTickets(course.getNumberOfTickets());
-        courseResponse.setOrenatationHours(course.getOrenatationHours());
+        courseResponse.setOrenatationHours(course.getOrientationHours());
         courseResponse.setPartFullTimeCourse(course.getPartFullTimeCourse());
         courseResponse.setPartnerList(partnerCourseAdapter.adptPartnerCourseToPartnerCourseResponse(course.getPartnerList()));
         courseResponse.setPaymentModality(course.getPaymentModality());
