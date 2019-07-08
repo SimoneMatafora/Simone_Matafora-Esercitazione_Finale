@@ -156,6 +156,7 @@ public class DogeController {
 
         ByteArrayOutputStream outputStream = mergePdf(fileList);
         filecontent = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        outputStream.close();
         UploadRequestV1 uploadRequestV1 = new UploadRequestV1();
         UUID uuid = UUID.randomUUID();
         uploadRequestV1.setId(uuid);
@@ -166,23 +167,31 @@ public class DogeController {
         uploadRequestV1.setFileContent(filecontent);
         uploadRequestV1.setFileName("Registro-Didattico-Completo.pdf");
         UploadResponseV1 uploadResponseV1 = filemanagerService.uploadFile(uploadRequestV1);
+
         return new ResponseEntity<>(new IdentifierResponseV1(uploadResponseV1.getId().toString()), HttpStatus.OK);
     }
 
     public ByteArrayOutputStream mergePdf(List<byte[]> files) throws IOException {
+
         PDFMergerUtility PDFmerger = new PDFMergerUtility();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PDFmerger.setDestinationStream(outputStream);
         List<PDDocument> pdDocuments = new LinkedList<>();
+
         for (byte[] file : files){
+
             PDDocument pdDocument = PDDocument.load(file);
             ((LinkedList<PDDocument>) pdDocuments).addLast(pdDocument);
             PDFmerger.addSource(new ByteArrayInputStream(file));
         }
-        PDFmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
+
+        PDFmerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
+
         for (PDDocument pdDocument : pdDocuments){
+            System.out.println(pdDocument.getNumberOfPages());
            pdDocument.close();
         }
+
         return outputStream;
     }
 
