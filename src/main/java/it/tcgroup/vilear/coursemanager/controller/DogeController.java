@@ -155,7 +155,13 @@ public class DogeController {
         }
 
         ByteArrayOutputStream outputStream = mergePdf(fileList);
+
+        System.out.println("sono dopo il merge");
+
         filecontent = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+
+        System.out.println("sono dopo la codifica");
+
         outputStream.close();
         UploadRequestV1 uploadRequestV1 = new UploadRequestV1();
         UUID uuid = UUID.randomUUID();
@@ -167,6 +173,9 @@ public class DogeController {
         uploadRequestV1.setFileContent(filecontent);
         uploadRequestV1.setFileName("Registro-Didattico-Completo.pdf");
         UploadResponseV1 uploadResponseV1 = filemanagerService.uploadFile(uploadRequestV1);
+
+        System.out.println("sono dopo filemanager se ci arriva");
+
 
         return new ResponseEntity<>(new IdentifierResponseV1(uploadResponseV1.getId().toString()), HttpStatus.OK);
     }
