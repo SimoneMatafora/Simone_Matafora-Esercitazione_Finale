@@ -185,7 +185,7 @@ public class DogeController {
             PDFmerger.addSource(new ByteArrayInputStream(file));
         }
 
-        PDFmerger.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
+        PDFmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly(50000000));
 
         for (PDDocument pdDocument : pdDocuments){
             System.out.println(pdDocument.getNumberOfPages());
