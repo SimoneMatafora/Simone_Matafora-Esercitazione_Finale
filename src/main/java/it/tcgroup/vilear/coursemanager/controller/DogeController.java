@@ -153,7 +153,7 @@ public class DogeController {
             byte[] decodedFile = Base64.getDecoder().decode(downloadResponseV1.getFileContent());
             fileList.add(decodedFile);
 
-            filemanagerService.deleteFile(downloadResponseV1.getResourceId());
+            //filemanagerService.deleteFile(downloadResponseV1.getResourceId());
         }
 
         ByteArrayOutputStream outputStream = mergePdf(fileList);
