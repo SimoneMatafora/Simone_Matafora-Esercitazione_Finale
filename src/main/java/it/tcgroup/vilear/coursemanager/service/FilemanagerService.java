@@ -19,4 +19,6 @@ public interface FilemanagerService {
             maxAttempts = 10,
             backoff = @Backoff(delay = 1000))
     public DownloadResponseV1 getFileDoge(String idFileManager) throws IOException;
+
+    void deleteFile(String idFile) throws IOException;
 }

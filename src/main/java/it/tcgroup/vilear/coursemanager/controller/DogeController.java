@@ -152,6 +152,8 @@ public class DogeController {
             identifierResponseV1s.add(new IdentifierResponseV1(dogeResponseV11.getDocumentId()));
             byte[] decodedFile = Base64.getDecoder().decode(downloadResponseV1.getFileContent());
             fileList.add(decodedFile);
+
+            filemanagerService.deleteFile(downloadResponseV1.getResourceId());
         }
 
         ByteArrayOutputStream outputStream = mergePdf(fileList);
@@ -175,7 +177,6 @@ public class DogeController {
         UploadResponseV1 uploadResponseV1 = filemanagerService.uploadFile(uploadRequestV1);
 
         System.out.println("sono dopo filemanager se ci arriva");
-
 
         return new ResponseEntity<>(new IdentifierResponseV1(uploadResponseV1.getId().toString()), HttpStatus.OK);
     }

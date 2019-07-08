@@ -32,6 +32,9 @@ public class FilemanagerServiceImpl implements FilemanagerService {
     @Value("${filemanager.api.endpoint}")
     private String endpointUrl;
 
+    @Value("${filemanager.api}")
+    private String filemanagerAPi;
+
     @Value("${filemanager.api.upload}")
     private String uploadApi;
 
@@ -115,4 +118,11 @@ public class FilemanagerServiceImpl implements FilemanagerService {
 
         return downloadFileManager;
     }
+
+    @Override
+    public void deleteFile(String idFile) throws IOException {
+
+        httpUtil.callWithoutCert(endpointUrl + filemanagerAPi + idFile, HttpMethod.DELETE, null, null, null);
+    }
+
 }
