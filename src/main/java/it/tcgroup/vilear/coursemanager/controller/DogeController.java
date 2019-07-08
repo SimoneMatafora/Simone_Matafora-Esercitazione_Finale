@@ -183,6 +183,7 @@ public class DogeController {
             PDDocument pdDocument = PDDocument.load(file);
             ((LinkedList<PDDocument>) pdDocuments).addLast(pdDocument);
             PDFmerger.addSource(new ByteArrayInputStream(file));
+            pdDocument.close();
         }
 
         PDFmerger.mergeDocuments(MemoryUsageSetting.setupTempFileOnly());
