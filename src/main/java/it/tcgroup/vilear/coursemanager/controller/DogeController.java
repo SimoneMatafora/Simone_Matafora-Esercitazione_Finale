@@ -153,16 +153,12 @@ public class DogeController {
             byte[] decodedFile = Base64.getDecoder().decode(downloadResponseV1.getFileContent());
             fileList.add(decodedFile);
 
-            //filemanagerService.deleteFile(downloadResponseV1.getResourceId());
+            filemanagerService.deleteFile(dogeResponseV11.getDocumentId());
         }
 
         ByteArrayOutputStream outputStream = mergePdf(fileList);
 
-        System.out.println("sono dopo il merge");
-
         filecontent = Base64.getEncoder().encodeToString(outputStream.toByteArray());
-
-        System.out.println("sono dopo la codifica");
 
         outputStream.close();
         UploadRequestV1 uploadRequestV1 = new UploadRequestV1();

@@ -35,9 +35,11 @@ public class FilemanagerServiceImpl implements FilemanagerService {
     @Value("${filemanager.api.upload}")
     private String uploadApi;
 
-
     @Value("${filemanager.api.download}")
     private String downloadApi;
+
+    @Value("${filemanager.api.delete}")
+    private String deleteApi;
 
     /*
         public class CustomTypeReference extends TypeReference<Object> {
@@ -119,7 +121,7 @@ public class FilemanagerServiceImpl implements FilemanagerService {
     @Override
     public void deleteFile(String idFile) throws IOException {
 
-       // httpUtil.callWithoutCert(endpointUrl + filemanagerAPi + idFile, HttpMethod.DELETE, null, null, null);
+       httpUtil.callWithoutCert(endpointUrl + deleteApi + idFile, HttpMethod.DELETE, null, null, null);
     }
 
 }
