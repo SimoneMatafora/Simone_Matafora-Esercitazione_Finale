@@ -95,6 +95,9 @@ public class TeacherServiceImpl implements TeacherService {
                 UploadResponseV1 response = null;
                 response = filemanagerService.uploadFile(uploadCurriculum);
                 teacherRequest.setCurriculum(attachmentAdapter.adptUploadResponseToAttachment(response));
+
+                System.out.println(teacherRequest);
+
             } catch (IOException e) {
                 throw new BadParametersException("Error to upload curriculum. ");
             }
