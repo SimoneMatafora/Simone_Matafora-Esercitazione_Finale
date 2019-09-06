@@ -95,7 +95,7 @@ public class TeacherAdapter {
 
 
             teacher.setId(UUID.fromString(teacherInsertRequest.getId()));
-            //teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
+            teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
             teacher.setRegister(teacherInsertRequest.getRegister());
             teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
             teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
@@ -241,11 +241,8 @@ public class TeacherAdapter {
         teacher.setPhone(teacherInsertRequest.getPhone());
         teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
         teacher.setResidentialAddress(residentialAddress);
-
         teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
-
         teacher.setDomicileAddress(domicileAddress);
-
 
         if(teacherInsertRequest.getVatHolder() == null)
             teacher.setVatHolder(false);

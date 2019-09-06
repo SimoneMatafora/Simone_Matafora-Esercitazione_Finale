@@ -84,7 +84,23 @@ public class TeacherServiceImpl implements TeacherService {
         UUID idTeacher = UUID.randomUUID();
         teacherInsertRequest.setId(idTeacher.toString());
 
-        TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherAdapter.adptTeacherRegisterRequestToTeacherRequest(teacherInsertRequest));
+        TeacherRequestV1 teacherRequest = teacherAdapter.adptTeacherRegisterRequestToTeacherRequest(teacherInsertRequest);
+
+        if(teacherInsertRequest.getCurriculum() != null){
+
+            UploadRequestV1 uploadCurriculum = teacherInsertRequest.getCurriculum();
+            uploadCurriculum.setResourceId(idTeacher.toString());
+
+            try {
+                UploadResponseV1 response = null;
+                response = filemanagerService.uploadFile(uploadCurriculum);
+                teacherRequest.setCurriculum(attachmentAdapter.adptUploadResponseToAttachment(response));
+            } catch (IOException e) {
+                throw new BadParametersException("Error to upload curriculum. ");
+            }
+        }
+
+        TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherRequest);
 
         if (teacher.getDomicileEqualsResidential() == null)
             teacher.setDomicileEqualsResidential(true);
@@ -96,13 +112,6 @@ public class TeacherServiceImpl implements TeacherService {
             teacher.setDomicileAddress(teacher.getResidentialAddress());
 
         teacherRepository.save(teacher);
-
-        try {
-            teacher.setCurriculumVitae(this.addTeacherCurriculum(teacherInsertRequest.getCurriculum(), teacher.getId()));
-
-        } catch (IOException e) {
-            throw new BadParametersException("Error to upload curriculum. ");
-        }
 
         return teacherAdapter.adptTeacherIdToTeacherIdResponse(teacher);
 
