@@ -60,13 +60,19 @@ public class TeacherAdapter {
                 teacherInsertRequest.getCurriculum().getFileContent() != null &&
                 !teacherInsertRequest.getCurriculum().getFileContent().isEmpty()) {
 
-                System.out.println("sono qui");
-
                 UploadRequestV1 request = teacherInsertRequest.getCurriculum();
                 request.setResourceId(teacherInsertRequest.getId());
                 UploadResponseV1 response = filemanagerService.uploadFile(request);
                 curriculum = attachmentAdapter.adptUploadResponseToAttachment(response);
+
+            }else if(teacherInsertRequest.getCurriculum() != null &&
+                    teacherInsertRequest.getCurriculum().getFileContent() == null){
+
+                System.out.println("sono qui");
+
             }
+
+            System.out.println(teacherInsertRequest.getCurriculum());
 
             teacher.setId(UUID.fromString(teacherInsertRequest.getId()));
             teacher.setCurriculumVitae(curriculum);

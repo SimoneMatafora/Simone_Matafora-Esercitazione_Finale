@@ -1,6 +1,7 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,6 @@ public class AttachmentAdapter {
         attachment.setResourceType(uploadResponse.getResourceType());
 
         return attachment;
-
     }
+
 }
