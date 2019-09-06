@@ -67,9 +67,13 @@ public class TeacherAdapter {
 
             }*/
 
+            System.out.println("sono qui " + teacherInsertRequest.getCurriculum());
+
             if(teacherInsertRequest.getCurriculum() != null ){
                 curriculum = attachmentAdapter.adptUploadResponseToAttachment(teacherInsertRequest.getCurriculum());
             }
+
+            System.out.println("sono qui dopo ");
 
             teacher.setId(UUID.fromString(teacherInsertRequest.getId()));
             teacher.setCurriculumVitae(curriculum);
