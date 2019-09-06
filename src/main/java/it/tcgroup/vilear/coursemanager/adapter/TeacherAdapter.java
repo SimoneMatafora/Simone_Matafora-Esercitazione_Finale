@@ -85,56 +85,83 @@ public class TeacherAdapter {
 
             TeacherEntity teacher = new TeacherEntity();
 
+            System.out.println("1");
+
             Address residentialAddress = null;
             if (teacherInsertRequest.getResidentialAddress() != null)
                 residentialAddress = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getResidentialAddress());
+
+            System.out.println("2");
 
             Address domicileAddress = null;
             if (teacherInsertRequest.getDomicileAddress() != null)
                 domicileAddress = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getDomicileAddress());
 
+            System.out.println("3");
 
             teacher.setId(UUID.fromString(teacherInsertRequest.getId()));
+            System.out.println("4");
             teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
+            System.out.println("5");
             teacher.setRegister(teacherInsertRequest.getRegister());
+            System.out.println("6");
             teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
+            System.out.println("7");
             teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
+            System.out.println("8");
             teacher.setFiscalCode(teacherInsertRequest.getFiscalCode());
+            System.out.println("9");
             teacher.setSurname(teacherInsertRequest.getSurname());
+            System.out.println("10");
             teacher.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
+            System.out.println("11");
             teacher.setEmail(teacherInsertRequest.getEmail());
+            System.out.println("12");
             teacher.setBirthPlace(teacherInsertRequest.getBirthPlace());
+            System.out.println("13");
             teacher.setName(teacherInsertRequest.getName());
+            System.out.println("14");
             teacher.setNote(teacherInsertRequest.getNote());
+            System.out.println("15");
             teacher.setVatNumber(teacherInsertRequest.getVatNumber());
+            System.out.println("16");
             teacher.setSector(teacherInsertRequest.getSector());
+            System.out.println("17");
             teacher.setPhone(teacherInsertRequest.getPhone());
+            System.out.println("18");
             teacher.setResidentialAddress(residentialAddress);
+            System.out.println("19");
 
             teacher.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
+            System.out.println("20");
 
             teacher.setDomicileAddress(domicileAddress);
+            System.out.println("21");
 
             if (teacherInsertRequest.getVatHolder() == null)
                 teacher.setVatHolder(false);
             else
                 teacher.setVatHolder(teacherInsertRequest.getVatHolder());
 
+            System.out.println("22");
             if (teacherInsertRequest.getProfessionalOrderRegistration() == null)
                 teacher.setProfessionalOrderRegistration(false);
             else
                 teacher.setProfessionalOrderRegistration(teacherInsertRequest.getProfessionalOrderRegistration());
 
+            System.out.println("23");
             if (teacherInsertRequest.getAuthorized() == null)
                 teacher.setAuthorized(false);
             else
                 teacher.setAuthorized(teacherInsertRequest.getAuthorized());
 
+            System.out.println("24");
             if (teacherInsertRequest.getAccreditedFt() == null)
                 teacher.setAccreditedFt(false);
             else
                 teacher.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
 
+            System.out.println("25");
             if (teacherInsertRequest.getPublicEmployee() == null)
                 teacher.setPublicEmployee(false);
             else
