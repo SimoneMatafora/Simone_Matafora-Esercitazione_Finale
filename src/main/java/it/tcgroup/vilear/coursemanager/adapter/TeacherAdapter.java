@@ -47,6 +47,7 @@ public class TeacherAdapter {
 
             TeacherRequestV1 teacherRequest = new TeacherRequestV1();
 
+            teacherRequest.setId(teacherInsertRequest.getId());
             teacherRequest.setRegister(teacherInsertRequest.getRegister());
             teacherRequest.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
             teacherRequest.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
