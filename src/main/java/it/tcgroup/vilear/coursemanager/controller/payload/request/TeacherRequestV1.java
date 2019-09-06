@@ -2,6 +2,7 @@ package it.tcgroup.vilear.coursemanager.controller.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.UploadResponseV1;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -76,7 +77,7 @@ public class TeacherRequestV1 {
 
     @NotNull
     @JsonProperty("curriculum_vitae")
-    private UploadRequestV1 curriculum;
+    private UploadResponseV1 curriculum;
 
     @NotNull
     @JsonProperty("residential_address")
@@ -91,7 +92,7 @@ public class TeacherRequestV1 {
     public TeacherRequestV1() {
     }
 
-    public TeacherRequestV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, @NotNull UploadRequestV1 curriculum, @NotNull AddressRequest residentialAddress, AddressRequest domicileAddress, Boolean domicileEqualsResidential) {
+    public TeacherRequestV1(String id, @NotNull String name, @NotNull String surname, @NotNull String fiscalCode, @NotNull Date dateOfBirth, @NotNull String birthPlace, String phone, @NotNull String email, @NotNull String professionalArea, Boolean publicEmployee, Boolean accreditedFt, String accreditedFtCode, Boolean authorized, Boolean professionalOrderRegistration, String register, Boolean vatHolder, String vatNumber, String sector, String note, @NotNull UploadResponseV1 curriculum, @NotNull AddressRequest residentialAddress, AddressRequest domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -269,11 +270,11 @@ public class TeacherRequestV1 {
         this.note = note;
     }
 
-    public UploadRequestV1 getCurriculum() {
+    public UploadResponseV1 getCurriculum() {
         return curriculum;
     }
 
-    public void setCurriculum(UploadRequestV1 curriculum) {
+    public void setCurriculum(UploadResponseV1 curriculum) {
         this.curriculum = curriculum;
     }
 
