@@ -5,6 +5,7 @@ import it.tcgroup.vilear.coursemanager.adapter.TeacherAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRegistrationRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -72,6 +73,38 @@ public class TeacherServiceImpl implements TeacherService {
             teacher.setDomicileAddress(teacher.getResidentialAddress());
 
         teacherRepository.save(teacher);
+
+        return teacherAdapter.adptTeacherIdToTeacherIdResponse(teacher);
+
+    }
+
+    @Override
+    public IdResponseV1 insertTeacher(TeacherRegistrationRequestV1 teacherInsertRequest){
+
+        UUID idTeacher = UUID.randomUUID();
+        teacherInsertRequest.setId(idTeacher.toString());
+
+        TeacherRequestV1 teacherRequestV1 = teacherAdapter.adptTeacherRegisterRequestToTeacherRequest(teacherInsertRequest);
+
+        TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherRequestV1);
+
+        if (teacher.getDomicileEqualsResidential() == null)
+            teacher.setDomicileEqualsResidential(true);
+
+        if(!teacher.getDomicileEqualsResidential() && teacher.getDomicileAddress()==null)
+            throw new BadParametersException("If the domicile address isn't equals to residential address, you MUST insert domicile address information");
+
+        if(teacher.getDomicileEqualsResidential())
+            teacher.setDomicileAddress(teacher.getResidentialAddress());
+
+        teacherRepository.save(teacher);
+
+        try {
+            teacher.setCurriculumVitae(this.addTeacherCurriculum(teacherInsertRequest.getCurriculum(), teacher.getId()));
+
+        } catch (IOException e) {
+            throw new BadParametersException("Error to upload curriculum. ");
+        }
 
         return teacherAdapter.adptTeacherIdToTeacherIdResponse(teacher);
 

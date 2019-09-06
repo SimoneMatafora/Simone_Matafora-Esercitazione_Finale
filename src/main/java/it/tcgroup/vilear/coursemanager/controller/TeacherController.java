@@ -3,6 +3,7 @@ package it.tcgroup.vilear.coursemanager.controller;
 import io.swagger.annotations.*;
 import it.tcgroup.vilear.coursemanager.common.validation.MessageCode;
 import it.tcgroup.vilear.coursemanager.common.validation.RequestValidator;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRegistrationRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -55,9 +56,9 @@ public class TeacherController {
     })
     public ResponseEntity<IdResponseV1> postInsertTeacherRegistration(
             @ApiParam(value = "Body of the Teacher to be created", required = true)
-            @RequestBody TeacherRequestV1 teacherInsertRequestV1) {
+            @RequestBody TeacherRegistrationRequestV1 teacherInsertRequestV1) {
 
-        validateService.requestValidatorTeacher(teacherInsertRequestV1);
+        validateService.requestValidatorTeacherRegistration(teacherInsertRequestV1);
 
         return new ResponseEntity<>( teacherService.insertTeacher(teacherInsertRequestV1),HttpStatus.CREATED);
     }

@@ -1,5 +1,6 @@
 package it.tcgroup.vilear.coursemanager.service;
 
+import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRegistrationRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public interface TeacherService {
 
     IdResponseV1 insertTeacher(TeacherRequestV1 teacherInsertRequest);
+    IdResponseV1 insertTeacher(TeacherRegistrationRequestV1 teacherInsertRequest);
     TeacherResponseV1 updateTeacher(TeacherRequestV1 teacherUpdateRequest, UUID idTeacher);
     TeacherResponseV1 getTeacher(UUID idTeacher);
     TeacherResponseV1 patchTeacher(TeacherRequestV1 teacherUpdateRequest, UUID idTeacher);

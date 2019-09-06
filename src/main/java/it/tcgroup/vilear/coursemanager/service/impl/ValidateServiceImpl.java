@@ -3,10 +3,7 @@ package it.tcgroup.vilear.coursemanager.service.impl;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.validation.MessageCode;
 import it.tcgroup.vilear.coursemanager.common.validation.RequestValidator;
-import it.tcgroup.vilear.coursemanager.controller.payload.request.BranchRequestV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.request.PartnerRequestV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.*;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.TypeAddressPartnerEnum;
 import it.tcgroup.vilear.coursemanager.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,13 @@ public class ValidateServiceImpl implements ValidateService {
     private RequestValidator requestValidator;
 
     @Override
+    public void requestValidatorLearnerRegistration(LearnerRequestV1 learnerRequest){
+
+        requestValidator.validateRequest(learnerRequest, MessageCode.E00X_1000);
+        //requestValidator.validateRequest(learnerRequest.getResidentialAddress(), MessageCode.E00X_1000);
+    }
+
+    @Override
     public void requestValidatorLearner(LearnerRequestV1 learnerRequest){
 
         requestValidator.validateRequest(learnerRequest, MessageCode.E00X_1000);
@@ -32,6 +36,13 @@ public class ValidateServiceImpl implements ValidateService {
 
         if(learnerRequest.getResidentialAddress() != null)
             requestValidator.validateRequest(learnerRequest.getResidentialAddress(), MessageCode.E00X_1000);
+    }
+
+    @Override
+    public void requestValidatorTeacherRegistration(TeacherRegistrationRequestV1 teacherRequest){
+
+        requestValidator.validateRequest(teacherRequest, MessageCode.E00X_1000);
+        //requestValidator.validateRequest(teacherRequest.getResidentialAddress(), MessageCode.E00X_1000);
     }
 
     @Override

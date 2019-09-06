@@ -4,6 +4,7 @@ import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.BadRequestException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1.TeacherCourseRequestV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRegistrationRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
@@ -36,6 +37,44 @@ public class TeacherAdapter {
 
     @Autowired
     private FilemanagerService filemanagerService;
+
+    public TeacherRequestV1 adptTeacherRegisterRequestToTeacherRequest(TeacherRegistrationRequestV1 teacherInsertRequest) {
+
+        try {
+
+            if (teacherInsertRequest == null)
+                return null;
+
+            TeacherRequestV1 teacherRequest = new TeacherRequestV1();
+
+            teacherRequest.setRegister(teacherInsertRequest.getRegister());
+            teacherRequest.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
+            teacherRequest.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());
+            teacherRequest.setFiscalCode(teacherInsertRequest.getFiscalCode());
+            teacherRequest.setSurname(teacherInsertRequest.getSurname());
+            teacherRequest.setDateOfBirth(teacherInsertRequest.getDateOfBirth());
+            teacherRequest.setEmail(teacherInsertRequest.getEmail());
+            teacherRequest.setBirthPlace(teacherInsertRequest.getBirthPlace());
+            teacherRequest.setName(teacherInsertRequest.getName());
+            teacherRequest.setNote(teacherInsertRequest.getNote());
+            teacherRequest.setVatNumber(teacherInsertRequest.getVatNumber());
+            teacherRequest.setSector(teacherInsertRequest.getSector());
+            teacherRequest.setPhone(teacherInsertRequest.getPhone());
+            teacherRequest.setResidentialAddress(teacherInsertRequest.getResidentialAddress());
+            teacherRequest.setDomicileEqualsResidential(teacherInsertRequest.getDomicileEqualsResidential());
+            teacherRequest.setDomicileAddress(teacherInsertRequest.getDomicileAddress());
+            teacherRequest.setVatHolder(teacherInsertRequest.getVatHolder());
+            teacherRequest.setProfessionalOrderRegistration(teacherInsertRequest.getProfessionalOrderRegistration());
+            teacherRequest.setAuthorized(teacherInsertRequest.getAuthorized());
+            teacherRequest.setAccreditedFt(teacherInsertRequest.getAccreditedFt());
+            teacherRequest.setPublicEmployee(teacherInsertRequest.getPublicEmployee());
+
+            return teacherRequest;
+
+        }catch (Exception e) {
+            throw new RuntimeException("On filemanager: " + e.getMessage());
+        }
+    }
 
     public TeacherEntity adptTeacherRequestToTeacher(TeacherRequestV1 teacherInsertRequest) {
 
