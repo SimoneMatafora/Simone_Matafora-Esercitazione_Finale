@@ -95,7 +95,7 @@ public class TeacherAdapter {
 
 
             teacher.setId(UUID.fromString(teacherInsertRequest.getId()));
-            teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
+            //teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
             teacher.setRegister(teacherInsertRequest.getRegister());
             teacher.setProfessionalArea(teacherInsertRequest.getProfessionalArea());
             teacher.setAccreditedFtCode(teacherInsertRequest.getAccreditedFtCode());

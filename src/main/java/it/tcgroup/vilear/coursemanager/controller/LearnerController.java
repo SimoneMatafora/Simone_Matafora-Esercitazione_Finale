@@ -60,7 +60,7 @@ public class LearnerController {
             @ApiParam(value = "Body of the Learner to be created", required = true)
             @RequestBody LearnerRequestV1 learnerInsertRequestV1) {
 
-        validateService.requestValidatorLearner(learnerInsertRequestV1);
+        validateService.requestValidatorLearnerRegistration(learnerInsertRequestV1);
 
         return new ResponseEntity<>( learnerService.insertLearner(learnerInsertRequestV1), HttpStatus.OK);
     }

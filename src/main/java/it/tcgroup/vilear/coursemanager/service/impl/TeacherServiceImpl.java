@@ -84,9 +84,7 @@ public class TeacherServiceImpl implements TeacherService {
         UUID idTeacher = UUID.randomUUID();
         teacherInsertRequest.setId(idTeacher.toString());
 
-        TeacherRequestV1 teacherRequestV1 = teacherAdapter.adptTeacherRegisterRequestToTeacherRequest(teacherInsertRequest);
-
-        TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherRequestV1);
+        TeacherEntity teacher = teacherAdapter.adptTeacherRequestToTeacher(teacherAdapter.adptTeacherRegisterRequestToTeacherRequest(teacherInsertRequest));
 
         if (teacher.getDomicileEqualsResidential() == null)
             teacher.setDomicileEqualsResidential(true);
