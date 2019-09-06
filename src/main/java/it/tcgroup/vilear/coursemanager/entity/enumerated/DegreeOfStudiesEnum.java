@@ -8,8 +8,8 @@ public enum DegreeOfStudiesEnum {
     ELEMENTARI("Elementari"),
     MEDIE("Medie"),
     DIPLOMA("Diploma"),
-    LAUREA_PRIMO_LIVELLO("Laurea primo livello"),
-    LAUREA_MAGISTRALE("Laurea magistrale"),
+    LAUREA_PRIMO_LIVELLO("Laurea_primo_livello"),
+    LAUREA_MAGISTRALE("Laurea_magistrale"),
     DOTTORATO("Dottorato"),
     MASTER("Master");
 

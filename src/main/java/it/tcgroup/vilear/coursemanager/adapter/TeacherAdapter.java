@@ -55,18 +55,6 @@ public class TeacherAdapter {
                 domicileAddress = addressAdapter.adptAddressRequestToAddress(teacherInsertRequest.getDomicileAddress());
 
 
-/*
-            if (teacherInsertRequest.getCurriculum() != null &&
-                teacherInsertRequest.getCurriculum().getFileContent() != null &&
-                !teacherInsertRequest.getCurriculum().getFileContent().isEmpty()) {
-
-                UploadRequestV1 request = teacherInsertRequest.getCurriculum();
-                request.setResourceId(teacherInsertRequest.getId());
-                UploadResponseV1 response = filemanagerService.uploadFile(request);
-                curriculum = attachmentAdapter.adptUploadResponseToAttachment(response);
-
-            }*/
-
             teacher.setId(UUID.fromString(teacherInsertRequest.getId()));
             teacher.setCurriculumVitae(teacherInsertRequest.getCurriculum());
             teacher.setRegister(teacherInsertRequest.getRegister());
