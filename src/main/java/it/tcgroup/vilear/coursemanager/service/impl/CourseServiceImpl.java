@@ -248,7 +248,6 @@ public class CourseServiceImpl implements CourseService {
             if(courseUpdateRequest == null)
                 return null;
 
-
             if(courseUpdateRequest.getPlacementList()!= null) {
                 for (PlacementCourseRequestV1 placement : courseUpdateRequest.getPlacementList()) {
                     if (!this.checkDateDifference(placement.getExpiredPlacementDate(),courseUpdateRequest.getCourseEndDate(),180))
