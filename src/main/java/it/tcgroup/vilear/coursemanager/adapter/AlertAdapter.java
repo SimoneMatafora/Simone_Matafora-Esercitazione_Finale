@@ -1,10 +1,16 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
 import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.AlertResponseV1;
-import it.tcgroup.vilear.coursemanager.entity.AlertEntity;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.AlertCourseResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
+import it.tcgroup.vilear.coursemanager.entity.AlertCourseEntity;
+import it.tcgroup.vilear.coursemanager.entity.AlertSettingsEntity;
+import it.tcgroup.vilear.coursemanager.entity.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Component
 public class AlertAdapter {
@@ -12,25 +18,52 @@ public class AlertAdapter {
     @Autowired
     private DateUtil dateUtil;
 
-    public AlertResponseV1 adptAlertToAlertResponse(AlertEntity alert){
+    public AlertCourseResponseV1 adptAlertCourseToAlertCourseResponse(AlertCourseEntity alertCourse){
 
-        if(alert == null)
+        if(alertCourse == null)
             return null;
 
-        AlertResponseV1 alertResponse = new AlertResponseV1();
+        AlertCourseResponseV1 alertCourseResponse = new AlertCourseResponseV1();
+        alertCourseResponse.setActive(alertCourse.getActive());
+        alertCourseResponse.setAlertDescription(alertCourse.getAlertDescription());
+        alertCourseResponse.setCourseCode(alertCourse.getCourseCode());
+        alertCourseResponse.setCourseName(alertCourse.getCourseName());
+        alertCourseResponse.setDateEndAlert(alertCourse.getDateEndAlert());
+        alertCourseResponse.setDateStartAlert(alertCourse.getDateStartAlert());
+        alertCourseResponse.setId(alertCourse.getId());
+        alertCourseResponse.setIdAlert(alertCourse.getIdAlert());
+        alertCourseResponse.setIdCourse(alertCourse.getIdCourse());
+        alertCourseResponse.setPriority(alertCourse.getPriority());
+        alertCourseResponse.setStatus(alertCourse.getStatus());
 
-        alertResponse.setId(alert.getId());
-        alertResponse.setCourseCode(alert.getCourseCode());
-        alertResponse.setCourseName(alert.getCourseName());
-        alertResponse.setActive(alert.getActive());
-        alertResponse.setAlertDescription(alert.getAlertDescription());
-        alertResponse.setNumberOfDays(alert.getNumberOfDays());
-        alertResponse.setPriority(alert.getPriority());
-        alertResponse.setStartDate(dateUtil.convertUTCInstantToIS08601String(alert.getStartDate()));
-        alertResponse.setStatus(alert.getStatus());
-        alertResponse.setType(alert.getType());
-
-        return alertResponse;
+        return alertCourseResponse;
     }
+
+    public List<AlertCourseResponseV1> adptAlertCourseToAlertCourseResponse(List<AlertCourseEntity> alertCourseList){
+
+        if(alertCourseList == null)
+            return null;
+
+        List<AlertCourseResponseV1> alertCourseResponseList = new LinkedList<>();
+
+        for (AlertCourseEntity att : alertCourseList){
+            alertCourseResponseList.add(this.adptAlertCourseToAlertCourseResponse(att));
+        }
+        return alertCourseResponseList;
+    }
+
+    public PaginationResponseV1<AlertCourseResponseV1> adpAlertCoursePaginationToAlertCoursePaginationResposne(Pagination<AlertCourseEntity> alertCoursePagination){
+
+        if(alertCoursePagination == null)
+            return null;
+
+        PaginationResponseV1<AlertCourseResponseV1> alertCoursePaginationResponse = new PaginationResponseV1<>();
+
+        alertCoursePaginationResponse.setItems(this.adptAlertCourseToAlertCourseResponse(alertCoursePagination.getItems()));
+        alertCoursePaginationResponse.setStats(alertCoursePagination.getStats());
+
+        return alertCoursePaginationResponse;
+    }
+
 
 }

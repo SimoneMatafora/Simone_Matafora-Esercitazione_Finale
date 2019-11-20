@@ -85,12 +85,12 @@ public class DateUtil {
     /********************************************/
 
     /******************GET INSTANT******************/
-    public  Instant convertLocalDateToInstant(LocalDateTime localDate){
+    public Instant convertLocalDateToInstant(LocalDateTime localDate){
 
         return localDate.atZone(ZoneId.systemDefault()).toInstant();
     }
 
-    public  Instant convertLocalDateToInstant(LocalDate localDate){
+    public Instant convertLocalDateToInstant(LocalDate localDate){
 
         return localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
     }
@@ -156,6 +156,14 @@ public class DateUtil {
         LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         dateTime = dateTime.withNano(0);
         return dateTime.toInstant(ZoneOffset.UTC);
+    }
+
+    public LocalDate getNowLocalDate(){
+        return LocalDate.now();
+    }
+
+    public LocalDateTime detNowLocalDateTime(){
+        return LocalDateTime.now();
     }
 
 

@@ -26,6 +26,7 @@ import it.tcgroup.vilear.coursemanager.entity.jsonb.course.RecipientManagmentCou
 import it.tcgroup.vilear.coursemanager.repository.CourseEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.repository.LearnerRepository;
+import it.tcgroup.vilear.coursemanager.service.AlertService;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import it.tcgroup.vilear.coursemanager.service.FilemanagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseAdapter courseAdapter;
+
+    @Autowired
+    private AlertService alertService;
 
     @Autowired
     private CourseRepository courseRepository;
@@ -1086,9 +1090,14 @@ public class CourseServiceImpl implements CourseService {
                     isOk = false;
             }
 
-            if(isOk)
+            if(isOk) {
+
                 course.setStatus(CourseStatusEnum.PUBBLICATO);
-            else
+
+                alertService.postAlertCourse(course.getId());
+                //chiamata per l'inserimento degli alert
+
+            }else
                 throw new BadRequestException("In the placements some information is missing (hiring_date, mission_hours or bonus_amount )");
         }
         else{
@@ -1181,7 +1190,8 @@ public class CourseServiceImpl implements CourseService {
 
             throw new BadRequestException(error);
         }
-            courseRepository.save(course);
+
+        courseRepository.save(course);
 
         return courseAdapter.adptCourseToCourseResponse(course);
 
