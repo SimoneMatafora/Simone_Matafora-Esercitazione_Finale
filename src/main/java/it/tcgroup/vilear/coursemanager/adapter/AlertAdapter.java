@@ -28,8 +28,8 @@ public class AlertAdapter {
         alertCourseResponse.setAlertDescription(alertCourse.getAlertDescription());
         alertCourseResponse.setCourseCode(alertCourse.getCourseCode());
         alertCourseResponse.setCourseName(alertCourse.getCourseName());
-        alertCourseResponse.setDateEndAlert(alertCourse.getDateEndAlert());
-        alertCourseResponse.setDateStartAlert(alertCourse.getDateStartAlert());
+        alertCourseResponse.setDateEndAlert(dateUtil.convertUTCDateToIS08601String(alertCourse.getDateEndAlert()));
+        alertCourseResponse.setDateStartAlert(dateUtil.convertUTCDateToIS08601String(alertCourse.getDateStartAlert()));
         alertCourseResponse.setId(alertCourse.getId());
         alertCourseResponse.setIdAlert(alertCourse.getIdAlert());
         alertCourseResponse.setIdCourse(alertCourse.getIdCourse());

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS alert_settings (
 	id UUID PRIMARY KEY,
-	type varchar(255) NULL,
+	type varchar(255) UNIQUE NULL,
 	alert_description varchar(255) NULL,
 	periodicy numeric NULL
 );

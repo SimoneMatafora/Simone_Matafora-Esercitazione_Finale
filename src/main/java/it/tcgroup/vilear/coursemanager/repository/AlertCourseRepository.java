@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface AlertCourseRepository extends JpaRepository<AlertCourseEntity, UUID> {
 
-    @Query("SELECT a FROM AlertCourseEntity a WHERE a.active = FALSE AND a.status = FALSE")
+    @Query("SELECT a FROM AlertCourseEntity a WHERE a.active = FALSE AND a.status = FALSE ")
     List<AlertCourseEntity> getAllAlertToBeActive();
 
     @Query("SELECT a FROM AlertCourseEntity a WHERE a.active = TRUE AND a.status = FALSE AND UPPER(a.priority) = 'BASSA'")

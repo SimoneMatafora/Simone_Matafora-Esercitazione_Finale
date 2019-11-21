@@ -58,6 +58,9 @@ public class AlertCourseEMRepository {
         }
 
         sql += where;
+        String orderBy = "ORDER BY a.priority ASC, a.active ASC, a.status DESC";
+
+        sql += orderBy;
         Query query = em.createNativeQuery(sql, AlertCourseEntity.class);
 
         return query.getResultList();

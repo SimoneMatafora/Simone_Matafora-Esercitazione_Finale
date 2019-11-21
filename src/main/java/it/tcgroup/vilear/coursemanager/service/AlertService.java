@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface AlertService {
     void postAlertCourse(UUID idCourse);
     void patchAlertCourseStatus(UUID alertId);
-    void chroneActiveAlert();
-    void chronePriorityAlert();
+    /*void cronActiveAlert();
+    void cronPriorityAlert();*/
     PaginationResponseV1<AlertCourseResponseV1> getAlertsPagination(int page, int pageSize, String courseName, String courseCode, String startDate, Boolean status, Boolean active);
 }

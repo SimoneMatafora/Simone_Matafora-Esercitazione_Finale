@@ -163,6 +163,23 @@ public class AlertCourseEntity implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "AlertCourseEntity{" +
+                "id=" + id +
+                ", idAlert=" + idAlert +
+                ", idCourse=" + idCourse +
+                ", courseName='" + courseName + '\'' +
+                ", courseCode='" + courseCode + '\'' +
+                ", alertDescription='" + alertDescription + '\'' +
+                ", dateStartAlert=" + dateStartAlert +
+                ", dateEndAlert=" + dateEndAlert +
+                ", active=" + active +
+                ", status=" + status +
+                ", priority=" + priority +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

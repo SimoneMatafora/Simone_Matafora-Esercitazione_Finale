@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -78,9 +79,19 @@ public class DateUtil {
         if (dateString == null || dateString.isEmpty()) {
             return null;
         }
+        try{
 
-        LocalDateTime dateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return Date.from(dateTime.toInstant(ZoneOffset.UTC));
+            dateString = dateString.replace("+0000", "Z");
+            LocalDateTime dateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            dateTime = dateTime.withNano(0);
+            return Date.from(dateTime.toInstant(ZoneOffset.UTC));
+
+        }catch (DateTimeParseException e){
+
+            LocalDateTime dateTime = LocalDateTime.parse(dateString, DateTimeFormatter.ISO_INSTANT);
+            dateTime = dateTime.withNano(0);
+            return Date.from(dateTime.toInstant(ZoneOffset.UTC));
+        }
     }
     /********************************************/
 

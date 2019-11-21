@@ -26,10 +26,10 @@ public class AlertCourseResponseV1 {
     private String alertDescription;
 
     @JsonProperty("date_start_alert")
-    private Date dateStartAlert;
+    private String dateStartAlert;
 
     @JsonProperty("date_end_alert")
-    private Date dateEndAlert;
+    private String dateEndAlert;
 
     @JsonProperty("active")
     private Boolean active;
@@ -43,7 +43,7 @@ public class AlertCourseResponseV1 {
     public AlertCourseResponseV1() {
     }
 
-    public AlertCourseResponseV1(UUID id, UUID idAlert, UUID idCourse, String courseName, String courseCode, String alertDescription, Date dateStartAlert, Date dateEndAlert, Boolean active, Boolean status, AlertPriorityEnum priority) {
+    public AlertCourseResponseV1(UUID id, UUID idAlert, UUID idCourse, String courseName, String courseCode, String alertDescription, String dateStartAlert, String dateEndAlert, Boolean active, Boolean status, AlertPriorityEnum priority) {
         this.id = id;
         this.idAlert = idAlert;
         this.idCourse = idCourse;
@@ -105,19 +105,19 @@ public class AlertCourseResponseV1 {
         this.alertDescription = alertDescription;
     }
 
-    public Date getDateStartAlert() {
+    public String getDateStartAlert() {
         return dateStartAlert;
     }
 
-    public void setDateStartAlert(Date dateStartAlert) {
+    public void setDateStartAlert(String dateStartAlert) {
         this.dateStartAlert = dateStartAlert;
     }
 
-    public Date getDateEndAlert() {
+    public String getDateEndAlert() {
         return dateEndAlert;
     }
 
-    public void setDateEndAlert(Date dateEndAlert) {
+    public void setDateEndAlert(String dateEndAlert) {
         this.dateEndAlert = dateEndAlert;
     }
 

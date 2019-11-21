@@ -18,6 +18,7 @@ import it.tcgroup.vilear.coursemanager.repository.CourseRepository;
 import it.tcgroup.vilear.coursemanager.service.AlertService;
 import it.tcgroup.vilear.coursemanager.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -151,8 +152,10 @@ public class AlertServiceImpl implements AlertService {
         alertCourseRepository.save(alertCourse);
     }
 
-    @Override
-    public void chroneActiveAlert(){
+    //@Override
+    //@Scheduled(cron = "0 43 10 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
+    public void cronActiveAlert(){
 
         List<AlertCourseEntity> courseEntityList = alertCourseRepository.getAllAlertToBeActive();
         List<AlertCourseEntity> courseEntityListToBeUpdate = new LinkedList<>();
@@ -172,12 +175,12 @@ public class AlertServiceImpl implements AlertService {
         if(!courseEntityListToBeUpdate.isEmpty()){
             alertCourseRepository.saveAll(courseEntityListToBeUpdate);
         }
-
-
     }
 
-    @Override
-    public void chronePriorityAlert(){
+    //@Override
+    //@Scheduled(cron = "0 43 10 * * *")
+    @Scheduled(cron = "0 1 0 * * *")
+    public void cronPriorityAlert(){
 
         List<AlertCourseEntity> courseEntityList = alertCourseRepository.getAllAlertToBeChangedPriority();
         List<AlertCourseEntity> courseEntityListToBeUpdate = new LinkedList<>();

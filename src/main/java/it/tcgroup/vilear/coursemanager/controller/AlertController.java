@@ -36,7 +36,7 @@ public class AlertController {
     private AlertAdapter alertAdapter;
 
     /*MODIFICA STATO DI UN ALERT*/
-    @PatchMapping(value = "/alert/{UUID_ALERT_COURSE}",
+    @PatchMapping(value = "/alert/course/{UUID_ALERT_COURSE}/status",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Update status of an Alert", notes = "Update status of an Alert")
     @ApiResponses(value = {
@@ -59,7 +59,7 @@ public class AlertController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/all/alert",
+    @GetMapping(value = "/all/alert/course",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Get all alerts", notes = "")
     @ApiResponses(value = {
@@ -70,16 +70,18 @@ public class AlertController {
             @ApiResponse(code = 406, message = "Not Acceptable"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity<List<AlertCourseResponseV1>> getAlertsPagination(){
+    public ResponseEntity<List<AlertCourseResponseV1>> getAllAlerts(@ApiParam(value = "UUID user logged", required = true)
+                                                                               @RequestHeader(name = "id-user") UUID userId){
 
+        authorizationService.checkAlive(userId);
         List<AlertCourseEntity> response = alertCourseRepository.findAll();
         return new ResponseEntity(alertAdapter.adptAlertCourseToAlertCourseResponse(response), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/alert/chrone")
-    public void chrone(){
-        alertService.chroneActiveAlert();
-        alertService.chronePriorityAlert();
+    @PostMapping(value = "/alert/cron")
+    public void cron(){
+        /*alertService.cronActiveAlert();
+        alertService.cronPriorityAlert();*/
     }
 
 
@@ -108,7 +110,7 @@ public class AlertController {
     }*/
 
     /*PAGINAZIONE ALEFRT*/
-    @GetMapping(value = "/alert",
+    @GetMapping(value = "/alert/course",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Get all alerts", notes = "")
     @ApiResponses(value = {
