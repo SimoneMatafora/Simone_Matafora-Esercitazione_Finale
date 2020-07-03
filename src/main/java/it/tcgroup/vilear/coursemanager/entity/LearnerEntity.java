@@ -3,10 +3,7 @@ package it.tcgroup.vilear.coursemanager.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.DegreeOfStudiesEnum;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAddresType;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAttachmentListType;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.dataType.JsonDataAttachmentType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -15,20 +12,28 @@ import org.hibernate.annotations.TypeDefs;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+
+
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "hibernate_lazy_initializer", "handler"})
 @Table(name = "learner")
 @TypeDefs({
-        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class),
-        @TypeDef(name = "JsonDataAttachmentListType", typeClass = JsonDataAttachmentListType.class)
+        @TypeDef(name = "JsonDataAddressType", typeClass = JsonDataAddresType.class)
+        /* @TypeDef(name = "JsonDataDateType", typeClass = JsonDataDateType.class)*/
 })
-public class LearnerEntity implements Serializable {
+public class LearnerEntity implements Serializable{
 
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+
     @Type(type = "org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
@@ -41,22 +46,23 @@ public class LearnerEntity implements Serializable {
     @Column(name = "fiscal_code")
     private String fiscalCode;
 
-    @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(name = "date_of_birth", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
+
     @Column(name = "birth_place")
-    private  String birthPlace;
+    private String birthPlace;
 
     @Column(name = "phone")
-    private  String phone;
+    private String phone;
 
     @Column(name = "email")
     private String email;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "degree_of_studies")
+    @Enumerated(EnumType.STRING)
     private DegreeOfStudiesEnum degreeOfStudies;
+
 
     @Column(name = "course_of_study")
     private String courseOfStudy;
@@ -64,25 +70,20 @@ public class LearnerEntity implements Serializable {
     @Column(name = "note")
     private String note;
 
-    @Type(type = "JsonDataAttachmentListType")
-    @Column(name = "attachments")
-    private List<Attachment> attachments;
-
-    @Type(type = "JsonDataAddressType")
-    @Column(name = "residential_address")
+    @Type(type="JsonDataAddressType")
+    @Column(name="residential_address")
     private Address residentialAddress;
 
-    @Type(type = "JsonDataAddressType")
-    @Column(name = "domicile_address")
+    @Type(type="JsonDataAddressType")
+    @Column(name="domicile_address")
     private Address domicileAddress;
 
     @Column(name = "domicile_equals_residential")
-    private Boolean domicileEqualsResidential ;
+    private Boolean domicileEqualsResidential;
 
-    public LearnerEntity() {
-    }
+    /*-------------------------------Autogenearated method--------------------------*/
 
-    public LearnerEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, Address residentialAddress, Address domicileAddress, Boolean domicileEqualsResidential) {
+    public LearnerEntity(UUID id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, Address residentialAddress, Address domicileAddress, Boolean domicileEqualsResidential) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -94,10 +95,20 @@ public class LearnerEntity implements Serializable {
         this.degreeOfStudies = degreeOfStudies;
         this.courseOfStudy = courseOfStudy;
         this.note = note;
-        this.attachments = attachments;
         this.residentialAddress = residentialAddress;
         this.domicileAddress = domicileAddress;
         this.domicileEqualsResidential = domicileEqualsResidential;
+    }
+
+    public LearnerEntity() {
+    }
+
+    public DegreeOfStudiesEnum getDegreeOfStudies() {
+        return degreeOfStudies;
+    }
+
+    public void setDegreeOfStudies(DegreeOfStudiesEnum degreeOfStudies) {
+        this.degreeOfStudies = degreeOfStudies;
     }
 
     public UUID getId() {
@@ -164,14 +175,6 @@ public class LearnerEntity implements Serializable {
         this.email = email;
     }
 
-    public DegreeOfStudiesEnum getDegreeOfStudies() {
-        return degreeOfStudies;
-    }
-
-    public void setDegreeOfStudies(DegreeOfStudiesEnum degreeOfStudies) {
-        this.degreeOfStudies = degreeOfStudies;
-    }
-
     public String getCourseOfStudy() {
         return courseOfStudy;
     }
@@ -186,14 +189,6 @@ public class LearnerEntity implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
     }
 
     public Address getResidentialAddress() {
@@ -223,7 +218,8 @@ public class LearnerEntity implements Serializable {
     @Override
     public String toString() {
         return "LearnerEntity{" +
-                "id=" + id +
+                "DegreeOfStudiesEnum=" + degreeOfStudies +
+                ", id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", fiscalCode='" + fiscalCode + '\'' +
@@ -234,10 +230,9 @@ public class LearnerEntity implements Serializable {
                 ", degreeOfStudies=" + degreeOfStudies +
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
-                ", attachments=" + attachments +
                 ", residentialAddress=" + residentialAddress +
                 ", domicileAddress=" + domicileAddress +
-                ", domicileEqualsResidential='" + domicileEqualsResidential + '\'' +
+                ", domicileEqualsResidential=" + domicileEqualsResidential +
                 '}';
     }
 
@@ -257,7 +252,6 @@ public class LearnerEntity implements Serializable {
                 degreeOfStudies == that.degreeOfStudies &&
                 Objects.equals(courseOfStudy, that.courseOfStudy) &&
                 Objects.equals(note, that.note) &&
-                Objects.equals(attachments, that.attachments) &&
                 Objects.equals(residentialAddress, that.residentialAddress) &&
                 Objects.equals(domicileAddress, that.domicileAddress) &&
                 Objects.equals(domicileEqualsResidential, that.domicileEqualsResidential);
@@ -265,6 +259,9 @@ public class LearnerEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, attachments, residentialAddress, domicileAddress, domicileEqualsResidential);
+        return Objects.hash( id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, residentialAddress, domicileAddress, domicileEqualsResidential);
     }
+
+
 }
+

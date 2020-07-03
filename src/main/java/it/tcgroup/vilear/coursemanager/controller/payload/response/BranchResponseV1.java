@@ -1,6 +1,6 @@
 package it.tcgroup.vilear.coursemanager.controller.payload.response;
 
-import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BranchResponseV1 {
@@ -21,12 +21,12 @@ public class BranchResponseV1 {
     private String rightOfAccessToTheCourses;
 
     @JsonProperty("address")
-    private AddressResponse address;
+    private AddressResponseV1 address;
 
     public BranchResponseV1() {
     }
 
-    public BranchResponseV1(String id, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressResponse address) {
+    public BranchResponseV1(String id, String name, String email, Boolean superBranch, String rightOfAccessToTheCourses, AddressResponseV1 address) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -75,11 +75,11 @@ public class BranchResponseV1 {
         this.rightOfAccessToTheCourses = rightOfAccessToTheCourses;
     }
 
-    public AddressResponse getAddress() {
+    public AddressResponseV1 getAddress() {
         return address;
     }
 
-    public void setAddress(AddressResponse address) {
+    public void setAddress(AddressResponseV1 address) {
         this.address = address;
     }
 

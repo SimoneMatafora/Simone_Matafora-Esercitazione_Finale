@@ -5,6 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.BranchRespons
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface BranchService {
@@ -14,8 +15,8 @@ public interface BranchService {
     BranchResponseV1 updateBranch(BranchRequestV1 branchUpdateRequest, UUID idBranch);
     BranchResponseV1 patchBranch(BranchRequestV1 branchUpdateRequest, UUID idBranch);
     PaginationResponseV1<BranchResponseV1> getBranchesPagination(int page, int pageSize, String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
-                                                                       String city, String region, String province);
+                                                                 String city, String region, String province);
     void deleteBranch(UUID idBranch);
     BranchResponseV1 updateIdBranch(String email, String userId);
-
+    List<BranchResponseV1> getAllBranch();
 }

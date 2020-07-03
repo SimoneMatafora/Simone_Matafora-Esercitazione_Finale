@@ -5,7 +5,7 @@ import it.tcgroup.vilear.coursemanager.controller.payload.response.BranchRespons
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.BranchEntity;
-import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.pagination.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

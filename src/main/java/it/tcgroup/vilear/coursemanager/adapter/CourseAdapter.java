@@ -1,257 +1,111 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
-import it.tcgroup.vilear.coursemanager.adapter.course.*;
-import it.tcgroup.vilear.coursemanager.common.util.DateUtil;
-import it.tcgroup.vilear.coursemanager.controller.payload.request.CourseRequestV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.CourseResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.LearnerRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.CourseEntity;
-import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.entity.LearnerEntity;
+import it.tcgroup.vilear.coursemanager.pagination.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+/*
 
 @Component
-public class CourseAdapter {
+public class CourseAdapter implements Serializable {
 
-    @Autowired
-    private DateUtil dateUtil;
+    /*@Autowired
+    private AddressAdapter addressAdapter;
 
-    @Autowired
-    private PartnerAdapter partnerAdapter;
+    public CourseEntity adptLearnerRequestToLearner(LearnerRequestV1 filialeRequest){
 
-    @Autowired
-    private AddressCourseAdapter addressCourseAdapter;
-
-    @Autowired
-    private PartnerCourseAdapter partnerCourseAdapter;
-
-    @Autowired
-    private PlacementCourseAdapter placementCourseAdapter;
-
-    @Autowired
-    private RecipientManagmentCourseAdapter recipientManagmentCourseAdapter;
-
-    @Autowired
-    private TeacherCourseAdapter teacherCourseAdapter;
-
-    @Autowired
-    private CandidateCourseAdapter candidateCourseAdapter;
-
-    public CourseEntity adptCourseRequestToCourse(CourseRequestV1 courseRequest) throws IOException {
-
-        if(courseRequest == null)
+        if(filialeRequest == null)
             return null;
 
-        CourseEntity course = new CourseEntity();
+        LearnerEntity learner = new LearnerEntity();
 
-        course.setActuatorSubject(partnerAdapter.adptPartnerRequestToPartnerDto(courseRequest.getActuatorSubject()));
-        course.setAfternoonEndHour(courseRequest.getAfternoonEndHour());
-        course.setAfternoonStartHour(courseRequest.getAfternoonStartHour());
-        course.setAmountFinSecurityCapital(courseRequest.getAmountFinSecurityCapital());
-        course.setAmountAttendanceBenefits(courseRequest.getAmountAttendanceBenefits());
-        course.setAmountAutorizedFT(courseRequest.getAmountAutorizedFT());
-        course.setAmountAutorizedFTDate(courseRequest.getAmountAutorizedFTDate());
-        course.setAmountReportFT(courseRequest.getAmountReportFT());
-        course.setAttendanceBenefits(courseRequest.getAttendanceBenefits());
-        course.setAutProgetctFTRealizedDate(courseRequest.getAutProgetctFTRealizedDate());
-        course.setBusinessEmail(courseRequest.getBusinessEmail());
-        course.setBusinessName(courseRequest.getBusinessName());
-        course.setCertificateTypeCourse(courseRequest.getCertificateTypeCourse());
-        course.setCoachingHours(courseRequest.getCoachingHours());
-        course.setCommercialTaxableCommunicationDate(courseRequest.getCommercialTaxableCommunicationDate());
-        course.setContentsArea(courseRequest.getContentsArea());
-        course.setCosts(courseRequest.getCosts());
-        course.setCourseCode(courseRequest.getCourseCode());
-        course.setCourseDescription(courseRequest.getCourseDescription());
-        course.setCourseEndDate(courseRequest.getCourseEndDate());
-        course.setCourseStartDate(courseRequest.getCourseStartDate());
-        course.setCourseTitle(courseRequest.getCourseTitle());
-        course.setCourseType(courseRequest.getCourseType());
-        course.setDailyHours(courseRequest.getDailyHours());
-        course.setDailyRegister(courseRequest.getDailyRegister());
-        course.setDeliveryDateInAdministration(courseRequest.getDeliveryDateInAdministration());
-        course.setDisabled(courseRequest.getDisabled());
-        //course.setDocumentAttachment(courseRequest.getDocumentAttachment());
-        course.setEducationalTargetDescription(courseRequest.getEducationalTargetDescription());
-        course.setEntourageHours(courseRequest.getEntourageHours());
-        course.setExpiredReportingDate(courseRequest.getExpiredReportingDate());
-        course.setExternalReferenceCode(courseRequest.getExternalReferenceCode());
-        course.setFoundsTypeCourse(courseRequest.getFoundsTypeCourse());
-        course.setHeadquatersCourse(addressCourseAdapter.adptAddressCourseRequestToAddressCourse(courseRequest.getHeadquatersCourse()));
-        course.setInvoiceAuthorizationDate(courseRequest.getInvoiceAuthorizationDate());
-        course.setIssueTicket(courseRequest.getIssueTicket());
-        course.setLearnerType(courseRequest.getLearnerType());
-        course.setMinimumNumericOfParticipants(courseRequest.getMinimumNumericOfParticipants());
-        course.setMorningEndHour(courseRequest.getMorningEndHour());
-        course.setMorningStartHour(courseRequest.getMorningStartHour());
-        course.setNote(courseRequest.getNote());
-        course.setNumberOfTickets(courseRequest.getNumberOfTickets());
-        course.setOrientationHours(courseRequest.getOrenatationHours());
-        course.setPartFullTimeCourse(courseRequest.getPartFullTimeCourse());
-        course.setPartnerList(partnerCourseAdapter.adptPartnerCourseRequestToPartnerCourse(courseRequest.getPartnerList()));
-        course.setPaymentModality(courseRequest.getPaymentModality());
-        course.setPlacementList(placementCourseAdapter.adptPlacementCourseRequestToPlacementCourse(courseRequest.getPlacementList()));
-        course.setPracticeHours(courseRequest.getPracticeHours());
-        course.setReceiptFTConfirmationDate(courseRequest.getReceiptFTConfirmationDate());
-        course.setRecipient(courseRequest.getRecipient());
-        course.setRecipientManagment(recipientManagmentCourseAdapter.adptRecipientManagmentCourseRequestToRecipientManagmentCourse(courseRequest.getRecipientManagment()));
-        course.setReportNote(courseRequest.getReportNote());
-        course.setSendedCanceledProjectDate(courseRequest.getSendedCanceledProjectDate());
-        course.setSendedEletronicReportingDate(courseRequest.getSendedEletronicReportingDate());
-        course.setSendedLearnersFTDate(courseRequest.getSendedLearnersFTDate());
-        course.setSendedPaperReportingDate(courseRequest.getSendedPaperReportingDate());
-        course.setSendedProjectDate(courseRequest.getSendedProjectDate());
-        course.setSkilsAnalysisHours(courseRequest.getSkilsAnalysisHours());
-        course.setSpecialInitiatives(courseRequest.getSpecialInitiatives());
-        course.setSupplyModality(courseRequest.getSupplyModality());
-        course.setTeacherList(teacherCourseAdapter.adptTeacherCourseRequestToTeacherCourse(courseRequest.getTeacherList()));
-        course.setTheoryHours(courseRequest.getTheoryHours());
-        course.setTicketAmount(courseRequest.getTicketAmount());
-        course.setTotalAmountWithoutFS(courseRequest.getTotalAmountWithoutFS());
-        course.setTotalHours(courseRequest.getTotalHours());
-        course.setTotalHoursTraining(courseRequest.getTotalHoursTraining());
-        course.setTotalPartnerCost(courseRequest.getTotalPartnerCost());
-        course.setTotalPartnerCostOnPercent(courseRequest.getTotalPartnerCostOnPercent());
-        course.setTradeUnionTeachingRequest(courseRequest.getTradeUnionTeachingRequest());
-        course.setVisitHours(courseRequest.getVisitHours());
-        course.setStatus(courseRequest.getStatus());
-        course.setInvoiceAuthorization(courseRequest.getInvoiceAuthorization());
-        course.setAccountingCode(courseRequest.getAccountingCode());
-        course.setCandidateCourseList(candidateCourseAdapter.adptCandidateCourseRequestToCandidateCourse(courseRequest.getCandidateList()));
+        learner.setName(filialeRequest.getName());
+        learner.setSurname(filialeRequest.getSurname());
+        learner.setFiscalCode(filialeRequest.getFiscalCode());
+        learner.setDateOfBirth(filialeRequest.getDateOfBirth());
+        learner.setBirthPlace(filialeRequest.getBirthPlace());
+        learner.setPhone(filialeRequest.getPhone());
+        learner.setEmail(filialeRequest.getEmail());
+        learner.setDegreeOfStudies(filialeRequest.getDegreeOfStudies());
+        learner.setCourseOfStudy(filialeRequest.getCourseOfStudy());
+        learner.setNote(filialeRequest.getNote());
+        learner.setResidentialAddress(addressAdapter.adptAddressRequestToAddress(filialeRequest.getResidentialAddress()));
+        learner.setDomicileAddress(addressAdapter.adptAddressRequestToAddress(filialeRequest.getDomicileAddress()));
+        learner.setDomicileEqualsResidential(filialeRequest.getDomicileEqualsResidential());
 
-        return course;
+        return learner;
     }
 
-    public IdResponseV1 adptCourseIdToCourseIdResponse(CourseEntity course){
+    public IdResponseV1 adptLearnerIdToLearnerIdResponse(LearnerEntity learner){
 
-        if(course == null)
+        if(learner == null)
             return null;
 
-        IdResponseV1 courseIdResponse = new IdResponseV1();
-        courseIdResponse.setId(course.getId());
+        IdResponseV1 filialeIdResponse = new IdResponseV1();
+        filialeIdResponse.setId(learner.getId());
 
-        return courseIdResponse;
+        return filialeIdResponse;
     }
 
-    public CourseResponseV1 adptCourseToCourseResponse(CourseEntity course){
+    public LearnerResponseV1 adptLearnerToLearnerResponse(LearnerEntity learner){
 
-        if(course == null)
+        if(learner == null)
             return null;
 
-        CourseResponseV1 courseResponse = new CourseResponseV1();
+        LearnerResponseV1 learnerResponse = new LearnerResponseV1();
 
-        courseResponse.setId(course.getId().toString());
-        courseResponse.setActuatorSubject(partnerAdapter.adptPartnerDtoToPartnerResponse(course.getActuatorSubject()));
-        courseResponse.setAfternoonEndHour(course.getAfternoonEndHour());
-        courseResponse.setAfternoonStartHour(course.getAfternoonStartHour());
-        courseResponse.setAmountFinSecurityCapital(course.getAmountFinSecurityCapital());
-        courseResponse.setAmountAttendanceBenefits(course.getAmountAttendanceBenefits());
-        courseResponse.setAmountAutorizedFT(course.getAmountAutorizedFT());
-        courseResponse.setAmountAutorizedFTDate(course.getAmountAutorizedFTDate());
-        courseResponse.setAmountReportFT(course.getAmountReportFT());
-        courseResponse.setAttendanceBenefits(course.getAttendanceBenefits());
-        courseResponse.setAutProgetctFTRealizedDate(course.getAutProgetctFTRealizedDate());
-        courseResponse.setBusinessEmail(course.getBusinessEmail());
-        courseResponse.setBusinessName(course.getBusinessName());
-        courseResponse.setCertificateTypeCourse(course.getCertificateTypeCourse());
-        courseResponse.setCoachingHours(course.getCoachingHours());
-        courseResponse.setCommercialTaxableCommunicationDate(course.getCommercialTaxableCommunicationDate());
-        courseResponse.setContentsArea(course.getContentsArea());
-        courseResponse.setCosts(course.getCosts());
-        courseResponse.setCourseCode(course.getCourseCode());
-        courseResponse.setCourseDescription(course.getCourseDescription());
-        courseResponse.setCourseEndDate(course.getCourseEndDate());
-        courseResponse.setCourseLogo(course.getCourseLogo());
-        courseResponse.setCourseStartDate(course.getCourseStartDate());
-        courseResponse.setCourseTitle(course.getCourseTitle());
-        courseResponse.setCourseType(course.getCourseType());
-        courseResponse.setDailyHours(course.getDailyHours());
-        courseResponse.setDailyRegister(course.getDailyRegister());
-        courseResponse.setDeliveryDateInAdministration(course.getDeliveryDateInAdministration());
-        courseResponse.setDisabled(course.getDisabled());
-        courseResponse.setDocumentAttachment(course.getDocumentsAttachment());
-        courseResponse.setEducationalTargetDescription(course.getEducationalTargetDescription());
-        courseResponse.setEntourageHours(course.getEntourageHours());
-        courseResponse.setExpiredReportingDate(course.getExpiredReportingDate());
-        courseResponse.setExternalReferenceCode(course.getExternalReferenceCode());
-        courseResponse.setFoundsTypeCourse(course.getFoundsTypeCourse());
-        courseResponse.setHeadquatersCourse(addressCourseAdapter.adptAddressCourseToAddressCourseResponse(course.getHeadquatersCourse()));
-        courseResponse.setInvoiceAuthorizationDate(course.getInvoiceAuthorizationDate());
-        courseResponse.setIssueTicket(course.getIssueTicket());
-        courseResponse.setLearnerType(course.getLearnerType());
-        courseResponse.setMinimumNumericOfParticipants(course.getMinimumNumericOfParticipants());
-        courseResponse.setMorningEndHour(course.getMorningEndHour());
-        courseResponse.setMorningStartHour(course.getMorningStartHour());
-        courseResponse.setNote(course.getNote());
-        courseResponse.setNumberOfTickets(course.getNumberOfTickets());
-        courseResponse.setOrenatationHours(course.getOrientationHours());
-        courseResponse.setPartFullTimeCourse(course.getPartFullTimeCourse());
-        courseResponse.setPartnerList(partnerCourseAdapter.adptPartnerCourseToPartnerCourseResponse(course.getPartnerList()));
-        courseResponse.setPaymentModality(course.getPaymentModality());
-        courseResponse.setPlacementList(placementCourseAdapter.adptPlacementCourseToPlacementCourseResponse(course.getPlacementList()));
-        courseResponse.setPracticeHours(course.getPracticeHours());
-        courseResponse.setReceiptFTConfirmationDate(course.getReceiptFTConfirmationDate());
-        courseResponse.setRecipient(course.getRecipient());
-        courseResponse.setRecipientManagment(recipientManagmentCourseAdapter.adptRecipientManagmentCourseToRecipientManagmentCourseResponse(course.getRecipientManagment()));
-        courseResponse.setReportNote(course.getReportNote());
-        courseResponse.setSendedCanceledProjectDate(course.getSendedCanceledProjectDate());
-        courseResponse.setSendedEletronicReportingDate(course.getSendedEletronicReportingDate());
-        courseResponse.setSendedLearnersFTDate(course.getSendedLearnersFTDate());
-        courseResponse.setSendedPaperReportingDate(course.getSendedPaperReportingDate());
-        courseResponse.setSendedProjectDate(course.getSendedProjectDate());
-        courseResponse.setSkilsAnalysisHours(course.getSkilsAnalysisHours());
-        courseResponse.setSpecialInitiatives(course.getSpecialInitiatives());
-        courseResponse.setSupplyModality(course.getSupplyModality());
-        courseResponse.setTeacherList(teacherCourseAdapter.adptTeacherCourseToTeacherCourseResponse(course.getTeacherList()));
-        courseResponse.setTheoryHours(course.getTheoryHours());
-        courseResponse.setTicketAmount(course.getTicketAmount());
-        courseResponse.setTotalAmountWithoutFS(course.getTotalAmountWithoutFS());
-        courseResponse.setTotalHours(course.getTotalHours());
-        courseResponse.setTotalHoursTraining(course.getTotalHoursTraining());
-        courseResponse.setTotalPartnerCost(course.getTotalPartnerCost());
-        courseResponse.setTotalPartnerCostOnPercent(course.getTotalPartnerCostOnPercent());
-        courseResponse.setTradeUnionTeachingRequest(course.getTradeUnionTeachingRequest());
-        courseResponse.setVisitHours(course.getVisitHours());
-        courseResponse.setStatus(course.getStatus());
-        courseResponse.setInvoiceAuthorization(course.getInvoiceAuthorization());
-        courseResponse.setAccountingCode(course.getAccountingCode());
-        courseResponse.setCandidateList(candidateCourseAdapter.adptCandidateCourseToCandidateCourseResponse(course.getCandidateCourseList()));
-        courseResponse.setCreatedAt(course.getCreatedAt());
-        courseResponse.setUpdatedAt(course.getUpdatedAt());
+        learnerResponse.setId(learner.getId().toString());
+        learnerResponse.setName(learner.getName());
+        learnerResponse.setSurname(learner.getSurname());
+        learnerResponse.setFiscalCode(learner.getFiscalCode());
+        learner.setDateOfBirth(learner.getDateOfBirth());
+        learnerResponse.setBirthPlace(learner.getBirthPlace());
+        learnerResponse.setPhone(learner.getPhone());
+        learnerResponse.setEmail(learner.getEmail());
+        learnerResponse.setDegreeOfStudies(learner.getDegreeOfStudies());
+        learnerResponse.setCourseOfStudy(learner.getCourseOfStudy());
+        learnerResponse.setNote(learner.getNote());
+        learnerResponse.setDomicileAddress(addressAdapter.adptAddressToAddressResponse(learner.getDomicileAddress()));
+        learnerResponse.setResidentialAddress(addressAdapter.adptAddressToAddressResponse(learner.getResidentialAddress()));
 
-
-        return courseResponse;
+        return learnerResponse;
     }
 
-    public List<CourseResponseV1> adptCourseToCourseResponse(List<CourseEntity> courseList){
+    public List<LearnerResponseV1> adptLearnerToLearnerResponse(List<LearnerEntity> learnerList){
 
-        if(courseList == null)
+        if(learnerList == null)
             return null;
 
-        List<CourseResponseV1> courseResponseList = new LinkedList<>();
-
-        for(CourseEntity att : courseList){
-            courseResponseList.add(this.adptCourseToCourseResponse(att));
+        List<LearnerResponseV1> learnerResponseList = new LinkedList<>();
+        for (LearnerEntity att : learnerList){
+            learnerResponseList.add(this.adptLearnerToLearnerResponse(att));
         }
-        return courseResponseList;
+        return learnerResponseList;
     }
 
-    public PaginationResponseV1<CourseResponseV1> adpCoursePaginationTooursePaginationResposne(Pagination<CourseEntity> coursesPagination){
 
-        if(coursesPagination == null)
+    public PaginationResponseV1<LearnerResponseV1> adpLearnerPaginationToLearnerPaginationResposne(Pagination<LearnerEntity> learnerPagination){
+
+        if(learnerPagination == null)
             return null;
 
-        PaginationResponseV1<CourseResponseV1> coursePaginationResponse = new PaginationResponseV1<>();
+        PaginationResponseV1<LearnerResponseV1> learnerPaginationResponse = new PaginationResponseV1<>();
 
-        coursePaginationResponse.setItems(this.adptCourseToCourseResponse(coursesPagination.getItems()));
-        coursePaginationResponse.setStats(coursesPagination.getStats());
+        learnerPaginationResponse.setItems(this.adptLearnerToLearnerResponse(learnerPagination.getItems()));
+        learnerPaginationResponse.setStats(learnerPagination.getStats());
 
-        return coursePaginationResponse;
+        return learnerPaginationResponse;
     }
 
-}
+
+
+}*/

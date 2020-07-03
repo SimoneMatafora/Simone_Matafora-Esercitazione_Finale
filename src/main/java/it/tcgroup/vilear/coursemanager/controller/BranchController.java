@@ -4,32 +4,27 @@ import io.swagger.annotations.*;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.BranchRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.BranchResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.LearnerResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
-import it.tcgroup.vilear.coursemanager.service.AuthorizationService;
 import it.tcgroup.vilear.coursemanager.service.BranchService;
-import it.tcgroup.vilear.coursemanager.service.ValidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/api/v1/coursemanager")
 @Api("CourseManager")
-public class BranchController {
+public class  BranchController {
 
     @Autowired
     private BranchService branchService;
 
-    @Autowired
-    private AuthorizationService authorizationService;
-
-    @Autowired
-    private ValidateService validateService;
 
     /*INSERIMENTO BRANCH REGISTRAZIONE*/
     @PostMapping(value = "/branch/registration",
@@ -47,8 +42,6 @@ public class BranchController {
     public ResponseEntity<IdResponseV1> postInsertBranchRegistration(
             @ApiParam(value = "Body of the Branch to be created", required = true)
             @RequestBody BranchRequestV1 branchInsertRequestV1) {
-
-        validateService.requestValidatorBranch(branchInsertRequestV1);
 
         return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1),HttpStatus.CREATED);
     }
@@ -72,9 +65,7 @@ public class BranchController {
             @ApiParam(value = "Body of the Branch to be created", required = true)
             @RequestBody BranchRequestV1 branchInsertRequestV1) {
 
-        authorizationService.checkAlive(userId);
 
-        validateService.requestValidatorBranch(branchInsertRequestV1);
 
         return new ResponseEntity<>( branchService.insertBranch(branchInsertRequestV1), HttpStatus.OK);
     }
@@ -115,16 +106,14 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<BranchResponseV1> putModifyBranch(
-            @ApiParam(value = "UUID user logged", required = true)
-            @RequestHeader(name = "id-user") UUID userId,
+
             @ApiParam(value = "UUID that identifies the Branch to be modified", required = true)
-            @PathVariable(name = "UUID_BRANCH") String idDocente,
+            @PathVariable(name = "UUID_BRANCH") String idBranch,
             @ApiParam(value = "Updated body of the Branch", required = true)
             @RequestBody BranchRequestV1 branchUpdateRequest) {
 
-        authorizationService.checkAlive(userId);
 
-        return new ResponseEntity<>(branchService.updateBranch(branchUpdateRequest, UUID.fromString(idDocente)) ,HttpStatus.OK);
+        return new ResponseEntity<>(branchService.updateBranch(branchUpdateRequest, UUID.fromString(idBranch)) ,HttpStatus.OK);
     }
 
     /*RECUPERO BRANCH TRAMITE ID*/
@@ -140,17 +129,14 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<BranchResponseV1> getBranchById(
-            @ApiParam(value = "UUID user logged", required = true)
-            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Branch to be founfd", required = true)
             @PathVariable(name = "UUID_BRANCH") String idBranch) {
 
-        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.getBranch(UUID.fromString(idBranch)), HttpStatus.OK);
     }
 
-    /*MODIFICA PARZIALE BRANCH*/
+    /*MODIFICA PARZIALE BRANCH*//*patchbyid*/
     @PatchMapping(value = "/branch/{UUID_BRANCH}",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -164,21 +150,15 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<BranchResponseV1> patchBranch(
-            @ApiParam(value = "UUID user logged", required = true)
-            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Branch", required = true)
             @PathVariable(name = "UUID_BRANCH") String idBranch,
             @ApiParam(value = "Some attributes of the body of the Branch to be modified", required = true)
             @RequestBody BranchRequestV1 branchPatchRequestV1) throws Exception {
 
-        authorizationService.checkAlive(userId);
-
-        validateService.requestValidatorPatchBranch(branchPatchRequestV1);
-
         return new ResponseEntity<>(branchService.patchBranch(branchPatchRequestV1, UUID.fromString(idBranch)), HttpStatus.OK);
     }
 
-    /*CANCELLAZIONE BRANCH*/
+    /*CANCELLAZIONE BRANCH*//*deletebyid*/
     @DeleteMapping( value = "/branch/{UUID_BRANCH}",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
@@ -190,12 +170,9 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity deleteBranch(
-            @ApiParam(value = "UUID user logged", required = true)
-            @RequestHeader(name = "id-user") UUID userId,
             @ApiParam(value = "UUID of the Branch", required = true)
             @PathVariable(name = "UUID_BRANCH") String idBranch) {
 
-        authorizationService.checkAlive(userId);
 
         branchService.deleteBranch(UUID.fromString(idBranch));
 
@@ -203,7 +180,7 @@ public class BranchController {
     }
 
     /*PAGINAZIONE BRANCH*/
-    @GetMapping(value = "/branch",
+    @GetMapping(value = "/branch/pagination",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Get all filiali", notes = "")
     @ApiResponses(value = {
@@ -215,8 +192,7 @@ public class BranchController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     public ResponseEntity<PaginationResponseV1<BranchResponseV1>> getBranchesPagination(
-            @ApiParam(value = "UUID user logged", required = true)
-            @RequestHeader(name = "id-user") UUID userId,
+
             @ApiParam(value = "Defines how many Discenti can contain the single page", required = false)
             @RequestParam(value = "page_size", defaultValue = "20") Integer page_size,
             @ApiParam(value = "Defines the page number to be displayed", required = false)
@@ -234,12 +210,27 @@ public class BranchController {
             @ApiParam(value = "", required = false)
             @RequestParam(value = "region", required = false) String region,
             @ApiParam(value = "", required = false)
-            @RequestParam(value = "province", required = false) String province ) {
+            @RequestParam(value = "province", required = false) String province) {
 
-        authorizationService.checkAlive(userId);
 
         return new ResponseEntity<>(branchService.getBranchesPagination(page, page_size, name, email, rightOfAccessToTheCourses, superBranch, city, region, province),HttpStatus.OK);
     }
 
+    /*Ritorna tutti i branch (non c'era nel caso di problemi controlla)*/
+    @GetMapping(value = "/branch/getAll",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Recover All branch", notes = "Returns all branch")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok", response = BranchResponseV1.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 406, message = "Not Acceptable"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<List<BranchResponseV1>> getAllLearner() {
+
+        return new ResponseEntity<>(branchService.getAllBranch(), HttpStatus.OK);
+    }
 
 }

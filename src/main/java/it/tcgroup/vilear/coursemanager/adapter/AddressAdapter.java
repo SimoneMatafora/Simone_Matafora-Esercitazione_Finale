@@ -1,7 +1,7 @@
 package it.tcgroup.vilear.coursemanager.adapter;
 
-import it.tcgroup.vilear.coursemanager.controller.payload.request.TeacherRequestV1.*;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
+import it.tcgroup.vilear.coursemanager.controller.payload.request.AddressRequestV1;
+import it.tcgroup.vilear.coursemanager.controller.payload.response.AddressResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
 import it.tcgroup.vilear.coursemanager.entity.dto.AddressDto;
 import org.springframework.stereotype.Component;
@@ -43,7 +43,7 @@ public class AddressAdapter {
         return formattedAddress;
     }
 
-    public Address adptAddressRequestToAddress(AddressRequest addressRequest){
+    public Address adptAddressRequestToAddress(AddressRequestV1 addressRequest){
 
         if(addressRequest == null)
             return null;
@@ -63,12 +63,12 @@ public class AddressAdapter {
         return address;
     }
 
-    public AddressResponse adptAddressToAddressResponse(Address address){
+    public AddressResponseV1 adptAddressToAddressResponse(Address address){
 
         if(address == null)
             return null;
 
-        AddressResponse indirizzoResponse = new AddressResponse();
+        AddressResponseV1 indirizzoResponse = new AddressResponseV1();
 
         indirizzoResponse.setZipCode(address.getZipCode());
         indirizzoResponse.setCity(address.getCity());
@@ -82,7 +82,7 @@ public class AddressAdapter {
         return indirizzoResponse;
     }
 
-    public AddressDto adptAddressRequestToAddressDto(AddressRequest addressRequest) {
+    /*public AddressDto adptAddressRequestToAddressDto(TeacherRequestV1.AddressRequest addressRequest) {
 
         if(addressRequest == null)
             return null;
@@ -122,12 +122,12 @@ public class AddressAdapter {
         return addressDto;
     }
 
-    public AddressResponse adptAddressDtoToAddressResponse(AddressDto address){
+    public TeacherResponseV1.AddressResponse adptAddressDtoToAddressResponse(AddressDto address){
 
         if(address == null)
             return null;
 
-        AddressResponse indirizzoResponse = new AddressResponse();
+        TeacherResponseV1.AddressResponse indirizzoResponse = new TeacherResponseV1.AddressResponse();
 
         indirizzoResponse.setZipCode(address.getZipCode());
         indirizzoResponse.setCity(address.getCity());
@@ -139,6 +139,6 @@ public class AddressAdapter {
         indirizzoResponse.setFormattedAddress(address.getFormattedAddress());
 
         return indirizzoResponse;
-    }
+    }*/
 
 }

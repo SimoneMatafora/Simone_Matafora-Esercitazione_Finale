@@ -15,7 +15,8 @@ public class BranchEMRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<BranchEntity> getFilialiForPagination(String name, String email, String rightOfAccessToTheCourses, Boolean superFiliale, String city, String region, String province){
+    public List<BranchEntity> getFilialiForPagination(String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
+                                                      String city, String region, String province){
 
         String sql = "SELECT * FROM branch b";
 
@@ -25,10 +26,10 @@ public class BranchEMRepository {
             whereCondition.add("upper(b.name) = upper('" + name + "') ");
         }
         if( rightOfAccessToTheCourses != null){
-            whereCondition.add("b.right_of_access_to_the_courses = '" + rightOfAccessToTheCourses + "' ");
+            whereCondition.add("upper(b.right_of_access_to_the_courses) = upper('" + rightOfAccessToTheCourses + "') ");
         }
-        if( superFiliale != null){
-            whereCondition.add("b.super = " + superFiliale + " ");
+        if( superBranch != null){
+            whereCondition.add("b.super = '" + superBranch + "'");
         }
         if( email != null){
             whereCondition.add("b.email = '" + email + "'");

@@ -4,12 +4,13 @@ import it.tcgroup.vilear.coursemanager.adapter.BranchAdapter;
 import it.tcgroup.vilear.coursemanager.common.exception.BadParametersException;
 import it.tcgroup.vilear.coursemanager.common.exception.NotFoundException;
 import it.tcgroup.vilear.coursemanager.controller.payload.request.BranchRequestV1;
-import it.tcgroup.vilear.coursemanager.controller.payload.request.UploadRequestV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.BranchResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.IdResponseV1;
 import it.tcgroup.vilear.coursemanager.controller.payload.response.PaginationResponseV1;
 import it.tcgroup.vilear.coursemanager.entity.BranchEntity;
-import it.tcgroup.vilear.coursemanager.entity.Pagination;
+import it.tcgroup.vilear.coursemanager.pagination.InfoPagination;
+import it.tcgroup.vilear.coursemanager.pagination.Pagination;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
 import it.tcgroup.vilear.coursemanager.repository.BranchEMRepository;
 import it.tcgroup.vilear.coursemanager.repository.BranchRepository;
 import it.tcgroup.vilear.coursemanager.service.BranchService;
@@ -94,6 +95,9 @@ public class BranchServiceImpl implements BranchService {
 
         BranchEntity branchPatch = branchAdapter.adptBranchRequestToBranch(branchUpdateRequest);
 
+        Address address;
+        Address addressPatch;
+
         if( branchPatch.getRightOfAccessToTheCourses() != null)
             branch.setRightOfAccessToTheCourses(branchPatch.getRightOfAccessToTheCourses());
 
@@ -107,7 +111,32 @@ public class BranchServiceImpl implements BranchService {
             branch.setName(branchPatch.getName());
 
         if( branchPatch.getAddress() != null)
-            branch.setAddress(branchPatch.getAddress());
+        {
+            address=branch.getAddress();
+            addressPatch=branchPatch.getAddress();
+
+            if(addressPatch.getNation()!=null){
+                address.setNation(addressPatch.getNation());
+            }
+            if(addressPatch.getRegion()!=null){
+                address.setRegion(addressPatch.getRegion());
+            }
+            if(addressPatch.getProvince()!=null){
+                address.setProvince(addressPatch.getProvince());
+            }
+            if(addressPatch.getCity()!=null){
+                address.setCity(addressPatch.getCity());
+            }
+            if(addressPatch.getStreet()!=null){
+                address.setStreet(addressPatch.getStreet());
+            }
+            if(addressPatch.getNumber()!=null){
+                address.setNumber(addressPatch.getNumber());
+            }
+            if(addressPatch.getZipCode()!=null){
+                address.setZipCode(addressPatch.getZipCode());
+            }
+        }
 
         branchRepository.save(branch);
 
@@ -116,13 +145,13 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public PaginationResponseV1<BranchResponseV1> getBranchesPagination(int page, int pageSize, String name, String email, String rightOfAccessToTheCourses, Boolean superBranch,
-                                                                       String city, String region, String province){
+                                                                        String city, String region, String province){
 
         Pagination<BranchEntity> branchesPagination = new Pagination<>();
 
         List<BranchEntity> branchesList = branchEMRepository.getFilialiForPagination(name, email, rightOfAccessToTheCourses, superBranch, city, region, province);
 
-        branchesPagination.setStats(new PaginationResponseV1.InfoPagination(branchesList.size(), page, pageSize));
+        branchesPagination.setStats(new InfoPagination(branchesList.size(), page, pageSize));
 
         int start = branchesPagination.getStats().getStartPage();
         int count = 0;
@@ -158,6 +187,11 @@ public class BranchServiceImpl implements BranchService {
         branchRepository.updateBranchIdByEmail(email, UUID.fromString(userId));
 
         return null;
+    }
+
+    @Override
+    public List<BranchResponseV1> getAllBranch() {
+        return branchAdapter.adptBranchToBranchResponse(branchRepository.findAll());
     }
 
 }

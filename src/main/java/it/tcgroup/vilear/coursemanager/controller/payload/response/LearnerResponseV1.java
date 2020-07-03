@@ -2,14 +2,18 @@ package it.tcgroup.vilear.coursemanager.controller.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.tcgroup.vilear.coursemanager.controller.payload.response.TeacherResponseV1.*;
 import it.tcgroup.vilear.coursemanager.entity.enumerated.DegreeOfStudiesEnum;
-import it.tcgroup.vilear.coursemanager.entity.jsonb.Attachment;
+import it.tcgroup.vilear.coursemanager.entity.jsonb.Address;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
-public class LearnerResponseV1 {
+public class LearnerResponseV1  implements Serializable {
 
     @JsonProperty("id")
     private String id;
@@ -27,17 +31,21 @@ public class LearnerResponseV1 {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
+
     @JsonProperty("birth_place")
-    private  String birthPlace;
+    private String birthPlace;
 
     @JsonProperty("phone")
-    private  String phone;
+    private String phone;
 
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("degree_of_studies")
+
+    @JsonProperty( "degree_of_studies")
+    @Enumerated(EnumType.STRING)
     private DegreeOfStudiesEnum degreeOfStudies;
+
 
     @JsonProperty("course_of_study")
     private String courseOfStudy;
@@ -45,22 +53,19 @@ public class LearnerResponseV1 {
     @JsonProperty("note")
     private String note;
 
-    @JsonProperty("attachments")
-    private List<Attachment> attachments;
+    @Type(type="JsonDataAddressType")
+    @Column(name="residential_address")
+    private AddressResponseV1 residentialAddress;
 
-    @JsonProperty("residential_address")
-    private AddressResponse residentialAddress;
+    @Type(type="JsonDataAddressType")
+    @Column(name="domicile_address")
+    private AddressResponseV1 domicileAddress;
 
-    @JsonProperty("domicile_address")
-    private AddressResponse domicileAddress;
 
-    @JsonProperty("domicile_equals_residential")
-    private Boolean domicileEqualsResidential;
+/*-----------------------------------------------------------------*/
 
-    public LearnerResponseV1() {
-    }
 
-    public LearnerResponseV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, List<Attachment> attachments, AddressResponse residentialAddress, AddressResponse domicileAddress, Boolean domicileEqualsResidential) {
+    public LearnerResponseV1(String id, String name, String surname, String fiscalCode, Date dateOfBirth, String birthPlace, String phone, String email, DegreeOfStudiesEnum degreeOfStudies, String courseOfStudy, String note, AddressResponseV1 residentialAddress, AddressResponseV1 domicileAddress) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -72,11 +77,14 @@ public class LearnerResponseV1 {
         this.degreeOfStudies = degreeOfStudies;
         this.courseOfStudy = courseOfStudy;
         this.note = note;
-        this.attachments = attachments;
         this.residentialAddress = residentialAddress;
         this.domicileAddress = domicileAddress;
-        this.domicileEqualsResidential = domicileEqualsResidential;
     }
+
+    public LearnerResponseV1() {
+
+    }
+    /*---------------------------------------------------------------------------*/
 
     public String getId() {
         return id;
@@ -84,14 +92,6 @@ public class LearnerResponseV1 {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getSurname() {
@@ -166,36 +166,55 @@ public class LearnerResponseV1 {
         this.note = note;
     }
 
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
-    }
-
-    public AddressResponse getResidentialAddress() {
+    public AddressResponseV1 getResidentialAddress() {
         return residentialAddress;
     }
 
-    public void setResidentialAddress(AddressResponse residentialAddress) {
+    public void setResidentialAddress(AddressResponseV1 residentialAddress) {
         this.residentialAddress = residentialAddress;
     }
 
-    public AddressResponse getDomicileAddress() {
+    public AddressResponseV1 getDomicileAddress() {
         return domicileAddress;
     }
 
-    public void setDomicileAddress(AddressResponse domicileAddress) {
+    public void setDomicileAddress(AddressResponseV1 domicileAddress) {
         this.domicileAddress = domicileAddress;
     }
 
-    public Boolean getDomicileEqualsResidential() {
-        return domicileEqualsResidential;
+    public String getName() {
+        return name;
     }
 
-    public void setDomicileEqualsResidential(Boolean domicileEqualsResidential) {
-        this.domicileEqualsResidential = domicileEqualsResidential;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /*---------------------------------------------------------------------------------*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LearnerResponseV1 that = (LearnerResponseV1) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(surname, that.surname) &&
+                Objects.equals(fiscalCode, that.fiscalCode) &&
+                Objects.equals(dateOfBirth, that.dateOfBirth) &&
+                Objects.equals(birthPlace, that.birthPlace) &&
+                Objects.equals(phone, that.phone) &&
+                Objects.equals(email, that.email) &&
+                degreeOfStudies == that.degreeOfStudies &&
+                Objects.equals(courseOfStudy, that.courseOfStudy) &&
+                Objects.equals(note, that.note) &&
+                Objects.equals(residentialAddress, that.residentialAddress) &&
+                Objects.equals(domicileAddress, that.domicileAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, fiscalCode, dateOfBirth, birthPlace, phone, email, degreeOfStudies, courseOfStudy, note, residentialAddress, domicileAddress);
     }
 
     @Override
@@ -212,10 +231,8 @@ public class LearnerResponseV1 {
                 ", degreeOfStudies=" + degreeOfStudies +
                 ", courseOfStudy='" + courseOfStudy + '\'' +
                 ", note='" + note + '\'' +
-                ", attachments=" + attachments +
                 ", residentialAddress=" + residentialAddress +
                 ", domicileAddress=" + domicileAddress +
-                ", domicileEqualsResidential=" + domicileEqualsResidential +
                 '}';
     }
 }
